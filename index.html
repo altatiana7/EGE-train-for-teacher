@@ -491,6 +491,146 @@ function checkEgePresent(btn){
  ins.forEach((x,i)=>{const ok=x.value.trim().toLowerCase()===egePresentItems[i][2].toLowerCase();if(ok)good++;x.style.borderBottomColor=ok?'#15803d':'#D52B1E'});
  box.querySelector('.egeSetResult').textContent=good+' / '+egePresentItems.length;
 }
+
+function lesson3TeacherHTML(key){
+ return \`
+ <div class="hero" style="margin-bottom:10px">
+   <div class="eyebrow">WEEK 1 · LESSON 3 · TEACHER MODE</div>
+   <h1>Present Tenses → EGE Practice</h1>
+   <p>60 минут · цель: проверить 4 Present forms, закрепить stative/dynamic verbs, irregular verbs и вывести Арину в формат ЕГЭ 19–24.</p>
+ </div>
+
+ <div class="examCard"><h2 style="margin:0 0 8px">ПЛАН УРОКА · 60 MIN</h2>
+   <div class="table">
+     <div class="crit"><span><b>0–7</b> · EGE Reading Aloud warm-up</span><span class="pts">7 min</span></div>
+     <div class="crit"><span><b>7–15</b> · Present Retrieval</span><span class="pts">8 min</span></div>
+     <div class="crit"><span><b>15–23</b> · Stative vs Dynamic</span><span class="pts">8 min</span></div>
+     <div class="crit"><span><b>23–30</b> · Irregular Verbs in context</span><span class="pts">7 min</span></div>
+     <div class="crit"><span><b>30–45</b> · EGE 19–24</span><span class="pts">15 min</span></div>
+     <div class="crit"><span><b>45–52</b> · Checkpoint 5</span><span class="pts">7 min</span></div>
+     <div class="crit"><span><b>52–60</b> · Error Log + Homework</span><span class="pts">8 min</span></div>
+   </div>
+ </div>
+
+ <div class="examCard"><h2>1 · WARM-UP · EGE READING ALOUD</h2>
+   <p class="tiny">1:30 preparation → reading aloud → исправить только 3–4 главные ошибки: stress, endings, pauses, intonation.</p>
+   \${oralReadingHTML()}
+   <details class="hw"><summary>TEACHER FOCUS</summary><div class="hwbody"><div class="task">
+   Не перебивай во время чтения. После чтения отметь: <b>word stress · final -s/-ed · thought groups · sentence stress · intonation</b>.
+   </div></div></details>
+ </div>
+
+ <div class="examCard"><h2>2 · PRESENT RETRIEVAL · NO HELP</h2>
+   <div class="task" style="font-size:15px;line-height:1.7">
+   1. My sister usually ___ (STUDY) in the evening.<br>
+   2. Be quiet! I ___ (LISTEN) to the recording.<br>
+   3. We ___ already ___ (FINISH) the exercise.<br>
+   4. She ___ (LEARN) English for six years and she still studies it.<br>
+   5. I ___ (KNOW) her since primary school.<br>
+   6. Why ___ you ___ (LOOK) at me like that?<br>
+   7. Tom ___ never ___ (BE) abroad.<br>
+   8. This month we ___ (WORK) especially hard on grammar.
+   </div>
+   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">
+   1 <b>studies</b> · 2 <b>am listening</b> · 3 <b>have already finished</b> · 4 <b>has been learning</b> · 5 <b>have known</b> · 6 <b>are looking</b> · 7 <b>has never been</b> · 8 <b>are working / have been working</b> — принять второй вариант только при корректном объяснении значения.
+   </div></div></details>
+ </div>
+
+ <div class="examCard"><h2>3 · STATIVE ↔ DYNAMIC · MEANING CHANGE</h2>
+   <p class="tiny">Арина должна объяснить не только форму, но и изменение значения.</p>
+   <div class="cols">
+     <div class="box"><h3>STATE</h3><div class="task">
+       I <b>think</b> you are right.<br>
+       The soup <b>tastes</b> good.<br>
+       I <b>have</b> a laptop.<br>
+       I <b>see</b> what you mean.
+     </div></div>
+     <div class="box"><h3>ACTION / TEMPORARY ACTIVITY</h3><div class="task">
+       I <b>am thinking</b> about changing my routine.<br>
+       The chef <b>is tasting</b> the soup.<br>
+       I <b>am having</b> lunch.<br>
+       I <b>am seeing</b> my dentist tomorrow.
+     </div></div>
+   </div>
+   <details class="hw"><summary>TEACHER PROMPTS</summary><div class="hwbody"><div class="task">
+   Ask: <b>What does the verb mean here? Is it a state or an activity? Why can/can't we use Continuous?</b>
+   </div></div></details>
+ </div>
+
+ <div class="examCard"><h2>4 · IRREGULAR VERBS · CONTEXT RETRIEVAL</h2>
+   <div class="task" style="font-size:15px;line-height:1.7">
+   A. She has ___ three books this month. (READ)<br>
+   B. I have never ___ such a strange building. (SEE)<br>
+   C. He has ___ his phone again. (BREAK)<br>
+   D. We have ___ a lot of work today. (DO)<br>
+   E. My English has ___ much better. (BECOME)<br>
+   F. They have just ___ back home. (COME)<br>
+   G. She has ___ me some useful advice. (GIVE)<br>
+   H. I have ___ this word before. (KNOW)<br>
+   I. He has ___ a new laptop. (BUY)<br>
+   J. We have ___ several mock tests. (TAKE)
+   </div>
+   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">
+   <b>read · seen · broken · done · become · come · given · known · bought · taken</b>
+   </div></div></details>
+ </div>
+
+ <div class="examCard" style="border:2px solid #315b7d"><h2>5 · EGE 19–24 · MAIN EXAM BLOCK</h2>
+   <p><b>Алгоритм:</b> сначала весь текст → затем для каждого пропуска <b>signal → meaning → tense → form</b>.</p>
+   <div class="task" style="font-size:15px;line-height:1.75">
+   <b>A STUDENT'S NEW ROUTINE</b><br><br>
+   Arina is preparing for an important English exam. She usually <b>19 ______</b> her revision with a short vocabulary activity. <b>(START)</b><br><br>
+   This week, however, she <b>20 ______</b> much more attention to grammar because she wants to improve her accuracy. <b>(PAY)</b><br><br>
+   She <b>21 ______</b> already <b>______</b> several exercises on Present tenses, so some rules are becoming easier. <b>(COMPLETE)</b><br><br>
+   Her teacher <b>22 ______</b> her for several weeks now, and they are gradually identifying the most difficult areas. <b>(HELP)</b><br><br>
+   Arina knows that regular practice matters. She <b>23 ______</b> never <b>______</b> that one long study session is enough. <b>(BELIEVE)</b><br><br>
+   At the moment she <b>24 ______</b> on a mixed grammar task and checking every answer carefully. <b>(WORK)</b>
+   </div>
+   <details class="hw"><summary>TEACHER KEY + REASON</summary><div class="hwbody"><div class="task">
+   19 <b>starts</b> — usually / routine<br>
+   20 <b>is paying</b> — this week / temporary situation<br>
+   21 <b>has already completed</b> — already / result now<br>
+   22 <b>has been helping</b> — for several weeks / continuing activity<br>
+   23 <b>has never believed</b> — state extending to now<br>
+   24 <b>is working</b> — at the moment
+   </div></div></details>
+ </div>
+
+ <div class="examCard"><h2>6 · WEEK 1 CHECKPOINT · 5 ITEMS</h2>
+   <p><b>Target: 4/5 minimum.</b> Не подсказывать.</p>
+   <div class="task" style="font-size:15px;line-height:1.7">
+   1. I ___ (KNOW) my best friend for ten years.<br>
+   2. She ___ (PREPARE) for the exam all morning and needs a break.<br>
+   3. Listen! Someone ___ (CALL) your name.<br>
+   4. My brother usually ___ (DO) his homework before dinner.<br>
+   5. We ___ already ___ (TAKE) three practice tests this month.
+   </div>
+   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">
+   1 <b>have known</b> · 2 <b>has been preparing</b> · 3 <b>is calling</b> · 4 <b>does</b> · 5 <b>have already taken</b>
+   </div></div></details>
+ </div>
+
+ <div class="examCard"><h2>7 · ERROR LOG · ONLY REAL ERRORS</h2>
+   <div class="task" style="font-size:14px;line-height:1.8">
+   <b>MY ANSWER → CORRECT ANSWER → WHY? → MY NEW EXAMPLE</b><br><br>
+   1. __________________ → __________________ → __________________ → __________________<br>
+   2. __________________ → __________________ → __________________ → __________________<br>
+   3. __________________ → __________________ → __________________ → __________________
+   </div>
+ </div>
+
+ <div class="examCard" style="background:#eef3f7"><h2>HOMEWORK</h2>
+   <div class="task">
+   <b>1.</b> Повторить 20 irregular verbs.<br>
+   <b>2.</b> Исправить все ошибки Lesson 3 по схеме answer → rule → new example.<br>
+   <b>3.</b> Сделать один новый set 19–24 без подсказок.<br>
+   <b>4.</b> Повторить Present Perfect vs Present Perfect Continuous.
+   </div>
+   <div class="task"><b>Переход к Week 2:</b> только если checkpoint ≥ 4/5 и Арина объясняет выбор формы, а не угадывает по одному marker.</div>
+ </div>
+ \`;
+}
+
 function lessonStarter(w,i){
  const key='w'+w+'l'+i;
  if(w===0&&i===0){
@@ -499,6 +639,7 @@ function lessonStarter(w,i){
  if(w===0&&i===1){
   return '<div class="lessonMenu" style="grid-template-columns:1fr 1fr"><button class="lessonMenuBtn" type="button" onclick="openStativePanel(\'rule\',\''+key+'\')">RULE · STATIVE / DYNAMIC</button><button class="lessonMenuBtn studentRequiredTest" style="background:#fff7f7!important;border:1px solid #e7a3a3!important;color:#9f2d2d!important;box-shadow:none!important" type="button" onclick="openStativePanel(\'test\',\''+key+'s\')"><span style="font-size:8px;color:#b95b5b">СДЕЛАТЬ · </span>GRAMMAR TEST · 25</button></div>'+stativeExtraHTML();
  }
+ if(w===0&&i===2){return lesson3TeacherHTML(key)}
  return egePresentPractice(key)+submitBox(key,'EGE Present forms');
 }
 function submitBox(key,title){
