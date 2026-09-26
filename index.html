@@ -558,7 +558,7 @@ function l3EgeInteractive(){
   ['23','Arina ___ never ___ that one long study session is enough.','BELIEVE','has never believed'],
   ['24','At the moment she ___ on a mixed grammar task and checking every answer carefully.','WORK','is working']
  ];
- return '<div class="egePresentSet l3EgeSet"><h3>A STUDENT\\'S NEW ROUTINE</h3><p class="tiny">Напечатай полную форму. Проверка идёт по каждому пропуску.</p><div class="egePresentText">'+
+ return '<div class="egePresentSet l3EgeSet"><h3>A STUDENT\'S NEW ROUTINE</h3><p class="tiny">Напечатай полную форму. Проверка идёт по каждому пропуску.</p><div class="egePresentText">'+
  items.map((x,i)=>'<div class="miniTask" style="margin:7px 0"><b>'+x[0]+'.</b> '+x[1]+' <span class="egeBase">('+x[2]+')</span><br><input data-l3ege="'+i+'" type="text" autocomplete="off" placeholder="answer"></div>').join('')+
  '</div><div class="egeSetActions"><button type="button" onclick="checkL3Ege(this)">ПРОВЕРИТЬ 19–24</button><button type="button" style="background:#64748b" onclick="resetL3Ege(this)">СБРОСИТЬ</button></div><div class="egeSetResult"></div></div>';
 }
