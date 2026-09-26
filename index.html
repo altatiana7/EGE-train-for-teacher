@@ -493,6 +493,83 @@ function checkEgePresent(btn){
  box.querySelector('.egeSetResult').textContent=good+' / '+egePresentItems.length;
 }
 
+
+const l3PresentQuiz=[
+ ['My sister usually ___ in the evening.','STUDY',['studies','is studying','has studied','has been studying'],0],
+ ['Be quiet! I ___ to the recording.','LISTEN',['listen','am listening','have listened','have been listening'],1],
+ ['We ___ the exercise already.','FINISH',['finish','are finishing','have finished','have been finishing'],2],
+ ['She ___ English for six years and she still studies it.','LEARN',['learns','is learning','has learned','has been learning'],3],
+ ['I ___ her since primary school.','KNOW',['know','am knowing','have known','have been knowing'],2],
+ ['Why ___ at me like that?','LOOK',['do you look','are you looking','have you looked','have you been looking'],1],
+ ['Tom ___ abroad.','BE',['is never','has never been','never was','has never being'],1],
+ ['This month we ___ especially hard on grammar.','WORK',['work','are working','worked','have worked yesterday'],1]
+];
+const l3StativeQuiz=[
+ ['I ___ you are right.','THINK',['think','am thinking','have thought','have been thinking'],0],
+ ['I ___ about changing my study routine this week.','THINK',['think','am thinking','have thought','have been thinking'],1],
+ ['This soup ___ wonderful.','TASTE',['tastes','is tasting','has tasted','has been tasting'],0],
+ ['The chef ___ the soup at the moment.','TASTE',['tastes','is tasting','has tasted','has been tasting'],1],
+ ['I ___ a laptop.','HAVE',['have','am having','have had now','have been having'],0],
+ ['I ___ lunch right now.','HAVE',['have','am having','have had','have been having'],1]
+];
+const l3IrregularQuiz=[
+ ['She has ___ three books this month.','READ',['read','readed','rode','written'],0],
+ ['I have never ___ such a strange building.','SEE',['saw','seen','seed','see'],1],
+ ['He has ___ his phone again.','BREAK',['broke','broken','breaked','break'],1],
+ ['We have ___ a lot of work today.','DO',['did','done','do','did done'],1],
+ ['My English has ___ much better.','BECOME',['became','become','becomed','becoming'],1],
+ ['They have just ___ back home.','COME',['came','come','comed','coming'],1],
+ ['She has ___ me some useful advice.','GIVE',['gave','given','gived','give'],1],
+ ['I have ___ this word before.','KNOW',['knew','known','knowed','know'],1],
+ ['He has ___ a new laptop.','BUY',['bought','buyed','brought','buy'],0],
+ ['We have ___ several mock tests.','TAKE',['took','taken','taked','take'],1]
+];
+const l3Checkpoint=[
+ ['I ___ my best friend for ten years.','KNOW',['know','am knowing','have known','have been knowing'],2],
+ ['She ___ for the exam all morning and needs a break.','PREPARE',['prepares','is preparing','has prepared','has been preparing'],3],
+ ['Listen! Someone ___ your name.','CALL',['calls','is calling','has called','has been calling'],1],
+ ['My brother usually ___ his homework before dinner.','DO',['do','does','is doing','has done'],1],
+ ['We ___ three practice tests this month already.','TAKE',['take','are taking','have taken','took'],2]
+];
+function l3QuizHTML(title,items,key){
+ return '<div class="l3Quiz" data-l3="'+key+'"><div class="wwTop"><b>'+title+'</b><span class="l3Score">0 / '+items.length+'</span></div>'+
+ items.map((q,i)=>'<div class="q" data-answer="'+q[3]+'"><p><b>'+(i+1)+'.</b> '+q[0]+' <span class="egeBase">('+q[1]+')</span></p><div class="opts">'+q[2].map((o,j)=>'<label class="opt"><input type="radio" name="'+key+i+'" value="'+j+'"> '+o+'</label>').join('')+'</div><div class="fb"></div></div>').join('')+
+ '<button class="action" type="button" onclick="checkL3Quiz(this)">ПРОВЕРИТЬ</button> <button class="action" type="button" style="background:#64748b" onclick="resetL3Quiz(this)">СБРОСИТЬ</button></div>';
+}
+function checkL3Quiz(btn){
+ const root=btn.closest('.l3Quiz');let good=0,total=0;
+ root.querySelectorAll('.q').forEach(q=>{total++;const s=q.querySelector('input:checked'),fb=q.querySelector('.fb'),ans=+q.dataset.answer;
+   q.querySelectorAll('.opt').forEach(x=>x.style.borderColor='');
+   if(!s){fb.textContent='Нет ответа';fb.className='fb bad';return}
+   if(+s.value===ans){good++;fb.textContent='Correct';fb.className='fb good';s.closest('.opt').style.borderColor='#15803d'}
+   else{fb.textContent='Try again';fb.className='fb bad';s.closest('.opt').style.borderColor='#D52B1E'}
+ });
+ const sc=root.querySelector('.l3Score');if(sc)sc.textContent=good+' / '+total;
+}
+function resetL3Quiz(btn){
+ const root=btn.closest('.l3Quiz');root.querySelectorAll('input').forEach(x=>{x.checked=false;x.disabled=false});root.querySelectorAll('.fb').forEach(x=>{x.textContent='';x.className='fb'});root.querySelectorAll('.opt').forEach(x=>x.style.borderColor='');const sc=root.querySelector('.l3Score');if(sc)sc.textContent='0 / '+root.querySelectorAll('.q').length;
+}
+function l3EgeInteractive(){
+ const items=[
+  ['19','Arina is preparing for an important English exam. She usually ___ her revision with a short vocabulary activity.','START','starts'],
+  ['20','This week, however, she ___ much more attention to grammar because she wants to improve her accuracy.','PAY','is paying'],
+  ['21','She ___ already ___ several exercises on Present tenses, so some rules are becoming easier.','COMPLETE','has already completed'],
+  ['22','Her teacher ___ her for several weeks now.','HELP','has been helping'],
+  ['23','Arina ___ never ___ that one long study session is enough.','BELIEVE','has never believed'],
+  ['24','At the moment she ___ on a mixed grammar task and checking every answer carefully.','WORK','is working']
+ ];
+ return '<div class="egePresentSet l3EgeSet"><h3>A STUDENT\\'S NEW ROUTINE</h3><p class="tiny">Напечатай полную форму. Проверка идёт по каждому пропуску.</p><div class="egePresentText">'+
+ items.map((x,i)=>'<div class="miniTask" style="margin:7px 0"><b>'+x[0]+'.</b> '+x[1]+' <span class="egeBase">('+x[2]+')</span><br><input data-l3ege="'+i+'" type="text" autocomplete="off" placeholder="answer"></div>').join('')+
+ '</div><div class="egeSetActions"><button type="button" onclick="checkL3Ege(this)">ПРОВЕРИТЬ 19–24</button><button type="button" style="background:#64748b" onclick="resetL3Ege(this)">СБРОСИТЬ</button></div><div class="egeSetResult"></div></div>';
+}
+function checkL3Ege(btn){
+ const answers=['starts','is paying','has already completed','has been helping','has never believed','is working'];
+ const root=btn.closest('.l3EgeSet');let good=0;
+ root.querySelectorAll('[data-l3ege]').forEach((x,i)=>{const ok=x.value.trim().toLowerCase().replace(/\s+/g,' ')===answers[i];if(ok)good++;x.style.borderBottomColor=ok?'#15803d':'#D52B1E';x.style.background=ok?'#ecfdf3':'#fff1f0'});
+ root.querySelector('.egeSetResult').textContent=good+' / '+answers.length+(good===answers.length?' · Отлично':' · Разберите ошибки по алгоритму signal → meaning → tense → form');
+}
+function resetL3Ege(btn){const root=btn.closest('.l3EgeSet');root.querySelectorAll('[data-l3ege]').forEach(x=>{x.value='';x.style.borderBottomColor='#0039A6';x.style.background='#f7f9fc'});root.querySelector('.egeSetResult').textContent=''}
+
 function lesson3TeacherHTML(key){
  return `
  <div class="hero" style="margin-bottom:10px">
@@ -521,94 +598,31 @@ function lesson3TeacherHTML(key){
    </div></div></details>
  </div>
 
- <div class="examCard"><h2>2 · PRESENT RETRIEVAL · NO HELP</h2>
-   <div class="task" style="font-size:15px;line-height:1.7">
-   1. My sister usually ___ (STUDY) in the evening.<br>
-   2. Be quiet! I ___ (LISTEN) to the recording.<br>
-   3. We ___ already ___ (FINISH) the exercise.<br>
-   4. She ___ (LEARN) English for six years and she still studies it.<br>
-   5. I ___ (KNOW) her since primary school.<br>
-   6. Why ___ you ___ (LOOK) at me like that?<br>
-   7. Tom ___ never ___ (BE) abroad.<br>
-   8. This month we ___ (WORK) especially hard on grammar.
-   </div>
-   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">
-   1 <b>studies</b> · 2 <b>am listening</b> · 3 <b>have already finished</b> · 4 <b>has been learning</b> · 5 <b>have known</b> · 6 <b>are looking</b> · 7 <b>has never been</b> · 8 <b>are working / have been working</b> — принять второй вариант только при корректном объяснении значения.
-   </div></div></details>
+ <div class="examCard"><h2>2 · PRESENT RETRIEVAL · INTERACTIVE TEST</h2>
+   ${l3QuizHTML('PRESENT TENSES · 8 QUESTIONS',l3PresentQuiz,key+'present')}
+   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">studies · am listening · have finished · has been learning · have known · are you looking · has never been · are working</div></div></details>
  </div>
 
- <div class="examCard"><h2>3 · STATIVE ↔ DYNAMIC · MEANING CHANGE</h2>
-   <p class="tiny">Арина должна объяснить не только форму, но и изменение значения.</p>
-   <div class="cols">
-     <div class="box"><h3>STATE</h3><div class="task">
-       I <b>think</b> you are right.<br>
-       The soup <b>tastes</b> good.<br>
-       I <b>have</b> a laptop.<br>
-       I <b>see</b> what you mean.
-     </div></div>
-     <div class="box"><h3>ACTION / TEMPORARY ACTIVITY</h3><div class="task">
-       I <b>am thinking</b> about changing my routine.<br>
-       The chef <b>is tasting</b> the soup.<br>
-       I <b>am having</b> lunch.<br>
-       I <b>am seeing</b> my dentist tomorrow.
-     </div></div>
-   </div>
-   <details class="hw"><summary>TEACHER PROMPTS</summary><div class="hwbody"><div class="task">
-   Ask: <b>What does the verb mean here? Is it a state or an activity? Why can/can't we use Continuous?</b>
-   </div></div></details>
+ <div class="examCard"><h2>3 · STATIVE ↔ DYNAMIC · INTERACTIVE TEST</h2>
+   ${l3QuizHTML('STATIVE / DYNAMIC · 6 QUESTIONS',l3StativeQuiz,key+'stative')}
+   <details class="hw"><summary>TEACHER FOCUS</summary><div class="hwbody"><div class="task">После проверки спросите: <b>What does the verb mean here? Why is / isn't Continuous possible?</b></div></div></details>
  </div>
 
- <div class="examCard"><h2>4 · IRREGULAR VERBS · CONTEXT RETRIEVAL</h2>
-   <div class="task" style="font-size:15px;line-height:1.7">
-   A. She has ___ three books this month. (READ)<br>
-   B. I have never ___ such a strange building. (SEE)<br>
-   C. He has ___ his phone again. (BREAK)<br>
-   D. We have ___ a lot of work today. (DO)<br>
-   E. My English has ___ much better. (BECOME)<br>
-   F. They have just ___ back home. (COME)<br>
-   G. She has ___ me some useful advice. (GIVE)<br>
-   H. I have ___ this word before. (KNOW)<br>
-   I. He has ___ a new laptop. (BUY)<br>
-   J. We have ___ several mock tests. (TAKE)
-   </div>
-   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">
-   <b>read · seen · broken · done · become · come · given · known · bought · taken</b>
-   </div></div></details>
+ <div class="examCard"><h2>4 · IRREGULAR VERBS · INTERACTIVE CHECK</h2>
+   ${l3QuizHTML('IRREGULAR VERBS · V3 IN CONTEXT · 10 QUESTIONS',l3IrregularQuiz,key+'irr')}
+   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task"><b>read · seen · broken · done · become · come · given · known · bought · taken</b></div></div></details>
  </div>
 
- <div class="examCard" style="border:2px solid #315b7d"><h2>5 · EGE 19–24 · MAIN EXAM BLOCK</h2>
-   <p><b>Алгоритм:</b> сначала весь текст → затем для каждого пропуска <b>signal → meaning → tense → form</b>.</p>
-   <div class="task" style="font-size:15px;line-height:1.75">
-   <b>A STUDENT'S NEW ROUTINE</b><br><br>
-   Arina is preparing for an important English exam. She usually <b>19 ______</b> her revision with a short vocabulary activity. <b>(START)</b><br><br>
-   This week, however, she <b>20 ______</b> much more attention to grammar because she wants to improve her accuracy. <b>(PAY)</b><br><br>
-   She <b>21 ______</b> already <b>______</b> several exercises on Present tenses, so some rules are becoming easier. <b>(COMPLETE)</b><br><br>
-   Her teacher <b>22 ______</b> her for several weeks now, and they are gradually identifying the most difficult areas. <b>(HELP)</b><br><br>
-   Arina knows that regular practice matters. She <b>23 ______</b> never <b>______</b> that one long study session is enough. <b>(BELIEVE)</b><br><br>
-   At the moment she <b>24 ______</b> on a mixed grammar task and checking every answer carefully. <b>(WORK)</b>
-   </div>
-   <details class="hw"><summary>TEACHER KEY + REASON</summary><div class="hwbody"><div class="task">
-   19 <b>starts</b> — usually / routine<br>
-   20 <b>is paying</b> — this week / temporary situation<br>
-   21 <b>has already completed</b> — already / result now<br>
-   22 <b>has been helping</b> — for several weeks / continuing activity<br>
-   23 <b>has never believed</b> — state extending to now<br>
-   24 <b>is working</b> — at the moment
-   </div></div></details>
+ <div class="examCard" style="border:2px solid #315b7d"><h2>5 · EGE 19–24 · INTERACTIVE EXAM BLOCK</h2>
+   <p><b>Алгоритм:</b> сначала прочитать весь текст → затем <b>signal → meaning → tense → form</b>.</p>
+   ${l3EgeInteractive()}
+   <details class="hw"><summary>TEACHER KEY + REASON</summary><div class="hwbody"><div class="task">19 <b>starts</b> — usually/routine · 20 <b>is paying</b> — this week/temporary · 21 <b>has already completed</b> — result now · 22 <b>has been helping</b> — duration to now · 23 <b>has never believed</b> — state to now · 24 <b>is working</b> — at the moment</div></div></details>
  </div>
 
- <div class="examCard"><h2>6 · WEEK 1 CHECKPOINT · 5 ITEMS</h2>
-   <p><b>Target: 4/5 minimum.</b> Не подсказывать.</p>
-   <div class="task" style="font-size:15px;line-height:1.7">
-   1. I ___ (KNOW) my best friend for ten years.<br>
-   2. She ___ (PREPARE) for the exam all morning and needs a break.<br>
-   3. Listen! Someone ___ (CALL) your name.<br>
-   4. My brother usually ___ (DO) his homework before dinner.<br>
-   5. We ___ already ___ (TAKE) three practice tests this month.
-   </div>
-   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">
-   1 <b>have known</b> · 2 <b>has been preparing</b> · 3 <b>is calling</b> · 4 <b>does</b> · 5 <b>have already taken</b>
-   </div></div></details>
+ <div class="examCard"><h2>6 · WEEK 1 CHECKPOINT · INTERACTIVE</h2>
+   ${l3QuizHTML('CHECKPOINT · 5 QUESTIONS',l3Checkpoint,key+'checkpoint')}
+   <p><b>Target: 4/5 minimum.</b></p>
+   <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">have known · has been preparing · is calling · does · have taken</div></div></details>
  </div>
 
  <div class="examCard"><h2>7 · ERROR LOG · ONLY REAL ERRORS</h2>
