@@ -379,11 +379,17 @@ function markerKahootHTML(key){
 function startKahoot(root){
  root._items=[...markerKahoot].sort(()=>Math.random()-.5);root._pos=0;root._score=0;showKahoot(root);
 }
+function teacherRevealAnswer(btn,answer){
+ const box=btn.closest('.wwQ,.q,.l3Quiz,.egePresentSet,.verbGame,.kahootQ')||btn.parentElement;
+ let out=box.querySelector('.teacherAnswer');
+ if(!out){out=document.createElement('div');out.className='teacherAnswer';out.style.cssText='margin-top:10px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;font-weight:900;color:var(--deep)';box.appendChild(out)}
+ const open=out.dataset.open==='1';out.dataset.open=open?'0':'1';out.style.display=open?'none':'block';out.textContent=open?'':'Ответ: '+answer;
+}
 function showKahoot(root){
- const q=root.querySelector('.kahootQ');if(root._pos>=root._items.length){q.innerHTML='<div class="kResult">Result: '+root._score+' / '+root._items.length+'</div>';return}
+ const q=root.querySelector('.kahootQ');if(root._pos>=root._items.length){q.innerHTML='<div class="kResult">Задание завершено</div>';return}
  const item=root._items[root._pos],opts=['Present Simple','Present Continuous','Present Perfect','Present Perfect Continuous'].sort(()=>Math.random()-.5);
- q.innerHTML='<div class="kCount">'+(root._pos+1)+' / '+root._items.length+'</div><div class="kWord">'+item[0]+'</div><div class="kOpts">'+opts.map(x=>'<button type="button" data-ok="'+(x===item[1])+'">'+x+'</button>').join('')+'</div><div class="kFb"></div>';
- q.querySelectorAll('button').forEach(b=>b.onclick=()=>{q.querySelectorAll('button').forEach(x=>x.disabled=true);const ok=b.dataset.ok==='true';if(ok)root._score++;b.classList.add(ok?'vGood':'vBad');q.querySelector('.kFb').textContent=ok?'Correct':item[1];setTimeout(()=>{root._pos++;showKahoot(root)},550)})
+ q.innerHTML='<div class="kCount">'+(root._pos+1)+' / '+root._items.length+'</div><div class="kWord">'+item[0]+'</div><div class="kOpts">'+opts.map(x=>'<button type="button" data-choice="'+x+'">'+x+'</button>').join('')+'</div><div style="display:flex;gap:8px;justify-content:center;margin-top:10px"><button class="action" type="button" onclick="teacherRevealAnswer(this,\''+item[1].replace(/'/g,"\\'")+'\')">Ответ</button><button class="action" type="button" onclick="this.closest(\'.kahootBox\')._pos++;showKahoot(this.closest(\'.kahootBox\'))">Дальше</button></div>';
+ q.querySelectorAll('.kOpts button').forEach(b=>b.onclick=()=>{q.querySelectorAll('.kOpts button').forEach(x=>x.style.outline='');b.style.outline='2px solid #64748b'})
 }
 function initKahoots(){document.querySelectorAll('.kahootBox').forEach(startKahoot)}
 function openMarkerPractice(btn){btn.style.display='none';const wrap=btn.nextElementSibling;wrap.style.display='block';const game=wrap.querySelector('.kahootBox');if(game)startKahoot(game);}
@@ -537,14 +543,11 @@ function l3QuizHTML(title,items,key){
  '<button class="action" type="button" onclick="checkL3Quiz(this)">ПРОВЕРИТЬ</button> <button class="action" type="button" style="background:#64748b" onclick="resetL3Quiz(this)">СБРОСИТЬ</button></div>';
 }
 function checkL3Quiz(btn){
- const root=btn.closest('.l3Quiz');let good=0,total=0;
- root.querySelectorAll('.q').forEach(q=>{total++;const s=q.querySelector('input:checked'),fb=q.querySelector('.fb'),ans=+q.dataset.answer;
-   q.querySelectorAll('.opt').forEach(x=>x.style.borderColor='');
-   if(!s){fb.textContent='Нет ответа';fb.className='fb bad';return}
-   if(+s.value===ans){good++;fb.textContent='Correct';fb.className='fb good';s.closest('.opt').style.borderColor='#15803d'}
-   else{fb.textContent='Try again';fb.className='fb bad';s.closest('.opt').style.borderColor='#D52B1E'}
+ const root=btn.closest('.l3Quiz');
+ root.querySelectorAll('.q').forEach(q=>{
+   let b=q.querySelector('.teacherRevealBtn');
+   if(!b){b=document.createElement('button');b.type='button';b.className='action teacherRevealBtn';b.textContent='Ответ';b.style.marginTop='7px';b.onclick=()=>{const ans=+q.dataset.answer;const opts=q.querySelectorAll('.opt');teacherRevealAnswer(b,opts[ans]?opts[ans].textContent.trim():'—')};q.appendChild(b)}
  });
- const sc=root.querySelector('.l3Score');if(sc)sc.textContent=good+' / '+total;
 }
 function resetL3Quiz(btn){
  const root=btn.closest('.l3Quiz');root.querySelectorAll('input').forEach(x=>{x.checked=false;x.disabled=false});root.querySelectorAll('.fb').forEach(x=>{x.textContent='';x.className='fb'});root.querySelectorAll('.opt').forEach(x=>x.style.borderColor='');const sc=root.querySelector('.l3Score');if(sc)sc.textContent='0 / '+root.querySelectorAll('.q').length;
@@ -691,9 +694,13 @@ function lessonFullHTML(x,i,w){
 }
 function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+(w===1?'<div class="examCard" style="margin:10px 14px 20px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Grammar 19–24 + Word Formation 25–29 · материалы 2026</div></div><button class="action studentRequiredTest" type="button" onclick="closeLesson();renderExam2026()">ОТКРЫТЬ EXAM 2026</button></div></div>':'');p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);scrollTo(0,0)}
 function closeLesson(){const p=document.getElementById('lessonPage');if(p)p.style.display='none'}
-function renderWeek(i){if(i<0||i>1)return;document.body.classList.remove('fullWeek');document.getElementById('examView').classList.remove('on');document.getElementById('trainerView').classList.remove('on');document.getElementById('weekView').classList.add('on');document.querySelectorAll('.wbtn').forEach(b=>b.classList.toggle('active',+b.dataset.i===i));const w=weeks[i];document.getElementById('weekView').innerHTML='<div class="weekTitle"><b>Неделя '+(i+1)+'</b> · '+w.d+'</div><div class="weekMeta"><div class="card"><div class="eyebrow">Цель недели</div><h2>'+w.g+'</h2></div><div class="card result"><div class="eyebrow">Критерий готовности</div><p><b>'+w.r+'</b></p></div></div>'+w.l.map((x,j)=>lessonHTML(x,j,i)).join('')+(i===1?'<div class="examCard" style="margin-top:10px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Реальные материалы 2026 · Grammar 19–24 + Word Formation 25–29</div></div><button class="action studentRequiredTest" type="button" onclick="renderExam2026()">ОТКРЫТЬ EXAM 2026</button></div></div>':'');restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));if(innerWidth<801)document.getElementById('side').classList.remove('open');scrollTo({top:0,behavior:'smooth'})}
+function renderWeek(i){if(i<0||i>=weeks.length)return;document.body.classList.remove('fullWeek');document.getElementById('examView').classList.remove('on');document.getElementById('trainerView').classList.remove('on');document.getElementById('weekView').classList.add('on');document.querySelectorAll('.wbtn').forEach(b=>b.classList.toggle('active',+b.dataset.i===i));const w=weeks[i];document.getElementById('weekView').innerHTML='<div class="weekTitle"><b>Неделя '+(i+1)+'</b> · '+w.d+'</div><div class="weekMeta"><div class="card"><div class="eyebrow">Цель недели</div><h2>'+w.g+'</h2></div><div class="card result"><div class="eyebrow">Критерий готовности</div><p><b>'+w.r+'</b></p></div></div>'+w.l.map((x,j)=>lessonHTML(x,j,i)).join('')+(i===1?'<div class="examCard" style="margin-top:10px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Реальные материалы 2026 · Grammar 19–24 + Word Formation 25–29</div></div><button class="action studentRequiredTest" type="button" onclick="renderExam2026()">ОТКРЫТЬ EXAM 2026</button></div></div>':'');restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));if(innerWidth<801)document.getElementById('side').classList.remove('open');scrollTo({top:0,behavior:'smooth'})}
 let saved={};try{saved=JSON.parse(localStorage.getItem('arinaPlanV4')||'{}')}catch(e){}function restore(){document.querySelectorAll('[data-save]').forEach(x=>{x.checked=!!saved[x.dataset.save];x.onchange=()=>{saved[x.dataset.save]=x.checked;localStorage.setItem('arinaPlanV4',JSON.stringify(saved))}})}
-function exitWeek(){document.body.classList.remove('fullWeek');document.getElementById('side').classList.add('open')}function checkQuizSet(btn){let n=0;const set=btn.parentElement.querySelector('.quizSet');set.querySelectorAll('.q').forEach(box=>{const sel=box.querySelector('input:checked'),fb=box.querySelector('.fb'),ans=+box.dataset.answer;if(!sel){fb.textContent='Выбери ответ.';fb.className='fb bad'}else if(+sel.value===ans){n++;fb.textContent='Correct';fb.className='fb good'}else{fb.textContent='Try again';fb.className='fb bad'}});btn.nextElementSibling.textContent=n+' / '+set.querySelectorAll('.q').length}function checkQuiz(){let n=0;quiz.forEach((q,i)=>{const box=document.querySelector('[data-q="'+i+'"]'),sel=box.querySelector('input:checked'),fb=box.querySelector('.fb');if(!sel){fb.textContent='Выбери ответ.';fb.className='fb bad'}else if(+sel.value===q[2]){n++;fb.textContent='Correct';fb.className='fb good'}else{fb.textContent='Correct: '+q[1][q[2]];fb.className='fb bad'}});document.getElementById('score').textContent=n+' / '+quiz.length}
+function exitWeek(){document.body.classList.remove('fullWeek');document.getElementById('side').classList.add('open')}function checkQuizSet(btn){
+ const set=btn.parentElement.querySelector('.quizSet');
+ set.querySelectorAll('.q').forEach(q=>{let b=q.querySelector('.teacherRevealBtn');if(!b){b=document.createElement('button');b.type='button';b.className='action teacherRevealBtn';b.textContent='Ответ';b.style.marginTop='7px';b.onclick=()=>{const ans=+q.dataset.answer,opts=q.querySelectorAll('.opt');teacherRevealAnswer(b,opts[ans]?opts[ans].textContent.trim():'—')};q.appendChild(b)})
+}
+function checkQuiz(){document.querySelectorAll('[data-q]').forEach((box,i)=>{let b=box.querySelector('.teacherRevealBtn');if(!b){b=document.createElement('button');b.type='button';b.className='action teacherRevealBtn';b.textContent='Ответ';b.onclick=()=>teacherRevealAnswer(b,quiz[i][1][quiz[i][2]]);box.appendChild(b)}})}
 const irregularVerbs=[
 "arise|arose|arisen|возникать","awake|awoke|awoken|просыпаться","bear|bore|borne|нести / выдерживать","beat|beat|beaten|бить / побеждать","bend|bent|bent|сгибать",
 "bind|bound|bound|связывать","bite|bit|bitten|кусать","bleed|bled|bled|кровоточить","blow|blew|blown|дуть","breed|bred|bred|разводить",
