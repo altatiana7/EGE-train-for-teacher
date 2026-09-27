@@ -315,7 +315,7 @@ function showStudentQuestion(box){
 }
 function showFinalSubmit(box){
  const stage=box.querySelector('.wwStage');
- stage.innerHTML='<div class="wwQ"><p><b>25 / 25</b></p><p>Все ответы сохранены. После отправки изменить их или пройти тест повторно нельзя.</p><button class="action" type="button" onclick="submitStudentTest(this)">SUBMIT</button><div class="submitStatus"></div></div>';
+ stage.innerHTML='<div class="wwQ"><p><b>25 / 25</b></p><p>Все ответы сохранены. После отправки изменить их или пройти тест повторно нельзя.</p><div class="submitStatus"></div></div>';
 }
 function submitStudentTest(btn){
  const box=btn.closest('.studentTest'),submitKey=box.dataset.submitkey;
@@ -558,7 +558,7 @@ function l3EgeInteractive(){
   ['23','Arina ___ never ___ that one long study session is enough.','BELIEVE','has never believed'],
   ['24','At the moment she ___ on a mixed grammar task and checking every answer carefully.','WORK','is working']
  ];
- return '<div class="egePresentSet l3EgeSet"><h3>A STUDENT\'S NEW ROUTINE</h3><p class="tiny">Напечатай полную форму. Проверка идёт по каждому пропуску.</p><div class="egePresentText">'+
+ return '<div class="egePresentSet l3EgeSet"><h3>A STUDENT\'S NEW ROUTINE</h3><p class="tiny">Напечатай полную форму. Ответы используются для разбора на уроке.</p><div class="egePresentText">'+
  items.map((x,i)=>'<div class="miniTask" style="margin:7px 0"><b>'+x[0]+'.</b> '+x[1]+' <span class="egeBase">('+x[2]+')</span><br><input data-l3ege="'+i+'" type="text" autocomplete="off" placeholder="answer"></div>').join('')+
  '</div><div class="egeSetActions"><button type="button" onclick="checkL3Ege(this)">ПРОВЕРИТЬ 19–24</button><button type="button" style="background:#64748b" onclick="resetL3Ege(this)">СБРОСИТЬ</button></div><div class="egeSetResult"></div></div>';
 }
@@ -658,7 +658,7 @@ function lessonStarter(w,i){
  return egePresentPractice(key)+submitBox(key,'EGE Present forms');
 }
 function submitBox(key,title){
- return '<div class="submitBox" data-submit="'+key+'"><b>ОТПРАВИТЬ РЕЗУЛЬТАТ УЧИТЕЛЮ</b><p>После отправки ответы блокируются. Исправить или пройти тест повторно нельзя.</p><button class="action submitOnce" type="button" onclick="submitOnce(this,\''+key+'\',\''+title+'\')">Отправить результат</button><div class="submitStatus"></div></div>';
+ return '<div class="submitBox" data-submit="'+key+'"><b>ОТПРАВИТЬ РЕЗУЛЬТАТ УЧИТЕЛЮ</b><p>После отправки ответы блокируются. Исправить или пройти тест повторно нельзя.</p><div class="submitStatus"></div></div>';
 }
 function submitOnce(btn,key,title){
  const box=btn.closest('.lessonbody'),wrap=btn.closest('.submitBox'),sets=box.querySelectorAll('.quizSet');let total=0,good=0,answered=0;
@@ -677,8 +677,8 @@ function lockSubmitted(box,key){
  box.querySelectorAll('.submitOnce').forEach(x=>x.textContent='Результат уже отправлен');
  const s=box.querySelector('.submitStatus');if(s)s.innerHTML='ЗАВЕРШЕНО · '+d.score+' / '+d.total+' · код: <b>'+d.code+'</b><br>Повторное выполнение и исправление заблокированы.';
 }
-function qhtml(key='q'){return '<div class="quiz quizSet">'+quiz.map((q,i)=>'<div class="q" data-answer="'+q[2]+'"><p><b>'+(i+1)+'.</b> '+q[0]+'</p><div class="opts">'+q[1].map((o,j)=>'<label class="opt"><input type="radio" name="'+key+'q'+i+'" value="'+j+'"> '+o+'</label>').join('')+'</div><div class="fb"></div></div>').join('')+'</div><button class="action" type="button" onclick="checkQuizSet(this)">Проверить 25 заданий</button><span class="score"></span>'}
-function renderButtons(){const root=document.getElementById('weekBtns');weeks.slice(0,3).forEach((w,i)=>{const b=document.createElement('button');b.className='wbtn'+(i===0?' active':i===1?'':' locked');b.dataset.i=i;b.innerHTML='<b>Неделя '+(i+1)+'</b><small>'+w.d+(i<2?' · активна':' · скоро')+'</small>';if(i<2)b.onclick=()=>renderWeek(i);root.appendChild(b)})}
+function qhtml(key='q'){return '<div class="quiz quizSet">'+quiz.map((q,i)=>'<div class="q" data-answer="'+q[2]+'"><p><b>'+(i+1)+'.</b> '+q[0]+'</p><div class="opts">'+q[1].map((o,j)=>'<label class="opt"><input type="radio" name="'+key+'q'+i+'" value="'+j+'"> '+o+'</label>').join('')+'</div><div class="fb"></div></div>').join('')+'</div><span class="score"></span>'}
+function renderButtons(){const root=document.getElementById('weekBtns');root.innerHTML='';weeks.forEach((w,i)=>{const b=document.createElement('button');b.className='wbtn'+(i===0?' active':'');b.dataset.i=i;b.innerHTML='<b>Неделя '+(i+1)+'</b><small>'+w.d+' · активна</small>';b.onclick=()=>renderWeek(i);root.appendChild(b)})}
 function lessonHTML(x,i,w){
  return '<div class="lesson" onclick="openLesson('+w+','+i+')" style="cursor:pointer"><div class="lessonHead" style="display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;padding:14px"><span class="lnum">'+(i+1)+'</span><span class="ltitle"><b>Урок '+(i+1)+' · '+x[0]+'</b><small>Открыть урок</small></span><span class="chev">→</span></div></div>'
 }
