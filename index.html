@@ -888,7 +888,7 @@ function lesson3TeacherHTML(key){
 
 function lessonStarter(w,i){
  const key='w'+w+'l'+i;
- if(w===1&&i===0){return tenseIntensiveLessonHTML(key);}
+ if(w===1&&i===1){return tenseIntensiveLessonHTML(key);}
  if(w===0&&i===0){
   return '<div class="lesson1Workspace"><div><div class="lessonMenu"><button class="lessonMenuBtn" type="button" onclick="openPresentPanel(\'rule\',\''+key+'\')">RULE · 4 PRESENT TENSES</button><button class="lessonMenuBtn" type="button" onclick="openPresentPanel(\'markers\',\''+key+'\')">MARKERS · REFERENCE</button><button class="lessonMenuBtn" type="button" onclick="openPresentPanel(\'markertrain\',\''+key+'m\')">MARKER → TENSE · TRAINING</button></div><div class="lessonTestCard"><b>GRAMMAR TEST · 25 QUESTIONS</b><button type="button" onclick="openPresentPanel(\'test\',\''+key+'g\')">START TEST</button></div></div>'+lesson1ReadingHTML()+'</div>';
  }
