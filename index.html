@@ -573,8 +573,49 @@ const fipiGrammarLinks=[["ФИПИ · set 1","https://ege.fipi.ru/bank/index.php
 function tiButton(type,title,small){
  return '<button class="tiBtn" data-type="'+type+'" onclick="openTenseIntensive(this.dataset.type)">'+title+'<small>'+small+'</small></button>';
 }
+
+const todayReadingQuestions=[
+ ["How had Mia usually prepared for tests before this school year?","",["She studied a little every day.","She revised mainly just before the exam.","She studied with classmates.","She practised with online tests."],1],
+ ["What problem did Mia have with her old method?","",["She never received good marks.","Her teachers complained about her work.","She quickly forgot much of what she studied.","She did not have enough textbooks."],2],
+ ["What did Mia change?","",["She stopped studying at home.","She studied for shorter periods over several days.","She studied only at weekends.","She spent longer periods reading notes."],1],
+ ["What did she do instead of repeatedly reading her notes?","",["She tested herself.","She asked her teacher for answers.","She memorised complete texts.","She watched lessons online."],0],
+ ["Choose the main idea.","",["Long study sessions always produce better results.","Students should stop reading textbooks.","Regular active practice can beat last-minute revision.","Tests are an ineffective way to measure learning."],2]
+];
+const todayIrregular=[["write","wrote","written"],["take","took","taken"],["see","saw","seen"],["break","broke","broken"],["begin","began","begun"],["know","knew","known"],["give","gave","given"],["come","came","come"],["find","found","found"],["leave","left","left"]];
+function todayReadingHTML(key){
+ var text="For several years, Mia had prepared for school tests in the same way. She usually left most of her revision until the evening before an exam. Although she sometimes received good marks, she often felt exhausted and forgot much of what she had studied soon afterwards. At the beginning of this school year, Mia decided to change her routine. She started studying for shorter periods several days before each test. She also began testing herself instead of simply reading the same notes again and again. At first, the new method seemed slower. While some of her classmates were spending entire evenings with their textbooks, Mia was studying for only thirty or forty minutes at a time. However, after several weeks, she noticed an important difference. She could remember information more easily and felt less nervous before tests. By the time Mia took her first major exam of the year, she had been using the new system for almost two months. She did not get every question right, but her result was considerably better than before. More importantly, she realised that effective learning was not necessarily about studying longer. It was about studying regularly and actively.";
+ return '<div class="examCard"><h2>38–48 MIN · READING · A CHANGE IN STUDY HABITS</h2><div class="readingText">'+text+'</div>'+
+ l3QuizHTML("READING · 5 QUESTIONS",todayReadingQuestions,key+"reading")+
+ '<details class="hw"><summary>OPEN QUESTIONS · ANSWERS</summary><div class="hwbody"><div class="task"><b>5.</b> Because Mia studied in short sessions while some classmates spent whole evenings studying.<br><b>6.</b> She could remember information more easily and felt less nervous before tests.<br><b>7.</b> For almost two months.<br><b>8.</b> No, she did not.<br><b>9.</b> Effective learning depends more on regular and active practice than simply studying longer.</div></div></details>'+
+ '<details class="hw"><summary>PARAPHRASE HUNT · ANSWERS</summary><div class="hwbody"><div class="task">last-minute revision → left most revision until the evening before an exam<br>became extremely tired → felt exhausted<br>checked her own knowledge → testing herself<br>remember with less difficulty → remember information more easily<br>much better → considerably better</div></div></details></div>';
+}
+function todayIrregularHTML(){
+ return '<div class="examCard"><h2>56–60 MIN · IRREGULAR VERBS · V2 + V3</h2><div class="arinaVerbCheck">'+todayIrregular.map(function(v,i){return '<div class="miniTask"><b>'+v[0]+'</b> → <input data-tv2="'+i+'" placeholder="V2" autocomplete="off"> → <input data-tv3="'+i+'" placeholder="V3" autocomplete="off"></div>'}).join('')+'<button class="action" type="button" onclick="checkTodayIrregular(this)">CHECK V2 + V3</button><span class="score todayVerbScore"></span></div></div>';
+}
+function checkTodayIrregular(btn){
+ var root=btn.closest(".arinaVerbCheck"),good=0,total=todayIrregular.length*2;
+ todayIrregular.forEach(function(v,i){
+  var a=root.querySelector('[data-tv2="'+i+'"]'),b=root.querySelector('[data-tv3="'+i+'"]');
+  var ok2=a.value.trim().toLowerCase()===v[1],ok3=b.value.trim().toLowerCase()===v[2];
+  if(ok2)good++; if(ok3)good++;
+  a.style.borderColor=ok2?"#15803d":"#D52B1E"; b.style.borderColor=ok3?"#15803d":"#D52B1E";
+  if(!ok2)a.title="Correct: "+v[1]; if(!ok3)b.title="Correct: "+v[2];
+ });
+ root.querySelector(".todayVerbScore").textContent=" "+good+" / "+total;
+}
+function todayScheduleHTML(){
+ return '<div class="examCard"><h2>TODAY · 60 MIN</h2><div class="crit"><span><b>0–7</b> Present markers</span><span class="pts">7 min</span></div><div class="crit"><span><b>7–17</b> Present contrast</span><span class="pts">10 min</span></div><div class="crit"><span><b>17–28</b> Past Simple vs Continuous</span><span class="pts">11 min</span></div><div class="crit"><span><b>28–38</b> Past Perfect vs PPC</span><span class="pts">10 min</span></div><div class="crit"><span><b>38–48</b> Reading + questions</span><span class="pts">10 min</span></div><div class="crit"><span><b>48–56</b> EGE 19–24 mixed</span><span class="pts">8 min</span></div><div class="crit"><span><b>56–60</b> Irregular verbs + error log</span><span class="pts">4 min</span></div></div>';
+}
 function tenseIntensiveLessonHTML(key){
- return '<div class="tiHome"><div class="tiHead"><h2>Present + Past Tenses Intensive</h2><p>Сначала смысл: <b>FACT → PROCESS → RESULT → DURATION</b>. Затем точка отсчёта: <b>NOW → Present</b>, <b>THEN → Past</b>. Маркер — подсказка, а не готовый ответ.</p></div><div class="tiTracks"><section class="tiTrack present"><h3>PRESENT · 4 tenses</h3><p>Отдельно от Past: смысл → маркер → форма → ЕГЭ.</p><div class="tiBtns">'+tiButton('visual','VISUAL MAP','4 смысла → 4 времени')+tiButton('presentMarkers','MARKERS DRILL','Present markers')+tiButton('presentPractice','PRESENT · 24','контекст → выбрать время')+tiButton('presentEge','EGE 19–24 · PRESENT','12 transformations')+'</div></section><section class="tiTrack past"><h3>PAST · 4 tenses</h3><p>Факт, процесс, более раннее прошлое, длительность до прошлого момента.</p><div class="tiBtns">'+tiButton('pastMap','PAST MAP','Simple / Continuous / Perfect / PPC')+tiButton('pastMarkers','MARKERS DRILL','Past markers + context')+tiButton('pastPractice','PAST · 24','контекст → выбрать время')+tiButton('pastEge','EGE 19–24 · PAST','12 transformations')+'</div></section></div><div class="tiBottom">'+tiButton('traps','MARKER TRAPS','for / since / while / when / before / after')+tiButton('mixed','FINAL CONTRAST · 16','только после двух отдельных блоков')+'</div>'+fipiLinksHTML()+'</div>';
+ return '<div class="tiHome"><div class="tiHead"><h2>Week 2 · Lesson 1 · Present + Past Intensive</h2><p><b>60 минут:</b> Present markers + 4 Present forms → 4 Past forms → Reading → EGE 19–24 → irregular verbs. Маркер — подсказка, сначала смысл и timeline.</p></div>'+
+ todayScheduleHTML()+
+ '<div class="tiTracks"><section class="tiTrack present"><h3>0–17 MIN · PRESENT</h3><p>Маркеры, ловушки, Simple / Continuous / Perfect / Perfect Continuous.</p><div class="tiBtns">'+tiButton("presentMarkers","MARKERS DRILL","marker → tense")+tiButton("presentPractice","PRESENT · 24","context → choose tense")+tiButton("traps","MARKER TRAPS","for / since / now / already")+'</div></section>'+
+ '<section class="tiTrack past"><h3>17–38 MIN · PAST</h3><p>Simple / Continuous / Perfect / Perfect Continuous.</p><div class="tiBtns">'+tiButton("pastMap","PAST MAP","4 meanings → 4 forms")+tiButton("pastMarkers","PAST MARKERS","when / while / before / by the time")+tiButton("pastPractice","PAST · 24","context → choose tense")+'</div></section></div>'+
+ todayReadingHTML(key)+
+ '<div class="examCard"><h2>48–56 MIN · EGE 19–24</h2><div class="tiBtns">'+tiButton("presentEge","EGE 19–24 · PRESENT","transformations")+tiButton("pastEge","EGE 19–24 · PAST","transformations")+tiButton("mixed","FINAL CONTRAST","Present + Past")+'</div></div>'+
+ todayIrregularHTML()+
+ '<div class="examCard"><h2>ERROR LOG</h2><div class="task"><b>My answer → Correct answer → Why? → New example</b><br>1. _______________________________<br>2. _______________________________<br>3. _______________________________</div></div>'+
+ fipiLinksHTML()+'</div>';
 }
 function fipiLinksHTML(){
  return '<div class="tiFipi"><div class="tiFipiTop"><b>ФИПИ · официальная практика 19–24</b><span>5 заданий из официального навигатора подготовки</span></div><div class="tiFipiLinks">'+fipiGrammarLinks.map(function(x){return '<a href="'+x[1]+'" target="_blank" rel="noopener">'+x[0]+' ↗</a>'}).join('')+'</div></div>';
