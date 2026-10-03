@@ -23,23 +23,23 @@ const sets=[
 {title:'Set A · A difficult morning',lines:[
 ['Yesterday, Emma ___ home at eight o’clock.','LEAVE',['left'],'Завершённое событие вчера.'],
 ['She ___ towards the bus stop when she realised that her travel card was missing.','WALK',['was walking'],'Процесс, во время которого она заметила проблему.'],
-['By that moment, she ___ the card at home, so she had to go back.','FORGET',['had forgotten'],'Забыла раньше, чем обнаружила пропажу.'],
+['By that moment, she ___ that her travel card was still at home, so she had to go back.','REALISE',['had realised'],'Осознание произошло до следующего действия в рассказе.'],
 ['She ___ at the stop for twenty minutes when a bus finally arrived.','WAIT',['had been waiting','had waited'],'Длительность до прибытия автобуса.'],
 ['On the bus, she ___ a classmate.','MEET',['met'],'Следующее событие рассказа.'],
 ['He ___ her that their first lesson had been cancelled.','TELL',['told'],'Завершённое событие.']]},
 {title:'Set B · The school video',lines:[
 ['At five o’clock yesterday, Ben and his friends ___ their school video on a laptop.','WATCH',['were watching'],'Процесс в конкретный момент.'],
 ['Suddenly, the lights ___ out.','GO',['went'],'Внезапное событие.'],
-['By then, Ben ___ the laptop battery completely, so the video kept playing.','CHARGE',['had charged'],'Результат к тому моменту.'],
+['Before his friends arrived, Ben ___ the laptop battery completely, so the video kept playing.','CHARGE',['had charged'],'Зарядил раньше другого прошлого события.'],
 ['Luckily, they ___ any electricity to finish watching it.','NOT NEED',['did not need',"didn't need"],'did not + начальная форма.'],
-['Ben ___ the film for two hours without a break when his friends arrived earlier that afternoon.','EDIT',['had been editing','had edited'],'Длительность до прихода друзей.'],
+['Ben ___ the film for two hours without a break when his friends arrived that afternoon.','EDIT',['had been editing'],'Акцент на длительном процессе до другого прошлого события.'],
 ['After the final scene, everyone ___ the ending funny.','FIND',['found'],'Find в значении «считать»: оценка в прошлом.']]}
 ];
 const exit={title:'Exit test · A lost notebook',lines:[
 ['Yesterday, Anna ___ to school early.','COME',['came'],'Завершённое событие.'],
 ['At 8:15, she ___ for her notebook in the classroom.','LOOK',['was looking'],'Процесс в 8:15.'],
 ['By that time, the cleaner ___ it to the school office.','TAKE',['had taken'],'Перенесли до того момента.'],
-['Anna ___ for ten minutes when a teacher offered to help.','SEARCH',['had been searching','had searched'],'Длительность до предложения помощи.'],
+['Anna ___ for ten minutes when a teacher offered to help.','SEARCH',['had been searching'],'Длительный процесс продолжался до другого прошлого события.'],
 ['She ___ where her notebook was.','NOT KNOW',['did not know',"didn't know"],'did not + know; не was knowing.'],
 ['In the end, the secretary ___ it to her.','GIVE',['gave'],'Завершённое событие.']]};
 const headings=['A practical place to study','A useful mistake','A new role in a group','An unexpected source of help','A deadline that changed a habit','A different way to remember','A journey to another country'];
