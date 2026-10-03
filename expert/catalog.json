@@ -1,0 +1,2248 @@
+{
+  "topics": [
+    {
+      "name": "Travelling",
+      "reading": [
+        {
+          "page": 4,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.1085,
+            0.45618
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 4,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.45365,
+            1
+          ]
+        },
+        {
+          "page": 6,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.52436
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 5,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15471,
+            1
+          ]
+        },
+        {
+          "page": 7,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 13,
+          "label": "Email · книга 15"
+        },
+        {
+          "page": 15,
+          "label": "Email · книга 17"
+        }
+      ],
+      "project": [
+        {
+          "page": 17,
+          "label": "Project 38 · книга 19"
+        },
+        {
+          "page": 19,
+          "label": "Project 38 · книга 21"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 10,
+          "label": "Ответы Speaking · книга 12"
+        },
+        {
+          "page": 12,
+          "label": "Ответы Speaking · книга 14"
+        },
+        {
+          "page": 14,
+          "label": "Ответы Speaking · книга 16"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 14,
+          "label": "Ответы Writing · книга 16"
+        },
+        {
+          "page": 16,
+          "label": "Ответы Writing · книга 18"
+        },
+        {
+          "page": 18,
+          "label": "Ответы Writing · книга 20"
+        },
+        {
+          "page": 171,
+          "label": "Ответы Writing · книга 173"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 9,
+          "label": "Скрипт интервью · книга 11"
+        },
+        {
+          "page": 10,
+          "label": "Скрипт интервью · книга 12"
+        }
+      ],
+      "all": [
+        {
+          "page": 8,
+          "label": "Travelling · книга 10"
+        },
+        {
+          "page": 9,
+          "label": "Travelling · книга 11"
+        },
+        {
+          "page": 10,
+          "label": "Travelling · книга 12"
+        },
+        {
+          "page": 11,
+          "label": "Travelling · книга 13"
+        },
+        {
+          "page": 12,
+          "label": "Travelling · книга 14"
+        },
+        {
+          "page": 13,
+          "label": "Travelling · книга 15"
+        },
+        {
+          "page": 14,
+          "label": "Travelling · книга 16"
+        },
+        {
+          "page": 15,
+          "label": "Travelling · книга 17"
+        },
+        {
+          "page": 16,
+          "label": "Travelling · книга 18"
+        },
+        {
+          "page": 17,
+          "label": "Travelling · книга 19"
+        },
+        {
+          "page": 18,
+          "label": "Travelling · книга 20"
+        },
+        {
+          "page": 19,
+          "label": "Travelling · книга 21"
+        }
+      ]
+    },
+    {
+      "name": "Hobbies and sport",
+      "reading": [
+        {
+          "page": 8,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.44239
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 8,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.43986,
+            1
+          ]
+        },
+        {
+          "page": 10,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.5086
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 9,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15471,
+            1
+          ]
+        },
+        {
+          "page": 11,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 26,
+          "label": "Email · книга 28"
+        },
+        {
+          "page": 27,
+          "label": "Email · книга 29"
+        }
+      ],
+      "project": [
+        {
+          "page": 27,
+          "label": "Project 38 · книга 29"
+        },
+        {
+          "page": 29,
+          "label": "Project 38 · книга 31"
+        },
+        {
+          "page": 31,
+          "label": "Project 38 · книга 33"
+        },
+        {
+          "page": 33,
+          "label": "Project 38 · книга 35"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 22,
+          "label": "Ответы Speaking · книга 24"
+        },
+        {
+          "page": 24,
+          "label": "Ответы Speaking · книга 26"
+        },
+        {
+          "page": 26,
+          "label": "Ответы Speaking · книга 28"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 28,
+          "label": "Ответы Writing · книга 30"
+        },
+        {
+          "page": 30,
+          "label": "Ответы Writing · книга 32"
+        },
+        {
+          "page": 32,
+          "label": "Ответы Writing · книга 34"
+        },
+        {
+          "page": 171,
+          "label": "Ответы Writing · книга 173"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 21,
+          "label": "Скрипт интервью · книга 23"
+        },
+        {
+          "page": 23,
+          "label": "Скрипт интервью · книга 25"
+        }
+      ],
+      "all": [
+        {
+          "page": 20,
+          "label": "Hobbies and sport · книга 22"
+        },
+        {
+          "page": 21,
+          "label": "Hobbies and sport · книга 23"
+        },
+        {
+          "page": 22,
+          "label": "Hobbies and sport · книга 24"
+        },
+        {
+          "page": 23,
+          "label": "Hobbies and sport · книга 25"
+        },
+        {
+          "page": 24,
+          "label": "Hobbies and sport · книга 26"
+        },
+        {
+          "page": 25,
+          "label": "Hobbies and sport · книга 27"
+        },
+        {
+          "page": 26,
+          "label": "Hobbies and sport · книга 28"
+        },
+        {
+          "page": 27,
+          "label": "Hobbies and sport · книга 29"
+        },
+        {
+          "page": 28,
+          "label": "Hobbies and sport · книга 30"
+        },
+        {
+          "page": 29,
+          "label": "Hobbies and sport · книга 31"
+        },
+        {
+          "page": 30,
+          "label": "Hobbies and sport · книга 32"
+        },
+        {
+          "page": 31,
+          "label": "Hobbies and sport · книга 33"
+        },
+        {
+          "page": 32,
+          "label": "Hobbies and sport · книга 34"
+        },
+        {
+          "page": 33,
+          "label": "Hobbies and sport · книга 35"
+        }
+      ]
+    },
+    {
+      "name": "Weather and environment",
+      "reading": [
+        {
+          "page": 12,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.1085,
+            0.43981
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 12,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.43729,
+            1
+          ]
+        },
+        {
+          "page": 14,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.52708
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 13,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15032,
+            1
+          ]
+        },
+        {
+          "page": 15,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 39,
+          "label": "Email · книга 41"
+        },
+        {
+          "page": 41,
+          "label": "Email · книга 43"
+        }
+      ],
+      "project": [
+        {
+          "page": 41,
+          "label": "Project 38 · книга 43"
+        },
+        {
+          "page": 43,
+          "label": "Project 38 · книга 45"
+        },
+        {
+          "page": 45,
+          "label": "Project 38 · книга 47"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 36,
+          "label": "Ответы Speaking · книга 38"
+        },
+        {
+          "page": 38,
+          "label": "Ответы Speaking · книга 40"
+        },
+        {
+          "page": 40,
+          "label": "Ответы Speaking · книга 42"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 42,
+          "label": "Ответы Writing · книга 44"
+        },
+        {
+          "page": 44,
+          "label": "Ответы Writing · книга 46"
+        },
+        {
+          "page": 172,
+          "label": "Ответы Writing · книга 174"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 35,
+          "label": "Скрипт интервью · книга 37"
+        },
+        {
+          "page": 37,
+          "label": "Скрипт интервью · книга 39"
+        }
+      ],
+      "all": [
+        {
+          "page": 34,
+          "label": "Weather and environment · книга 36"
+        },
+        {
+          "page": 35,
+          "label": "Weather and environment · книга 37"
+        },
+        {
+          "page": 36,
+          "label": "Weather and environment · книга 38"
+        },
+        {
+          "page": 37,
+          "label": "Weather and environment · книга 39"
+        },
+        {
+          "page": 38,
+          "label": "Weather and environment · книга 40"
+        },
+        {
+          "page": 39,
+          "label": "Weather and environment · книга 41"
+        },
+        {
+          "page": 40,
+          "label": "Weather and environment · книга 42"
+        },
+        {
+          "page": 41,
+          "label": "Weather and environment · книга 43"
+        },
+        {
+          "page": 42,
+          "label": "Weather and environment · книга 44"
+        },
+        {
+          "page": 43,
+          "label": "Weather and environment · книга 45"
+        },
+        {
+          "page": 44,
+          "label": "Weather and environment · книга 46"
+        },
+        {
+          "page": 45,
+          "label": "Weather and environment · книга 47"
+        }
+      ]
+    },
+    {
+      "name": "Money and shopping",
+      "reading": [
+        {
+          "page": 16,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09804,
+            0.41284
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 16,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.41032,
+            1
+          ]
+        },
+        {
+          "page": 18,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.48815
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 17,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15607,
+            1
+          ]
+        },
+        {
+          "page": 19,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 51,
+          "label": "Email · книга 53"
+        },
+        {
+          "page": 52,
+          "label": "Email · книга 54"
+        }
+      ],
+      "project": [
+        {
+          "page": 53,
+          "label": "Project 38 · книга 55"
+        },
+        {
+          "page": 55,
+          "label": "Project 38 · книга 57"
+        },
+        {
+          "page": 57,
+          "label": "Project 38 · книга 59"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 48,
+          "label": "Ответы Speaking · книга 50"
+        },
+        {
+          "page": 50,
+          "label": "Ответы Speaking · книга 52"
+        },
+        {
+          "page": 52,
+          "label": "Ответы Speaking · книга 54"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 54,
+          "label": "Ответы Writing · книга 56"
+        },
+        {
+          "page": 56,
+          "label": "Ответы Writing · книга 58"
+        },
+        {
+          "page": 58,
+          "label": "Ответы Writing · книга 60"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 47,
+          "label": "Скрипт интервью · книга 49"
+        },
+        {
+          "page": 48,
+          "label": "Скрипт интервью · книга 50"
+        }
+      ],
+      "all": [
+        {
+          "page": 46,
+          "label": "Money and shopping · книга 48"
+        },
+        {
+          "page": 47,
+          "label": "Money and shopping · книга 49"
+        },
+        {
+          "page": 48,
+          "label": "Money and shopping · книга 50"
+        },
+        {
+          "page": 49,
+          "label": "Money and shopping · книга 51"
+        },
+        {
+          "page": 50,
+          "label": "Money and shopping · книга 52"
+        },
+        {
+          "page": 51,
+          "label": "Money and shopping · книга 53"
+        },
+        {
+          "page": 52,
+          "label": "Money and shopping · книга 54"
+        },
+        {
+          "page": 53,
+          "label": "Money and shopping · книга 55"
+        },
+        {
+          "page": 54,
+          "label": "Money and shopping · книга 56"
+        },
+        {
+          "page": 55,
+          "label": "Money and shopping · книга 57"
+        },
+        {
+          "page": 56,
+          "label": "Money and shopping · книга 58"
+        },
+        {
+          "page": 57,
+          "label": "Money and shopping · книга 59"
+        },
+        {
+          "page": 58,
+          "label": "Money and shopping · книга 60"
+        }
+      ]
+    },
+    {
+      "name": "People and society",
+      "reading": [
+        {
+          "page": 20,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.42587
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 20,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.42335,
+            1
+          ]
+        },
+        {
+          "page": 22,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.5539
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 21,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15471,
+            1
+          ]
+        },
+        {
+          "page": 23,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 64,
+          "label": "Email · книга 66"
+        },
+        {
+          "page": 65,
+          "label": "Email · книга 67"
+        }
+      ],
+      "project": [
+        {
+          "page": 67,
+          "label": "Project 38 · книга 69"
+        },
+        {
+          "page": 69,
+          "label": "Project 38 · книга 71"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 60,
+          "label": "Ответы Speaking · книга 62"
+        },
+        {
+          "page": 62,
+          "label": "Ответы Speaking · книга 64"
+        },
+        {
+          "page": 64,
+          "label": "Ответы Speaking · книга 66"
+        },
+        {
+          "page": 66,
+          "label": "Ответы Speaking · книга 68"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 66,
+          "label": "Ответы Writing · книга 68"
+        },
+        {
+          "page": 67,
+          "label": "Ответы Writing · книга 69"
+        },
+        {
+          "page": 68,
+          "label": "Ответы Writing · книга 70"
+        },
+        {
+          "page": 172,
+          "label": "Ответы Writing · книга 174"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 61,
+          "label": "Скрипт интервью · книга 63"
+        }
+      ],
+      "all": [
+        {
+          "page": 59,
+          "label": "People and society · книга 61"
+        },
+        {
+          "page": 60,
+          "label": "People and society · книга 62"
+        },
+        {
+          "page": 61,
+          "label": "People and society · книга 63"
+        },
+        {
+          "page": 62,
+          "label": "People and society · книга 64"
+        },
+        {
+          "page": 63,
+          "label": "People and society · книга 65"
+        },
+        {
+          "page": 64,
+          "label": "People and society · книга 66"
+        },
+        {
+          "page": 65,
+          "label": "People and society · книга 67"
+        },
+        {
+          "page": 66,
+          "label": "People and society · книга 68"
+        },
+        {
+          "page": 67,
+          "label": "People and society · книга 69"
+        },
+        {
+          "page": 68,
+          "label": "People and society · книга 70"
+        },
+        {
+          "page": 69,
+          "label": "People and society · книга 71"
+        }
+      ]
+    },
+    {
+      "name": "Science and technology",
+      "reading": [
+        {
+          "page": 24,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.42587
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 24,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.42335,
+            1
+          ]
+        },
+        {
+          "page": 26,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.47193
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 25,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15471,
+            1
+          ]
+        },
+        {
+          "page": 27,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 75,
+          "label": "Email · книга 77"
+        },
+        {
+          "page": 76,
+          "label": "Email · книга 78"
+        }
+      ],
+      "project": [
+        {
+          "page": 77,
+          "label": "Project 38 · книга 79"
+        },
+        {
+          "page": 79,
+          "label": "Project 38 · книга 81"
+        },
+        {
+          "page": 80,
+          "label": "Project 38 · книга 82"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 72,
+          "label": "Ответы Speaking · книга 74"
+        },
+        {
+          "page": 74,
+          "label": "Ответы Speaking · книга 76"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 76,
+          "label": "Ответы Writing · книга 78"
+        },
+        {
+          "page": 78,
+          "label": "Ответы Writing · книга 80"
+        },
+        {
+          "page": 82,
+          "label": "Ответы Writing · книга 84"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 71,
+          "label": "Скрипт интервью · книга 73"
+        },
+        {
+          "page": 72,
+          "label": "Скрипт интервью · книга 74"
+        }
+      ],
+      "all": [
+        {
+          "page": 70,
+          "label": "Science and technology · книга 72"
+        },
+        {
+          "page": 71,
+          "label": "Science and technology · книга 73"
+        },
+        {
+          "page": 72,
+          "label": "Science and technology · книга 74"
+        },
+        {
+          "page": 73,
+          "label": "Science and technology · книга 75"
+        },
+        {
+          "page": 74,
+          "label": "Science and technology · книга 76"
+        },
+        {
+          "page": 75,
+          "label": "Science and technology · книга 77"
+        },
+        {
+          "page": 76,
+          "label": "Science and technology · книга 78"
+        },
+        {
+          "page": 77,
+          "label": "Science and technology · книга 79"
+        },
+        {
+          "page": 78,
+          "label": "Science and technology · книга 80"
+        },
+        {
+          "page": 79,
+          "label": "Science and technology · книга 81"
+        },
+        {
+          "page": 80,
+          "label": "Science and technology · книга 82"
+        }
+      ]
+    },
+    {
+      "name": "Education and learning",
+      "reading": [
+        {
+          "page": 28,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.45875
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 28,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.45623,
+            1
+          ]
+        },
+        {
+          "page": 30,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.56405
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 29,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.17107,
+            1
+          ]
+        },
+        {
+          "page": 31,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 87,
+          "label": "Email · книга 89"
+        },
+        {
+          "page": 89,
+          "label": "Email · книга 91"
+        }
+      ],
+      "project": [
+        {
+          "page": 90,
+          "label": "Project 38 · книга 92"
+        },
+        {
+          "page": 91,
+          "label": "Project 38 · книга 93"
+        },
+        {
+          "page": 93,
+          "label": "Project 38 · книга 95"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 84,
+          "label": "Ответы Speaking · книга 86"
+        },
+        {
+          "page": 86,
+          "label": "Ответы Speaking · книга 88"
+        },
+        {
+          "page": 88,
+          "label": "Ответы Speaking · книга 90"
+        },
+        {
+          "page": 85,
+          "label": "Разбор преимуществ и недостатков · книга 87"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 88,
+          "label": "Ответы Writing · книга 90"
+        },
+        {
+          "page": 90,
+          "label": "Ответы Writing · книга 92"
+        },
+        {
+          "page": 92,
+          "label": "Ответы Writing · книга 94"
+        },
+        {
+          "page": 173,
+          "label": "Ответы Writing · книга 175"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 83,
+          "label": "Скрипт интервью · книга 85"
+        }
+      ],
+      "all": [
+        {
+          "page": 81,
+          "label": "Education and learning · книга 83"
+        },
+        {
+          "page": 82,
+          "label": "Education and learning · книга 84"
+        },
+        {
+          "page": 83,
+          "label": "Education and learning · книга 85"
+        },
+        {
+          "page": 84,
+          "label": "Education and learning · книга 86"
+        },
+        {
+          "page": 85,
+          "label": "Education and learning · книга 87"
+        },
+        {
+          "page": 86,
+          "label": "Education and learning · книга 88"
+        },
+        {
+          "page": 87,
+          "label": "Education and learning · книга 89"
+        },
+        {
+          "page": 88,
+          "label": "Education and learning · книга 90"
+        },
+        {
+          "page": 89,
+          "label": "Education and learning · книга 91"
+        },
+        {
+          "page": 90,
+          "label": "Education and learning · книга 92"
+        },
+        {
+          "page": 91,
+          "label": "Education and learning · книга 93"
+        },
+        {
+          "page": 92,
+          "label": "Education and learning · книга 94"
+        },
+        {
+          "page": 93,
+          "label": "Education and learning · книга 95"
+        }
+      ]
+    },
+    {
+      "name": "The Media",
+      "reading": [
+        {
+          "page": 32,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.43769
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 32,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.43517,
+            1
+          ]
+        },
+        {
+          "page": 34,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.55269
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 33,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.14789,
+            1
+          ]
+        },
+        {
+          "page": 35,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 99,
+          "label": "Email · книга 101"
+        },
+        {
+          "page": 100,
+          "label": "Email · книга 102"
+        },
+        {
+          "page": 101,
+          "label": "Email · книга 103"
+        }
+      ],
+      "project": [
+        {
+          "page": 101,
+          "label": "Project 38 · книга 103"
+        },
+        {
+          "page": 103,
+          "label": "Project 38 · книга 105"
+        },
+        {
+          "page": 105,
+          "label": "Project 38 · книга 107"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 96,
+          "label": "Ответы Speaking · книга 98"
+        },
+        {
+          "page": 98,
+          "label": "Ответы Speaking · книга 100"
+        },
+        {
+          "page": 100,
+          "label": "Ответы Speaking · книга 102"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 100,
+          "label": "Ответы Writing · книга 102"
+        },
+        {
+          "page": 102,
+          "label": "Ответы Writing · книга 104"
+        },
+        {
+          "page": 104,
+          "label": "Ответы Writing · книга 106"
+        },
+        {
+          "page": 173,
+          "label": "Ответы Writing · книга 175"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 95,
+          "label": "Скрипт интервью · книга 97"
+        },
+        {
+          "page": 96,
+          "label": "Скрипт интервью · книга 98"
+        }
+      ],
+      "all": [
+        {
+          "page": 94,
+          "label": "The Media · книга 96"
+        },
+        {
+          "page": 95,
+          "label": "The Media · книга 97"
+        },
+        {
+          "page": 96,
+          "label": "The Media · книга 98"
+        },
+        {
+          "page": 97,
+          "label": "The Media · книга 99"
+        },
+        {
+          "page": 98,
+          "label": "The Media · книга 100"
+        },
+        {
+          "page": 99,
+          "label": "The Media · книга 101"
+        },
+        {
+          "page": 100,
+          "label": "The Media · книга 102"
+        },
+        {
+          "page": 101,
+          "label": "The Media · книга 103"
+        },
+        {
+          "page": 102,
+          "label": "The Media · книга 104"
+        },
+        {
+          "page": 103,
+          "label": "The Media · книга 105"
+        },
+        {
+          "page": 104,
+          "label": "The Media · книга 106"
+        },
+        {
+          "page": 105,
+          "label": "The Media · книга 107"
+        }
+      ]
+    },
+    {
+      "name": "Food and drink",
+      "reading": [
+        {
+          "page": 36,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.40951
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 36,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.40698,
+            1
+          ]
+        },
+        {
+          "page": 38,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.58708
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 37,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15471,
+            1
+          ]
+        },
+        {
+          "page": 39,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 113,
+          "label": "Email · книга 115"
+        },
+        {
+          "page": 115,
+          "label": "Email · книга 117"
+        }
+      ],
+      "project": [
+        {
+          "page": 116,
+          "label": "Project 38 · книга 118"
+        },
+        {
+          "page": 117,
+          "label": "Project 38 · книга 119"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 108,
+          "label": "Ответы Speaking · книга 110"
+        },
+        {
+          "page": 110,
+          "label": "Ответы Speaking · книга 112"
+        },
+        {
+          "page": 112,
+          "label": "Ответы Speaking · книга 114"
+        },
+        {
+          "page": 114,
+          "label": "Ответы Speaking · книга 116"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 114,
+          "label": "Ответы Writing · книга 116"
+        },
+        {
+          "page": 116,
+          "label": "Ответы Writing · книга 118"
+        },
+        {
+          "page": 118,
+          "label": "Ответы Writing · книга 120"
+        },
+        {
+          "page": 119,
+          "label": "Образец проекта · книга 121"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 108,
+          "label": "Скрипт интервью · книга 110"
+        },
+        {
+          "page": 109,
+          "label": "Скрипт интервью · книга 111"
+        }
+      ],
+      "all": [
+        {
+          "page": 106,
+          "label": "Food and drink · книга 108"
+        },
+        {
+          "page": 107,
+          "label": "Food and drink · книга 109"
+        },
+        {
+          "page": 108,
+          "label": "Food and drink · книга 110"
+        },
+        {
+          "page": 109,
+          "label": "Food and drink · книга 111"
+        },
+        {
+          "page": 110,
+          "label": "Food and drink · книга 112"
+        },
+        {
+          "page": 111,
+          "label": "Food and drink · книга 113"
+        },
+        {
+          "page": 112,
+          "label": "Food and drink · книга 114"
+        },
+        {
+          "page": 113,
+          "label": "Food and drink · книга 115"
+        },
+        {
+          "page": 114,
+          "label": "Food and drink · книга 116"
+        },
+        {
+          "page": 115,
+          "label": "Food and drink · книга 117"
+        },
+        {
+          "page": 116,
+          "label": "Food and drink · книга 118"
+        },
+        {
+          "page": 117,
+          "label": "Food and drink · книга 119"
+        },
+        {
+          "page": 118,
+          "label": "Food and drink · книга 120"
+        },
+        {
+          "page": 119,
+          "label": "Food and drink · книга 121"
+        }
+      ]
+    },
+    {
+      "name": "Art, Fashion and design",
+      "reading": [
+        {
+          "page": 40,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09486,
+            0.44239
+          ]
+        },
+        {
+          "page": 42,
+          "label": "Reading aloud · вариант 2",
+          "crop": [
+            0.05653,
+            0.41617
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 40,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.43986,
+            1
+          ]
+        },
+        {
+          "page": 42,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.41365,
+            1
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 41,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15471,
+            1
+          ]
+        },
+        {
+          "page": 43,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.15471,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 123,
+          "label": "Email · книга 125"
+        },
+        {
+          "page": 129,
+          "label": "Email · книга 131"
+        }
+      ],
+      "project": [
+        {
+          "page": 130,
+          "label": "Project 38 · книга 132"
+        },
+        {
+          "page": 131,
+          "label": "Project 38 · книга 133"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 122,
+          "label": "Ответы Speaking · книга 124"
+        },
+        {
+          "page": 124,
+          "label": "Ответы Speaking · книга 126"
+        },
+        {
+          "page": 126,
+          "label": "Ответы Speaking · книга 128"
+        },
+        {
+          "page": 128,
+          "label": "Ответы Speaking · книга 130"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 132,
+          "label": "Ответы Writing · книга 134"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 122,
+          "label": "Скрипт интервью · книга 124"
+        },
+        {
+          "page": 123,
+          "label": "Скрипт интервью · книга 125"
+        }
+      ],
+      "all": [
+        {
+          "page": 120,
+          "label": "Art, Fashion and design · книга 122"
+        },
+        {
+          "page": 121,
+          "label": "Art, Fashion and design · книга 123"
+        },
+        {
+          "page": 122,
+          "label": "Art, Fashion and design · книга 124"
+        },
+        {
+          "page": 123,
+          "label": "Art, Fashion and design · книга 125"
+        },
+        {
+          "page": 124,
+          "label": "Art, Fashion and design · книга 126"
+        },
+        {
+          "page": 125,
+          "label": "Art, Fashion and design · книга 127"
+        },
+        {
+          "page": 126,
+          "label": "Art, Fashion and design · книга 128"
+        },
+        {
+          "page": 127,
+          "label": "Art, Fashion and design · книга 129"
+        },
+        {
+          "page": 128,
+          "label": "Art, Fashion and design · книга 130"
+        },
+        {
+          "page": 129,
+          "label": "Art, Fashion and design · книга 131"
+        },
+        {
+          "page": 130,
+          "label": "Art, Fashion and design · книга 132"
+        },
+        {
+          "page": 131,
+          "label": "Art, Fashion and design · книга 133"
+        },
+        {
+          "page": 132,
+          "label": "Art, Fashion and design · книга 134"
+        }
+      ]
+    },
+    {
+      "name": "Entertainment",
+      "reading": [
+        {
+          "page": 44,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.44239
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 44,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.43986,
+            1
+          ]
+        },
+        {
+          "page": 46,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.53981
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 45,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.16107,
+            1
+          ]
+        },
+        {
+          "page": 47,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 138,
+          "label": "Email · книга 140"
+        },
+        {
+          "page": 141,
+          "label": "Email · книга 143"
+        }
+      ],
+      "project": [
+        {
+          "page": 142,
+          "label": "Project 38 · книга 144"
+        },
+        {
+          "page": 143,
+          "label": "Project 38 · книга 145"
+        },
+        {
+          "page": 145,
+          "label": "Project 38 · книга 147"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 136,
+          "label": "Ответы Speaking · книга 138"
+        },
+        {
+          "page": 138,
+          "label": "Ответы Speaking · книга 140"
+        },
+        {
+          "page": 140,
+          "label": "Ответы Speaking · книга 142"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 140,
+          "label": "Ответы Writing · книга 142"
+        },
+        {
+          "page": 142,
+          "label": "Ответы Writing · книга 144"
+        },
+        {
+          "page": 144,
+          "label": "Ответы Writing · книга 146"
+        },
+        {
+          "page": 174,
+          "label": "Ответы Writing · книга 176"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 135,
+          "label": "Скрипт интервью · книга 137"
+        }
+      ],
+      "all": [
+        {
+          "page": 133,
+          "label": "Entertainment · книга 135"
+        },
+        {
+          "page": 134,
+          "label": "Entertainment · книга 136"
+        },
+        {
+          "page": 135,
+          "label": "Entertainment · книга 137"
+        },
+        {
+          "page": 136,
+          "label": "Entertainment · книга 138"
+        },
+        {
+          "page": 137,
+          "label": "Entertainment · книга 139"
+        },
+        {
+          "page": 138,
+          "label": "Entertainment · книга 140"
+        },
+        {
+          "page": 139,
+          "label": "Entertainment · книга 141"
+        },
+        {
+          "page": 140,
+          "label": "Entertainment · книга 142"
+        },
+        {
+          "page": 141,
+          "label": "Entertainment · книга 143"
+        },
+        {
+          "page": 142,
+          "label": "Entertainment · книга 144"
+        },
+        {
+          "page": 143,
+          "label": "Entertainment · книга 145"
+        },
+        {
+          "page": 144,
+          "label": "Entertainment · книга 146"
+        },
+        {
+          "page": 145,
+          "label": "Entertainment · книга 147"
+        }
+      ]
+    },
+    {
+      "name": "Work and household chores",
+      "reading": [
+        {
+          "page": 48,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.44239
+          ]
+        },
+        {
+          "page": 50,
+          "label": "Reading aloud · вариант 2",
+          "crop": [
+            0.05638,
+            0.40421
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 48,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.43986,
+            1
+          ]
+        },
+        {
+          "page": 50,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.40168,
+            1
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 49,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.16668,
+            1
+          ]
+        },
+        {
+          "page": 51,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.15032,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 152,
+          "label": "Email · книга 154"
+        },
+        {
+          "page": 155,
+          "label": "Email · книга 157"
+        }
+      ],
+      "project": [
+        {
+          "page": 156,
+          "label": "Project 38 · книга 158"
+        },
+        {
+          "page": 157,
+          "label": "Project 38 · книга 159"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 148,
+          "label": "Ответы Speaking · книга 150"
+        },
+        {
+          "page": 150,
+          "label": "Ответы Speaking · книга 152"
+        },
+        {
+          "page": 152,
+          "label": "Ответы Speaking · книга 154"
+        },
+        {
+          "page": 154,
+          "label": "Ответы Speaking · книга 156"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 154,
+          "label": "Ответы Writing · книга 156"
+        },
+        {
+          "page": 156,
+          "label": "Ответы Writing · книга 158"
+        },
+        {
+          "page": 158,
+          "label": "Ответы Writing · книга 160"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 148,
+          "label": "Скрипт интервью · книга 150"
+        },
+        {
+          "page": 149,
+          "label": "Скрипт интервью · книга 151"
+        }
+      ],
+      "all": [
+        {
+          "page": 146,
+          "label": "Work and household chores · книга 148"
+        },
+        {
+          "page": 147,
+          "label": "Work and household chores · книга 149"
+        },
+        {
+          "page": 148,
+          "label": "Work and household chores · книга 150"
+        },
+        {
+          "page": 149,
+          "label": "Work and household chores · книга 151"
+        },
+        {
+          "page": 150,
+          "label": "Work and household chores · книга 152"
+        },
+        {
+          "page": 151,
+          "label": "Work and household chores · книга 153"
+        },
+        {
+          "page": 152,
+          "label": "Work and household chores · книга 154"
+        },
+        {
+          "page": 153,
+          "label": "Work and household chores · книга 155"
+        },
+        {
+          "page": 154,
+          "label": "Work and household chores · книга 156"
+        },
+        {
+          "page": 155,
+          "label": "Work and household chores · книга 157"
+        },
+        {
+          "page": 156,
+          "label": "Work and household chores · книга 158"
+        },
+        {
+          "page": 157,
+          "label": "Work and household chores · книга 159"
+        },
+        {
+          "page": 158,
+          "label": "Work and household chores · книга 160"
+        }
+      ]
+    },
+    {
+      "name": "Health and Fitness",
+      "reading": [
+        {
+          "page": 52,
+          "label": "Reading aloud · вариант 1",
+          "crop": [
+            0.09471,
+            0.40496
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "page": 52,
+          "label": "Four questions · вариант 1",
+          "crop": [
+            0.40244,
+            1
+          ]
+        },
+        {
+          "page": 54,
+          "label": "Four questions · вариант 2",
+          "crop": [
+            0.05638,
+            0.57163
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "page": 53,
+          "label": "Photo project · вариант 1",
+          "crop": [
+            0.15759,
+            1
+          ]
+        },
+        {
+          "page": 55,
+          "label": "Photo project · вариант 2",
+          "crop": [
+            0.05638,
+            1
+          ]
+        }
+      ],
+      "email": [
+        {
+          "page": 165,
+          "label": "Email · книга 167"
+        },
+        {
+          "page": 167,
+          "label": "Email · книга 169"
+        }
+      ],
+      "project": [
+        {
+          "page": 168,
+          "label": "Project 38 · книга 170"
+        },
+        {
+          "page": 169,
+          "label": "Project 38 · книга 171"
+        }
+      ],
+      "speakingKeys": [
+        {
+          "page": 160,
+          "label": "Ответы Speaking · книга 162"
+        },
+        {
+          "page": 162,
+          "label": "Ответы Speaking · книга 164"
+        },
+        {
+          "page": 164,
+          "label": "Ответы Speaking · книга 166"
+        },
+        {
+          "page": 166,
+          "label": "Ответы Speaking · книга 168"
+        }
+      ],
+      "writingKeys": [
+        {
+          "page": 166,
+          "label": "Ответы Writing · книга 168"
+        },
+        {
+          "page": 167,
+          "label": "Ответы Writing · книга 169"
+        },
+        {
+          "page": 170,
+          "label": "Ответы Writing · книга 172"
+        },
+        {
+          "page": 174,
+          "label": "Ответы Writing · книга 176"
+        }
+      ],
+      "scripts": [
+        {
+          "page": 161,
+          "label": "Скрипт интервью · книга 163"
+        }
+      ],
+      "all": [
+        {
+          "page": 159,
+          "label": "Health and Fitness · книга 161"
+        },
+        {
+          "page": 160,
+          "label": "Health and Fitness · книга 162"
+        },
+        {
+          "page": 161,
+          "label": "Health and Fitness · книга 163"
+        },
+        {
+          "page": 162,
+          "label": "Health and Fitness · книга 164"
+        },
+        {
+          "page": 163,
+          "label": "Health and Fitness · книга 165"
+        },
+        {
+          "page": 164,
+          "label": "Health and Fitness · книга 166"
+        },
+        {
+          "page": 165,
+          "label": "Health and Fitness · книга 167"
+        },
+        {
+          "page": 166,
+          "label": "Health and Fitness · книга 168"
+        },
+        {
+          "page": 167,
+          "label": "Health and Fitness · книга 169"
+        },
+        {
+          "page": 168,
+          "label": "Health and Fitness · книга 170"
+        },
+        {
+          "page": 169,
+          "label": "Health and Fitness · книга 171"
+        },
+        {
+          "page": 170,
+          "label": "Health and Fitness · книга 172"
+        }
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "page": 171,
+      "label": "Образец проекта 38 · книга 173"
+    },
+    {
+      "page": 172,
+      "label": "Образец проекта 38 · книга 174"
+    },
+    {
+      "page": 173,
+      "label": "Образец проекта 38 · книга 175"
+    },
+    {
+      "page": 174,
+      "label": "Образец проекта 38 · книга 176"
+    }
+  ],
+  "mainParts": [
+    {
+      "path": "pdf/expert-00.pdf",
+      "start": 1,
+      "end": 7
+    },
+    {
+      "path": "pdf/expert-01.pdf",
+      "start": 8,
+      "end": 19
+    },
+    {
+      "path": "pdf/expert-02.pdf",
+      "start": 20,
+      "end": 33
+    },
+    {
+      "path": "pdf/expert-03.pdf",
+      "start": 34,
+      "end": 45
+    },
+    {
+      "path": "pdf/expert-04.pdf",
+      "start": 46,
+      "end": 58
+    },
+    {
+      "path": "pdf/expert-05.pdf",
+      "start": 59,
+      "end": 69
+    },
+    {
+      "path": "pdf/expert-06.pdf",
+      "start": 70,
+      "end": 80
+    },
+    {
+      "path": "pdf/expert-07.pdf",
+      "start": 81,
+      "end": 93
+    },
+    {
+      "path": "pdf/expert-08.pdf",
+      "start": 94,
+      "end": 105
+    },
+    {
+      "path": "pdf/expert-09.pdf",
+      "start": 106,
+      "end": 119
+    },
+    {
+      "path": "pdf/expert-10.pdf",
+      "start": 120,
+      "end": 132
+    },
+    {
+      "path": "pdf/expert-11.pdf",
+      "start": 133,
+      "end": 145
+    },
+    {
+      "path": "pdf/expert-12.pdf",
+      "start": 146,
+      "end": 158
+    },
+    {
+      "path": "pdf/expert-13.pdf",
+      "start": 159,
+      "end": 170
+    },
+    {
+      "path": "pdf/expert-14.pdf",
+      "start": 171,
+      "end": 185
+    }
+  ]
+}
