@@ -466,8 +466,11 @@ async function loadArinaHomeworkResults(){
    if(r.status===400||r.status===401||r.status===403){localStorage.removeItem('arina-teacher-code');status.textContent='Неверный код доступа. Нажмите «Обновить» и введите код ещё раз.';return}
    throw new Error('load_failed');
   }
-  const rows=await r.json();
-  status.textContent=rows.length?'Сдано работ: '+rows.length:'Арина пока ничего не отправила.';
+  const all=await r.json(),seen={},rows=[];
+  /* повторные нажатия кнопки: та же работа, тот же балл и те же ответы в пределах 10 минут — показываем один раз */
+  all.forEach(x=>{const sig=(x.test_id||x.test_title)+'|'+x.score+'|'+x.max_score+'|'+JSON.stringify(x.answers||{}),t=new Date(x.created_at).getTime();if((seen[sig]||[]).some(u=>Math.abs(u-t)<600000))return;(seen[sig]=seen[sig]||[]).push(t);rows.push(x)});
+  const hidden=all.length-rows.length;
+  status.textContent=rows.length?'Сдано работ: '+rows.length+(hidden?' · повторных отправок скрыто: '+hidden:''):'Арина пока ничего не отправила.';
   list.innerHTML=rows.map(renderArinaSubmission).join('');
  }catch(e){status.textContent='Не удалось загрузить результаты. Проверьте интернет и нажмите «Обновить».'}
 }
