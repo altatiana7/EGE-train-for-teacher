@@ -471,7 +471,7 @@ async function loadArinaHomeworkResults(){
   all.forEach(x=>{const sig=(x.test_id||x.test_title)+'|'+x.score+'|'+x.max_score+'|'+JSON.stringify(x.answers||{}),t=new Date(x.created_at).getTime();if((seen[sig]||[]).some(u=>Math.abs(u-t)<600000))return;(seen[sig]=seen[sig]||[]).push(t);rows.push(x)});
   const hidden=all.length-rows.length;
   status.textContent=rows.length?'Сдано работ: '+rows.length+(hidden?' · повторных отправок скрыто: '+hidden:''):'Арина пока ничего не отправила.';
-  list.innerHTML=rows.map(renderArinaSubmission).join('');
+  list.innerHTML=arinaReportHTML(rows)+rows.map(renderArinaSubmission).join('');
  }catch(e){status.textContent='Не удалось загрузить результаты. Проверьте интернет и нажмите «Обновить».'}
 }
 function renderArinaSubmission(r){
@@ -3198,5 +3198,71 @@ function openMemo(id,sec){
  document.querySelectorAll('.mTabs .on,.mSecs .on').forEach(on=>{if(on.scrollIntoView)on.scrollIntoView({inline:'center',block:'nearest'})});
 }
 function openW3Rule(kind){openMemo(kind)}
+</script>
+<script id="arinaReportScript">
+/* ---------- разбор результатов Арины: что не сдано, ошибки по темам, отчёт одним нажатием ---------- */
+const ARINA_ALL_TASKS=[["w0l0","Week 1 · Lesson 1 · Grammar test · Present Tenses"],["w0l1","Week 1 · Lesson 2 · Grammar test · Stative / Dynamic"],["w0l2","Week 1 · Lesson 3 · EGE 19–24 · Present forms"],["w2-present-stative","Week 2 · Lesson 1 · Present + Stative · 30"],["w2-fipi","Week 2 · Lesson 1 · ФИПИ · 4 блока"],["w2l2-contrast","Week 2 · Lesson 2 · Earlier past · 12"],["w2l2-mixed","Week 2 · Lesson 2 · Mixed Past · 15"],["w2l2-story","Week 2 · Lesson 2 · Story order · A missed flight"],["w2l2-transform","Week 2 · Lesson 2 · Transformations · 6"],["w2l3-ege","Week 2 · Lesson 3 · EGE 19–24 · Past · тексты A–B"],["w2l3-ege2","Week 2 · Lesson 3 · EGE 19–24 · Past · тексты C–D"],["w2l3-repair","Week 2 · Lesson 3 · Repair clinic · Past · 8"],["w3l1-ege","Week 3 · Lesson 1 · EGE 19–24 · два текста"],["w3l1-future16","Week 3 · Lesson 1 · Future forms · 16"],["w3l1-interview","Week 3 · Lesson 1 · Interview · Future plans"],["w3l1-meaning","Week 3 · Lesson 1 · Meaning → form"],["w3l1-personal","Week 3 · Lesson 1 · Personal examples · 8"],["w3l1-repair","Week 3 · Lesson 1 · Repair clinic"],["w3l1-revision","Week 3 · Lesson 1 · Revision · Present + Past"],["w3l1-transform","Week 3 · Lesson 1 · Transformations · 10"]];
+const ARINA_ASSIGNED_FALLBACK=['w3l1-future16','w3l1-transform','w3l1-personal'];
+function arinaTopic(d,title){
+ const c=String(d.correct||'').toLowerCase().replace(/[’‘]/g,"'"),t=String(title||'');
+ if(/проверяет учитель|устный ответ/.test(c))return null;
+ if(/word formation/i.test(t))return 'Word formation 25–29';
+ if(/ · (will|be going to|present continuous|present simple)$/.test(c))return 'Future: выбор формы по смыслу';
+ if(/\bhad( not|n't)? been \w+ing|had you been/.test(c))return 'Past Perfect Continuous';
+ if(/\b(have|has)( not|n't)?( \w+)? been \w+ing/.test(c))return 'Present Perfect Continuous';
+ if(/going to/.test(c))return 'Future: be going to';
+ if(/\b(will|won't|shall)\b/.test(c))return 'Future: will';
+ if(/\bhad\b|hadn't/.test(c))return 'Past Perfect';
+ if(/\b(have|has|haven't|hasn't)\b/.test(c))return 'Present Perfect';
+ if(/\b(was|were|wasn't|weren't)( \w+)? \w+ing/.test(c))return 'Past Continuous';
+ if(/\b(am|is|are|'m|'re|'s)( not| you| they| we)? \w+ing/.test(c))return /future|week 3/i.test(t)?'Future: Present Continuous для договорённостей':'Present Continuous';
+ if(/past|week 2 · lesson [23]/i.test(t))return 'Past Simple и формы глагола';
+ if(/future|transformations · 10/i.test(t))return 'Future: Present после when / if и расписания';
+ if(/stative/i.test(t))return 'Stative verbs / Present Simple';
+ return 'Present Simple и прочее';
+}
+function arinaReportData(rows){
+ const latest={};rows.forEach(r=>{const id=r.test_id||r.test_title;if(!latest[id]||new Date(r.created_at)>new Date(latest[id].created_at))latest[id]=r});
+ let assigned=ARINA_ASSIGNED_FALLBACK;try{const v=JSON.parse(localStorage.getItem('arinaAssigned')||'null');if(Array.isArray(v))assigned=v}catch(e){}
+ const done=new Set(Object.keys(latest));
+ const missAssigned=ARINA_ALL_TASKS.filter(t=>assigned.includes(t[0])&&!done.has(t[0])),missOther=ARINA_ALL_TASKS.filter(t=>!assigned.includes(t[0])&&!done.has(t[0]));
+ const topics={},wrong=[];
+ Object.values(latest).forEach(r=>(Array.isArray(r.details)?r.details:[]).forEach(d=>{
+  const tp=arinaTopic(d,r.test_title);if(!tp||typeof d.is_correct!=='boolean')return;
+  const o=topics[tp]||(topics[tp]={ok:0,bad:0});d.is_correct?o.ok++:o.bad++;
+  if(!d.is_correct)wrong.push({topic:tp,work:r.test_title||r.test_id,question:d.question||'',chosen:d.chosen||'—',correct:d.correct||''});
+ }));
+ const list=Object.entries(topics).map(([k,v])=>({topic:k,ok:v.ok,bad:v.bad,total:v.ok+v.bad,pct:Math.round(v.ok/(v.ok+v.bad)*100)})).sort((a,b)=>a.pct-b.pct||b.bad-a.bad);
+ return {latest:Object.values(latest),missAssigned,missOther,topics:list,wrong};
+}
+function arinaReportText(rows){
+ const R=arinaReportData(rows),L=[];
+ L.push('ОТЧЁТ ПО РАБОТАМ АРИНЫ · '+new Date().toLocaleString('ru-RU'));
+ L.push('','ЗАДАНО, НО НЕ СДАНО:');L.push(R.missAssigned.length?R.missAssigned.map(t=>'- '+t[1]).join('\n'):'- нет');
+ L.push('','НЕ СДАНО (не было задано):');L.push(R.missOther.length?R.missOther.map(t=>'- '+t[1]).join('\n'):'- нет');
+ L.push('','СДАНО:');R.latest.forEach(r=>L.push('- '+(r.test_title||r.test_id)+': '+r.score+' / '+r.max_score));
+ L.push('','ТЕМЫ (верно / всего):');R.topics.forEach(t=>L.push('- '+t.topic+': '+t.ok+' / '+t.total+' ('+t.pct+'%)'));
+ L.push('','ОШИБКИ:');R.wrong.forEach(w=>L.push('- ['+w.topic+'] '+w.question+' | ответ: '+w.chosen+' | верно: '+w.correct));
+ L.push('','ПИСЬМЕННЫЕ ОТВЕТЫ:');R.latest.forEach(r=>(Array.isArray(r.details)?r.details:[]).forEach(d=>{if(d.correct==='проверяет учитель')L.push('- '+(d.question||'')+' | '+(d.chosen||'—'))}));
+ return L.join('\n');
+}
+let arinaLastRows=[];
+function arinaReportHTML(rows){
+ arinaLastRows=rows;const R=arinaReportData(rows),e=arinaEsc;
+ const miss=R.missAssigned.length?R.missAssigned.map(t=>'<li><b>'+e(t[1])+'</b></li>').join(''):'<li>всё заданное сдано</li>';
+ const topics=R.topics.length?R.topics.map(t=>'<div style="display:grid;grid-template-columns:1fr 70px 150px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #e5ebf3;font-size:14px"><span>'+e(t.topic)+'</span><b style="color:'+(t.pct<60?'#b91c1c':t.pct<80?'#b45309':'#166534')+'">'+t.ok+' / '+t.total+'</b><span style="height:8px;background:#e5ebf3;border-radius:8px;overflow:hidden"><i style="display:block;height:100%;width:'+t.pct+'%;background:'+(t.pct<60?'#ef4444':t.pct<80?'#f59e0b':'#22c55e')+'"></i></span></div>').join(''):'<p style="font-size:14px">Проверяемых ответов пока нет.</p>';
+ const weak=R.topics.filter(t=>t.pct<80&&t.total>=3).slice(0,3).map(t=>t.topic);
+ return '<div class="lesson" style="margin:0;border:2px solid #0039A6"><div style="padding:14px"><div class="eyebrow">Разбор · по последней попытке каждой работы</div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1.4fr;gap:18px;margin-top:8px"><div><h3 style="margin:0 0 6px;font-size:15px;color:#D52B1E">Задано, но не сдано · '+R.missAssigned.length+'</h3><ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.5">'+miss+'</ul>'+
+ '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:14px;font-weight:700">Остальное несданное · '+R.missOther.length+'</summary><ul style="margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.5">'+R.missOther.map(t=>'<li>'+e(t[1])+'</li>').join('')+'</ul></details></div>'+
+ '<div><h3 style="margin:0 0 6px;font-size:15px;color:#0039A6">Темы: верно из всех ответов · слабые сверху</h3>'+topics+(weak.length?'<p style="margin:8px 0 0;font-size:14px"><b>Повторить в первую очередь:</b> '+e(weak.join(' · '))+'</p>':'')+'</div></div>'+
+ '<details style="margin-top:10px"><summary style="cursor:pointer;font-size:14px;font-weight:700">Все ошибки списком · '+R.wrong.length+'</summary><div style="overflow:auto;margin-top:6px"><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr><th style="text-align:left">Тема</th><th style="text-align:left">Задание</th><th style="text-align:left">Ответ Арины</th><th style="text-align:left">Верно</th></tr></thead><tbody>'+R.wrong.map(w=>'<tr><td>'+e(w.topic)+'</td><td>'+e(w.question)+'</td><td>'+e(w.chosen)+'</td><td>'+e(w.correct)+'</td></tr>').join('')+'</tbody></table></div></details>'+
+ '<button class="action" style="margin-top:10px" onclick="arinaCopyReport(this)">Скопировать отчёт для разбора</button></div></div>';
+}
+function arinaCopyReport(btn){
+ const text=arinaReportText(arinaLastRows),ok=()=>{btn.textContent='Отчёт скопирован — вставьте его в чат'};
+ const fallback=()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){alert(text)}ta.remove()};
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(ok,fallback);else fallback();
+}
 </script>
 </body></html>
