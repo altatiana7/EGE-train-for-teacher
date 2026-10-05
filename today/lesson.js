@@ -11,68 +11,68 @@ style.textContent=`
 .ap button,.ap select,.ap input{font:inherit}
 .ap button{cursor:pointer}
 .ap :focus-visible{outline:3px solid #76a9f5;outline-offset:2px}
-.apTop{display:flex;align-items:center;gap:12px;background:#fff;border-bottom:1px solid #d9e1ec;padding:10px 18px}
-.apTop b{flex:1;font-size:18px}
-.apBtn{background:#fff;color:#0039a6;border:1px solid #b7c9e8;border-radius:9px;padding:9px 16px;font-weight:700;font-size:16px}
+.apTop{display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid #d9e1ec;padding:5px 12px;flex-wrap:wrap}
+.apTop .apLesson{font-size:15px;color:#64748b;white-space:nowrap}
+.apTop h3{margin:0;font-size:20px;color:#142337}
+.apTop small{font-size:15px;color:#64748b;white-space:nowrap}
+.apTop .apFill{flex:1}
+.apBtn{background:#fff;color:#0039a6;border:1px solid #b7c9e8;border-radius:8px;padding:6px 14px;font-weight:700;font-size:16px}
 .apBtn.prim{background:#0039a6;color:#fff;border-color:#0039a6}
 .apBtn:disabled{opacity:.4;cursor:default}
-.apWrap{flex:1;min-height:0;display:grid;grid-template-columns:270px minmax(0,1fr);gap:14px;padding:14px}
-.apSteps{overflow:auto;display:flex;flex-direction:column;gap:6px}
-.apSteps .grp{font-size:13px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#64748b;margin:6px 2px 0}
-.apSteps button{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:center;text-align:left;background:#fff;border:1px solid #d5deea;border-left:4px solid #0039a6;border-radius:9px;padding:10px;font-size:16px;font-weight:700;color:#142337}
+.apWrap{flex:1;min-height:0;display:grid;grid-template-columns:232px minmax(0,1fr);gap:10px;padding:8px}
+.apSteps{overflow:auto;display:flex;flex-direction:column;gap:4px}
+.apSteps .grp{font-size:13px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#64748b;margin:2px 2px 0}
+.apSteps button{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:center;text-align:left;background:#fff;border:1px solid #d5deea;border-left:4px solid #0039a6;border-radius:8px;padding:5px 8px;font-size:16px;font-weight:700;color:#142337}
 .apSteps button i{font-style:normal;width:26px;height:26px;border-radius:50%;background:#e8eef7;color:#0039a6;font-size:14px;display:grid;place-items:center}
 .apSteps button em{font-style:normal;font-weight:400;font-size:14px;color:#64748b}
 .apSteps button.on{background:#e6f0ff;border-left-color:#d52b1e}
 .apSteps button.on i{background:#0039a6;color:#fff}
 .apPanel{min-width:0;display:flex;flex-direction:column;background:#fff;border:1px solid #d9e1ec;border-radius:12px;overflow:hidden}
-.apBar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #d9e1ec;padding:12px 22px}
-.apBar small{display:block;font-size:14px;color:#64748b}
-.apBar h3{margin:2px 0 0;font-size:22px;color:#142337}
-.apBar div:last-child{display:flex;gap:8px;flex:none}
-.apBody{flex:1;overflow:auto;padding:20px 22px 28px}
-.apBody>div{max-width:940px}
-.apBody p{margin:0 0 12px}
+.apBody{flex:1;overflow:auto;padding:10px 18px 14px}
+.apBody>div{max-width:1180px}
+.apBody p{margin:0 0 8px}
 .apNote{color:#53657a;font-size:16px}
-.apChips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.apChips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
 .apChips button{min-width:40px;padding:6px 10px;border:1px solid #b7c9e8;border-radius:8px;background:#fff;color:#0039a6;font-weight:700;font-size:16px}
 .apChips button.on{background:#0039a6;color:#fff;border-color:#0039a6}
 .apChips button.done{background:#edf9f1;border-color:#26724d;color:#1d5a3c}
 .apChips button.miss{background:#fff0ee;border-color:#bf322a;color:#9a251f}
 .apChips button.on.done,.apChips button.on.miss{outline:3px solid #0039a6;outline-offset:1px}
-.apText{background:#f7f9fc;border:1px solid #d9e1ec;border-radius:12px;padding:18px 20px;margin:0 0 14px}
-.apOpts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
-.apOpts button{padding:14px 16px;text-align:left;background:#fff;border:1px solid #b7c9e8;border-radius:10px;font-weight:700;color:#142337}
+.apText{background:#f7f9fc;border:1px solid #d9e1ec;border-radius:10px;padding:10px 16px;margin:0 0 10px}
+.apOpts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px}
+.apOpts button{padding:9px 14px;text-align:left;background:#fff;border:1px solid #b7c9e8;border-radius:10px;font-weight:700;color:#142337}
 .ap .ok{background:#edf9f1!important;border-color:#26724d!important}
 .ap .bad{background:#fff0ee!important;border-color:#bf322a!important}
-.apFb{min-height:28px;margin:0 0 12px;font-weight:700}
+.apFb{min-height:26px;margin:0 0 6px;font-weight:700}
 .apKeys{background:#edf3ff;border-radius:10px;padding:14px 16px;margin-top:12px}
 .apKeys[hidden]{display:none}
-.apRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0 0}
-.apGap input,.apLine input{width:210px;padding:6px 9px;border:1px solid #9eb4d1;border-radius:7px;color:#142337;background:#fff;font-weight:700}
-.apGap{line-height:2.3}
+.apRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 0}
+.apGap input,.apLine input{width:190px;padding:2px 8px;border:1px solid #9eb4d1;border-radius:7px;color:#142337;background:#fff;font-weight:700}
+.apGap{line-height:2}
 .apGap small,.apLine small{font-size:14px;font-weight:700;color:#d52b1e}
 .apGap b.n{color:#0039a6}
-.apLine{display:grid;grid-template-columns:30px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid #e6ebf2}
+.apLine{display:grid;grid-template-columns:26px 1fr;gap:6px;padding:4px 0;border-bottom:1px solid #e6ebf2;break-inside:avoid}
+.apCols{columns:2;column-gap:30px}
 .apLine>b{color:#0039a6}
 .apLine .why{display:block;font-size:16px;color:#53657a}
-.apTable{width:100%;border-collapse:collapse;margin:0 0 16px}
-.apTable th,.apTable td{border:1px solid #d9e1ec;padding:10px 12px;text-align:left;vertical-align:top}
+.apTable{width:100%;border-collapse:collapse;margin:0 0 10px}
+.apTable th,.apTable td{border:1px solid #d9e1ec;padding:5px 10px;text-align:left;vertical-align:top}
 .apTable th{background:#f0f4fa;font-size:16px}
 .apTable td:first-child{font-weight:700;color:#0039a6;white-space:nowrap}
 .apTable code{font-family:inherit;font-weight:700;color:#d52b1e}
 .apTwo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.apBox{border:1px solid #d9e1ec;border-radius:10px;padding:12px 16px}
+.apBox{border:1px solid #d9e1ec;border-radius:10px;padding:8px 14px}
 .apBox h4{margin:0 0 6px;font-size:18px;color:#0039a6}
 .apBox ul,.apBox ol{margin:0;padding-left:22px}
 .ap li,.ap td,.ap th,.ap label,.ap a{font-size:18px;line-height:1.55}
 .apRead{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;align-items:start}
 .apRead .apText{margin:0}
-.apHeads{display:flex;flex-direction:column;gap:6px}
-.apHeads label{display:flex;gap:10px;align-items:flex-start;border:1px solid #d5deea;border-radius:9px;padding:9px 12px;cursor:pointer}
+.apHeads{display:flex;flex-direction:column;gap:4px}
+.apHeads label{display:flex;gap:10px;align-items:flex-start;border:1px solid #d5deea;border-radius:8px;padding:4px 10px;cursor:pointer}
 .apHeads label.sel{border-color:#0039a6;background:#e6f0ff}
 .apHeads input{margin-top:6px}
-.apCards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px}
-.apCard{min-height:190px;border:1px solid #b7c9e8;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;background:#fff}
+.apCards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 10px}
+.apCard{min-height:132px;border:1px solid #b7c9e8;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:#fff}
 .apCard.back{background:#f0f5ff;border-color:#0039a6}
 .apCard .num{font-size:14px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#64748b}
 .apCard .big{font-size:22px;font-weight:700;color:#0039a6}
@@ -84,7 +84,7 @@ style.textContent=`
 .apCard .acts{display:flex;gap:8px;flex-wrap:wrap}
 .apCard .acts button{padding:7px 12px;font-size:16px}
 .ap audio{width:100%;margin:6px 0 0}
-@media(max-width:900px){.ap{font-size:17px}.apWrap{grid-template-columns:1fr;overflow:auto}.apSteps{flex-direction:row;flex-wrap:wrap;overflow:visible}.apSteps .grp{display:none}.apSteps button{grid-template-columns:26px auto}.apSteps button em{display:none}.apPanel{min-height:70vh}.apOpts,.apTwo,.apRead{grid-template-columns:1fr}.apCards{grid-template-columns:1fr 1fr}.apBar{flex-wrap:wrap}}
+@media(max-width:900px){.ap{font-size:17px}.apWrap{grid-template-columns:1fr;overflow:auto}.apSteps{flex-direction:row;flex-wrap:wrap;overflow:visible}.apSteps .grp{display:none}.apSteps button{grid-template-columns:26px auto}.apSteps button em{display:none}.apPanel{min-height:70vh}.apOpts,.apTwo,.apRead{grid-template-columns:1fr}.apCols{columns:1}.apCards{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.apCards{grid-template-columns:1fr}.apGap input,.apLine input{width:160px}}
 `;
 document.head.append(style);
@@ -184,9 +184,9 @@ function chips(n,key,label){let h='<div class="apChips">';for(let i=0;i<n;i++){c
 
 function render(){
  const lessonCount=steps.length-1;
- box.innerHTML='<div class="apTop"><b>Week 2 · Lesson 3 · Past tenses · 60 минут</b><button class="apBtn" data-close>Закрыть</button></div>'+
+ box.innerHTML='<div class="apTop"><span class="apLesson">W2 · L3 · Past tenses</span><h3>'+steps[step][0]+'</h3><small>'+(step<lessonCount?'шаг '+(step+1)+' из '+lessonCount+' · '+steps[step][1]+' мин':'после урока')+'</small><span class="apFill"></span><button class="apBtn" data-step="'+(step-1)+'"'+(step===0?' disabled':'')+'>← Назад</button><button class="apBtn prim" data-step="'+(step+1)+'"'+(step===steps.length-1?' disabled':'')+'>Дальше →</button><button class="apBtn" data-close>Закрыть</button></div>'+
  '<div class="apWrap"><nav class="apSteps"><div class="grp">На уроке</div>'+steps.map((s,i)=>(i===lessonCount?'<div class="grp">После урока</div>':'')+'<button data-step="'+i+'" class="'+(i===step?'on':'')+'"><i>'+(i<lessonCount?i+1:'·')+'</i><span>'+s[0]+'</span>'+(s[1]?'<em>'+s[1]+'</em>':'')+'</button>').join('')+'</nav>'+
- '<section class="apPanel"><div class="apBar"><div><small>'+(step<lessonCount?'Шаг '+(step+1)+' из '+lessonCount+' · '+steps[step][1]+' мин':'После урока')+'</small><h3>'+steps[step][0]+'</h3></div><div><button class="apBtn" data-step="'+(step-1)+'"'+(step===0?' disabled':'')+'>← Назад</button><button class="apBtn prim" data-step="'+(step+1)+'"'+(step===steps.length-1?' disabled':'')+'>Дальше →</button></div></div><div class="apBody"><div>'+body()+'</div></div></section></div>';
+ '<section class="apPanel"><div class="apBody"><div>'+body()+'</div></div></section></div>';
  box.querySelector('[data-close]').onclick=close;
  box.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>go(+b.dataset.step));
  box.querySelectorAll('[data-item]').forEach(b=>b.onclick=()=>go(step,+b.dataset.item));
@@ -196,7 +196,7 @@ function render(){
 }
 
 function gapHTML(set,id){return '<div class="apText apGap">'+set.lines.map((q,j)=>esc(q[0]).replace('___','<b class="n">'+(19+j)+'</b> <input data-v="'+id+j+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Задание '+(19+j)+'"> <small>'+q[1]+'</small>')).join(' ')+'</div><div class="apFb" role="status"></div><div class="apRow" style="margin-top:0"><button class="apBtn prim" data-check="'+id+'">Проверить</button></div>'+keysBtn(set.lines.map((q,j)=>'<b>'+(19+j)+'. '+esc(q[2][0])+'</b> — '+q[3]).join('<br>'));}
-function linesHTML(list,id,withBase){return list.map((q,j)=>'<div class="apLine"><b>'+(j+1)+'.</b><div>'+(withBase?esc(q[0]).replace('___','<input data-v="'+id+j+'" autocomplete="off" autocapitalize="off" spellcheck="false"> <small>'+q[1]+'</small>'):esc(q[0])+'<br><input data-v="'+id+j+'" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="исправленная форма">')+'<span class="why" data-why="'+j+'"></span></div></div>').join('')+'<div class="apFb" role="status" style="margin-top:12px"></div><div class="apRow" style="margin-top:0"><button class="apBtn prim" data-check="'+id+'">Проверить</button></div>';}
+function linesHTML(list,id,withBase){return '<div class="'+(list.length>6?'apCols':'')+'">'+list.map((q,j)=>'<div class="apLine"><b>'+(j+1)+'.</b><div>'+(withBase?esc(q[0]).replace('___','<input data-v="'+id+j+'" autocomplete="off" autocapitalize="off" spellcheck="false"> <small>'+q[1]+'</small>'):esc(q[0])+'<br><input data-v="'+id+j+'" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="исправленная форма">')+'<span class="why" data-why="'+j+'"></span></div></div>').join('')+'</div><div class="apFb" role="status" style="margin-top:8px"></div><div class="apRow" style="margin-top:0"><button class="apBtn prim" data-check="'+id+'">Проверить</button></div>';}
 
 function body(){
  if(step===0)return '<table class="apTable"><tr><th>Время</th><th>Форма</th><th>Когда</th><th>Пример</th></tr>'+
