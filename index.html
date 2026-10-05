@@ -177,6 +177,17 @@
 /* old lesson content must never appear below the two-column workspace */
 .lesson3OneScreen~*{display:none!important}
 @media(max-width:800px){.lesson3OneScreen{grid-template-columns:190px minmax(0,1fr)!important;height:calc(100vh - 135px)!important}.lesson3Menu{grid-template-columns:1fr!important}.lesson3Menu button{font-size:9px!important;padding:6px!important}}
+
+/* W1L3 PANEL WIDTH HOTFIX 2026-10-05c */
+.lesson3OneScreen{display:grid!important;grid-template-columns:245px minmax(0,1fr)!important;width:100%!important;min-width:0!important;overflow:hidden!important}
+.lesson3Menu{grid-column:1!important;width:245px!important;min-width:245px!important}
+.lesson3Panel{grid-column:2!important;width:100%!important;min-width:0!important;max-width:none!important;overflow:auto!important}
+.lesson3Panel>section{display:block!important;width:100%!important;max-width:none!important}
+.lesson3Panel .examCard{display:block!important;width:100%!important;max-width:none!important;margin:0!important}
+.lesson3Panel .oralRead,.lesson3Panel .readingPractice,.lesson3Panel .quiz,.lesson3Panel .egePresentSet{width:100%!important;max-width:none!important}
+.lesson3Panel .oralReadText,.lesson3Panel .readingText{font-size:16px!important;line-height:1.55!important;width:100%!important;max-width:none!important;overflow:visible!important;max-height:none!important}
+.lesson3Panel .oralRead{display:block!important}.lesson3Panel .oralReadTop{display:flex!important;justify-content:space-between!important;align-items:center!important}
+#l3Store{display:none!important}
 </style><meta name="theme-color" content="#ffffff">
 
 <style id="teacherHubDistinctTheme">
