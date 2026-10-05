@@ -1005,7 +1005,7 @@ function lessonHTML(x,i,w){
  return '<div class="lesson" onclick="openLesson('+w+','+i+')" style="cursor:pointer"><div class="lessonHead" style="display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;padding:14px"><span class="lnum">'+(i+1)+'</span><span class="ltitle"><b>Урок '+(i+1)+' · '+x[0]+'</b><small>Открыть урок</small></span><span class="chev">→</span></div></div>'
 }
 function lessonFullHTML(x,i,w){
- let html='<button class="lessonBack" onclick="closeLesson()">← Неделя 1</button><div class="lesson"><div class="lessonbody">'+lessonStarter(w,i);
+ let html='<button class="lessonBack" onclick="closeLesson()">← Неделя '+(w+1)+'</button><div class="lesson"><div class="lessonbody">'+lessonStarter(w,i);
  if(w!==0){
   html+='<div class="cols"><div class="box"><h3>На уроке</h3><ul>'+x[1].split('; ').map(s=>'<li>'+s+'</li>').join('')+'</ul></div><div class="box"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></div>'+materialBox('w'+w+'l'+i+'-teacher')+'<details class="hw"><summary>Домашняя работа · открыть</summary><div class="hwbody"><div class="task">'+x[2].split('; ').map((s,n)=>'<b>'+(n+1)+'.</b> '+s).join('<br>')+'</div>'+materialBox('w'+w+'l'+i+'-hw')+'<label class="check"><input type="checkbox" data-save="w'+w+'l'+i+'"> Домашняя работа выполнена</label></div></details>';
  }
