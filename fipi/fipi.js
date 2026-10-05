@@ -54,7 +54,7 @@ function recStop(target,name){
 }
 
 /* ---------- оболочка ---------- */
-function stopRun(){if(curAudio){curAudio.pause();curAudio=null;}if(run){clearInterval(run.tick);run.cancelSpeak&&run.cancelSpeak();run=null;}if(window.speechSynthesis)speechSynthesis.cancel();if(recorder&&recorder.state!=='inactive'){recorder.onstop=null;recorder.stop();}recorder=null;clearInterval(writeTimer);writeTimer=null;}
+function stopRun(){exStop();if(curAudio){curAudio.pause();curAudio=null;}if(run){clearInterval(run.tick);run.cancelSpeak&&run.cancelSpeak();run=null;}if(window.speechSynthesis)speechSynthesis.cancel();if(recorder&&recorder.state!=='inactive'){recorder.onstop=null;recorder.stop();}recorder=null;clearInterval(writeTimer);writeTimer=null;}
 function shell(title,back,backLabel){
   stopRun();
   if(!overlay){overlay=el('section','fp-overlay');overlay.setAttribute('role','dialog');overlay.setAttribute('aria-label','Задания в формате ФИПИ');document.body.appendChild(overlay);}
@@ -72,10 +72,10 @@ window.openFipi=function(){
   const host=document.getElementById('trainerView');host.classList.add('on');
   document.querySelectorAll('.wbtn,.teacherNav').forEach(e=>e.classList.remove('active'));
   const side=document.getElementById('side');if(side)side.classList.remove('open');
-  host.innerHTML='';const box=el('div','fp-shell','<h1>ЕГЭ · задания в формате ФИПИ</h1><p>13 тем кодификатора и блок «Россия» · устная часть 1–4 с таймерами · письмо 37 · проект 38 · ключи открываются отдельной кнопкой</p>');
+  host.innerHTML='';const box=el('div','fp-shell','<h1>ЕГЭ · задания в формате ФИПИ</h1><p>13 тем кодификатора и блок «Россия». В каждой теме задания идут по структуре ЕГЭ: аудирование 1–9 · чтение 10–18 · грамматика и лексика 19–36 · письмо 37–38 · устная часть 1–4. Если заданий одного типа несколько, они листаются кнопкой Next. Ключи открываются отдельной кнопкой.</p>');
   const grids={};
   T().forEach((t,i)=>{const gname=t.group||'Темы кодификатора';if(!grids[gname]){box.append(el('div','fp-sec',esc(gname)));grids[gname]=el('div','fp-grid');box.append(grids[gname]);}
-    const b=el('button','fp-topic','<b>'+String(i+1).padStart(2,'0')+' · '+esc(t.name)+'</b><small>Speaking 1–4 · 2 варианта<br>Writing 37 · 38.1 · 38.2'+(t.gr?'<br>Grammar 19–24 · Word formation 25–29':'')+'</small>');b.type='button';b.onclick=()=>openTopic(i);grids[gname].append(b);});
+    const b=el('button','fp-topic','<b>'+String(i+1).padStart(2,'0')+' · '+esc(t.name)+'</b><small>Аудирование 1–9 · Чтение 10–18<br>Грамматика и лексика 19–36<br>Письмо 37–38 · Устная часть 1–4</small>');b.type='button';b.onclick=()=>openTopic(i);grids[gname].append(b);});
   if(window.FIPI_INTERVIEWS){box.append(el('div','fp-sec','Задание 3 · интервью из Открытого банка ФИПИ · аудио с паузами 40 секунд'));const g=el('div','fp-grid fp-ivgrid');
     window.FIPI_INTERVIEWS.forEach((v,k)=>{const b=el('button','fp-topic','<b>'+v.n+' · '+esc(v.theme)+'</b><small>'+(v.audio?'аудио · 4:20':'без аудио · озвучка браузера')+'</small>');b.type='button';b.onclick=()=>openBankIv(k,null);g.append(b);});box.append(g);}
   if(window.FIPI_BANK2){box.append(el('div','fp-sec','Задание 2 · объявления из Открытого банка ФИПИ · с картинками'));const g=el('div','fp-grid fp-ivgrid');
@@ -93,7 +93,20 @@ function openTopic(i){
   const w=el('div','fp-wrap');body.append(w);
   const group=(title)=>{w.append(el('div','fp-sec',title));const g=el('div','fp-actions');w.append(g);return g;};
   const add=(g,title,sub,fn,cls)=>{const b=el('button',cls||'',esc(title)+'<small>'+esc(sub)+'</small>');b.type='button';b.onclick=fn;g.append(b);};
-  let g=group('Устная часть · по одному заданию');
+  const hold=el('div');w.append(hold);
+  /* разделы 1–3 письменной части: задания банка ФИПИ по этой теме, несколько заданий листаются кнопкой Next */
+  needExam(()=>{
+    const X=window.FIPI_EXAM||{},cnt=k=>exList(i,k).length,sub=(k,one,many)=>{const c=cnt(k);return c===1?one:c+' '+many+' · листать кнопкой Next';};
+    const sec=(title,rows)=>{rows=rows.filter(r=>cnt(r[0]));if(!rows.length)return;hold.append(el('div','fp-sec',title));const g=el('div','fp-actions');hold.append(g);rows.forEach(r=>add(g,r[1],sub(r[0],r[2],r[3]),()=>openExam(i,r[0],0)));};
+    sec('Раздел 1 · Аудирование',[['l1','Задание 1 · высказывания','6 высказываний · 7 утверждений','задания'],['l2','Задание 2 · диалог','True / False / Not stated','диалога'],['l3','Задания 3–9 · интервью','7 вопросов с выбором ответа','интервью']]);
+    sec('Раздел 2 · Чтение',[['r10','Задание 10 · заголовки','7 текстов · 8 заголовков','задания'],['r11','Задание 11 · пропуски в тексте','6 пропусков · 7 фрагментов','текста'],['r12','Задания 12–18 · текст с вопросами','7 вопросов с выбором ответа','текста']]);
+    sec('Раздел 3 · Грамматика и лексика',[['g19','Задания 19–24 · Grammar','грамматические формы','текста'],['w25','Задания 25–29 · Word formation','словообразование','текста'],['v30','Задания 30–36 · Vocabulary','выбор слова из четырёх','текста']]);
+  });
+  let g=group('Раздел 4 · Письменная речь');
+  add(g,'Задание 37 · Email','100–140 слов · письмо от '+t.mail.from,()=>openWrite(i,37,0));
+  add(g,'Задание 38.1 · таблица','200–250 слов · '+t.pr[0].col,()=>openWrite(i,38,0));
+  add(g,'Задание 38.2 · диаграмма','200–250 слов · '+t.pr[1].col,()=>openWrite(i,38,1));
+  g=group('Устная часть · по одному заданию');
   add(g,'Задание 1 · Reading aloud','подготовка 1:30 · ответ 1:30',()=>openSpeak(i,1,0));
   [0,1].forEach(v=>add(g,'Задание 2 · вариант '+(v+1),t.ads[v].title,()=>openSpeak(i,2,v)));
   [0,1].forEach(v=>add(g,'Задание 3 · вариант '+(v+1),'Интервью: '+t.iv[v].theme+' · вопросы только звучат',()=>openSpeak(i,3,v)));
@@ -104,13 +117,97 @@ function openTopic(i){
   if(bank.length){g=group('Задание 3 · интервью из банка ФИПИ · аудио');bank.forEach(x=>add(g,'Вариант '+x[0].n+' · '+x[0].theme,x[0].audio?'запись диктора с паузами по 40 секунд':'без аудио · озвучка браузера',()=>openBankIv(x[1],i)));}
   g=group('Устная часть целиком · как на экзамене');
   [0,1].forEach(v=>add(g,'Вариант '+(v+1)+' · задания 1–4 подряд','около 17 минут · переход к следующему заданию кнопкой',()=>openSpeak(i,1,v,true),'fp-chain'));
-  g=group('Письменная часть');
-  add(g,'Задание 37 · Email','100–140 слов · письмо от '+t.mail.from,()=>openWrite(i,37,0));
-  add(g,'Задание 38.1 · таблица','200–250 слов · '+t.pr[0].col,()=>openWrite(i,38,0));
-  add(g,'Задание 38.2 · диаграмма','200–250 слов · '+t.pr[1].col,()=>openWrite(i,38,1));
-  if(t.gr||t.wf){g=group('Грамматика и лексика');
-    if(t.gr)add(g,'Задания 19–24 · Grammar',t.gr.title,()=>openGap(i,'gr'));
-    if(t.wf)add(g,'Задания 25–29 · Word formation',t.wf.title,()=>openGap(i,'wf'));}
+}
+
+/* ---------- разделы 1–3: аудирование, чтение, грамматика и лексика по темам ---------- */
+let exLoading=null,exTimer=null,exPlaying=false;
+function needExam(cb){
+  if(window.FIPI_EXAM){cb();return;}
+  if(!exLoading)exLoading=new Promise(res=>{const sc=document.createElement('script');sc.src=new URL('exam-data.js?v=20261005',base).href;sc.onload=res;sc.onerror=res;document.head.append(sc);});
+  exLoading.then(cb);
+}
+function exStop(){exPlaying=false;clearTimeout(exTimer);if(window.speechSynthesis)speechSynthesis.cancel();}
+function exList(ti,kind){
+  const t=T()[ti],X=window.FIPI_EXAM||{};let list=(X[kind]||[]).filter(x=>x.topic===t.id);
+  const own=kind==='g19'?t.gr:kind==='w25'?t.wf:null;
+  if(own)list=[{title:own.title,own:true,q:own.items.map(it=>[(it[0]+' ___ '+it[1]).replace(/ ___ ([.,;:!?])/,' ___$1').trim(),it[2],it[3]])}].concat(list);
+  return list;
+}
+const EXNAME={l1:'Задание 1',l2:'Задание 2',l3:'Задания 3–9',r10:'Задание 10',r11:'Задание 11',r12:'Задания 12–18',g19:'Задания 19–24',w25:'Задания 25–29',v30:'Задания 30–36'};
+const EXINST={
+ l1:'Вы услышите 6 высказываний. Установите соответствие между высказываниями каждого говорящего A–F и утверждениями 1–7. Каждое утверждение используется только один раз, одно утверждение лишнее. Запись звучит дважды.',
+ l2:'Вы услышите диалог. Определите, какие из утверждений A–G соответствуют содержанию текста (1 – True), какие не соответствуют (2 – False) и о чём в тексте не сказано (3 – Not stated). Запись звучит дважды.',
+ l3:'Вы услышите интервью. В заданиях 3–9 выберите вариант ответа 1, 2 или 3. Запись звучит дважды.',
+ r10:'Установите соответствие между текстами A–G и заголовками 1–8. Каждая цифра используется только один раз, один заголовок лишний.',
+ r11:'Прочитайте текст и заполните пропуски A–F частями предложений 1–7. Одна из частей лишняя.',
+ r12:'Прочитайте текст и выполните задания 12–18: выберите вариант ответа 1, 2, 3 или 4.',
+ g19:'Преобразуйте, если необходимо, слова, напечатанные заглавными буквами, так, чтобы они грамматически соответствовали содержанию текста.',
+ w25:'Образуйте от слов, напечатанных заглавными буквами, однокоренные слова так, чтобы они грамматически и лексически соответствовали содержанию текста.',
+ v30:'Прочитайте текст с пропусками 30–36 и выберите для каждого пропуска один из четырёх вариантов.'};
+const exNorm=x=>String(x).toLowerCase().replace(/[’‘`]/g,"'").replace(/won't/g,'will not').replace(/can't/g,'cannot').replace(/n't/g,' not').replace(/[^a-z]/g,'');
+function exSel(opts,label){const s=el('select','fx-sel');s.setAttribute('aria-label',label);s.append(new Option('…',''));opts.forEach(o=>s.append(new Option(o[1],o[0])));return s;}
+function exMcq(host,list,first,picked){list.forEach((q,k)=>{const box=el('div','fx-q');box.append(el('div','fx-qt','<b>'+(first+k)+'</b> '+esc(q.q)));q.o.forEach((o,j)=>{const lab=el('label','fx-opt');const r=el('input');r.type='radio';r.name='fxq'+k;r.value=j+1;r.onchange=()=>{picked[k]=j+1;};lab.append(r,el('span','',(j+1)+') '+esc(o)));box.append(lab);});host.append(box);});}
+function exPlayer(item,host){
+  const bar=el('div','fx-player'),st=el('span','fx-state','Запись не звучала'),scr=el('div','fp-key');scr.hidden=true;
+  scr.innerHTML='<h4>Текст записи · для учителя</h4>'+item.s.map(x=>'<p><b>'+esc(x[0])+':</b> '+esc(x[1])+'</p>').join('');
+  const names=[...new Set(item.s.map(x=>x[0]))];
+  const play=()=>{
+    exStop();if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){st.textContent='В этом браузере нет озвучки — откройте текст записи.';return;}
+    const vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang)),gb=vs.filter(v=>/en-GB/i.test(v.lang)),pool=(gb.length>1?gb:vs.length?vs:[null]);
+    const queue=[];item.s.forEach(x=>{const vi=names.indexOf(x[0]);if(/^Speaker /.test(x[0]))queue.push([x[0]+'.',vi]);(x[1].match(/[^.!?]+[.!?]+["”’']?|[^.!?]+$/g)||[x[1]]).forEach(p=>{if(p.trim())queue.push([p.trim(),vi]);});});
+    exPlaying=true;let k=0;st.textContent='Звучит запись…';
+    const next=()=>{if(!exPlaying)return;if(k>=queue.length){exPlaying=false;st.textContent='Запись окончена. На экзамене она звучит дважды.';return;}
+      const u=new SpeechSynthesisUtterance(queue[k][0]),v=pool[queue[k][1]%pool.length];if(v){u.voice=v;u.lang=v.lang;}else u.lang='en-GB';u.rate=.92;u.pitch=pool.length>1?1:(queue[k][1]%2?0.8:1.1);
+      let done=false;const go=()=>{if(done)return;done=true;clearTimeout(exTimer);k++;exTimer=setTimeout(next,/^Speaker /.test(queue[k-1][0])?500:120);};u.onend=go;u.onerror=go;exTimer=setTimeout(go,queue[k][0].length*110+4000);speechSynthesis.speak(u);};
+    next();
+  };
+  bar.append(btn('Слушать запись',play,'fp-main'),btn('Стоп',()=>{exStop();st.textContent='Остановлено';}),st,btn('Текст записи · для учителя',()=>{scr.hidden=!scr.hidden;},'fp-red fp-sp'));
+  host.append(bar,scr);
+}
+function openExam(ti,kind,k){
+  const t=T()[ti],list=exList(ti,kind);if(!list.length){openTopic(ti);return;}
+  k=(k+list.length)%list.length;const it=list[k],{nav,body}=shell(t.name+' · '+EXNAME[kind],()=>openTopic(ti),'К теме');
+  if(list.length>1){nav.insertBefore(btn('← Previous',()=>openExam(ti,kind,k-1)),nav.lastChild);nav.insertBefore(el('span','fx-count',(k+1)+' / '+list.length),nav.lastChild);nav.insertBefore(btn('Next →',()=>openExam(ti,kind,k+1),'fp-main'),nav.lastChild);}
+  const wrap=el('div','fx-wrap');body.append(wrap);
+  const title=it.title||(kind==='l1'?'Высказывания':kind==='l2'?'Диалог':kind==='l3'?'Интервью':'');
+  wrap.append(el('div','fx-head','<b>'+EXNAME[kind]+(title?' · '+esc(title):'')+'</b><span>'+(it.own?'Задание сайта':'Открытый банк ФИПИ')+(list.length>1?' · '+(k+1)+' из '+list.length:'')+'</span>'),el('p','fx-inst',EXINST[kind]));
+  const res=el('span','fx-res'),key=el('div','fp-key');key.hidden=true;let check=()=>{},keyHtml='';
+  const mark=(node,ok)=>{node.classList.remove('fp-right','fp-wrong');node.classList.add(ok?'fp-right':'fp-wrong');};
+  const two=()=>{const g=el('div','fx-two'),a=el('div','fx-col'),b=el('div','fx-col');g.append(a,b);wrap.append(g);return [a,b];};
+  if(kind==='l1'||kind==='l2'){
+    exPlayer(it,wrap);const sels=[];
+    if(kind==='l1'){wrap.append(el('ol','fx-list',it.st.map(x=>'<li>'+esc(x)+'</li>').join('')));const row=el('div','fx-row');'ABCDEF'.split('').forEach(c=>{const s=exSel([1,2,3,4,5,6,7].map(n=>[n,String(n)]),'Говорящий '+c),cell=el('label','fx-cell','<b>'+c+'</b>');cell.append(s);sels.push(s);row.append(cell);});wrap.append(el('div','fx-sub','Говорящий → утверждение'),row);}
+    else it.st.forEach((x,j)=>{const s=exSel([[1,'1 – True'],[2,'2 – False'],[3,'3 – Not stated']],'Утверждение '+'ABCDEFG'[j]),line=el('div','fx-line','<b>'+'ABCDEFG'[j]+'</b><span>'+esc(x)+'</span>');line.append(s);sels.push(s);wrap.append(line);});
+    check=()=>{let n=0;sels.forEach((s,j)=>{const ok=+s.value===it.a[j];mark(s,ok);if(ok)n++;});return [n,sels.length];};keyHtml=it.a.map((a,j)=>'ABCDEFG'[j]+' – '+a).join(' · ');
+  }else if(kind==='l3'||kind==='r12'){
+    const picked=[],first=kind==='l3'?3:12;let host=wrap;
+    if(kind==='l3')exPlayer(it,wrap);else{const c=two();c[0].append(el('h3','fx-title',esc(it.title)),...it.p.map(p=>el('p','fx-par',esc(p))));host=c[1];}
+    exMcq(host,it.q,first,picked);
+    check=()=>{let n=0;host.querySelectorAll('.fx-q').forEach((b,j)=>{const ok=picked[j]===it.a[j];mark(b,ok);if(ok)n++;});return [n,it.a.length];};keyHtml=it.a.map((a,j)=>(first+j)+' – '+a).join(' · ');
+  }else if(kind==='r10'){
+    const c=two(),sels=[];c[1].append(el('div','fx-sub','Заголовки'),el('ol','fx-list',it.h.map(x=>'<li>'+esc(x)+'</li>').join('')));
+    it.t.forEach((x,j)=>{const s=exSel([1,2,3,4,5,6,7,8].map(n=>[n,n+'. '+it.h[n-1]]),'Текст '+'ABCDEFG'[j]),p=el('div','fx-text','<b>'+'ABCDEFG'[j]+'.</b> '+esc(x));const line=el('div','fx-pick');line.append(el('span','','Заголовок к тексту '+'ABCDEFG'[j]+':'),s);p.append(line);sels.push(s);c[0].append(p);});
+    check=()=>{let n=0;sels.forEach((s,j)=>{const ok=+s.value===it.a[j];mark(s,ok);if(ok)n++;});return [n,sels.length];};keyHtml=it.a.map((a,j)=>'ABCDEFG'[j]+' – '+a).join(' · ');
+  }else if(kind==='r11'){
+    const c=two(),sels={};c[0].append(el('h3','fx-title',esc(it.title)));
+    it.p.forEach(p=>{const par=el('p','fx-par');p.split(/(\{\{[A-F]\}\})/).forEach(part=>{const m=/^\{\{([A-F])\}\}$/.exec(part);if(m){const s=exSel([1,2,3,4,5,6,7].map(n=>[n,String(n)]),'Пропуск '+m[1]),g=el('span','fx-gap','<b>'+m[1]+'</b>');g.append(s);sels[m[1]]=s;par.append(g);}else par.append(document.createTextNode(part));});c[0].append(par);});
+    c[1].append(el('div','fx-sub','Части предложений'),el('ol','fx-list',it.parts.map(x=>'<li>'+esc(x)+'</li>').join('')));
+    check=()=>{let n=0;'ABCDEF'.split('').forEach((ch,j)=>{const ok=+sels[ch].value===it.a[j];mark(sels[ch],ok);if(ok)n++;});return [n,6];};keyHtml=it.a.map((a,j)=>'ABCDEF'[j]+' – '+a).join(' · ');
+  }else if(kind==='v30'){
+    const sels=[];wrap.append(el('h3','fx-title',esc(it.title)));
+    it.p.forEach(p=>{const par=el('p','fx-par fx-loose');p.split(/(\{\{\d\d\}\})/).forEach(part=>{const m=/^\{\{(\d\d)\}\}$/.exec(part);if(m){const n=+m[1]-30,s=exSel(it.o[n].map((o,j)=>[j+1,(j+1)+') '+o]),'Пропуск '+m[1]),g=el('span','fx-gap','<b>'+m[1]+'</b>');g.append(s);sels[n]=s;par.append(g);}else par.append(document.createTextNode(part));});wrap.append(par);});
+    check=()=>{let n=0;sels.forEach((s,j)=>{const ok=+s.value===it.a[j];mark(s,ok);if(ok)n++;});return [n,sels.length];};keyHtml=it.a.map((a,j)=>(30+j)+' – '+a+') '+esc(it.o[j][a-1])).join(' · ');
+  }else{
+    const first=kind==='g19'?19:(it.q.length===5?25:1),inputs=[];wrap.append(el('h3','fx-title',esc(it.title)));
+    it.q.forEach((q,j)=>{if(q[3])wrap.append(el('h3','fx-title fx-second',esc(q[3])));const par=el('p','fx-par fx-loose'),parts=q[0].split('___'),inp=el('input','fx-in');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');inp.setAttribute('aria-label','Ответ '+(first+j));inputs.push(inp);
+      par.append(el('b','fx-n',String(first+j)),document.createTextNode(' '+parts[0]),inp,el('small','fx-base',esc(q[1])),document.createTextNode(parts[1]||''));wrap.append(par);});
+    check=()=>{let n=0;inputs.forEach((inp,j)=>{const ok=[].concat(it.q[j][2]).some(a=>exNorm(a)===exNorm(inp.value));mark(inp,ok);if(ok)n++;});return [n,inputs.length];};keyHtml=it.q.map((q,j)=>(first+j)+' – '+esc([].concat(q[2]).join(' / ').toUpperCase())).join(' · ');
+  }
+  key.innerHTML='<h4>Ответы</h4><p>'+keyHtml+'</p>';
+  const ctrl=el('div','fp-ctrl fx-ctrl');ctrl.append(btn('Проверить',()=>{const r=check();res.textContent='Верно: '+r[0]+' из '+r[1];},'fp-main'),res);
+  if(list.length>1)ctrl.append(btn('Next →',()=>openExam(ti,kind,k+1)));
+  ctrl.append(btn('Ключ · для учителя',()=>{key.hidden=!key.hidden;},'fp-red fp-sp'));
+  wrap.append(ctrl,key);body.scrollTop=0;
 }
 
 /* ---------- картинки: файл fipi/img/<имя>.jpg, иначе место под фото ---------- */
