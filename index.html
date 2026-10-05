@@ -368,6 +368,65 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 .lsOne .lsBody .check{display:flex;gap:8px;align-items:center;margin-top:12px}
 @media(max-width:800px){.lsOne{grid-template-columns:1fr!important}.lsOne .lesson3Menu{width:100%!important;min-width:0!important}.lsOne .lsBody .cols{grid-template-columns:1fr}.lsOne .lsBar{flex-wrap:wrap}}
 </style>
+<style id="memoStyles">
+.memo{max-width:1120px;margin:0 auto;font-size:15px}
+.mTabs,.mSecs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:7px}
+.mTabs button,.mSecs button{flex:0 0 auto;border:2px solid #b7c9e8;background:#fff;color:#0039A6;border-radius:22px;padding:7px 14px;font-size:15px;font-weight:700;cursor:pointer}
+.mTabs button.on{background:#0039A6;border-color:#0039A6;color:#fff}
+.mTabs .mBack{background:#0039A6;border-color:#0039A6;color:#fff;border-radius:9px;margin-right:8px}
+.mSecs button{border-width:1px;border-radius:9px;padding:6px 12px;font-weight:800;color:#475569;background:#f1f5fb}
+.mSecs button.on{background:#fff;color:#D52B1E;border:2px solid #D52B1E;padding:5px 11px}
+.mBody{margin-top:3px}
+.mLeadLine{margin:0 0 8px;font-size:15px;line-height:1.45;color:#334155}
+.mc1{--c:#0039A6;--t:#eaf1ff}.mc2{--c:#15803d;--t:#e9f8ee}.mc3{--c:#c2410c;--t:#fff1e6}.mc4{--c:#7e22ce;--t:#f5ecfe}
+.mChoose,.mT{background:#fff;border:1px solid #cbd9ea;border-radius:12px;overflow:hidden}
+.mChoose div{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:9px 14px;border-bottom:1px solid #e5ebf3}
+.mChoose div:last-child{border-bottom:0}
+.mChoose span{font-size:15px;line-height:1.35;color:#111}
+.mChoose b{font-size:15px;color:var(--c);background:var(--t);border-radius:20px;padding:4px 12px;white-space:nowrap}
+.mTr{display:grid;gap:12px;padding:9px 14px;border-bottom:1px solid #e5ebf3;align-items:center;font-size:15px;line-height:1.35;color:#111;border-left:5px solid var(--c,transparent)}
+.mTr:last-child{border-bottom:0}
+.mT4 .mTr{grid-template-columns:1.1fr 1fr 1.15fr 1.5fr}
+.mT4b .mTr{grid-template-columns:1.1fr 1.3fr 1.6fr 1.5fr}
+.mT3 .mTr{grid-template-columns:90px 1fr 1fr}
+.mTr>b{font-size:15px;color:var(--c,#0039A6)}
+.mTh{background:#f1f5fb;border-left-color:transparent}
+.mTh span{font-size:15px;font-weight:700;color:#64748b}
+.mTr code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;font-weight:700;color:#111}
+.mTr em{font-style:normal}.mTr em b,.mT3 .mTr span b{color:var(--c,#0039A6)}
+.mT3 .mTr span:nth-child(3) b{color:#15803d}
+.mTr small{font-size:15px;color:#64748b}
+.mTr small::before{content:"— "}
+.mGroups{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mGroup{background:#fff;border:1px solid #cbd9ea;border-left:5px solid var(--c);border-radius:12px;padding:10px 13px}
+.mGroup>b{display:block;font-size:15px;color:var(--c);margin-bottom:7px}
+.mChips{display:flex;flex-wrap:wrap;gap:5px}
+.mChips span{font-size:15px;font-weight:700;color:#334155;background:#eef2f7;border-radius:20px;padding:3px 10px}
+.mCols4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mWordCol{background:#fff;border:1px solid #cbd9ea;border-top:5px solid var(--c);border-radius:12px;padding:9px 12px}
+.mWordCol>b{display:block;font-size:15px;color:var(--c);margin-bottom:5px}
+.mWordCol div{padding:4px 0;border-bottom:1px dashed #dbe3ee;font-size:15px;line-height:1.3}
+.mWordCol div:last-child{border-bottom:0}
+.mWordCol span{display:block;font-weight:800;color:#111}.mWordCol small{font-size:15px;color:#64748b}
+.mMistakes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mMistakes div{background:#fff;border:1px solid #cbd9ea;border-radius:12px;padding:9px 13px;display:grid;gap:2px}
+.wrong{font-size:15px;color:#991b1b;text-decoration:line-through;text-decoration-color:#ef4444}
+.right{font-size:15px;font-weight:800;color:#166534}
+.mMistakes small{font-size:15px;color:#64748b}
+.mNote,.mTip{background:#edf3ff;border:1px solid #b7c9e8;border-radius:12px;padding:11px 14px;font-size:15px;line-height:1.5;color:#111;margin-top:8px}
+.mNote{margin-top:0}.mNote>b,.mTip b{color:#0039A6}
+.mNote p{margin:4px 0 8px}
+.mPair{display:grid;gap:3px}.mPair .right b{text-decoration:underline}
+.mPager{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.mPager span{font-size:15px;font-weight:700;color:#64748b}
+.mPager .plBtn{padding:8px 16px;min-height:0;font-size:15px}
+@media(max-width:800px){.mGroups,.mMistakes{grid-template-columns:1fr}.mCols4{grid-template-columns:1fr 1fr}.mChoose div{grid-template-columns:1fr;gap:5px}.mChoose b{justify-self:start}.mT .mTr{grid-template-columns:1fr;gap:3px}.mTh{display:none}}
+.fullScreenPanel{z-index:90}
+.plBtn{border:2px solid #b7c9e8;background:#fff;color:#0039A6;border-radius:12px;font-weight:700;cursor:pointer}
+.plBtn.plMain{background:#0039A6;border-color:#0039A6;color:#fff}
+.plBtn:disabled{opacity:.4;cursor:default}
+.memo,.memo button{font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+</style>
 </head><body>
 <header class="top"><div class="brand">ARINA TEACHER HUB · <b>EGE</b></div><div class="topnote">диагностика → план → урок → контроль → коррекция</div><button class="mobile" id="mobileBtn">План</button></header>
 <aside class="side" id="side"><div class="sidehead">Teacher control</div><div class="teacherSidePanel"><button class="teacherNav" data-teachernav="diagnostic" onclick="showTeacherDashboard('diagnostic')">Диагностика</button><button class="teacherNav" data-teachernav="progress" onclick="showTeacherDashboard('progress')">Прогресс</button><button class="teacherNav" data-teachernav="errors" onclick="showTeacherDashboard('errors')">Error Log</button><button class="teacherNav" onclick="openArinaHomeworkResults()">Результаты Арины</button><button class="teacherNav" data-teachernav="plan" onclick="showTeacherDashboard('plan')">План</button></div><button class="trainerBtn" onclick="openArinaPastToday()">СЕГОДНЯ · PAST<small>Week 2 · Lesson 3 · 60 минут</small></button><button class="expert-entry" onclick="openExpert()">EXPERT · все материалы<small>13 тем · 26 аудио · задания и ответы</small></button><button class="expert-entry" onclick="openFipi()">ЕГЭ · ФОРМАТ ФИПИ<small>13 тем + Россия · Speaking · Writing · 19–29</small></button><div class="sidehead">32 недели · план</div><div class="weekBtns" id="weekBtns"></div><div class="sidehead" style="margin-top:14px">Тренажёры</div><button class="trainerBtn" onclick="renderTrainer('verbs')">Неправильные глаголы · 60</button><button class="trainerBtn" onclick="renderTrainer('markers')">Present Markers · Training</button><button class="trainerBtn" onclick="renderTrainer('difficult')">Difficult Words · карточки + чтение</button><button class="fipiReadingBtn" onclick="openFipiReading()">READING · ФИПИ<small>Task 1 · тексты ← / → · 1:30 · British audio</small></button><div class="sidehead" style="margin-top:10px">ЕГЭ · ГРАММАТИКА И ЛЕКСИКА</div><button class="ebtn egeCore" style="width:100%" onclick="renderExam('grammar1924')"><b>GRAMMAR · 19–24</b><small>грамматические формы</small></button><button class="ebtn egeCore" style="width:100%;margin-top:4px" onclick="renderExam('wordformation')"><b>WORD FORMATION · 25–29</b><small>словообразование</small></button><button class="ebtn" style="width:100%;margin-top:4px" onclick="renderExam('vocabulary3036')">VOCABULARY · 30–36<small>лексико-грамматический выбор</small></button><button class="ebtn" style="width:100%;margin-top:8px" onclick="renderExam('overview')">ЕГЭ 2027 · Структура<small>баллы за каждое задание</small></button></aside>
@@ -653,7 +712,8 @@ function lockedTestHTML(submitKey,type,key){
  return '<div class="wwQ"><p><b>Тест уже отправлен.</b></p><p>Повторная попытка недоступна.</p></div><div class="teacherReset"><button type="button" onclick="teacherResetTest(\''+submitKey+'\',\''+type+'\',\''+key+'\')">Teacher reset</button></div>';
 }
 function openPresentPanel(type,key){
- if(type==='rule')openTaskWindow('Present Tenses · Rule',presentRuleHTML());
+ if(type==='rule'){openMemo('present');return}
+ if(type==='markers'){openMemo('markers');return}
  else if(type==='markers')openTaskWindow('Present Tenses · Markers','<div class="markerRef">'+markerGroups.map(g=>'<div class="markerCol"><h4>'+g[0]+'</h4>'+g[1].map(x=>'<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join('')+'</div>').join('')+'</div>');
  else if(type==='markertrain')openTaskWindow('Markers · Choose the tense',markerTrainingHTML(key),m=>initMarkerTraining(m.querySelector('.markerTrain')));
  else {
@@ -684,7 +744,7 @@ function stativeExtraHTML(){
 }
 function checkStativeMini(btn){const box=btn.closest('.stativeExtra'),ss=box.querySelectorAll('select');let n=0;ss.forEach(s=>{const ok=s.value===s.dataset.a;if(ok)n++;s.style.borderColor=ok?'#15803d':'#D52B1E'});box.querySelector('.stativeMiniResult').textContent=n+' / '+ss.length}
 function openStativePanel(type,key){
- if(type==='rule')openTaskWindow('Stative verbs · Rule',stativeInfo());
+ if(type==='rule'){openMemo('stative');return}
  else {
    const submitKey='w0l1';
    if(localStorage.getItem('submitted-'+submitKey)){openTaskWindow('Stative vs Dynamic · Grammar Test',lockedTestHTML(submitKey,'stative',key));return}
@@ -1207,7 +1267,8 @@ function speakOralReading(){speechSynthesis.cancel();const u=new SpeechSynthesis
 function renderTrainer(id){
  let html='';
  if(id==='verbs'){const blocks=[[0,30],[30,60]];html='<div class="hero"><div class="eyebrow">Тренажёры</div><h1>Irregular Verbs · EGE Focus</h1></div><div class="verbTwoCols"><div class="verbLists">'+blocks.map((b,k)=>'<details class="verbBlock"><summary><b>Открыть глаголы · Block '+(k+1)+' · '+(b[0]+1)+'–'+b[1]+'</b></summary>'+irregularVerbs.slice(b[0],b[1]).map(s=>{const a=s.split('|');return '<div class="verbRow"><b>'+a[0]+'</b><span>'+a[1]+'</span><span>'+a[2]+'</span><span>'+a[3]+'</span></div>'}).join('')+'</details>').join('')+'</div><aside class="verbSide"><div class="verbSideTitle">TRAINING</div>'+verbPractice(0,60,'egeverbs')+'</aside></div>';openFullScreen('',html,initVerbGames)}
- else if(id==='markers'){html='<div class="hero"><div class="eyebrow">Правило</div><h1>Present Tenses · Markers</h1></div><div class="examCard">'+markerReference()+'</div>';openFullScreen('',html)}
+ else if(id==='markers'){openMemo('markers');return}
+ else if(id==='markersOld'){html='<div class="hero"><div class="eyebrow">Правило</div><h1>Present Tenses · Markers</h1></div><div class="examCard">'+markerReference()+'</div>';openFullScreen('',html)}
  else{html='<div class="hero"><div class="eyebrow">Тренажёры</div><h1>Difficult Words + Reading Aloud</h1></div><div class="dwReadSplit"><div class="examCard"><div class="difficult">'+difficultCards()+'</div></div>'+oralReadingHTML()+'</div>';openFullScreen('',html,renderDifficultCard)}
 }
 
@@ -3065,4 +3126,74 @@ function speakFipiReading(){speechSynthesis.cancel();var u=new SpeechSynthesisUt
 
 document.getElementById('mobileBtn').onclick=()=>document.getElementById('side').classList.toggle('open');renderButtons();renderWeek(0);
 </script><!-- pages-republish -->
+<script id="memoScript">
+/* ---------- памятки: one viewer, tabs by topic, the same structure in every memo ---------- */
+const MEMO_TABS=[['present','Present'],['stative','Stative / Dynamic'],['past','Past'],['future','Future'],['markers','Маркеры']];
+const MEMOS={
+ present:{title:'Present Tenses',lead:'Четыре времени настоящего. Сначала ответь на вопрос «что это по смыслу?», потом строй форму.',
+  choose:[['Факт, привычка, постоянная ситуация?','Present Simple',1],['Происходит сейчас или временно?','Present Continuous',2],['Важен результат, опыт или количество к этому моменту?','Present Perfect',3],['Важно, как долго это длится до сих пор?','Present Perfect Continuous',4]],
+  cards:[
+   {n:'Present Simple',use:'факты · привычки · постоянные ситуации',f:['V / V-s','do / does not + V','Do / Does + S + V?'],ex:'She <b>studies</b> English every day.',m:['usually','often','rarely','every day','on Mondays','once a week']},
+   {n:'Present Continuous',use:'сейчас · временно · ситуация меняется',f:['am / is / are + V-ing','am / is / are not + V-ing','Am / Is / Are + S + V-ing?'],ex:'She <b>is studying</b> English right now.',m:['now','right now','at the moment','currently','this week','these days']},
+   {n:'Present Perfect',use:'результат · опыт · сколько сделано',f:['have / has + V3','have / has not + V3','Have / Has + S + V3?'],ex:'She <b>has studied</b> three topics so far.',m:['already','just','yet','ever','never','so far','since','for']},
+   {n:'Present Perfect Continuous',use:'длительность до сих пор · виден след процесса',f:['have / has been + V-ing','have / has not been + V-ing','Have / Has + S + been + V-ing?'],ex:'She <b>has been studying</b> since morning.',m:['for two hours','since morning','all day','how long','lately']}],
+  mistakes:[['I am knowing the answer.','I know the answer.','know — глагол состояния'],['She has been writing three emails.','She has written three emails.','количество → Perfect Simple'],['I live here since 2020.','I have lived here since 2020.','since → Perfect'],['He don’t like maths.','He doesn’t like maths.','he / she / it → does']],
+  tip:'В заданиях 19–24 проверь три вещи: окончание -s у he / she / it, выбор has или have и третью форму неправильного глагола.'},
+ past:{title:'Past Tenses',lead:'Четыре времени прошлого. Главный вопрос: что было раньше и что было в процессе.',
+  choose:[['Завершённый факт или цепочка событий?','Past Simple',1],['Процесс в конкретный момент, фон для события?','Past Continuous',2],['Случилось раньше другого прошлого события?','Past Perfect',3],['Длилось какое-то время до момента в прошлом?','Past Perfect Continuous',4]],
+  cards:[
+   {n:'Past Simple',use:'завершённый факт · цепочка событий',f:['V2 / V-ed','did not + V','Did + S + V?'],ex:'She <b>finished</b> the test at noon.',m:['yesterday','two days ago','last week','in 2020','then']},
+   {n:'Past Continuous',use:'процесс в момент прошлого · фон',f:['was / were + V-ing','was / were not + V-ing','Was / Were + S + V-ing?'],ex:'She <b>was writing</b> when the bell rang.',m:['while','when','at 5 p.m. yesterday','all evening']},
+   {n:'Past Perfect',use:'раньше другого прошлого события · результат',f:['had + V3','had not + V3','Had + S + V3?'],ex:'She <b>had finished</b> before the bell rang.',m:['by the time','already','before','after','it was the first time']},
+   {n:'Past Perfect Continuous',use:'длительность до момента в прошлом',f:['had been + V-ing','had not been + V-ing','Had + S + been + V-ing?'],ex:'She <b>had been writing</b> for an hour by then.',m:['for an hour','since breakfast','how long','by then']}],
+  mistakes:[['Yesterday she has gone to the library.','Yesterday she went to the library.','yesterday → Past Simple'],['He didn’t knew the answer.','He didn’t know the answer.','после didn’t — первая форма'],['I was knowing her at school.','I knew her at school.','know — глагол состояния'],['When we arrived, the film already started.','When we arrived, the film had already started.','фильм начался раньше']],
+  tip:'Маркер — подсказка, а не правило. Past Perfect нужен только тогда, когда важно показать, что одно действие было раньше другого.'},
+ future:{title:'Future forms',lead:'В английском нет одной формы будущего. Форму выбираем по смыслу: прогноз, решение, план, договорённость или расписание.',
+  choose:[['Мнение, прогноз, решение прямо сейчас, обещание?','will',1],['План, принятый заранее, или вывод по тому, что видим?','be going to',2],['Договорённость: есть время, место или человек?','Present Continuous',3],['Расписание или программа?','Present Simple',4],['Это часть после when / as soon as / if?','Present Simple, не will',4]],
+  cards:[
+   {n:'will',use:'прогноз-мнение · решение сейчас · обещание · предложение',f:['will + V','will not (won’t) + V','Will + S + V? · Shall I / we + V?'],ex:'I think it <b>will be</b> cold. · I<b>’ll help</b> you.',m:['I think','I’m sure','probably','perhaps','I promise']},
+   {n:'be going to',use:'план, принятый заранее · вывод по тому, что видим',f:['am / is / are going to + V','am / is / are not going to + V','Am / Is / Are + S + going to + V?'],ex:'I<b>’m going to study</b> law. · Look! It<b>’s going to rain</b>.',m:['I’ve decided','Look!','Watch out!','next year']},
+   {n:'Present Continuous',use:'договорённость с временем, местом или человеком',f:['am / is / are + V-ing','am / is / are not + V-ing','Am / Is / Are + S + V-ing?'],ex:'We<b>’re meeting</b> at six tomorrow.',m:['tomorrow','tonight','on Friday','next week']},
+   {n:'Present Simple',use:'расписание · программа',f:['V / V-s','do / does not + V','Do / Does + S + V?'],ex:'The train <b>leaves</b> at 7.15.',m:['at 7.15','on Monday','start','open','leave','arrive']}],
+  note:['Придаточные времени и условия','После <b>when · as soon as · until · before · after · if · unless</b> будущее выражаем настоящим. Will остаётся только в главной части.','I’ll call you when I <b>get</b> home.','I’ll call you when I will get home.'],
+  mistakes:[['Look at the sky! It will rain.','Look at the sky! It’s going to rain.','видим тучи сейчас'],['We going to visit our cousins.','We are going to visit our cousins.','нужен am / is / are'],['She won’t to come.','She won’t come.','после will — глагол без to'],['If it will rain, we’ll stay at home.','If it rains, we’ll stay at home.','после if — Present Simple']],
+  tip:'В заданиях 19–24 для будущего чаще всего нужна форма will + V или will not + V. Но сначала проверь, не стоит ли пропуск после if / when / as soon as.'},
+ stative:{title:'Stative / Dynamic verbs',lead:'Глаголы состояния описывают чувство, мнение, знание или обладание, а не действие. В Continuous их обычно не ставим.',
+  groups:[['Чувства и отношение',['like','love','hate','prefer','want','need','wish','mind']],['Мысли и знание',['know','believe','understand','remember','forget','mean','realise','suppose','agree']],['Обладание и состав',['have','own','belong','contain','consist','include','depend']],['Восприятие и впечатление',['seem','appear','look','sound','smell','taste','feel']]],
+  pairs:[['think','I <b>think</b> it is useful.','считать','I <b>am thinking</b> about the problem.','обдумывать'],['have','She <b>has</b> a car.','иметь','She <b>is having</b> lunch.','есть, проводить время'],['see','I <b>see</b> what you mean.','понимать','I <b>am seeing</b> the dentist tomorrow.','встречаться'],['look','You <b>look</b> tired.','выглядеть','She <b>is looking</b> at the screen.','смотреть'],['feel','The fabric <b>feels</b> soft.','быть на ощупь','She <b>is feeling</b> the fabric.','трогать'],['taste','The soup <b>tastes</b> salty.','иметь вкус','The chef <b>is tasting</b> the soup.','пробовать'],['smell','The flowers <b>smell</b> lovely.','пахнуть','He <b>is smelling</b> the flowers.','нюхать'],['appear','He <b>appears</b> calm.','казаться','He <b>is appearing</b> on TV tonight.','выступать'],['be','He <b>is</b> rude.','характер','He <b>is being</b> rude today.','ведёт себя так сейчас'],['weigh','The bag <b>weighs</b> ten kilos.','весить','She <b>is weighing</b> the bag.','взвешивать'],['fit','This jacket <b>fits</b> me.','подходить по размеру','They <b>are fitting</b> a new kitchen.','устанавливать'],['expect','I <b>expect</b> she is at home.','полагать','We <b>are expecting</b> guests.','ждать']],
+  mistakes:[['I am knowing the answer.','I know the answer.','знание — состояние'],['She is wanting some water.','She wants some water.','желание — состояние'],['He is having a blue bike.','He has a blue bike.','обладание — состояние'],['This soup is tasting strange.','This soup tastes strange.','вкус — свойство супа']],
+  tip:'Спроси себя, что глагол значит именно в этом предложении. Состояние, мнение, свойство → Simple. Намеренное действие или временное поведение → возможен Continuous.'},
+ markers:{title:'Маркеры времён',lead:'Слова-подсказки. Маркер помогает, но решает смысл: одно и то же слово может стоять с разными временами.',
+  tables:[
+   ['Present',[['Present Simple',1,[['usually','обычно'],['often','часто'],['rarely','редко'],['every day','каждый день'],['on Mondays','по понедельникам'],['once a week','раз в неделю']]],['Present Continuous',2,[['now','сейчас'],['right now','прямо сейчас'],['at the moment','в данный момент'],['currently','в настоящее время'],['this week','на этой неделе'],['these days','в последнее время']]],['Present Perfect',3,[['already','уже'],['just','только что'],['yet','ещё / уже'],['ever','когда-либо'],['so far','до сих пор'],['up to now','до настоящего момента']]],['Present Perfect Continuous',4,[['for two hours','в течение двух часов'],['since morning','с утра'],['all day','весь день'],['how long','как долго'],['lately','в последнее время']]]]],
+   ['Past',[['Past Simple',1,[['yesterday','вчера'],['two days ago','два дня назад'],['last week','на прошлой неделе'],['in 2020','в 2020 году'],['then','затем']]],['Past Continuous',2,[['while','пока'],['at 5 p.m. yesterday','вчера в пять'],['all evening','весь вечер'],['when + короткое событие','когда…']]],['Past Perfect',3,[['by the time','к тому времени как'],['already','уже'],['before','до того как'],['after','после того как'],['it was the first time','это был первый раз']]],['Past Perfect Continuous',4,[['for an hour','в течение часа'],['since breakfast','с завтрака'],['how long','как долго'],['by then','к тому моменту']]]]],
+   ['Future',[['will',1,[['I think','я думаю'],['I’m sure','я уверена'],['probably','вероятно'],['perhaps','возможно'],['I promise','обещаю']]],['be going to',2,[['I’ve decided','я решила'],['Look!','смотри!'],['Watch out!','осторожно!']]],['Present Continuous',3,[['tomorrow','завтра'],['tonight','сегодня вечером'],['on Friday','в пятницу'],['next week','на следующей неделе']]],['Present Simple',4,[['at 7.15','в 7.15'],['according to the timetable','по расписанию'],['when / as soon as / if','когда / как только / если']]]]]
+  ],
+  tip:'Since и for бывают и с Present Perfect, и с Present Perfect Continuous. Already встречается и в Present Perfect, и в Past Perfect. Поэтому сначала смысл, потом маркер.'}
+};
+function memoTable(head,rows,cls){return '<div class="mT '+(cls||'')+'"><div class="mTr mTh">'+head.map(h=>'<span>'+h+'</span>').join('')+'</div>'+rows.map(r=>'<div class="mTr'+(r.c?' mc'+r.c:'')+'">'+r.v.map((x,k)=>k?'<span>'+x+'</span>':'<b>'+x+'</b>').join('')+'</div>').join('')+'</div>'}
+function memoSections(id){
+ const m=MEMOS[id],S=[],tip=m.tip?'<div class="mTip"><b>Запомни.</b> '+m.tip+'</div>':'';
+ if(m.choose)S.push(['Как выбрать','<p class="mLeadLine">'+m.lead+'</p><div class="mChoose">'+m.choose.map(x=>'<div><span>'+x[0]+'</span><b class="mc'+x[2]+'">'+x[1]+'</b></div>').join('')+'</div>']);
+ if(m.cards){
+  S.push(['Формулы',memoTable(['Время','+ утверждение','− отрицание','? вопрос'],m.cards.map((c,i)=>({c:i+1,v:[c.n,'<code>'+c.f[0]+'</code>','<code>'+c.f[1]+'</code>','<code>'+c.f[2]+'</code>']})),'mT4')]);
+  S.push(['Примеры и маркеры',memoTable(['Время','Когда','Пример','Маркеры'],m.cards.map((c,i)=>({c:i+1,v:[c.n,c.use,'<em>'+c.ex+'</em>',c.m.join(' · ')]})),'mT4b')]);
+ }
+ if(m.note)S.push(['После when / if','<div class="mNote"><b>'+m.note[0]+'</b><p>'+m.note[1]+'</p><div class="mPair"><span class="right">'+m.note[2]+'</span><span class="wrong">'+m.note[3]+'</span></div></div>']);
+ if(m.groups)S.push(['Глаголы состояния','<p class="mLeadLine">'+m.lead+'</p><div class="mGroups">'+m.groups.map((g,i)=>'<div class="mGroup mc'+(i+1)+'"><b>'+g[0]+'</b><div class="mChips">'+g[1].map(x=>'<span>'+x+'</span>').join('')+'</div></div>').join('')+'</div>']);
+ if(m.pairs){const half=Math.ceil(m.pairs.length/2);[m.pairs.slice(0,half),m.pairs.slice(half)].forEach((part,k)=>S.push(['Значение меняется · '+(k+1),memoTable(['Глагол','Состояние · Simple','Действие · Continuous'],part.map(p=>({v:[p[0],p[1]+' <small>'+p[2]+'</small>',p[3]+' <small>'+p[4]+'</small>']})),'mT3')]))}
+ if(m.tables){S.push(['Как пользоваться','<p class="mLeadLine">'+m.lead+'</p>'+tip]);m.tables.forEach(t=>S.push([t[0],'<div class="mCols4">'+t[1].map(g=>'<div class="mWordCol mc'+g[1]+'"><b>'+g[0]+'</b>'+g[2].map(w=>'<div><span>'+w[0]+'</span><small>'+w[1]+'</small></div>').join('')+'</div>').join('')+'</div>']))}
+ if(m.mistakes)S.push(['Ошибки','<div class="mMistakes">'+m.mistakes.map(x=>'<div><span class="wrong">'+x[0]+'</span><span class="right">'+x[1]+'</span><small>'+x[2]+'</small></div>').join('')+'</div>'+(m.tables?'':tip)]);
+ return S;
+}
+function openMemo(id,sec){
+ if(!MEMOS[id])id='present';
+ const S=memoSections(id);sec=Math.max(0,Math.min(S.length-1,sec||0));
+ openFullScreen('','<div class="memo"><div class="mTabs"><button type="button" class="mBack" onclick="closeFullScreen()">← Назад</button>'+MEMO_TABS.map(t=>'<button type="button" class="'+(t[0]===id?'on':'')+'" onclick="openMemo(\''+t[0]+'\')">'+t[1]+'</button>').join('')+'</div><div class="mSecs">'+S.map((x,k)=>'<button type="button" class="'+(k===sec?'on':'')+'" onclick="openMemo(\''+id+'\','+k+')">'+x[0]+'</button>').join('')+'</div><div class="mBody">'+S[sec][1]+'</div><div class="mPager"><button type="button" class="plBtn" '+(sec?'':'disabled')+' onclick="openMemo(\''+id+'\','+(sec-1)+')">←</button><span>'+(sec+1)+' / '+S.length+'</span><button type="button" class="plBtn plMain" '+(sec<S.length-1?'':'disabled')+' onclick="openMemo(\''+id+'\','+(sec+1)+')">Дальше →</button></div></div>');
+ const fb=document.querySelector('#fullScreenPanel .fullScreenBack');if(fb)fb.remove();
+ closeTaskWindow();
+ document.querySelectorAll('.mTabs .on,.mSecs .on').forEach(on=>{if(on.scrollIntoView)on.scrollIntoView({inline:'center',block:'nearest'})});
+}
+function openW3Rule(kind){openMemo(kind)}
+</script>
 </body></html>
