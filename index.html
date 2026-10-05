@@ -977,12 +977,12 @@ function lessonStarter(w,i){
  const g=exam26Own('grammar',w),f=exam26Own('wf',w);
  if(i===0)return exam26InlineHTML('grammar',w,0);
  if(i===1)return exam26InlineHTML('wf',w,w===1?1:0);
- return (g[1]?exam26InlineHTML('grammar',w,1):'')+(f.length>1?exam26InlineHTML('wf',w,f.length-1):'');
+ return (g[1]?exam26InlineHTML('grammar',w,1):'')+(f.length>1?exam26InlineHTML('wf',w,w===1?2:1):'');
 }
 function exam26InlineHTML(mode,w,k){
  const set=exam26Own(mode,w)[k];if(!set)return '';
  const start=mode==='grammar'?19:25;
- return '<div class="egePresentSet" style="margin-bottom:10px" data-mode="'+mode+'" data-w="'+w+'" data-k="'+k+'"><h3>EGE '+(mode==='grammar'?'19–24 · Grammar':'25–29 · Word Formation')+' · '+set.t+'</h3><div class="tiny">Неделя '+(w+1)+'. Преобразуй слово, напечатанное заглавными буквами, так, чтобы оно подходило по смыслу и грамматике.</div><div class="egePresentText">'+set.q.map((x,n)=>(n+start)+'. '+x[0].replace('___','<span class="egeGap"><input autocomplete="off" autocapitalize="off" spellcheck="false"><span class="egeBase">'+x[1]+'</span></span>')).join('<br>')+'</div><div class="egeSetActions"><button type="button" onclick="checkExam26Inline(this)">CHECK</button></div><div class="egeSetResult"></div></div>';
+ return '<div class="egePresentSet" style="margin-bottom:10px" data-mode="'+mode+'" data-w="'+w+'" data-k="'+k+'"><h3>EGE '+(mode==='grammar'?'19–24 · Grammar':'25–29 · Word Formation')+' · '+set.t+'</h3><div class="tiny">Неделя '+(w+1)+' · '+exam26Src(set)+'. Преобразуй слово, напечатанное заглавными буквами, так, чтобы оно подходило по смыслу и грамматике.</div><div class="egePresentText">'+exam26Items(set,mode,'egeGap','egeBase')+'</div><div class="egeSetActions"><button type="button" onclick="checkExam26Inline(this)">CHECK</button></div><div class="egeSetResult"></div></div>';
 }
 function checkExam26Inline(btn){
  const box=btn.closest('.egePresentSet'),set=exam26Own(box.dataset.mode,+box.dataset.w)[+box.dataset.k];let good=0;
@@ -1992,12 +1992,717 @@ const exam26L3WF={
  ["Whatever the result, be proud of your ___.", "PERSIST", "persistence"],
  ["Then comes the ___ of a new life.", "BEGIN", "beginning"]]}],
 };
+/* Задания открытого банка ФИПИ (ЕГЭ 2026): полные тексты 19–24 и 25–29 по неделям */
+const exam26FipiGrammar={
+ 0:[
+  {f:1,t:"Winston Churchill / Clouds",q:[
+   ["Winston Churchill was a great political leader and a very clever man. Many British people think since then there ___ a prime minister better than him.", "NOT BE", "hasnotbeen"],
+   ["He even ___ the Nobel Prize in Literature in 1953.", "WIN", "won"],
+   ["His ___ work was a six-volume memoir about WW2, but he wrote some science fiction books as well.", "FAMOUS", "mostfamous"],
+   ["Do you like to watch clouds? Many people all over the world enjoy ___ it.", "DO", "doing", "Clouds"],
+   ["There are a lot of different kinds of clouds but they all look white as they reflect the Sun’s light – just like the Moon. It is interesting to know that clouds ___ unique to our planet.", "NOT BE", "arenot"],
+   ["In fact, any planet with an atmosphere has ___.", "THEY", "them"]]}],
+ 2:[
+  {f:1,t:"The River Nile",q:[
+   ["The River Nile is the longest river in the world, stretching for 6853 km in the northeast of Africa. It ___ the main water source for many African countries such as Sudan or Egypt for a long time.", "BE", "hasbeen"],
+   ["Ancient Egyptians settled along the banks of the Nile. There they ___ to build accommodation and grow crops.", "BEGIN", "began"],
+   ["Wheat was the ___ crop which ancient Egyptians cultivated, and they greatly depended on the Nile floods to make the soil fertile.", "ONE", "first"],
+   ["The river’s waters were used for irrigation, enabling the growth of crops like wheat and barley. The Nile’s predictable flooding cycle allowed ancient Egyptians to develop a calendar based on its patterns. They knew very well that they ___ from hunger and poverty if the river didn’t flood.", "SUFFER", "wouldsuffer"],
+   ["Thus, the Nile was the starting point of the ancient Egyptian civilization. Many ancient Egyptian cities, including Cairo and Luxor, ___ along the Nile’s banks.", "BUILD", "werebuilt"],
+   ["Ancient Egyptians even believed the River Nile was a god, ___ as Hapi, who was believed to control the river’s flooding.", "KNOW", "known"]]}],
+ 3:[
+  {f:1,t:"Languages of the world / Slavery in North America",q:[
+   ["What do you think is the most difficult language to learn? Chinese? Japanese? No, it is Basque, the language which ___ in northwestern Spain and southwestern France.", "SPEAK", "isspoken"],
+   ["It ___ to any other language in the world.", "NOT RELATE", "isnotrelated"],
+   ["In Basque, the name of the language is officially “Euskara”. In French, the language is normally called “basque”, though in recent times “euskara” has become common. Spanish has a ___ variety of names for the language than French. Today, it is most commonly referred to as “el vasco”, ”la lengua vasca” or “el euskera”.", "GREAT", "greater"],
+   ["August 13, 1619 is the date when two and a half centuries of slavery in North America began. On this day the first Africans kidnapped by the Portuguese arrived in the British colony of Virginia and ___ by English colonists.", "BUY", "werebought", "Slavery in North America"],
+   ["___ at Jamestown in 1607, the Virginia Colony was home to about 700 people by 1619.", "FOUND", "founded"],
+   ["The first enslaved Africans to arrive there disembarked at Point Comfort, in what ___ today as Hampton Roads.", "KNOW", "isknown"]]}],
+ 4:[
+  {f:1,t:"The Egyptian Pyramids",q:[
+   ["The Egyptian Pyramids are among the most famous landmarks of the world. They ___ one of the main touristic spots of Egypt for a long time.", "BE", "havebeen"],
+   ["It is hard to imagine how ancient people managed to make such huge constructions without modern machines and tools. Still, they did it. All the pyramids of Egypt ___ between 2575 BC and 1650 BC.", "BUILD", "werebuilt"],
+   ["The construction of the pyramids was an architectural marvel, ___ the Egyptians’ advanced understanding of engineering and mathematics.", "DEMONSTRATE", "demonstrating"],
+   ["The Great Pyramid of Giza, for instance, comprises over two million stone blocks about 2.5 tons each. Modern scientists ___ exactly what methods ancient Egyptians used to move such heavy blocks to the building site.", "NOT KNOW", "donotknow"],
+   ["Contrary to a popular belief, slaves were not widely used for building pyramids. Instead, talented engineers and ___ worked together, and they were well-fed and paid.", "CRAFTSMAN", "craftsmen"],
+   ["There is even some evidence that there were doctors treating the pyramid builders, which proves that pharaohs ___ this process seriously.", "TAKE", "took"]]}],
+ 5:[
+  {f:1,t:"A cleaning wand / Robert Heinlein",q:[
+   ["A cleaning wand is a totally new invention. It features the advanced UV-C technology that helps to kill bacteria and germs. It’s the ___ ever cleaning device you can literally take anywhere.", "ONE", "first"],
+   ["The ___ thing about it is that it can clean anything.", "GOOD", "best"],
+   ["There’s no doubt that ___ are going to like this invention very much.", "WOMAN", "women"],
+   ["Robert A. Heinlein was a US science fiction author. He was among those writers who emphasized scientific accuracy in their fiction. He also ___ it was necessary to challenge the readers.", "THINK", "thought", "Robert Heinlein"],
+   ["He pointed out it was necessary to develop ___ critical thinking.", "THEY", "their"],
+   ["He pointed out that any science fiction book ___ a success if the author followed these two important principles.", "BE", "wouldbe"]]}],
+ 6:[
+  {f:1,t:"The land of ice and fire / The Louvre",q:[
+   ["People often call Iceland ‘the land of ice and fire’. That is so because this country has ___ volcanoes than most other countries in the world.", "MANY", "more"],
+   ["Some of ___ volcanoes are still active while others can wake up any time.", "THIS", "these"],
+   ["Much of Iceland ___ in lava as eruptions happen about every four years.", "COVER", "iscovered"],
+   ["The Louvre is a famous museum in Paris. It is the ___ art museum in the world.", "LARGE", "largest", "The Louvre"],
+   ["If you wanted to spend 30 seconds looking at each piece of art there, it ___ you 100 days to see the entire museum.", "TAKE", "wouldtake"],
+   ["Originally the Louvre was a fortress and then it became a royal palace. After the French Revolution the building ___ into a museum which is a must-see for any tourist who goes to Paris.", "TURN", "wasturned"]]}],
+ 7:[
+  {f:1,t:"The M12 highway / Monowi",q:[
+   ["The M12 is a brand-new motorway in Russia. Its first section 21 km long was opened for traffic in September 2022, and it will be completed by 2027 only. It will connect Moscow to Kazan, ___ through five administrative territories.", "PASS", "passing"],
+   ["Although roadworkers ___ the M12 yet, there are still a lot of interesting sights you can see along this new road.", "NOT COMPLETE", "havenotcompleted"],
+   ["Driving the M12 is perhaps the ___ way to visit many small Russian towns like Noginsk, Pokrov and so on.", "GOOD", "best"],
+   ["The town of Monowi, Nebraska, the USA, is a very special place. It ___ in 1903 by immigrants from Europe.", "FOUND", "wasfounded", "Monowi"],
+   ["In the 1930s it was an ordinary American town. However, if you came there now, you ___ very surprised to see that the population of this town is only one person.", "BE", "wouldbe"],
+   ["The town’s only resident’s name is Elsie Elner. She is an old lady but she still works ___ her own pub to serve passing travellers and tourists.", "RUN", "running"]]}],
+ 8:[
+  {f:1,t:"Animal sleep / Vincent van Gogh",q:[
+   ["Sleep is as important for animals as for human beings. Ferrets, for instance, can sleep the ___ part of the day – about 20 hours.", "BIG", "biggest"],
+   ["Snakes may sleep for three years without ___ up to get some food.", "WAKE", "waking"],
+   ["Dolphins always sleep with one eye open whereas sharks ___ moving during their sleep as they breathe only while moving.", "NOT STOP", "donotstop"],
+   ["Vincent van Gogh was a Dutch Post-Impressionist painter. In his lifetime he ___ sell any pictures.", "NOT CAN", "couldnot", "Vincent van Gogh"],
+   ["People often made fun of him and his works. They used to tell him that he ___ a real painter.", "NOT BECOME", "wouldnotbecome"],
+   ["However, van Gogh never stopped painting. He preferred to listen to his heart and follow his dream. Now his pictures ___ masterpieces and cost a lot of money.", "CONSIDER", "areconsidered"]]}],
+ 9:[
+  {f:1,t:"Science in ancient Rome",q:[
+   ["The Romans assimilated earlier Greek science for their own purposes. The ___ architects and doctors in the Roman world were very often Greek, and the Roman respect for ancient Greek scholars continued right up to the end of the Empire.", "ONE", "first"],
+   ["An important feature of Roman scientists was that they tried to find authoritative answers to any questions they had about the world. Moreover, ancient Romans ___ fond of purposeless discussions.", "NOT BE", "werenot"],
+   ["They tried to solve practical problems. Physics, for instance, had to help produce effective weapons. Biology had to help farmers so that they ___ grow good crops.", "CAN", "could"],
+   ["Mathematics had to provide builders with the ___ answers how to construct impressive domes and arches.", "GOOD", "best"],
+   ["Medicine was greatly developed, too. Roman doctors performed various operations and knew how to treat many illnesses. Wealthy Romans often ___ money to scientists to support their research.", "GIVE", "gave"],
+   ["We still remember the names of Roman scientists and philosophers and study ___ ideas.", "THEY", "their"]]}],
+ 10:[
+  {f:1,t:"Ancient Corinth",q:[
+   ["Corinth was an ancient Greek city state. ___ in southern part of Greece, this vibrant city was a prosperous trade centre that had one of the best fleets of its times.", "SITUATE", "situated"],
+   ["It is even considered to have fought the ___ naval battle on record.", "ONE", "first"],
+   ["The city ___ around the 8th century BC and became famous because of its high-quality pottery.", "FOUND", "wasfounded"],
+   ["Apart from it, Corinth exported stone and bronzeware. It is important to mention that arts and culture flourished in the city, too. Many poets, playwrights, and architects lived in it. The Corinthian Order quickly ___ a distinctive feature of the Greek architectural style and is still used in modern buildings.", "BECOME", "became"],
+   ["In 146 BC Corinth was destroyed by the Romans only to be rebuilt under the patronage of Julius Caesar as a Roman colony. Today the ancient city lies in ruins. Since 1896 archeologists ___ there, finding various elements of ancient buildings and constructions each year.", "WORK", "haveworked"],
+   ["Tourists enjoy ___ at what is left from once a beautiful ancient city state.", "LOOK", "looking"]]}],
+ 11:[
+  {f:1,t:"Henna",q:[
+   ["Henna is a well-known natural dye coming in all shades of dark red, orange and brown. It is made from dried and powdered leaves of the Lawsonia inermis plant. When ___ with liquids like water or lemon juice, it forms a paste that is used to create various temporary designs.", "MIX", "mixed"],
+   ["People ___ henna for centuries.", "USE", "haveused"],
+   ["Ancient Egyptians and Indians discovered the wonderful properties of henna a long time ago and started to use it to dye skin, hair and fingernails, as well as fabrics ___ silk, wool, and leather.", "INCLUDE", "including"],
+   ["Later people ___ better ways to dye fabrics, but they still use henna as a form of artistic expression.", "FIND", "found"],
+   ["Henna designs often carry symbolic meanings, with different patterns representing blessings and hopes for the future on certain social occasions like weddings. Henna is also used by ___ to colour their hair or to treat skin problems.", "WOMAN", "women"],
+   ["One of the ___ ways to use henna is to apply it to wounds or sunburns as it has natural cooling properties like aloe gel and prevents infections and inflammation.", "GOOD", "best"]]},
+  {f:1,t:"Gzhel artists / A clever solution",q:[
+   ["There are few Russian Gzhel artists who still work according to the old Gzhel Maiolica technology. Now they ___ significant recognition in this craft.", "ACHIEVE", "haveachieved"],
+   ["___ artists have their own section in the State Historical Museum because their items are not a craft anymore, they are already an art form.", "THIS", "these"],
+   ["The old Gzhel technology is complicated, and such artists work alone on their pieces throughout the entire cycle ___ from a lump of clay and up to the final result.", "START", "starting"],
+   ["In 1140 the town of Weinsberg in Germany was attacked by King Conrad III and his army. The town was very small and had no chance to survive. King Conrad III said that only ___ could leave the town.", "WOMAN", "women", "A clever solution"],
+   ["They ___ to take whatever they could carry themselves.", "ALLOW", "wereallowed"],
+   ["The King promised nobody ___ them, so the ladies of Weinsberg left the town carrying their husbands on their backs, and the King had to let them go away.", "STOP", "wouldstop"]]}],
+ 12:[
+  {f:1,t:"The secret of success / Ladybirds",q:[
+   ["Thomas A. Edison was a famous American inventor. He ___ the world a lot of useful inventions.", "GIVE", "gave"],
+   ["He ___ to be a genius by his contemporaries.", "CONSIDER", "wasconsidered"],
+   ["However, Edison himself didn’t think so. He knew that if he didn’t work hard, he ___ any further success.", "NOT ACHIEVE", "wouldnotachieve"],
+   ["Ladybirds are beautiful creatures. Farmers love them as they help the crops to stay healthy. ___ look for them because they believe if you catch a ladybird and let it go free, it will bring good luck and happiness.", "CHILD", "children", "Ladybirds"],
+   ["They also love counting spots on ladybirds. They think that the number of spots defines the age of ladybirds. However, it ___ true.", "NOT BE", "isnot"],
+   ["Ladybirds need ___ spots to scare predators away.", "THIS", "these"]]}],
+ 13:[
+  {f:1,t:"Cats / Omar Khayyam",q:[
+   ["Cats are amazing creatures. They have ___ bones than a human.", "MANY", "more"],
+   ["However, they ___ collar bones, so they are incredibly flexible and can get through really small holes.", "NOT HAVE", "donothave"],
+   ["They are also able to produce a lot of sounds, which ___ by them to express a huge variety of feelings and emotions.", "USE", "areused"],
+   ["Omar Khayyam was a famous Persian philosopher and poet. Many people all over the world enjoy reading his works. His poetry ___ known to Europeans only in the 19th century.", "BECOME", "became", "Omar Khayyam"],
+   ["His ___ works are quatrains where one can find words of wisdom suitable practically for any occasion.", "GOOD", "best"],
+   ["Omar Khayyam hoped his poems ___ people to get happy and not to concentrate on their problems too much.", "HELP", "wouldhelp"]]}],
+ 14:[
+  {f:1,t:"Forest therapy / Snow",q:[
+   ["The Japanese are a very wise nation. Many Japanese people lead a very busy life and they need effective means to fight stress. Forest therapy ___ one of them for a long time.", "BE", "hasbeen"],
+   ["The Japanese enjoy ___ to local forests at the weekend.", "GO", "going"],
+   ["They spend there no ___ than three hours walking and listening to birds singing. Scientists consider this kind of therapy very good.", "LITTLE", "less"],
+   ["Snow is beautiful. People all over the world, especially ___, love looking at it or even playing with it.", "CHILD", "children", "Snow"],
+   ["There are many interesting facts about snow. For instance, snow is colourless – it just looks white to us. A long time ago people ___ to make artificial snow.", "LEARN", "learnt"],
+   ["The ___ snow maker was patented in 1961 by Alden Hanson.", "ONE", "first"]]}],
+ 15:[
+  {f:1,t:"How the Nobel Prize started / Antarctica",q:[
+   ["Everybody knows about Alfred Nobel. He was the man who ___ the world a great invention – dynamite.", "GIVE", "gave"],
+   ["However, Nobel saw that people started ___ it for military purposes.", "USE", "using"],
+   ["That is why the scientist changed his will and introduced the Nobel Prize. The scientist’s wish was that people would remember something good about ___.", "HE", "him"],
+   ["Many people think that Antarctica is just a block of thin ice. It is, indeed, the ___ place on Earth.", "COLD", "coldest", "Antarctica"],
+   ["However, during the summer the sun ___ in Antarctica.", "NOT SET", "doesnotset"],
+   ["It means that Antarctica receives ___ sunlight than the equator during that period of time.", "MUCH", "more"]]}],
+ 16:[
+  {f:1,t:"About fables / A smart cat",q:[
+   ["A fable is a fictional story. It often features animals like ___ and lions, mythical creatures or forces of nature.", "MOUSE", "mice"],
+   ["These creatures ___ human qualities as they can talk, think and act like humans.", "GIVE", "aregiven"],
+   ["The creatures are often stereotypes of human characteristics, ___ some important idea or message.", "ILLUSTRATE", "illustrating"],
+   ["My Snowball is a wonderful cat. I don’t know of any other cat that loves to watch Sesame Street. He will also come running up to the TV if he ___ a baby crying or little kids playing.", "HEAR", "hears", "A smart cat"],
+   ["He can’t stand TV commercials! Anytime a commercial comes on he turns his head to the side and so he ___ to watch the commercial.", "NOT HAVE", "doesnothave"],
+   ["When the show is back on the air, he will start watching the show again. It was then that I ___ out that when a commercial is on, the volume goes up a bit, and this is his signal to turn away. When the volume goes down then the commercial is over. Smart cat, I started to do the same thing.", "FIND", "found"]]}],
+ 17:[
+  {f:1,t:"Yakutia / The print brush",q:[
+   ["Yakutia is right in the middle of Russia’s far eastern region. Probably Yakutia is one of the ___ parts of Russia.", "COLD", "coldest"],
+   ["Still, it’s a beautiful place. Tourists love ___ Yakutia because it is a perfect place for photography tours and spending quality time outdoors.", "VISIT", "visiting"],
+   ["You only have to remember that winter ___ a good time to visit the area as winters here are very cold there.", "NOT BE", "isnot"],
+   ["As its name suggests, the print brush is a printer that acts like a paint brush. The print brush ___ to public in 2011.", "DEMONSTRATE", "wasdemonstrated", "The print brush"],
+   ["It immediately ___ the attention of designers.", "CATCH", "caught"],
+   ["If you want to use it, you just swipe it over any flat surface and in less than 10 seconds it prints over it. It is very small and has a digital camera ___.", "INSTALL", "installed"]]}],
+ 18:[
+  {f:1,t:"Clever plants / Yuri Lysyansky",q:[
+   ["The flora of our planet is simply amazing. There are a lot of things plants ___ to do since they appeared on our planet.", "LEARN", "havelearnt"],
+   ["Some of them produce dangerous chemicals so that herbivores cannot eat ___.", "THEY", "them"],
+   ["There are even plants which attract predators. This is one of the ___ survival mechanisms developed by plants in the process of evolution.", "GOOD", "best"],
+   ["July 22 is a special day in Russian history. In 1806 on this day the ___ Russian round-the-world trip ended.", "ONE", "first", "Yuri Lysyansky"],
+   ["The trip led by the Russian navy officer Yuri Lysyansky ___ a great contribution to the study of the oceans.", "MAKE", "made"],
+   ["His ship ___ The Neva.", "CALL", "wascalled"]]}],
+ 19:[
+  {f:1,t:"Languages in the USA / The Brownings",q:[
+   ["The most commonly used language in the United States is English, which is the de facto national language. Nonetheless, many other languages ___ in the United States.", "SPEAK", "arespoken"],
+   ["___ include indigenous languages, languages brought to the country by colonists, enslaved people and immigrants from Europe, Africa and Asia.", "THIS", "these"],
+   ["Spanish, of course, is the ___ most commonly spoken language in the United States. However, few people realise that after English and Spanish Chinese is spoken regularly in more American homes than any other language.", "TWO", "second"],
+   ["On January 10, 1845, Robert Browning, a little-known poet and playwright, sent a letter to Elizabeth Barrett, an internationally renowned poet, an invalid, after reading her volume of poetry. Over the course of the next 20 months, they ___ each other close to 600 letters.", "WRITE", "wrote", "The Brownings"],
+   ["It is one of the ___ literary correspondences of all time.", "GREAT", "greatest"],
+   ["The couple’s last letter was exchanged on September 18, 1846, the night before the two ___ for a trip to Italy and two weeks after their secret marriage.", "LEAVE", "left"]]}],
+ 20:[
+  {f:1,t:"Oleg Protopopov / The Rosetta Stone",q:[
+   ["Have you heard about Oleg Protopopov? He was born in 1932 and he was one of the ___ figure skaters of his time.", "GOOD", "best"],
+   ["He ___ two Olympic gold medals.", "WIN", "won"],
+   ["He was also the ___ sportsman to show a lyrical programme in figure skating. Russian people are certainly proud of this outstanding sportsman.", "ONE", "first"],
+   ["We learn about our past thanks to the findings of archaeologists. The Rosetta stone is one of them. It ___ in 1799.", "FIND", "wasfound", "The Rosetta Stone"],
+   ["Thanks to this finding, scientists could start ___ the language of ancient Egyptians.", "STUDY", "studying"],
+   ["This happened so because there were texts on the stone. ___ texts were both in Greek and the ancient Egyptian language.", "THIS", "these"]]}],
+ 21:[
+  {f:1,t:"A strange story / A tasty cup",q:[
+   ["Boris Kustodiev was a famous Soviet painter. One day two young scientists ___ to see him.", "COME", "came"],
+   ["They wanted to have their portraits painted. Kustodiev painted portraits of famous people only and his ___ wish was to refuse them.", "ONE", "first"],
+   ["Still, the scientists insisted they ___ famous in the near future. They were P. Kapitsa and N. Semenov, who both later got the Nobel Prizes.", "BE", "wouldbe"],
+   ["Can you imagine a person who drinks his cup of coffee, then has his empty cup for dessert and leaves the café? A lot of Italian restaurants now serve the ___ coffee in the country in the cups which one can eat.", "GOOD", "best", "A tasty cup"],
+   ["The cup ___ with a substance which keeps the liquid inside.", "COVER", "iscovered"],
+   ["You ___ to put extra sugar in your coffee in such a cup because it is sweet.", "NOT NEED", "donotneed"]]}],
+ 22:[
+  {f:1,t:"Animal friends / Magical metals",q:[
+   ["Few people know that dolphins and whales can make good friends. They really enjoy ___ with each other.", "PLAY", "playing"],
+   ["It is one of the ___ things to see in the animal world.", "FUNNY", "funniest"],
+   ["Scientists believe that whales think that dolphins are their babies. In 2011 people even ___ a dolphin brought up by whales. Isn’t it amazing?", "FIND", "found"],
+   ["Do you know why people use silver and copper in medicine? ___ metals can kill dangerous bacteria and viruses.", "THIS", "these", "Magical metals"],
+   ["People ___ about it for a long time.", "KNOW", "haveknown"],
+   ["The door handles ___ of copper can even clean themselves.", "MAKE", "made"]]}],
+ 23:[
+  {f:1,t:"Scandinavian walking / Maria Callas",q:[
+   ["It is necessary to go in for sports. If you ___ enough time to go to the gym, you might take up Scandinavian walking.", "NOT HAVE", "donothave"],
+   ["Many people enjoy ___ this kind of sport.", "DO", "doing"],
+   ["It is a very cheap hobby – all you need is a pair of walking sticks and comfortable shoes. Still, the ___ thing is to take several lessons of Scandinavian walking to avoid traumas.", "GOOD", "best"],
+   ["Maria Callas was the world-famous opera singer. She ___ sing anything – from operas by Rossini to Wagner’s music dramas.", "CAN", "could", "Maria Callas"],
+   ["Maria ___ in Greece.", "EDUCATE", "waseducated"],
+   ["___ she moved to Italy and started her musical career there. She sang in the most prestigious opera houses and theatres and people adored her.", "LATE", "later"]]}],
+ 24:[
+  {f:1,t:"From the history of skirts / The English language",q:[
+   ["Skirts are a popular item of clothing. They ___ around 3900 BC.", "INVENT", "wereinvented"],
+   ["Now mostly ___ wear skirts of different colours, styles and length.", "WOMAN", "women"],
+   ["However, you may be surprised to learn that in ancient Greece only men ___ skirts. In some cultures, skirts are still a part of male outfits. Isn’t that amazing?", "WEAR", "wore"],
+   ["You are lucky to know English! It ___ one of the most popular languages in the world for many years.", "BE", "hasbeen", "The English language"],
+   ["However, learning English can be hard because some linguists say it has the ___ grammar of all European languages.", "BAD", "worst"],
+   ["There are many grammar rules and even more exceptions to ___.", "THEY", "them"]]}],
+ 25:[
+  {f:1,t:"Strange but true / A great joke",q:[
+   ["Do you like walking along snowy streets? Many people enjoy ___ it.", "DO", "doing"],
+   ["It is because they love the sound of the snow creaking under their ___.", "FOOT", "feet"],
+   ["It is interesting that you can hear this sound only if it is around -5 because of the snow structure. If it is warmer or colder, you ___ hear it.", "NOT CAN", "cannot"],
+   ["On April 1 British media always play jokes on their audience. One of the ___ media jokes is definitely the one of the BBC.", "GOOD", "best", "A great joke"],
+   ["On April 1, 1957 British people ___ a fake film about growing spaghetti in Switzerland.", "SHOW", "wereshown"],
+   ["The presenter ___ the surprised viewers that Swiss farmers gathered spaghetti right from spaghetti trees.", "TELL", "told"]]}],
+ 26:[
+  {f:1,t:"Lies, lies / Horoscopes",q:[
+   ["People usually want to know the truth. However, it can be hard to understand if a person is telling the truth or a lie. So far scientists ___ some ways to do it.", "FIND", "havefound"],
+   ["One way is to use special devices. Still, ___ can see a lie without any gadgets.", "WOMAN", "women"],
+   ["They notice if the answer takes a person ___ than usual. It is a sign of a lie.", "LONG", "longer"],
+   ["Do you read your horoscope online or in newspapers and magazines? Many people enjoy ___ so.", "DO", "doing", "Horoscopes"],
+   ["The ___ horoscopes appeared around 2000 BC in ancient Babylon.", "ONE", "first"],
+   ["Still, people ___ seriously interested in horoscopes only in the 17th century.", "BECOME", "became"]]}],
+ 27:[
+  {f:1,t:"From the history of Smolensk / Norway",q:[
+   ["Smolensk is one of the oldest cities in Russia. No one knows exactly when Smolensk ___.", "FOUND", "wasfounded"],
+   ["The first mentioning of it refers to the middle of the 9th century. Smolensk is often called the shield of Russia because in the past it ___ the western borders of our country.", "DEFEND", "defended"],
+   ["Despite this, there are a lot of historical buildings preserved in Smolensk, and tourists can enjoy ___ the beautiful Kremlin made of red brick and ancient churches there.", "VISIT", "visiting"],
+   ["Norway, officially the Kingdom of Norway, is a country in Northern Europe. Despite the fact that the country is a monarchy, the king there plays only a ceremonial role and ___ any real power.", "NOT HAVE", "doesnothave", "Norway"],
+   ["The country’s capital and largest city is Oslo, and ___ official language is Norwegian.", "IT", "its"],
+   ["Norway ___ to be a highly developed country. It is important to mention that now Norway is ranked number one in prosperity index though it stood lower in 2016.", "CONSIDER", "isconsidered"]]}],
+ 28:[
+  {f:1,t:"Beginnings of Russian railways / White nights in Norway",q:[
+   ["In the middle of the 19th century, the Russian Empire was so big that the necessity of creating a railway system to connect the central regions with the eastern territories became obvious. The ___ public railway in Russia connected Saint Petersburg with the Emperor’s residence in Tsarskoe Selo.", "ONE", "first"],
+   ["It was 27 kilometers long and it ___ about two years to build it.", "TAKE", "took"],
+   ["At that time nobody knew that in the future Russia ___ one of the longest and best railway systems in the world.", "HAVE", "wouldhave"],
+   ["Daylight in Norway varies greatly. Though winters are quite dark and gloomy, summers make up for it by the season of white nights. From May to July the sun ___ below the horizon.", "NOT SET", "doesnotset", "White nights in Norway"],
+   ["Thus, there is only twilight instead of complete darkness. This phenomenon ___ white nights.", "CALL", "iscalled"],
+   ["It is interesting that in summers many Norwegians enjoy ___ a four-week holiday which gives them plenty of time to hunt, fish or simply walk.", "HAVE", "having"]]}],
+ 29:[
+  {f:1,t:"Altai / Mayflower",q:[
+   ["Altai is a truly unique place in Russia. There one can find everything from picturesque mountain ranges to valleys. It also has ___ than 400 caves of various shapes.", "MANY", "more"],
+   ["Some of these caves have labyrinths which can be quite dangerous for an inexperienced tourist. Still, Altai caves are worth ___ as they allow people to understand how beautiful the underground world can be.", "VISIT", "visiting"],
+   ["Millions of tourists ___ to Altai so far, and a lot of them want to come back to Altai again.", "BE", "havebeen"],
+   ["People all over the world love mayflowers because when they appear, it means that spring is coming. According to English legends, if you once plant mayflowers near your house, they ___ you from evil spirits forever.", "PROTECT", "willprotect", "Mayflower"],
+   ["Sorry to say, not all people remember that mayflowers ___ to be endangered, so you may look at them, but you shouldn’t pick them.", "CONSIDER", "areconsidered"],
+   ["We must take care of them so that our ___ can see these beautiful flowers.", "CHILD", "children"]]},
+  {f:1,t:"Pelmeni / Burj Khalifa",q:[
+   ["Pelmeni is a popular Russian dish. There are many different kinds of pelmeni, so everyone will find something to their liking. This dish ___ from minced meat and dough.", "PREPARE", "isprepared"],
+   ["You can boil, bake or fry pelmeni. It is interesting to mention that many regions of Russia claim that it was there where the tradition to cook pelmeni once ___ from.", "COME", "came"],
+   ["Izhevsk, for instance, even has a monument to pelmeni. Tourists enjoy ___ photos of it.", "TAKE", "taking"],
+   ["Burj Khalifa is a very famous building which is situated in Dubai. Its height is 829,8 metres. It ___ the tallest building in the world ever since 2009.", "BE", "hasbeen", "Burj Khalifa"],
+   ["The number of floors in Burj Khalifa is so huge as there are a total of 2909 stairs from the ground floor to the 160th floor. However, in the future the building ___ its title to Dubai Creek Tower which is expected to be taller.", "LOSE", "willlose"],
+   ["Burj Khalifa is a beautiful construction with some observation decks, hotels, offices and residences ___ there.", "LOCATE", "located"]]}],
+ 30:[
+  {f:1,t:"Fishing in Kamchatka / The Olympics in Sydney",q:[
+   ["Kamchatka region is famous for being a true paradise for fishing enthusiasts. This area ___ one of the best fishing spots in Russia for many years.", "BE", "hasbeen"],
+   ["You can get a license and go fishing on your own or you can take a fishing tour. ___ tours include a guide and all the necessary equipment.", "THIS", "these"],
+   ["Kamchatka is a great place to enjoy fishing in clean waters of the local lakes and some of the ___ locations in the world.", "BEAUTIFUL", "mostbeautiful"],
+   ["The Olympic Games of 2000 were very special as Sydney, the host city, did a great job meeting the spectators’ numerous expectations. Anticipation was certainly high for the first Games of the new millennium. The year 2000 also ___ new additions to the sporting line-up – triathlon and taekwondo.", "SEE", "saw", "The Olympics in Sydney"],
+   ["Furthermore, it was the first time when ___ could compete in weightlifting and modern pentathlon.", "WOMAN", "women"],
+   ["Russia took the ___ place in Sydney 2000, which was a great result.", "TWO", "second"]]},
+  {f:1,t:"How QR codes work",q:[
+   ["QR codes were introduced in 1994. Since then, many types of QR codes ___.", "APPEAR", "haveappeared"],
+   ["Let us take micro QR codes. They are small, so they don’t take much space, but they can carry ___ information than regular QR codes.", "LITTLE", "less"],
+   ["There are also frame QR codes. They ___ in 2014 to allow for more creativity in the QR code look.", "DEVELOP", "weredeveloped"],
+   ["QR code generators offer a wide range of features, ___ colour, shape, type, logo, and much more.", "INCLUDE", "including"],
+   ["When you see a QR code on a certain product in a supermarket, you may find it hard to believe that this little box can carry so much information. The ___ way to think about it is to imagine that QR codes have their own language.", "EASY", "easiest"],
+   ["A QR code consists of black squares that are like letters of this language which are interpreted only by scanners. There is such a scanner in your smartphone installed, so you ___ to download any apps to be able to scan and read QR codes.", "NOT NEED", "donotneed"]]}],
+ 31:[
+  {f:1,t:"An important discovery / The Flam railway",q:[
+   ["Crimea is not only a popular holiday destination for tourists, it is also a place where history comes alive. There is much for archeologists to do there. Scientists used to think that the ___ men came to the Crimean lands about 100,000 years ago.", "ONE", "first"],
+   ["However, some months ago they ___ a surprising discovery which baffled many archeologists worldwide.", "MAKE", "made"],
+   ["There ___ some tools that were approximately 800,000 years old and could belong to Neanderthals.", "FIND", "werefound"],
+   ["If you like to look at picturesque landscapes but are not too keen on hiking, a beautiful railway journey may be just what you need. One of such scenic routes can be found in Norway – it’s the Flam railway. It is thought to be one of the ___ in the world.", "GOOD", "best", "The Flam railway"],
+   ["The journey lasts 1 hour. The train passes through 20 tunnels and enables the passengers to enjoy ___ at the idyllic mountain scenery.", "LOOK", "looking"],
+   ["Thousands of tourists ___ this exciting route so far.", "TRY", "havetried"]]},
+  {f:1,t:"Khokhloma tableware",q:[
+   ["You can find spoons or other tableware of Khokhloma in almost every Russian home. Khokhloma tableware looks very beautiful with its black, red and golden ornaments. For many years Khokhloma craftsmen ___ the secrets of their craft from father to son.", "PASS", ["havebeenpassing", "havepassed"]],
+   ["___ secrets allow them to make such great things.", "THIS", "these"],
+   ["For instance, Khokhloma tableware is resistant to temperature changes. Its painted decoration ___ even after being in the freezer for some time.", "NOT CRACK", "doesnotcrack"],
+   ["Khokhloma spoons in particular can be found in almost every Russian household. They ___ of wood only and have beautiful red and golden ornaments against the black background.", "MAKE", "aremade"],
+   ["Some people think such spoons are just nice souvenirs, but in fact, they can be used in everyday life. You can eat or cook ___ these spoons as they are resistant to changes of temperature.", "USE", "using"],
+   ["Small ___ like to play with Khokhloma spoons and use them as musical instruments.", "CHILD", "children"]]}],
+};
+const exam26FipiWF={
+ 0:[
+  {f:1,t:"Moscow State University",q:[
+   ["Moscow State University was founded in 1755 by the famous scholar Mikhail Lomonosov, that is why it is now named after him. In the 1940s it got a new ___ which we all know and admire.", "BUILD", "building"],
+   ["It is very tall and can be seen from many parts of the city. The university has all the necessary facilities such as a concert hall, a museum, ___ administration services, a swimming pool, a canteen, and so on.", "VARY", "various"],
+   ["___, students of Moscow State University can use the university library too.", "NATURAL", "naturally"],
+   ["In fact, it has one of the biggest book ___ in Russia.", "COLLECT", "collections"],
+   ["The university is proud to have many notable graduates. Among them are Mikhail Lermontov, Anton Chekhov and Lev Vygotsky. Many outstanding writers and ___ of the past and the present once studied there, so Moscow State University is certainly a place many Russian school students dream of.", "SCIENCE", "scientists"]]}],
+ 2:[
+  {f:1,t:"Fyodor Konyukhov",q:[
+   ["The name of Fyodor Konyukhov is known all over the world. He is a great Russian ___ and adventurer.", "TRAVEL", ["traveller", "traveler"]],
+   ["Fyodor Konyukhov was born in 1951. Even when he was a child, he did many things which his peers couldn’t think of, like swimming in ___ cold water.", "EXTREME", "extremely"],
+   ["At the age of 15, he managed to swim across the Sea of Azov using a row fishing boat. This was quite an ___ for a boy of this age.", "ACHIEVE", "achievement"],
+   ["Fyodor Konyukhov has participated in more than 40 voyages so far. You may find it ___ to believe it, but at the age of 58, he conquered Everest, as well as the 7 highest peaks in a team with other climbers.", "POSSIBLE", "impossible"],
+   ["He has visited both the North and South Poles, and he has crossed the Atlantic 15 times. Fyodor Konyukhov eagerly shares the ___ of his voyages with the help of his wonderful paintings and exciting books.", "IMPRESS", "impressions"]]},
+  {f:1,t:"Using a digital library",q:[
+   ["Digital libraries can be accessed from any computer or device with an internet connection. It means that there is no need for ___ to physically visit the library or store materials to access them.", "USE", "users"],
+   ["That is why digital libraries are used by public libraries, university libraries and private companies. The software you will need to access a digital library is ___ free to use.", "USUAL", "usually"],
+   ["However, some libraries require specific plugins or software installed, otherwise it will be ___ to view the content.", "POSSIBLE", "impossible"],
+   ["The advantages of using a digital library include access to an expensive ___ of materials and increased convenience.", "COLLECT", "collection"],
+   ["Digital libraries also offer a more engaging experience with ___ elements, as well as social media-like features for connecting with others and exploring topics in new ways.", "INTERACT", "interactive"]]}],
+ 3:[
+  {f:1,t:"Russian pelmeni",q:[
+   ["When you think of Russian food, the first thing that may come to your mind is pelmeni. Pelmeni is Russia’s ___ dish.", "NATION", "national"],
+   ["They are small dumplings with ___ fillings wrapped in a thin layer of dough.", "VARY", "various"],
+   ["The most popular fillings are all kinds of meat and sometimes fish, but some people add cabbage or mushrooms, too. You can add some sour cream to make pelmeni even more delicious. ___, Russian women made pelmeni only in winter so that they could make a lot of them and keep them frozen outdoors in special wooden boxes.", "HISTORICAL", "historically"],
+   ["Now you can eat pelmeni all the year round. Most ___ to Russia try pelmeni and find them very tasty.", "VISIT", "visitors"],
+   ["There is an ___ monument to pelmeni in Russia. It is located in Izhevsk, Udmurtia. There is a gastronomic festival devoted to pelmeni in Udmurtia, too.", "USUAL", "unusual"]]},
+  {f:1,t:"Public libraries",q:[
+   ["As libraries have been around for thousands of years, many people take them for granted. However, we must realize that public libraries ___ play a significant role in our society.", "ACTUAL", "actually"],
+   ["Public libraries provide access to information about ___ planning, market research and finance opportunities for those who are looking for spaces to network or conduct research.", "BUSY", "business"],
+   ["Even though job ___ are changing fast, public libraries make it possible to upskill the workforce at a low cost or even for free.", "REQUIRE", "requirements"],
+   ["Public libraries provide resources and services for literacy and ___ to anyone.", "EDUCATE", "education"],
+   ["They help people become a part of a community. Therefore, peoples’ need for libraries is ___ to change any time soon.", "LIKELY", "unlikely"]]}],
+ 4:[
+  {f:1,t:"The State Hermitage Museum",q:[
+   ["The State Hermitage Museum is located in Saint Petersburg, Russia. It is ___ one of the greatest and most visited museums of the world.", "CERTAIN", "certainly"],
+   ["Catherine the Great founded it in 1764, but it was opened to the public in 1852 only. Now it can boast a huge ___ of over 3 million works of art.", "COLLECT", "collection"],
+   ["It may be an ___ task to see all the masterpieces kept in the museum – it will take a person about eleven years to look at each of the museum’s exhibits for just one minute.", "POSSIBLE", "impossible"],
+   ["However, the Hermitage is interesting not only because of the ___ paintings kept there.", "PRICE", "priceless"],
+   ["The Winter Palace used to be the official ___ for the Romanov Tsars, so it is a beautiful construction – one of the greatest symbols of imperial Russia.", "RESIDE", "residence"]]},
+  {f:1,t:"Instant tea",q:[
+   ["Instant tea is popular beverage all over the world. It was not an easy task to develop it. Instant tea appeared in the 1930s, but its commercial ___ started only in the 1940s.", "PRODUCE", "production"],
+   ["This form of tea quickly grew in ___ and was seen as a great alternative to soft drinks.", "POPULAR", "popularity"],
+   ["Instant tea has a very strong aroma and is very ___ and refreshing, especially in hot weather.", "TASTE", "tasty"],
+   ["It is different from ordinary tea because to make it you ___ need to dissolve the tea powder in hot or cold water.", "SIMPLE", "simply"],
+   ["Instant tea is very attractive for modern people as they are always in a hurry and don’t have enough time for a proper cup of tea, but some experts think instant tea can be ___ and people shouldn’t drink it too often.", "HEALTH", "unhealthy"]]}],
+ 5:[
+  {f:1,t:"Sergey Bezrukov",q:[
+   ["Sergey Bezrukov is a Russian screen and stage actor and singer. He was born in an ___ family as his father was an actor at the Moscow Satire Theatre.", "ARTIST", "artistic"],
+   ["On graduating from the Moscow Art Theatre School Sergey was immediately accepted into the troupe of the Moscow Theatre Studio under Oleg Tabakov. At that time, he also started to do voice-over for TV programmes and ___ got noticed by TV producers.", "QUICK", "quickly"],
+   ["Due to his excellent acting in ___ films, Sergey soon became a household name in Russia.", "VARY", "various"],
+   ["The range of his roles is truly ___.", "IMPRESS", "impressive"],
+   ["He seems to be able to play anybody – from Russian poets Pushkin and Yesenin to comical figures in funny remakes of old Soviet comedies. Bezrukov is a prolific actor and director, and his fans are waiting for new ___ films and plays starring him.", "EXCITE", "exciting"]]},
+  {f:1,t:"Libraries and education",q:[
+   ["Public libraries play an important role in supporting education and literacy. They provide ___ valuable resources to their visitors.", "COUNT", "countless"],
+   ["Modern libraries contain a lot of ___ materials, scientific publications, newspapers and magazines which may not be available anywhere else.", "EDUCATION", "educational"],
+   ["They are ___ important for school and university students.", "REAL", "really"],
+   ["Libraries encourage them to become more ___ readers.", "ACT", "active"],
+   ["They also allow students to explore literature outside of their curriculum, thus expanding their knowledge. Many students also use their school or university library as a reading room, though prior ___ will probably have to be asked to bring external books into the library.", "PERMIT", "permission"]]}],
+ 6:[
+  {f:1,t:"Ivan Sechenov",q:[
+   ["Ivan Sechenov was an outstanding Russian scientist. He was born in 1829 in a noble family. His parents inspired young Ivan to continue his education throughout his entire life, and the boy followed their advice. At the age of 14 he chose to become a military engineer and studied ___ technical subjects.", "VARY", "various"],
+   ["However, his heart was not really in it. In 1850 Sechenov entered Moscow Medical University with a full ___ of the goals of his life.", "AWARE", "awareness"],
+   ["Sechenov was a ___ student, which enabled him to graduate among top students.", "WILL", "willing"],
+   ["He mastered biology, anatomy, surgery and physiology to ___.", "PERFECT", "perfection"],
+   ["After a short period of studying and working abroad Sechenov returned to Russia where he made numerous discoveries in psychology, physiology and anatomy, many of which we still use today. Publishing houses ___ his scientific works every year.", "PRINT", "reprint"]]},
+  {f:1,t:"The importance of visuals for a blog",q:[
+   ["If you are going to take up blogging, you must be thinking about your future content a lot. However, you should ___ consider not only your writing, but also some visual elements to your articles.", "DEFINITE", "definitely"],
+   ["In fact, Internet ___ point out that articles get shared twice as much when they have one image per every one hundred words.", "JOURNAL", "journalists"],
+   ["With that in mind, break up large blocks of text by incorporating ___ images and videos.", "COLOUR", ["colourful", "colorful"]],
+   ["This keeps the attention of your ___ on the page for longer and prevents them from getting bored or intimidated by so much text.", "READ", ["reader", "readers"]],
+   ["Be sure to use unique, high-quality images to create a polished and professional piece. If you’re ___ to use photographs of your own for some reason, you can get free stock photos from different sites.", "ABLE", "unable"]]}],
+ 7:[
+  {f:1,t:"Alexander Blok",q:[
+   ["Alexander Blok was a Russian lyrical poet, writer, publicist, playwright, translator and literary critic. He was born in 1880 in Saint Petersburg in a ___ educated family.", "HIGH", "highly"],
+   ["His father was a professor of law, and his grandfather was a famous ___ and the rector of Saint Petersburg State University.", "BOTANY", "botanist"],
+   ["The ___ images of his early poetry established him as a major figure of the Russian Symbolism style.", "AMAZE", "amazing"],
+   ["Poetic ___ came naturally to him.", "INSPIRE", "inspiration"],
+   ["Blok often produced unforgettable and otherworldly images out of the most banal ___ and trivial events, though his most beautiful poems were still devoted to his wife. Blok greeted the 1905 Russian Revolution enthusiastically, but later became disillusioned with it and couldn’t write any more, although he still gave lectures on literature.", "SURROUND", "surroundings"]]},
+  {f:1,t:"The first libraries",q:[
+   ["The first libraries appeared in around 2,600 BC in Sumer. There were no paper books at that time – people used clay tablets. They were stored in ___ in special rooms.", "CONTAIN", "containers"],
+   ["Such rooms were ___ located in temples.", "USUAL", "usually"],
+   ["However, more and more information needed to be stored, that is why people decided they needed separate ___ for the clay tablets and later for manuscripts.", "BUILD", "buildings"],
+   ["Around 500 BC libraries stored not only ___ orders and records, but also works on mathematics, history, astronomy, philosophy and medicine.", "GOVERN", "government"],
+   ["Libraries of the ancient Roman Empire had ___ manuscripts of the best scholars of that time, so an early form of a catalogue system was introduced and librarians were needed.", "COUNT", "countless"]]}],
+ 8:[
+  {f:1,t:"Anatoly Karpov",q:[
+   ["Anatoly Karpov is a Russian chess grandmaster. He is considered to be one of the greatest ___ of all time.", "PLAY", "players"],
+   ["Karpov started playing chess when he was only four. Recognizing his talent, Karpov’s parents did everything possible to help him master this ___ game.", "EXCITE", "exciting"],
+   ["Karpov quickly became the national master and went on to receive the title of a grandmaster at the age of 19. It may sound ___ but Karpov successfully combined playing chess with being an excellent student.", "POSSIBLE", "impossible"],
+   ["He proceeded to win a series of ___ tournaments, becoming the official world champion in 1975.", "NATIONAL", "international"],
+   ["His reign as the world champion came to an end only when he was defeated by Garry Kasparov in 1985. The two men then had many more matches at various ___, proving to be equally good chess masters. Karpov is now actively involved in humanitarian activities.", "CHAMPION", "championships"]]},
+  {f:1,t:"The Galapagos Islands",q:[
+   ["The world-renowned Galapagos archipelago is located in the Pacific Ocean, approximately 1,000 km off the coast of Ecuador. The remote islands are one of the world’s most ___ wildlife viewing destinations.", "AMAZE", "amazing"],
+   ["Thus, they feature on the bucket lists of many ___.", "ADVENTURE", "adventurers"],
+   ["The waters around the islands are home to a vast ___ of marine life, which makes scuba diving in the area one of the highlights of any visit.", "COLLECT", "collection"],
+   ["You can either explore the islands on a boat or go on day trips to the more remote ___ islands where no one lives.", "INHABITED", "uninhabited"],
+   ["As the islands are home to such an exceptional diversity of wildlife, much of which is found nowhere else on Earth, tourism is very ___ controlled to protect the fragile environment.", "CAREFUL", "carefully"]]}],
+ 9:[
+  {f:1,t:"Vladislav Tretyak",q:[
+   ["Vladislav Tretyak is an outstanding Russian hockey player. He is considered to be one of the best goaltenders in the history of ice hockey. He was born in 1952 in a family of a military pilot and a PE teacher. So, it was only ___ that Tretyak did much sport in his early childhood.", "NATURE", "natural"],
+   ["He tried ___ sports and wanted to excel in all of them, but fell in love with ice hockey at the age of 11.", "VARY", "various"],
+   ["He entered the Children and Youth Sports School of the CSKA, where he began playing goaltender when he saw that, ___, no one else had the desire or courage to play the position.", "ACTUAL", "actually"],
+   ["By the age of 19, Tretyak was already famous not only in Russia, but also on the ___ level.", "NATIONAL", "international"],
+   ["His great ___ in the Summit Series in 1972 earned him a massive fan base all over the world. Tretyak retired at the age of 32 to spend more time with his family. He is the current president of the Ice Hockey Federation in Russia.", "PERFORM", "performance"]]},
+  {f:1,t:"Mistakes of a beginning blogger",q:[
+   ["A beginning blogger can make some mistakes while making the first steps online. ___, the biggest of them is when beginner bloggers do not know their audience.", "PROBABLE", "probably"],
+   ["Bloggers think about their content without thinking about their potential ___.", "READ", "readers"],
+   ["Still, there’s a big ___ of them.", "VARY", "variety"],
+   ["Let’s say you are going to write about yoga. Are you going to do it for yoga enthusiasts or yoga studio owners? If you are unsure about the audience of your future blog, you will not be able to produce ___ content, because your audience should define it.", "EXCITE", "exciting"],
+   ["Write down some of their interests and needs. Based on what you know about their ___, brainstorm what subjects will interest them or what issues they might be facing.", "PERSONAL", "personalities"]]}],
+ 10:[
+  {f:1,t:"Denis Matsuev",q:[
+   ["Denis Matsuev is a Russian classical pianist. Born in Irkutsk in 1975, Matsuev is the only child of two musicians. His mother is a piano teacher and his father is a pianist and a ___.", "COMPOSE", "composer"],
+   ["Matsuev’s talent became obvious in his early childhood. He was only three years old when he managed to ___ on his piano at home a melody which he had heard on television.", "PRODUCE", "reproduce"],
+   ["In 1990 young Denis won a prize at the New Names Charitable Foundation ___ in Irkutsk and got a scholarship from the foundation to study music in Moscow.", "COMPETE", "competition"],
+   ["Matsuev toured the world with other young gifted musicians from Russia discovered by the foundation. In 1994 he took part in his first ___ piano contest in Johannesburg, South Africa, where he was awarded the Grand Prix.", "NATIONAL", "international"],
+   ["His musical career quickly progressed. He is now a world-famous pianist with ___ awards and a massive fan base.", "VARY", "various"]]},
+  {f:1,t:"Pavel Yablochkov",q:[
+   ["Pavel Yablochkov was a Russian electrical engineer and businessman. He was also the ___ of the Yablochkov candle – a type of electric carbon arc lamp – and the transformer.", "INVENT", "inventor"],
+   ["A Yablochkov candle was much easier to use than other kinds of lamps. The first public use of a Yablochkov candle took place in Paris in 1877. The Paris Exposition of 1878 gave Yablochkov a great opportunity to make a spectacular ___ of his candle to the world audience.", "DEMONSTRATE", "demonstration"],
+   ["It was so ___ that many contemporary businessmen got interested in Yablochkov candles.", "SUCCESS", "successful"],
+   ["They ___ set up companies licensing Yablochkov’s patents.", "QUICK", "quickly"],
+   ["From the mid-1880s, Yablochkov started to devote more of his time to the problems of generating electrical energy. Many of Yablochkov’s further inventions were much ahead of his time. Modern ___ still use his ideas in their work.", "SCIENCE", "scientists"]]}],
+ 11:[
+  {f:1,t:"Daniil Medvedev",q:[
+   ["Daniil Medvedev is a Russian professional tennis player. He is ___ ranked by the Association of Tennis Professionals (ATP) as world No 2.", "CURRENT", "currently"],
+   ["He was born in Moscow. In his early ___ he was interested in music.", "CHILD", "childhood"],
+   ["However, when he was 9 years old, his mother saw an ___ for group tennis lessons, and Daniil decided to try them.", "ADVERTISE", "advertisement"],
+   ["His first tennis coach was Ekaterina Kryuchkova, a former coach of the famous professional tennis player Vera Zvonareva. When he was 18, his results were so ___ that Medvedev even had to drop out of college to focus on tennis.", "IMPRESS", "impressive"],
+   ["Medvedev is known for mirroring his opponent’s play. His playstyle incorporates strong returns with as few mistakes as possible and making games ___.", "PREDICTABLE", "unpredictable"]]},
+  {f:1,t:"Uluru",q:[
+   ["Uluru (often called Ayers Rock) is located deep in the outback in central Australia. It’s considered a sacred site by the Aborigines. ___ can reach the area by a 200 km car trip after flying into Alice Springs, Darwin or Adelaide.", "VISIT", "visitors"],
+   ["The area includes many breathtaking ___ wonders and reveals much about the legends and mysteries of Aboriginal people.", "NATURE", "natural"],
+   ["Located in the Red Centre, Uluru is one the most ___ sights in Australia Here you can learn more about the cultural", "FORGET", "unforgettable"],
+   ["___ of the area, you can do a base walk and meet some of the local wildlife (get ready for the Australian face fly), and you can take more photos than you thought possible.", "SIGNIFICANT", "significance"],
+   ["___ ranges from budget to luxury.", "ACCOMMODATE", "accommodation"],
+   ["There are even ___ opportunities if you’re brave enough for that!", "CAMP", "camping"]]}],
+ 12:[
+  {f:1,t:"Russian winter clothes",q:[
+   ["Winters in some areas of Russia can be quite cold. Thus, both local people and ___ to the country need some good warm clothes.", "VISIT", "visitors"],
+   ["When it’s freezing cold outdoors, you can still look ___ as you can find great winterwear in Russian shops.", "FASHION", "fashionable"],
+   ["Still, there are some pieces of advice for you to follow in winter. Firstly, it’s a good idea to put on multiple layers of clothes. They really help you to feel warm even in ___ cold weather.", "EXTREME", "extremely"],
+   ["If it’s colder than minus 15 degrees Centigrade, you can put on a thermal layer first. Secondly, you should have a fur coat, or, if you prefer something more ___, a warm jacket.", "PRACTICE", "practical"],
+   ["Finally, you can make your winter outfit look interesting with the help of various accessories such as stylish hats with ear flaps or ___ woolen scarves and warm gloves.", "COLOUR", ["colourful", "colorful"]]]},
+  {f:1,t:"The rodeo",q:[
+   ["The rodeo is a really exciting event. It is a thrilling ___ between cowboys from all over the country.", "COMPETE", "competition"],
+   ["It has a long tradition and even today there are rodeo schools which keep it alive and ___.", "PROFESSION", "professional"],
+   ["The rodeo is a spectacular sight. If a ___ has a place in the first row of the arena, he or she may even be sprinkled with sand by the passing horses.", "VISIT", "visitor"],
+   ["The ___ usually starts with an opening ceremony by horsemen dressed in bright colours and carrying flags.", "PERFORM", "performance"],
+   ["All through the show the master of the ceremony ___ jokes with special clowns.", "CONSTANT", "constantly"],
+   ["A rodeo in Texas is certainly an exciting experience which is practically ___ for a tourist to forget.", "POSSIBLE", "impossible"]]}],
+ 13:[
+  {f:1,t:"Russia in space",q:[
+   ["Everyone knows that Russians were the first in space in many ways. We were the first nation to send an artificial satellite, an animal, and a human into orbit. However, there are other less well-known ___ of our country in the space race.", "ACHIEVE", "achievements"],
+   ["For example, Russian ___ were the first to take a photo of the dark side of the Moon.", "SCIENCE", "scientists"],
+   ["In October 1959 they launched a spacecraft with a camera. The probe took 40 photos of the far side of the Moon and transmitted them to the Earth. Russians were also the first to land on another planet. After some ___ attempts in 1971 Venera-7 finally landed on the surface of Venus.", "SUCCESS", "unsuccessful"],
+   ["The same year our country landed on Mars and took the first photo of it. The mission didn’t send any ___ information back to Earth but it was still a breakthrough.", "VALUE", "valuable"],
+   ["Russian astronauts still continue to explore the outer space and are ___ all over the world.", "FAME", "famous"]]},
+  {f:1,t:"Venice",q:[
+   ["Have you ever been to Venice? It’s a ___ Italian city with a lot of historical buildings.", "BEAUTY", "beautiful"],
+   ["Still, the main ___ of Venice is not its architecture or canals, but its Carnival.", "ATTRACT", "attraction"],
+   ["This festival was started in 1162, but in the 17th century this festival declined in popularity under the rule of the King of Austria and reappeared only in the 19th century. Now the Carnival of Venice is one the biggest festivals in Italy and attracts huge crowds of ___.", "VISIT", "visitors"],
+   ["This event is well-known for its ___ and elaborate masks.", "COLOUR", "colourful"],
+   ["Masking is an important carnival tradition and can ___ be considered the main feature of the event.", "ACTUAL", "actually"],
+   ["The Venetian mask makers also have a special position in the community. Other activities of the Carnival of Venice include various concerts, different types of street ___ and even an unforgettable candle-lit boat parade.", "PERFORM", "performances"]]}],
+ 14:[
+  {f:1,t:"Anton Shipulin",q:[
+   ["Anton Shipulin is an outstanding retired Russian biathlete. In his long career he won ___ international competitions and was considered to be among the strongest biathletes of his time.", "VARY", "various"],
+   ["In 2010 he was even awarded an order by the Russian President. Among his best achievements is ___ the gold medal in the men’s relay at the 2014 Winter Olympics in Sochi.", "CERTAIN", "certainly"],
+   ["His sister Anastasia Kuzmina is also a ___ biathlete.", "SUCCESS", "successful"],
+   ["She lives in Slovakia. She is also an Olympic gold ___.", "MEDAL", "medallist"],
+   ["In December 2018 Shipulin announced his ___ from sports after the World Team Challenge, which is also called the Christmas Race.", "RETIRE", "retirement"]]},
+  {f:1,t:"St. Isaac’s Cathedral",q:[
+   ["St. Isaac’s Cathedral is one of the biggest Orthodox churches in Russia. The Cathedral was named in honour of St. Isaac of Dalmatia, who was ___ respected by Peter I as he was born on St. Isaac’s day.", "GREAT", "greatly"],
+   ["The first wooden church was built in 1710. Later the ___ of a new cathedral began.", "CONSTRUCT", "construction"],
+   ["A lot of ___ architects took part in creating the cathedral which was opened to public in 1858.", "FAME", "famous"],
+   ["___ from all over the world come to see the cathedral every day.", "TOUR", "tourists"],
+   ["They can go inside and enjoy the ___ interiors of the building.", "AMAZE", "amazing"],
+   ["Little do they know how much the cathedral suffered during the bomb attacks of the Second World War The services were revived in the cathedral in 1990 and take place regularly on big ___ holidays and Sundays.", "RELIGION", "religious"]]}],
+ 15:[
+  {f:1,t:"Alexey Savrasov",q:[
+   ["Alexey Savrasov is an outstanding Russian painter. He is considered to be the ___ of the lyrical landscape style.", "CREATE", "creator"],
+   ["Savrasov was born into the family of a merchant. He became interested in painting very early and tried ___ styles and techniques.", "VARY", "various"],
+   ["He graduated from the Moscow School of Painting, Sculpture and Architecture (MSPSA) in 1850 and began to ___ in landscape painting.", "SPECIAL", "specialise"],
+   ["In 1857 Savrasov became a teacher in the MSPSA, and his best students there were Isaac Levitan and Konstantin Korovin. After his marriage his home became one of the most ___ places for artists and collectors.", "INTEREST", "interesting"],
+   ["___, Savrasov sank into depression after some tragic events in his personal life.", "FORTUNATELY", "unfortunately"]]},
+  {f:1,t:"Millennium Park",q:[
+   ["Rising by the lakefront, Millennium Park is a great place to spend a day. It is a complex of ___ examples of modern architecture.", "BEAUTY", "beautiful"],
+   ["One can say it is an outdoor modern design gallery. Most elements of this outstanding park are free for ___.", "VISIT", "visitors"],
+   ["The park is especially ___ for its connection with music.", "FAME", "famous"],
+   ["In summer, Millennium Park ___ hosts free concerts at lunchtime and at 6.30 pm.", "OFFICIAL", "officially"],
+   ["For the latter, bring a picnic basket and enjoy new music on Mondays, jazz and world music on Thursdays, and classical music on a ___ basis.", "DAY", "daily"],
+   ["Each Saturday free exercise classes (yoga at 8 am, Pilates at 9 am and dance at 10 am) take place in the park as well. The Family Fun Tent provides free ___ for kids on Sundays between 10 am and 3 pm. Free walking tours take place on Sundays, or you may do it yourself with a downloadable tour from the website.", "ACTIVE", "activities"]]}],
+ 16:[
+  {f:1,t:"Evgenia Medvedeva",q:[
+   ["Evgeniya Medvedeva is an outstanding Russian figure skater. She is a two-time European and World champion and a two-time Olympic silver ___ (2018 ladies’ singles and 2018 team event).", "MEDAL", "medallist"],
+   ["She has many more prizes in important ___ and competitions.", "CHAMPION", "championships"],
+   ["Medvedeva is famous for having set the world record score 13 times. She spent her most ___ seasons with her coach Eteri Tutberidze.", "SUCCESS", "successful"],
+   ["After taking only the second place in the 2018 Olympics Medvedeva was ___ upset and decided to change the coach.", "REAL", "really"],
+   ["She moved to Canada to train in Toronto Cricket Club with Brian Orser. In March 2021 she returned to Eteri Tutberidze. ___, she hasn’t competed for a year but the world still remembers her as one of the most prominent female figure skaters in the world.", "FORTUNATELY", "unfortunately"]]},
+  {f:1,t:"Mikhail Vrubel",q:[
+   ["Mikhail Vrubel is a renowned Russian painter who worked in almost all genres of art, including graphics and sculpture. He was born in Omsk to an ordinary family. In his early ___ Vrubel was very weak because of the harsh Siberian climate.", "CHILD", "childhood"],
+   ["___, his family moved to warmer regions, where Vrubel quickly got better.", "FORTUNATE", "fortunately"],
+   ["Mikhail Vrubel showed his ___ talent at the age of 10.", "ARTIST", "artistic"],
+   ["That is why his father hired a private ___ so that he could learn the advanced painting techniques.", "TEACH", "teacher"],
+   ["Still, after finishing school Vrubel decided to study law. While studying at university, Vrubel practised art only through making ___ for books.", "ILLUSTRATE", "illustrations"],
+   ["He didn’t finish university and entered the Imperial Academy of Arts and made friends with Serov. His most famous works are the ___ pictures The Swan Princess and Demon Downcast.", "USUAL", "unusual"]]}],
+ 17:[
+  {f:1,t:"Signal Hill",q:[
+   ["Do you know about Signal Hill? This ___ place is located in Canada, at the entrance to St. John’s harbour.", "BEAUTY", "beautiful"],
+   ["This is an important historical ___ of Canada.", "ATTRACT", "attraction"],
+   ["It was ___ here, in 1901, that the first wireless transatlantic signal was received.", "EXACT", "exactly"],
+   ["The Cabot Tower is one of the key ___ of Signal Hill.", "BUILD", "buildings"],
+   ["It was constructed in 1897 to ___ the 400th anniversary of the discovery of Newfoundland. It also commemorates now G. Marconi’s reception of the first transatlantic radio telegraphy signal, transmitted over a distance of 2,700 kilometres from England.", "SYMBOL", "symbolise"]]},
+  {f:1,t:"Washington National Cathedral",q:[
+   ["Washington National Cathedral is a dramatic Gothic building. It is so ___ that it is considered to be one of the greatest architectural treasures of the world.", "BEAUTY", "beautiful"],
+   ["There are various excursions to the cathedral. The best idea is to go online to check the guides’ schedules as they ___ in different aspects of the building’s history.", "SPECIAL", "specialize"],
+   ["It took 82 years to build the cathedral – Theodore Roosevelt laid the cornerstone in 1908, and the cathedral’s ___ didn’t technically stop until 1990.", "CONSTRUCT", "construction"],
+   ["The cathedral provoked strong opposition early on, but later the numerous ___ calmed down.", "ARGUE", "arguments"],
+   ["It is great to have a walk around the cathedral through the ___ paths in the garden.", "PEACE", "peaceful"],
+   ["The 2011 earthquake caused an estimated $26 million in damages to the cathedral. Repairs are underway, but nevertheless, ___ still have full access to the key areas of interest inside the cathedral", "VISIT", "visitors"]]}],
+ 18:[
+  {f:1,t:"Stanley Park",q:[
+   ["Stanley Park is a 1,001-acre public park that borders the downtown of Vancouver, Canada. This ___ place is almost entirely surrounded by the waters of the Pacific Ocean.", "AMAZE", "amazing"],
+   ["It is one of the main sights of Vancouver to be explored by ___.", "TOUR", "tourists"],
+   ["The park has a long history. The land was ___ used by indigenous peoples for thousands of years.", "ORIGINAL", "originally"],
+   ["Then the British decided to ___ this place during the 1858 Fraser Canyon Gold Rush.", "COLONY", "colonise"],
+   ["The land was later turned into Vancouver’s first park. It was named after Lord Stanley, a British politician who had recently been appointed ___ general.", "GOVERN", "governor"]]},
+  {f:1,t:"Capilano Suspension Bridge",q:[
+   ["Canada can boast of many sights. Capilano Suspension Bridge is ___ one of them.", "CERTAIN", "certainly"],
+   ["It is a ___ bridge in Canada, located near Vancouver.", "BEAUTY", "beautiful"],
+   ["It is located at an altitude of 70 meters above the Capilano River. It was originally built as a shorter path to the local mill to make life easier for employees. Going over this bridge is quite an adventure for ___.", "TOUR", "tourists"],
+   ["If the weather is ___, the bridge sways from side to side.", "WIND", "windy"],
+   ["Despite this, it is always crowded. People come here for the fresh and clean air, the scent of pine needles and ___ attractions on the other side of the bridge.", "VARY", "various"],
+   ["There is a park there with all sorts of entertainment and great boutiques for enthusiastic ___.", "SHOP", "shoppers"]]}],
+ 19:[
+  {f:1,t:"The Vancouver Aquarium",q:[
+   ["The Vancouver Aquarium is a public aquarium. It is ___ located in Stanley Park, a popular area.", "CONVENIENT", "conveniently"],
+   ["In addition to being a major ___ for Vancouver, the aquarium is a centre for marine research and conservation.", "ATTRACT", "attraction"],
+   ["It was one of the first facilities to invite ___ into the galleries to interpret animal behaviour.", "SCIENCE", "scientists"],
+   ["So a visit to the aquarium is not only pleasant, but also ___.", "EDUCATION", "educational"],
+   ["The aquarium remains a nonprofit organisation. Its ___ is the City of Vancouver.", "OWN", "owner"]]},
+  {f:1,t:"Boston Public Library",q:[
+   ["Dating from 1852, Boston Public Library contributes much to Boston’s reputation as the “Athens of America”. The old building is notable for its magnificent facade and interior art. ___ can pick up a free brochure.", "VISIT", "visitors"],
+   ["The brochure will be ___ to visitors.", "HELP", "helpful"],
+   ["___, free guided tours depart from the entrance hall at various times.", "ALTERNATIVE", "alternatively"],
+   ["This ___ building, inspired by Italian Renaissance, can boast of enormous bronze doorways, iron gates and lanterns.", "ORIGIN", "original"],
+   ["From there a marble staircase leads the guests inside. Besides this ___ artistry, the library holds untold treasures in its special collections, including John Adams’ personal library.", "AMAZE", "amazing"],
+   ["If you visit this place once, it will be ___ for you to forget it.", "POSSIBLE", "impossible"]]}],
+ 20:[
+  {f:1,t:"Ottawa’s Parliament Hill",q:[
+   ["Have you ever been to Ottawa? It’s ___ a very beautiful city.", "CERTAIN", "certainly"],
+   ["One of its main ___ is Parliament Hill standing high above the Ottawa River.", "ATTRACT", "attractions"],
+   ["There you can see the Neo-Gothic-style Parliament ___ of the last half of the 19th century.", "BUILD", "building"],
+   ["The most ___ construction is the Peace Tower, which divides the House of Commons and the Senate on either side.", "IMPRESS", "impressive"],
+   ["There ___ can also see the Centennial Flame.", "TOUR", "tourists"]]},
+  {f:1,t:"The WOMAD festival",q:[
+   ["Have you heard about WOMAD? It is one of the most famous musical festivals which is held in late July. The abbreviation WOMAD stands for the World of Music, Arts and Dance. It was founded in 1980, and since then it has been focusing on embracing the world’s ___ of cultures The festival encourages", "VARY", "variety"],
+   ["___ friendship and breaking down the boundaries through art, music, and movement.", "NATIONAL", "international"],
+   ["Besides musical performances, WOMAD offers ___ workshops for children, including circus skills, painting and storytelling.", "CREATE", "creative"],
+   ["For adult ___ there are workshops on dancing and playing exotic musical instruments.", "VISIT", "visitors"],
+   ["There are ___ other activities like lessons of exotic cuisines conducted by musicians themselves or discussions of global concerns.", "COUNT", "countless"],
+   ["Going to this festival will ___ be an unforgettable experience for anyone.", "CERTAIN", "certainly"]]}],
+ 21:[
+  {f:1,t:"Whistler",q:[
+   ["Have you ever been to Whistler? It’s just a two-hour drive from Vancouver and is a ___ ski resort.", "FAME", "famous"],
+   ["Whistler has always been a ___ important winter sports area.", "REAL", "really"],
+   ["Recently it has also gained ___ as a summer destination for golf and mountain biking.", "POPULAR", "popularity"],
+   ["So in Whistler ___ can enjoy a lively town atmosphere throughout the year.", "TOUR", "tourists"],
+   ["The village gained ___ attention in 2010 when it became one of the locations for the 2010 Winter Olympic Games.", "NATIONAL", "international"]]},
+  {f:1,t:"The Met",q:[
+   ["The Met is an encyclopedic museum, founded in 1870. It has one of the biggest art ___ in the world with more than two million individual objects.", "COLLECT", "collections"],
+   ["Among them you can find anything from Egyptian temples to American ___.", "PAINT", "paintings"],
+   ["The museum attracts over six million ___ a year to its 17 acres of galleries making it the largest single-site attraction in New York City.", "VISIT", "visitors"],
+   ["In other words, plan on spending some time here. The museum has ___ examples of ancient Egyptian art, some of which date back to the Paleolithic era.", "WONDER", "wonderful"],
+   ["The 27 galleries devoted to classical antiquity are illuminated by natural daylight. In the northwest corner, the American galleries demonstrate a wide ___ of decorative and fine art from throughout US history.", "VARY", "variety"],
+   ["The Met is ___ worth visiting. If you go to New York, do not miss a chance of going there.", "REAL", "really"]]}],
+ 22:[
+  {f:1,t:"The Crown",q:[
+   ["Even those people who are not fans of the royal family enjoy the series The Crown. This is ___ a palace drama based on a true story.", "ACTUAL", "actually"],
+   ["In fact, one of the show’s great strengths is that the viewers understand that this story is real. The first season caught everybody’s attention, but The Crown’s second season went even deeper into its characters and their ___.", "RELATION", "relationships"],
+   ["The most ___ episodes are undoubtedly the ones devoted to Elizabeth II as a monarch.", "INTEREST", "interesting"],
+   ["She has to deal with her prime ministers and the ___, with the press, and with the Kennedys.", "GOVERN", "government"],
+   ["You can also enjoy the ___ settings and the costumes created for the show.", "BEAUTY", "beautiful"]]},
+  {f:1,t:"Ferapontov monastery",q:[
+   ["Ferapontov monastery was founded in 1398. This was when Ferapont the Reverend established a new settlement on a lake not far from Vologda. There were many villages around this ___ place and soon people started to come to him for advice.", "BEAUTY", "beautiful"],
+   ["Then some people decided to stay with him as monks. That’s ___ how the monastery was started.", "ACTUAL", "actually"],
+   ["Later Ferapont built a wooden church and other ___.", "CONSTRUCT", "constructions"],
+   ["He left the monastery to build another one but never returned. However, the monastery remained both a ___ and popular place even without him.", "FAME", "famous"],
+   ["Now tourists can enjoy its ___ frescoes, created in 1502.", "AMAZE", "amazing"],
+   ["It may seem ___, but these frescoes have remained safe without restoration till the present day. Now the monastery is a museum. In 2000 the Ensemble of the Ferapontov Monastery was included in UNESCO’s World Heritage List.", "POSSIBLE", "impossible"]]}],
+ 23:[
+  {f:1,t:"The Blue Mountains National Park",q:[
+   ["When people come to Australia, they typically wish to enjoy the outstanding nature of the continent. If you are a ___ to Australia with this very goal on your mind, try The Blue Mountains National Park.", "VISIT", "visitor"],
+   ["It is located in New South Wales, approximately 80 km west of Sydney. Its proximity to the biggest city in Australia has made this ___ park a popular day trip for both tourists and locals alike.", "AMAZE", "amazing"],
+   ["The park is ___ best known for the Three Sisters, a rock formation that towers 900 m above the Jamison Valley.", "PROBABLE", "probably"],
+   ["The Blue Mountains National Park features miles of trails for hikers and mountain bikers, and it is also a popular ___ playground for adventurers who enjoy adrenaline sports.", "NATURE", "natural"],
+   ["Among such sports the top one is rock ___.", "CLIMB", "climbing"]]},
+  {f:1,t:"The Lantern Festival",q:[
+   ["The Lantern Festival is one of the most popular events in Taiwan. It has no fixed date but must be held on the first full moon of a lunar year. This ___ celebration is definitely a spectacular sight.", "COLOUR", "colourful"],
+   ["It’s not surprising that it attracts crowds of ___ from all over the world.", "VISIT", "visitors"],
+   ["During the festival people can enjoy looking at ___ lanterns in the dark sky.", "COUNT", "countless"],
+   ["The big lanterns come in shapes of ___ animals and birds.", "VARY", "various"],
+   ["___, the main lantern at the festival has the Chinese zodiac sign of the respective year.", "CERTAIN", "certainly"],
+   ["The smaller lanterns represent some most important historical events. The festival includes fireworks displays and ___ activities like lantern making and lantern riddle games. You can also try delicious food right from the street stalls. This festival is an unforgettable experience for anyone.", "CREATE", "creative"]]}],
+ 24:[
+  {f:1,t:"Sakhalin",q:[
+   ["The island of Sakhalin is situated in the Far East of Russia in the North Pacific, between the Sea of Okhotsk and the Sea of Japan. ___ say that it is the largest island in Russia with a length of 948 km, and a width of 25 to 170 km, and a total area of about 78,000 square kilometers.", "SCIENCE", "scientists"],
+   ["Nearly two-thirds of Sakhalin is mountainous. Two parallel ranges of ___ mountains separate the island from north to south.", "BEAUTY", "beautiful"],
+   ["The ___ of Sakhalin region is in Yuzhno-Sakhalinsk, which was founded in 1882.", "GOVERN", "government"],
+   ["It is located in the southern part of the island and the ___ of the modern city comes to about 180 thousand people.", "POPULATE", "population"],
+   ["___ to the area can enjoy watching gorgeous nature as well as go fishing and rock climbing.", "VISIT", "visitors"]]},
+  {f:1,t:"Queensland",q:[
+   ["Apart from cultural experiences, Queensland makes it possible for you to enjoy the beauty of nature to the full. For instance, tourists are ___ very interested in the Daintree Rainforest which is the oldest rainforest in the world.", "TYPICAL", "typically"],
+   ["It offers ___ spectacular beauty and extraordinary diversity of flora and fauna.", "VISIT", "visitors"],
+   ["An hour’s drive north of Cairns, it can be explored on expert guided tours, and you can even have a ___ one-night stay in tree-house style eco-lodges.", "COMFORT", "comfortable"],
+   ["One more must-see is the Great Barrier Reef. To see it go all the way up to the very northern tip of Queensland. There are many ways underwater life can be experienced there, for example, scuba ___.", "DIVE", "diving"],
+   ["The Great Barrier Reef will give you ___ and breathtaking insights into the beauty and magic of this incredible biosphere.", "FORGET", "unforgettable"],
+   ["One should also mention that it’s the only ___ wonder visible from space.", "NATURE", "natural"]]}],
+ 25:[
+  {f:1,t:"Auckland University",q:[
+   ["The University of Auckland is New Zealand’s leading university. ___, it’s among the top 200 universities of the world.", "ACTUAL", "actually"],
+   ["The University of Auckland has a strong focus on legal and ___ programmes welcoming students from all parts of the world.", "BUSY", "business"],
+   ["The student ___ of the University of Auckland is 40,000, about 4,000 of whom have come to study from abroad.", "POPULATE", "population"],
+   ["The University of Auckland also offers postgraduate studies, which will certainly broaden your academic and ___ horizons.", "EMPLOY", "employment"],
+   ["It will be ___ for your CV with specialist skills and knowledge provided.", "VALUE", "valuable"]]},
+  {f:1,t:"Facts about Uluru",q:[
+   ["If you are thinking of making the journey to witness the incredible red rock Uluru in person, here are some facts you should know before you leave. Thousands of ___ to Australia go to see Uluru.", "VISIT", "visitors"],
+   ["Uluru is located west of the Simpson Desert 335 km southwest of Alice Springs. While some people believe it to be the largest monolith in the world, this title is ___ held by Mount Augustus in Western Australia.", "ACTUAL", "actually"],
+   ["Uluru is known to undergo a series of colour changes. These can be just subtle ___ when it rains.", "DIFFER", "differences"],
+   ["However, the view undergoes amazing ___ when caught by the spectacular sunset rays.", "TRANSFORM", "transformations"],
+   ["This is so partially because the surface of Uluru is full of ___ caves and holes due to millions of years of erosion.", "USUAL", "unusual"],
+   ["Uluru is a sacred site to the indigenous people of the area, and guides ___ tourists from climbing the rock.", "COURAGE", "discourage"]]}],
+ 26:[
+  {f:1,t:"The Altai Mountains",q:[
+   ["The Altai Mountains are located in Russia on the border with Mongolia, Kazakhstan and China. They are considered one of the most ___ mountain ranges in Russia.", "BEAUTY", "beautiful"],
+   ["The panoramic views from the mountain tops are ___ to forget.", "POSSIBLE", "impossible"],
+   ["The colour pallet of the landscape changes ___ with each season so you will never get tired of it.", "GREAT", "greatly"],
+   ["What makes the Altai Mountains even more ___ is that they are not easy to get to.", "ATTRACT", "attractive"],
+   ["___ feel like they are the first to see this wild landscape.", "VISIT", "visitors"]]},
+  {f:1,t:"Auckland",q:[
+   ["Auckland is the largest and most populous city in New Zealand. The ___ of Auckland is getting close to 1.4 million residents.", "POPULATE", "population"],
+   ["It is ___ situated in the North Island of the country, between the Waitakere Ranges and the Hauraki Gulf.", "CONVENIENT", "conveniently"],
+   ["The city enjoys an oceanic climate, which is ___ to the climate in most of Europe.", "COMPARE", "comparable"],
+   ["Nothing can ___ you about Auckland, which is why it is a popular destination for numerous immigrants to New Zealand.", "APPOINT", "disappoint"],
+   ["Expats have an overall good experience when staying in Auckland. Most expats find it very easy to communicate with the locals, who are very ___.", "FRIEND", "friendly"],
+   ["Another positive thing about Auckland is the amount of nature and free space, which is appreciated a lot, especially by those coming from more densely inhabited ___.", "LOCATE", "locations"]]}],
+ 27:[
+  {f:1,t:"GeoSure Global",q:[
+   ["GeoSure Global is a great mobile app for travellers. It is ___ a revolutionary safety service aimed at ensuring that your trips involve fewer risks.", "CERTAIN", "certainly"],
+   ["GeoSure Global provides safety ratings for ___ neighborhoods all over the world.", "COUNT", "countless"],
+   ["These ratings offer a general view of how safe an area is and are broken down into lots of smaller categories, each with their own scores. Examples include health and medical care, theft and so on. If you’re travelling to a foreign country as a ___, you may be at greater risk of crimes like pickpocketing.", "TOUR", "tourist"],
+   ["The ___ app updates as you move around, letting you explore a city.", "AMAZE", "amazing"],
+   ["Thus, you will have constant up-to-date readings on the security and safety of the area around you and the neighbouring ___. It’s a great tool for any traveller to have.", "LOCATE", ["location", "locations"]]]},
+  {f:1,t:"The New England Aquarium",q:[
+   ["The New England Aquarium has sea creatures of all sizes, shapes and colors. This place is ___ the centerpiece of downtown Boston’s waterfront.", "CERTAIN", "certainly"],
+   ["Its main ___ is the newly renovated, three-story Giant Ocean Tank.", "ATTRACT", "attraction"],
+   ["It literally swirls with thousands of creatures, including turtles and sharks. ___ side exhibits explore the lives and habitats of other underwater species, as well as penguins and marine mammals.", "COUNT", "countless"],
+   ["___ to the aquarium can watch training sessions.", "VISIT", "visitors"],
+   ["There animals show off their ___ and athleticism.", "INTELLIGENT", "intelligence"],
+   ["Note that some animal rights groups make a strong case that marine mammals should not be kept in captivity, so from time to time the aquarium has to face these protests. The New England Aquarium is really a beautiful place and an ___ experience for anybody.", "FORGETTABLE", "unforgettable"]]}],
+ 28:[
+  {f:1,t:"Arenal Volcano",q:[
+   ["Costa Rica is a country that has a lot of volcanoes. Even so, Arenal Volcano is one of the greatest natural wonders of this country. It is one of the most ___ volcanoes in the world.", "IMPRESS", "impressive"],
+   ["It is a stratovolcano whose height is 5,437 feet. After a long dormant period, Arenal erupted ___ in 1968, covering a vast area of over 15 km in lava, rocks and ash.", "VIOLENT", "violently"],
+   ["Several minor ___ followed.", "ERUPT", "eruptions"],
+   ["Since that time Arenal Volcano has been a popular tourist attraction. The volcano is located in a beautiful national park which is a perfect place for both amateur and professional ___.", "HIKE", "hikers"],
+   ["Among numerous outdoor ___, visitors to the Arenal Volcano National Park can enjoy adventure tours to the rainforest there or just relax in a natural geothermal hot spring.", "ACTIVE", "activities"]]},
+  {f:1,t:"Central Park",q:[
+   ["One of the world’s most well-known green spaces, Central Park in New York occupies 843 acres of land with European-style gardens, a lake and a reservoir. ___, among Central Park sights one should also mention an outdoor theater, a memorial to John Lennon and a very famous statue of Alice in Wonderland.", "NATURAL", "naturally"],
+   ["Many tourists consider Central Park to be a truly ___ place.", "BEAUTY", "beautiful"],
+   ["It is important to say that this huge park was designed as a leisure space for all New Yorkers, ___ of color or class.", "REGARD", "regardless"],
+   ["Today, this “people’s park” is still one of the city’s most popular ___.", "ATTRACT", "attractions"],
+   ["It is also a very popular place for numerous ___.", "JOG", "joggers"],
+   ["Even in winter with its snowstorms there is something to do there, like cross-country ___. If you plan to visit New York, Central Park is an absolute must for you.", "SKI", "skiing"]]}],
+ 29:[
+  {f:1,t:"Candles",q:[
+   ["If you have an active profile in any social media, you may have noticed how often candles feature in people’s posts and stories. In fact, there are ___ reasons why people use candles at home.", "VARY", "various"],
+   ["To begin with, candles create a cozy atmosphere. It is so nice to burn a candle when it is raining ___ outdoors.", "HEAVY", "heavily"],
+   ["It gives soft and pleasant light which is especially good for people after a ___ day at school or at work.", "STRESS", "stressful"],
+   ["You may light a candle at your evening mealtime and have a quiet conversation with your nearest and dearest. Moreover, we burn candles when we have an important ___ like a birthday or on seasonal holidays.", "CELEBRATE", "celebration"],
+   ["It creates a festive feeling in us. Finally, candles simply look ___ and are a great decoration.", "AMAZE", "amazing"]]},
+  {f:1,t:"Murmansk",q:[
+   ["The city of Murmansk was founded in 1916. At present Murmansk is the largest city situated above the Polar circle but its ___ is still quite small.", "POPULATE", "population"],
+   ["Murmansk has severe climatic conditions. Summers are short and cold there. The polar night lasts from December 2 to January 11. Still, many ___ come to visit Murmansk.", "TOUR", "tourists"],
+   ["The city can boast of several major ___.", "ATTRACT", "attractions"],
+   ["Among them you will find Lenin nuclear icebreaker, which is the first of its kind in the world. Now it is an ___ museum which demonstrates the history of the exploration of the Arctic.", "EXCITE", "exciting"],
+   ["There are some other really important museums in Murmansk – the Museum of Regional Studies, the Navy Museum of the Northern Fleet and so on. If you are lucky to see the Northern lights, you will be ___ impressed.", "REAL", "really"],
+   ["It’s ___ to forget this splendid view.", "POSSIBLE", "impossible"]]}],
+ 30:[
+  {f:1,t:"Rovos Rail",q:[
+   ["If you dislike travelling by train, you will probably change your mind after trying one of the scenic rides the world has to offer. One of such rides which are ___ to forget is the Rovos Rail in South Africa.", "POSSIBLE", "impossible"],
+   ["The train has several routes. You will pass through a number of African countries and admire the ___ of their landscapes.", "DIVERSE", "diversity"],
+   ["You will see wildlife national parks, historical battle fields and ___ cities.", "FASCINATE", "fascinating"],
+   ["Onboard, the passengers can use various facilities like a dining car, luxury sleeping cabins and themed ___.", "ENTERTAIN", ["entertainment", "entertainments"]],
+   ["All types of cabins have ensuite showers, sinks and restrooms, and some of them even have bathtubs. With its ___ service, Rovos Rail is truly one of the greatest train journeys in the world.", "EXCEPTION", "exceptional"]]},
+  {f:1,t:"The Ice and Snow Sculpture Festival",q:[
+   ["China is famous all over the world for its exotic festivals, and the Ice and Snow Sculpture Festival is one of them. It is celebrated in Harbin. Located in the northeast of China, Harbin has very cold winter winds blowing from Siberia. The average daily temperature in Harbin in winter is ___ around 1.8 ºF.", "USUAL", "usually"],
+   ["Still, despite the cold weather, ___ come to the festival to look at the largest ice sculptures in the world.", "VISIT", "visitors"],
+   ["The event starts on January 5 at night. In the ___ you can still see the huge ice sculptures very well.", "DARK", "darkness"],
+   ["It is so because they are illuminated with numerous ___ lights.", "COLOUR", "colourful"],
+   ["The ___ sculptures produce a lasting impression on viewers.", "COUNT", "countless"],
+   ["Other ___ in the area during the festival include alpine skiing, touring ice lantern exhibitions in various local parks, and even swimming in the river’s icy waters.", "ACTIVE", "activities"]]}],
+ 31:[
+  {f:1,t:"Sketching",q:[
+   ["Hobbies are a great way to relax and unwind after a busy day at school or at work. One of the most popular hobbies nowadays is sketching. It is ___ a good hobby for you if you want to start thinking in a different way.", "DEFINITE", "definitely"],
+   ["Sketching develops your ___.", "CREATE", "creativity"],
+   ["It can be very helpful for your personal ___.", "DEVELOP", "development"],
+   ["Besides, you can apply the skills you learn through sketching in a number ways in your life. To begin with, you may become interested in a career of an ___.", "ILLUSTRATE", "illustrator"],
+   ["Moreover, you will never need a camera when you are on holiday because your drawings will be the best memories about your trip. Finally, while sketching you learn to notice your feelings and emotions and thus improve your ___ skills.", "COMMUNICATE", ["communication", "communicative"]]]},
+  {f:1,t:"Tasmania",q:[
+   ["Are you planning a trip to Tasmania? Without a doubt, any ___ will find some things to do there.", "TOUR", "tourist"],
+   ["To begin with, driving up the east coast of Tasmania is one of the most ___ things you can do there.", "MEMORY", "memorable"],
+   ["Tasmania’s east coast is ___ spectacular and along the way you’ll be able to stop for walks along cliff tops and swim in gorgeous beaches.", "REAL", "really"],
+   ["One more opportunity is to camp out at ___ parks and do other cool activities.", "NATION", "national"],
+   ["One of the biggest ___ along the east coast of Tasmania is Freycinet Park, renowned for the stunning Wineglass Bay and many routes for day walks, bird watching and mountaineering.", "ATTRACT", "attractions"],
+   ["Besides climbing and hiking, there you can also eat a fresh oyster lunch at the “Freycinet Marine Farm”. It will certainly be an ___ experience for you, so don’t miss a chance to visit Tasmania.", "FORGET", "unforgettable"]]}],
+};
+/* Свои задания недели: сначала ФИПИ (урок 1 / урок 2, затем урок 3), потом тренировочные сеты как дополнительные */
 function exam26Own(mode,w){
- if(mode==='grammar')return w===1?exam26Grammar:(exam26NewGrammar[w]||[]).concat(exam26L3Grammar[w]||[]);
- if(w===1)return week2WFByLesson.map(x=>x[0]);
- const first=w===12?[exam26WF[0]]:w===13?[exam26WF[1]]:(exam26NewWF[w]||[]);
- return first.concat(exam26L3WF[w]||[]);
+ const g=mode==='grammar';
+ if(w===1)return g?exam26Grammar:week2WFByLesson.map(x=>x[0]);
+ const F=(g?exam26FipiGrammar:exam26FipiWF)[w]||[],N=(g?exam26NewGrammar:exam26NewWF)[w]||[],L3=(g?exam26L3Grammar:exam26L3WF)[w]||[];
+ return F.length>1?F.concat(N,L3):F.concat(L3,N);
 }
+function exam26Items(set,mode,gapClass,baseClass){
+ const start=mode==='grammar'?19:(set.q.length===5?25:1);
+ return set.q.map((x,i)=>'<div style="margin:0 0 7px">'+(x[3]?'<b style="display:block;margin:10px 0 3px;color:#0039A6">'+x[3]+'</b>':'')+'<b>'+(start+i)+'.</b> '+x[0].replace('___','<span class="'+gapClass+'"><input data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="'+baseClass+'">'+x[1]+'</span></span>')+'</div>').join('');
+}
+function exam26Src(set){return set.f?'Открытый банк ФИПИ':'Тренировочное задание'}
 /* Сначала задания текущей недели, затем повторение предыдущих недель (от ближайшей к первой) */
 function exam26List(mode,w){
  const out=exam26Own(mode,w).map(s=>({s:s,w:w}));
@@ -2014,10 +2719,11 @@ function renderExam26View(){
  ['weekView','examView','trainerView'].forEach(id=>{const el=document.getElementById(id);el.style.display='';el.classList.toggle('on',id==='examView')});
  const data=exam26List(exam26Mode,exam26Week),item=data[exam26Index]||data[0],set=item.s,start=exam26Mode==='grammar'?19:25;
  const own=item.w===exam26Week,tag=own?'Неделя '+(exam26Week+1)+' · новое задание':'Повторение · неделя '+(item.w+1);
- document.getElementById('examView').innerHTML='<button class="lessonBack" onclick="renderWeek(exam26Week)">← Неделя '+(exam26Week+1)+'</button><div class="hero"><div class="eyebrow">EXAM · Неделя '+(exam26Week+1)+' · '+(weekLabels[exam26Week]||'')+'</div><h1>'+(exam26Mode==='grammar'?'Grammar 19–24':'Word Formation 25–29')+'</h1></div><div class="exam26Tabs"><button'+(exam26Mode==='grammar'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'grammar\')">GRAMMAR · 19–24</button><button'+(exam26Mode==='wf'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'wf\')">WORD FORMATION · 25–29</button></div><div class="exam26Set"><div class="tiny" style="font-weight:900;color:'+(own?'#D52B1E':'#0039A6')+'">'+tag+' · '+(exam26Index+1)+' / '+data.length+'</div><h3>'+set.t+'</h3><div class="exam26Text">'+set.q.map((x,i)=>(start+i)+'. '+x[0].replace('___','<span class="exam26Gap"><input data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="exam26Base">'+x[1]+'</span></span>')).join('<br>')+'</div><div class="exam26Nav"><button onclick="checkExam26(this)">CHECK</button>'+(data.length>1?'<button onclick="exam26Index=(exam26Index+1)%'+data.length+';renderExam26View()">NEXT SET →</button>':'')+'</div><div class="exam26Result"></div></div>';
+ document.getElementById('examView').innerHTML='<button class="lessonBack" onclick="renderWeek(exam26Week)">← Неделя '+(exam26Week+1)+'</button><div class="hero"><div class="eyebrow">EXAM · Неделя '+(exam26Week+1)+' · '+(weekLabels[exam26Week]||'')+'</div><h1>'+(exam26Mode==='grammar'?'Grammar 19–24':'Word Formation 25–29')+'</h1></div><div class="exam26Tabs"><button'+(exam26Mode==='grammar'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'grammar\')">GRAMMAR · 19–24</button><button'+(exam26Mode==='wf'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'wf\')">WORD FORMATION · 25–29</button></div><div class="exam26Set"><div class="tiny" style="font-weight:900;color:'+(own?'#D52B1E':'#0039A6')+'">'+tag+' · '+exam26Src(set)+' · '+(exam26Index+1)+' / '+data.length+'</div><h3>'+set.t+'</h3><div class="exam26Text">'+exam26Items(set,exam26Mode,'exam26Gap','exam26Base')+'</div><div class="exam26Nav"><button onclick="checkExam26(this)">CHECK</button>'+(data.length>1?'<button onclick="exam26Index=(exam26Index+1)%'+data.length+';renderExam26View()">NEXT SET →</button>':'')+'</div><div class="exam26Result"></div></div>';
  scrollTo(0,0);
 }
-function exam26Norm(s){return String(s).trim().toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g,' ')}
+/* как в бланке ЕГЭ: без пробелов и знаков; didn't = did not */
+function exam26Norm(s){return String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/won't/g,'will not').replace(/can't/g,'cannot').replace(/n't/g,' not').replace(/[^a-z]/g,'')}
 function checkExam26(btn){const data=exam26List(exam26Mode,exam26Week),set=(data[exam26Index]||data[0]).s,box=btn.closest('.exam26Set');let good=0;box.querySelectorAll('input').forEach((x,i)=>{const a=exam26Norm(x.value),ok=[].concat(set.q[i][2]).some(v=>exam26Norm(v)===a);if(ok)good++;x.style.borderBottomColor=ok?'#15803d':'#D52B1E'});box.querySelector('.exam26Result').textContent=good+' / '+set.q.length}
 function exam26Card(w,i){const inLesson=Number.isInteger(i);return '<div class="examCard" style="margin:'+(inLesson?'10px 14px 20px':'10px 0 0')+';border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM · НЕДЕЛЯ '+(w+1)+'</b><div class="tiny">Grammar 19–24 + Word Formation 25–29 · задания этой недели + повторение</div></div><button class="action studentRequiredTest" type="button" onclick="'+(inLesson?'closeLesson();renderExam2026('+w+','+i+')':'renderExam2026('+w+')')+'">ОТКРЫТЬ EXAM · НЕДЕЛЯ '+(w+1)+'</button></div></div>'}
 const EX={grammar1924:['19–24 · Грамматика','<div class="examCard"><h3>Место для заданий 19–24</h3><p>Грамматические формы. Задания будут добавляться сюда отдельно.</p></div>'],wordformation:['25–29 · Словообразование','<div class="examCard"><h3>Место для заданий 25–29</h3><p>Word Formation. Задания будут добавляться сюда отдельно.</p></div>'],vocabulary3036:['30–36 · Лексика','<div class="examCard"><h3>Место для заданий 30–36</h3><p>Лексико-грамматический выбор. Задания будут добавляться сюда отдельно.</p></div>'],overview:['ЕГЭ 2027 · баллы по заданиям','<table class="table"><tr><th>Задание</th><th>Макс.</th></tr><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>3</td></tr><tr><td>3–9</td><td>по 1</td></tr><tr><td>10</td><td>3</td></tr><tr><td>11</td><td>2</td></tr><tr><td>12–18</td><td>по 1</td></tr><tr><td>19–24</td><td>по 1</td></tr><tr><td>25–29</td><td>по 1</td></tr><tr><td>30–36</td><td>по 1</td></tr><tr><td>37 · email</td><td>6</td></tr><tr><td>38 · письменное высказывание</td><td>14</td></tr><tr><td>39 · чтение вслух</td><td>1</td></tr><tr><td>40 · 4 вопроса</td><td>4</td></tr><tr><td>41 · интервью</td><td>5</td></tr><tr><td>42 · монолог</td><td>10</td></tr><tr><td><b>Итого</b></td><td><b>82</b></td></tr></table>'],listen:['1–9 · Аудирование · 12 баллов','<div class="crit"><span>№1 · понимание основного содержания</span><span class="pts">2</span></div><div class="crit"><span>№2 · понимание запрашиваемой информации</span><span class="pts">3</span></div><div class="crit"><span>№3–9 · полное понимание текста</span><span class="pts">7</span></div>'],read:['10–18 · Чтение · 12 баллов','<div class="crit"><span>№10 · основное содержание</span><span class="pts">3</span></div><div class="crit"><span>№11 · структурно-смысловые связи</span><span class="pts">2</span></div><div class="crit"><span>№12–18 · полное понимание</span><span class="pts">7</span></div>'],grammar:['19–36 · Грамматика и лексика · 18 баллов','<div class="crit"><span>19–24 · грамматические формы</span><span class="pts">6</span></div><div class="crit"><span>25–29 · словообразование</span><span class="pts">5</span></div><div class="crit"><span>30–36 · лексико-грамматический выбор</span><span class="pts">7</span></div>'],write:['37–38 · Письменная речь · 20 баллов','<h3>№37 · email · 100–140 слов · 6 баллов</h3><div class="crit"><span>К1 Решение коммуникативной задачи</span><span class="pts">2</span></div><div class="crit"><span>К2 Организация текста</span><span class="pts">2</span></div><div class="crit"><span>К3 Языковое оформление</span><span class="pts">2</span></div><h3>№38 · 200–250 слов · 14 баллов</h3><div class="crit"><span>К1 Решение коммуникативной задачи</span><span class="pts">3</span></div><div class="crit"><span>К2 Организация</span><span class="pts">3</span></div><div class="crit"><span>К3 Лексика</span><span class="pts">3</span></div><div class="crit"><span>К4 Грамматика</span><span class="pts">3</span></div><div class="crit"><span>К5 Орфография и пунктуация</span><span class="pts">2</span></div><p class="tiny">0 по К1 обнуляет соответствующее задание. При проверке учитываются правила объёма и 10%-го допуска из критериев ФИПИ.</p>'],speak:['39–42 · Устная часть · 20 баллов','<div class="crit"><span>39 · чтение текста вслух</span><span class="pts">1</span></div><div class="crit"><span>40 · 4 прямых вопроса</span><span class="pts">4</span></div><div class="crit"><span>41 · 5 ответов интервью</span><span class="pts">5</span></div><div class="crit"><span>42 · связный монолог: К1 РКЗ + К2 организация + К3 язык</span><span class="pts">10</span></div><p class="tiny">Устная часть — 17 минут. Для задания 42: 12–15 фраз, подготовка 2,5 минуты, ответ до 3 минут.</p>']};
