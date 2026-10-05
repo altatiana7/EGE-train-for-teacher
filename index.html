@@ -976,8 +976,8 @@ function lessonStarter(w,i){
  /* у каждого урока своё задание недели: урок 1 — Grammar 19–24, урок 2 — Word Formation 25–29 */
  const g=exam26Own('grammar',w),f=exam26Own('wf',w);
  if(i===0)return exam26InlineHTML('grammar',w,0);
- if(i===1)return exam26InlineHTML('wf',w,Math.min(1,f.length-1));
- return (g[1]?exam26InlineHTML('grammar',w,1):'')+(f[2]?exam26InlineHTML('wf',w,2):'');
+ if(i===1)return exam26InlineHTML('wf',w,w===1?1:0);
+ return (g[1]?exam26InlineHTML('grammar',w,1):'')+(f.length>1?exam26InlineHTML('wf',w,f.length-1):'');
 }
 function exam26InlineHTML(mode,w,k){
  const set=exam26Own(mode,w)[k];if(!set)return '';
@@ -1597,12 +1597,406 @@ const exam26NewWF={
  ["Stay calm and believe in your ___.", "ABLE", ["ability", "abilities"]]]}],
 };
 /* Свои задания на каждую неделю: Grammar 19–24 и Word Formation 25–29 */
+/* Задания для третьих уроков недель 3–32 */
+const exam26L3Grammar={
+ 2:[{t:"Plans for the summer",q:[
+ ["Look at those clouds! It ___ soon.", "RAIN", ["is going to rain", "will rain"]],
+ ["This time next month I ___ on a beach in Anapa.", "LIE", "will be lying"],
+ ["My cousin ___ us there on the 5th of July; she has already bought her ticket.", "JOIN", ["is joining", "will join", "is going to join"]],
+ ["I promise I ___ you a postcard.", "SEND", "will send"],
+ ["As soon as school ___, we will start packing.", "FINISH", "finishes"],
+ ["Two years ago we ___ the whole summer in the city.", "SPEND", "spent"]]}],
+ 3:[{t:"How paper is made",q:[
+ ["Paper ___ in China about two thousand years ago.", "INVENT", "was invented"],
+ ["Today most paper ___ from wood.", "MAKE", "is made"],
+ ["Millions of trees ___ down every year.", "CUT", "are cut"],
+ ["In our school, more than a ton of paper ___ since September.", "RECYCLE", "has been recycled"],
+ ["A new recycling plant ___ in our town now.", "BUILD", "is being built"],
+ ["Experts hope that less paper ___ in the future.", "WASTE", "will be wasted"]]}],
+ 4:[{t:"A missing umbrella",q:[
+ ["I cannot find my umbrella. I must ___ it on the bus.", "LEAVE", "have left"],
+ ["It may ___ to the lost property office already.", "TAKE", "have been taken"],
+ ["You ought to ___ at the station yesterday.", "ASK", "have asked"],
+ ["Lost things can ___ at the office from nine to five.", "COLLECT", "be collected"],
+ ["Do not call now: the staff might ___ lunch.", "HAVE", "be having"],
+ ["Luckily, I ___ a new one: the driver found it the same evening.", "NOT NEED", ["did not need", "didn't need"]]]}],
+ 5:[{t:"Our school library",q:[
+ ["Our library has thousands of books, and some of ___ are very old.", "THEY", "them"],
+ ["The librarian knows all the readers and remembers ___ favourite books.", "THEY", "their"],
+ ["In autumn we collect yellow ___ and decorate the reading room.", "LEAF", "leaves"],
+ ["I often do my homework there by ___.", "I", "myself"],
+ ["This quiet corner is ___; my friend and I sit here every day.", "WE", "ours"],
+ ["Yesterday I borrowed my ___ book this month.", "FIVE", "fifth"]]}],
+ 6:[{t:"Two brothers",q:[
+ ["Max is the ___ student in our class.", "TALL", "tallest"],
+ ["His brother Tim is much ___ than him.", "SHORT", "shorter"],
+ ["Tim is the ___ runner in the school team.", "QUICK", "quickest"],
+ ["Max, however, is ___ at maths than his brother.", "GOOD", "better"],
+ ["Their handwriting is the ___ I have ever seen.", "BAD", "worst"],
+ ["The ___ they practise, the better they play football.", "MUCH", "more"]]}],
+ 7:[{t:"Learning to cook",q:[
+ ["I have always been fond of ___.", "COOK", "cooking"],
+ ["My grandmother taught me to make pies ___ with apples.", "FILL", "filled"],
+ ["Before ___ a new dish, I read the recipe twice.", "TRY", "trying"],
+ ["Last Sunday I ___ a cake for the first time.", "BAKE", "baked"],
+ ["The smell ___ from the kitchen woke up the whole family.", "COME", "coming"],
+ ["My mother does not mind ___ the dishes after me.", "WASH", "washing"]]}],
+ 8:[{t:"If I were rich",q:[
+ ["If I ___ a million roubles, I would travel around the world.", "WIN", "won"],
+ ["If my friend ___ with me, the trip would be more fun.", "COME", "came"],
+ ["I wish I ___ speak five languages.", "CAN", "could"],
+ ["If I had saved money last year, I ___ a new bike already.", "BUY", "would have bought"],
+ ["If the weather is fine on Saturday, we ___ to the lake.", "GO", "will go"],
+ ["I wish I ___ so much time on computer games last summer.", "NOT SPEND", ["had not spent", "hadn't spent"]]]}],
+ 9:[{t:"A phone call",q:[
+ ["Yesterday Kate phoned and said that she ___ ill.", "BE", "was"],
+ ["She told me that she ___ a cold the day before.", "CATCH", "had caught"],
+ ["She asked if I ___ bring her the homework.", "CAN", "could"],
+ ["I answered that I ___ it after school.", "BRING", "would bring"],
+ ["Her mother said that the doctor ___ her some medicine that morning.", "GIVE", "had given"],
+ ["Kate complained that she ___ what to do at home all day.", "NOT KNOW", ["did not know", "didn't know"]]]}],
+ 10:[{t:"A night in the forest",q:[
+ ["When we ___ the forest, it was already getting dark.", "REACH", "reached"],
+ ["The path ___ to the lake was covered with leaves.", "LEAD", "leading"],
+ ["Dad will make a fire as soon as he ___ a good place.", "FIND", "finds"],
+ ["While Dad ___ wood, we put up the tent.", "COLLECT", "was collecting"],
+ ["After we ___ supper, we sat and looked at the stars.", "HAVE", ["had had", "had"]],
+ ["The songs ___ by the fire that night are still my favourite.", "SING", "sung"]]}],
+ 11:[{t:"The story of jeans",q:[
+ ["Jeans ___ by people of all ages today.", "WEAR", "are worn"],
+ ["The first jeans ___ in the USA in 1873.", "PRODUCE", "were produced"],
+ ["At first they ___ only to workers.", "SELL", "were sold"],
+ ["Since then jeans ___ their style many times.", "CHANGE", "have changed"],
+ ["Right now designers ___ on models for next season.", "WORK", "are working"],
+ ["Jeans are probably the ___ clothes ever invented.", "COMFORTABLE", "most comfortable"]]}],
+ 12:[{t:"A day at the zoo",q:[
+ ["Last Sunday my little brother ___ to go to the zoo.", "WANT", "wanted"],
+ ["He ___ there before.", "NEVER BE", "had never been"],
+ ["When we arrived, the keepers ___ the monkeys.", "FEED", "were feeding"],
+ ["The baby monkeys were playing with ___ mothers.", "THEY", "their"],
+ ["The zoo ___ by thousands of families every weekend.", "VISIT", "is visited"],
+ ["It was the ___ day of the whole autumn.", "HAPPY", "happiest"]]}],
+ 13:[{t:"Coffee",q:[
+ ["Coffee ___ in more than fifty countries.", "GROW", "is grown"],
+ ["According to a legend, a shepherd in Ethiopia ___ the first coffee tree.", "FIND", "found"],
+ ["He noticed that his goats ___ all night after eating its red berries.", "NOT SLEEP", ["did not sleep", "didn't sleep"]],
+ ["Today coffee is the second ___ drink in the world after tea.", "POPULAR", "most popular"],
+ ["My father ___ a cup every morning.", "MAKE", "makes"],
+ ["He ___ three cups already today.", "HAVE", "has had"]]}],
+ 14:[{t:"Antarctica",q:[
+ ["Antarctica is the ___ place on Earth.", "COLD", "coldest"],
+ ["It ___ by a Russian expedition in 1820.", "DISCOVER", "was discovered"],
+ ["Nobody ___ there permanently.", "LIVE", "lives"],
+ ["At the moment about a thousand scientists ___ at the research stations.", "STAY", "are staying"],
+ ["The ice there ___ for millions of years.", "NOT MELT", ["has not melted", "hasn't melted"]],
+ ["If all this ice melted, the level of the ocean ___ by sixty metres.", "RISE", "would rise"]]}],
+ 15:[{t:"My grandfather",q:[
+ ["My grandfather ___ as an engineer for forty years before he retired.", "WORK", ["worked", "had worked"]],
+ ["He ___ his childhood in a small town on the Volga.", "SPEND", "spent"],
+ ["Now he ___ in the country all year round.", "LIVE", "lives"],
+ ["He ___ tomatoes since he retired.", "GROW", ["has been growing", "has grown"]],
+ ["His tomatoes are the ___ I have ever eaten.", "TASTY", "tastiest"],
+ ["Yesterday he ___ me how to plant apple trees.", "TEACH", "taught"]]}],
+ 16:[{t:"Venice",q:[
+ ["Venice ___ on more than a hundred small islands.", "BUILD", ["is built", "was built"]],
+ ["Nobody ___ a car there: people travel by boat.", "DRIVE", "drives"],
+ ["Every year the city ___ a few millimetres into the sea.", "SINK", "sinks"],
+ ["The famous carnival ___ since the 12th century.", "HOLD", "has been held"],
+ ["Last February my parents ___ there for a week.", "GO", "went"],
+ ["They say it is the ___ city they have ever visited.", "BEAUTIFUL", "most beautiful"]]}],
+ 17:[{t:"A surprise party",q:[
+ ["Last Friday we ___ a surprise party for our teacher.", "ORGANISE", ["organised", "organized"]],
+ ["While she ___ a lesson in another room, we decorated the classroom.", "GIVE", "was giving"],
+ ["Anya ___ a cake the night before.", "BAKE", "had baked"],
+ ["When the teacher came in, everybody ___ \"Happy birthday!\"", "SHOUT", "shouted"],
+ ["She said she ___ such a wonderful present.", "NEVER GET", ["had never got", "had never gotten"]],
+ ["The photos ___ that day are now on the classroom wall.", "TAKE", "taken"]]}],
+ 18:[{t:"Elephants",q:[
+ ["Elephants are the ___ land animals.", "LARGE", "largest"],
+ ["An adult elephant ___ about 150 kilos of food a day.", "EAT", "eats"],
+ ["Baby elephants ___ by the whole family.", "PROTECT", "are protected"],
+ ["Over the last century their number ___ dramatically.", "FALL", "has fallen"],
+ ["In the past, thousands of elephants ___ for their tusks.", "KILL", "were killed"],
+ ["An elephant never forgets ___ friends.", "IT", "its"]]}],
+ 19:[{t:"The school play",q:[
+ ["Right now our class ___ a play by Chekhov.", "REHEARSE", "is rehearsing"],
+ ["I ___ the main part, which makes me nervous.", "GIVE", ["have been given", "was given"]],
+ ["We ___ for two months already.", "PRACTISE", ["have been practising", "have been practicing"]],
+ ["The costumes ___ by our parents last week.", "MAKE", "were made"],
+ ["The performance ___ place on the 20th of December.", "TAKE", ["will take", "takes", "is taking"]],
+ ["I hope the audience ___ it.", "LIKE", "will like"]]}],
+ 20:[{t:"Electric cars",q:[
+ ["The first electric car ___ more than a hundred years ago.", "BUILD", "was built"],
+ ["Electric cars are much ___ than petrol ones.", "QUIET", "quieter"],
+ ["They ___ the air in our cities.", "NOT POLLUTE", ["do not pollute", "don't pollute"]],
+ ["Their number ___ fast at present.", "GROW", "is growing"],
+ ["My uncle ___ one last year.", "BUY", "bought"],
+ ["He says he ___ back to petrol.", "NEVER GO", "will never go"]]}],
+ 21:[{t:"William Shakespeare",q:[
+ ["William Shakespeare ___ in Stratford-upon-Avon in 1564.", "BEAR", "was born"],
+ ["He ___ thirty-seven plays.", "WRITE", "wrote"],
+ ["His plays ___ into more than a hundred languages.", "TRANSLATE", "have been translated"],
+ ["They ___ in theatres all over the world today.", "PERFORM", "are performed"],
+ ["\"Hamlet\" is probably his ___ tragedy.", "FAMOUS", "most famous"],
+ ["Our class ___ it next term.", "READ", ["will read", "is going to read", "will be reading"]]]}],
+ 22:[{t:"A football match",q:[
+ ["Yesterday our school team ___ the final match.", "PLAY", "played"],
+ ["By half-time we ___ two goals.", "SCORE", "had scored"],
+ ["It ___ heavily, but nobody left the stadium.", "RAIN", "was raining"],
+ ["Our goalkeeper is the ___ player in the team.", "YOUNG", "youngest"],
+ ["The cup ___ to our captain by the headmaster.", "GIVE", "was given"],
+ ["We ___ so happy since the beginning of the year.", "NOT BE", ["have not been", "haven't been"]]]}],
+ 23:[{t:"The Internet",q:[
+ ["The Internet ___ our life completely.", "CHANGE", "has changed"],
+ ["It ___ in the 1960s as a military project.", "START", ["started", "was started"]],
+ ["Today it ___ by billions of people.", "USE", "is used"],
+ ["My little sister ___ a cartoon online right now.", "WATCH", "is watching"],
+ ["Life without it would be much ___.", "DIFFICULT", "more difficult"],
+ ["Our grandparents ___ any of this when they were young.", "NOT HAVE", ["did not have", "didn't have"]]]}],
+ 24:[{t:"A letter to a pen friend",q:[
+ ["Thank you for your letter. I ___ it yesterday.", "GET", "got"],
+ ["I am sorry I ___ for so long.", "NOT WRITE", ["have not written", "haven't written"]],
+ ["At the moment I ___ for my exams.", "STUDY", "am studying"],
+ ["My brother ___ school last year.", "FINISH", "finished"],
+ ["Now he ___ in Kazan and comes home once a month.", "LIVE", "lives"],
+ ["I hope we ___ each other next summer.", "SEE", "will see"]]}],
+ 25:[{t:"The Nile",q:[
+ ["The Nile is one of the ___ rivers in the world.", "LONG", "longest"],
+ ["It ___ through eleven countries.", "FLOW", "flows"],
+ ["In ancient times its water ___ for farming.", "USE", "was used"],
+ ["The great pyramids ___ near its banks.", "BUILD", "were built"],
+ ["Egypt still ___ on the river today.", "DEPEND", "depends"],
+ ["Scientists ___ the river for centuries.", "STUDY", ["have been studying", "have studied"]]]}],
+ 26:[{t:"A rainy day",q:[
+ ["It ___ since early morning.", "RAIN", "has been raining"],
+ ["We ___ to go to the park, but we had to stay at home.", "PLAN", ["had planned", "planned", "were planning"]],
+ ["My sister ___ a picture when I came into her room.", "DRAW", "was drawing"],
+ ["She draws much ___ than I do.", "WELL", "better"],
+ ["Mum suggested ___ a film together.", "WATCH", "watching"],
+ ["If the rain stops, we ___ out in the evening.", "GO", "will go"]]}],
+ 27:[{t:"Dolphins",q:[
+ ["Dolphins are among the ___ animals on the planet.", "CLEVER", ["cleverest", "most clever"]],
+ ["A dolphin ___ with one half of its brain awake.", "SLEEP", "sleeps"],
+ ["Dolphins ___ by people since ancient times.", "ADMIRE", "have been admired"],
+ ["A young dolphin stays with ___ mother for several years.", "IT", "its"],
+ ["Last summer we ___ dolphins near the coast of Crimea.", "SEE", "saw"],
+ ["They ___ next to our boat for half an hour.", "SWIM", ["swam", "were swimming"]]]}],
+ 28:[{t:"An unusual hobby",q:[
+ ["My aunt ___ old clocks.", "COLLECT", "collects"],
+ ["She ___ her first one twenty years ago.", "BUY", "bought"],
+ ["Since then she ___ more than two hundred.", "FIND", "has found"],
+ ["The oldest clock ___ in Germany in 1790.", "MAKE", "was made"],
+ ["It still ___ perfectly.", "WORK", "works"],
+ ["I think her collection ___ in a museum one day.", "SHOW", "will be shown"]]}],
+ 29:[{t:"Tea in Britain",q:[
+ ["Tea first ___ in Britain in the 17th century.", "APPEAR", "appeared"],
+ ["At first it was ___ than gold.", "EXPENSIVE", "more expensive"],
+ ["Only rich ___ could afford it.", "FAMILY", "families"],
+ ["Today an average Briton ___ three cups a day.", "DRINK", "drinks"],
+ ["Tea with milk ___ since the 18th century.", "SERVE", "has been served"],
+ ["My English friend says she ___ a day without tea.", "NEVER SPEND", "has never spent"]]}],
+ 30:[{t:"Exam time",q:[
+ ["The first exam ___ on the 1st of June.", "BEGIN", ["begins", "will begin"]],
+ ["I ___ twenty practice tests so far.", "DO", "have done"],
+ ["Yesterday I ___ only one mistake in the grammar part.", "MAKE", "made"],
+ ["Writing is the ___ part for me.", "HARD", "hardest"],
+ ["Right now I ___ my essay plan by heart.", "LEARN", "am learning"],
+ ["When my sister ___ her exams, she will go to the sea.", "PASS", ["passes", "has passed"]]]}],
+ 31:[{t:"The first flight to the Moon",q:[
+ ["In July 1969 people ___ on the Moon for the first time.", "LAND", "landed"],
+ ["The astronauts ___ for four days before they reached it.", "TRAVEL", ["had been travelling", "had been traveling", "had travelled", "had traveled"]],
+ ["Neil Armstrong was the ___ man to step onto its surface.", "ONE", "first"],
+ ["The landing ___ by millions of people on TV.", "WATCH", "was watched"],
+ ["Since then only twelve ___ have walked on the Moon.", "MAN", "men"],
+ ["Scientists believe that a base ___ there in the future.", "BUILD", "will be built"]]}],
+};
+const exam26L3WF={
+ 2:[{t:"Smart homes",q:[
+ ["Smart homes are becoming ___ popular.", "INCREASE", "increasingly"],
+ ["The heating switches on ___.", "AUTOMATIC", "automatically"],
+ ["Such systems save ___.", "ELECTRIC", "electricity"],
+ ["The ___ of the equipment takes only a day.", "INSTALL", "installation"],
+ ["However, it is still too ___ for many families.", "COST", "costly"]]}],
+ 3:[{t:"The printing press",q:[
+ ["Before the 15th century, the ___ of a book by hand took months.", "PRODUCE", "production"],
+ ["Gutenberg's machine made books ___ to ordinary people.", "ACCESS", "accessible"],
+ ["It was a ___ moment in history.", "REVOLUTION", "revolutionary"],
+ ["The ___ of reading grew quickly.", "POPULAR", "popularity"],
+ ["As a result, ___ spread across Europe.", "LITERATE", "literacy"]]}],
+ 4:[{t:"Good manners",q:[
+ ["___ is important in any culture.", "POLITE", "politeness"],
+ ["It is ___ to interrupt other people.", "RESPECT", "disrespectful"],
+ ["A simple \"thank you\" shows your ___.", "APPRECIATE", "appreciation"],
+ ["Try to arrive ___ for every meeting.", "PUNCTUAL", "punctually"],
+ ["Good manners make you a pleasant ___.", "COMPANY", "companion"]]}],
+ 5:[{t:"A balanced diet",q:[
+ ["A ___ diet is the basis of good health.", "BALANCE", "balanced"],
+ ["Fresh fruit is very ___.", "NUTRITION", "nutritious"],
+ ["Too much sugar is ___ for your teeth.", "HARM", "harmful"],
+ ["Drink water ___ during the day.", "FREQUENT", "frequently"],
+ ["Skipping meals leads to ___.", "TIRED", "tiredness"]]}],
+ 6:[{t:"The Northern Lights",q:[
+ ["The Northern Lights are one of the most ___ sights in nature.", "IMPRESS", "impressive"],
+ ["They can be seen in the ___ parts of Russia.", "NORTH", "northern"],
+ ["Their ___ depends on the activity of the Sun.", "BRIGHT", "brightness"],
+ ["The colours change ___ across the sky.", "MAGIC", "magically"],
+ ["For many tourists, it is a truly ___ night.", "MYSTERY", "mysterious"]]}],
+ 7:[{t:"Board games",q:[
+ ["Board games are a great form of ___.", "ENTERTAIN", "entertainment"],
+ ["Chess improves ___ thinking.", "LOGIC", "logical"],
+ ["Every ___ needs patience.", "PLAY", "player"],
+ ["Some games require a quick ___.", "REACT", "reaction"],
+ ["Winning is pleasant, but ___ is more important.", "PARTICIPATE", "participation"]]}],
+ 8:[{t:"Choosing a career",q:[
+ ["Choosing a career is a serious ___.", "DECIDE", "decision"],
+ ["Think about your ___ and interests.", "STRONG", "strengths"],
+ ["A good ___ can give you useful information.", "ADVISE", ["adviser", "advisor"]],
+ ["Some jobs require great ___.", "CREATE", "creativity"],
+ ["A ___ job is not always the best one.", "PRESTIGE", "prestigious"]]}],
+ 9:[{t:"Television news",q:[
+ ["The evening news attracts millions of ___.", "VIEW", "viewers"],
+ ["Reporters describe the latest ___.", "DEVELOP", "developments"],
+ ["An ___ source is hard to find.", "DEPEND", "independent"],
+ ["News should be presented ___.", "OBJECTIVE", "objectively"],
+ ["Wrong facts can ___ people.", "LEAD", "mislead"]]}],
+ 10:[{t:"Neighbours",q:[
+ ["We live in a friendly ___.", "NEIGHBOUR", ["neighbourhood", "neighborhood"]],
+ ["Our neighbours are always ___.", "WELCOME", "welcoming"],
+ ["Loud music at night is a common cause of ___.", "ARGUE", "arguments"],
+ ["A polite ___ usually helps.", "CONVERSE", "conversation"],
+ ["Mutual ___ makes a house a home.", "UNDERSTAND", "understanding"]]}],
+ 11:[{t:"Climate change",q:[
+ ["Global ___ is a serious problem.", "WARM", "warming"],
+ ["The ___ of forests makes it worse.", "DISAPPEAR", "disappearance"],
+ ["Winters are becoming ___ warm.", "USUAL", "unusually"],
+ ["Scientists and ___ are looking for solutions.", "POLITICS", "politicians"],
+ ["Using ___ energy is one possible answer.", "RENEW", "renewable"]]}],
+ 12:[{t:"The Tretyakov Gallery",q:[
+ ["The gallery's permanent ___ attracts visitors from all over the world.", "EXHIBIT", "exhibition"],
+ ["Its ___, Pavel Tretyakov, loved painting.", "FOUND", "founder"],
+ ["He bought works by ___ young artists.", "TALENT", "talented"],
+ ["Many of the paintings show ___ events.", "HISTORY", ["historical", "historic"]],
+ ["The gallery is a source of national ___.", "PROUD", "pride"]]}],
+ 13:[{t:"Social media",q:[
+ ["Social networks ___ us to stay in touch.", "ABLE", "enable"],
+ ["But it is easy to ___ how much time you spend online.", "ESTIMATE", "underestimate"],
+ ["Some users ___ with every opinion they read.", "AGREE", "disagree"],
+ ["Experts advise us to ___ our screen time.", "SHORT", "shorten"],
+ ["Still, many people post new photos ___.", "DAY", "daily"]]}],
+ 14:[{t:"A sea cruise",q:[
+ ["A cruise is a ___ way to see several countries.", "WONDER", "wonderful"],
+ ["The main ___ is visiting a new port every day.", "ATTRACT", "attraction"],
+ ["The crew are ___ and helpful.", "EXPERIENCE", "experienced"],
+ ["In stormy weather some ___ feel seasick.", "TRAVEL", ["travellers", "travelers"]],
+ ["Still, the trip is ___ worth the money.", "DEFINITE", "definitely"]]}],
+ 15:[{t:"Friends online",q:[
+ ["Online ___ are common today.", "RELATION", "relationships"],
+ ["People can talk ___ of distance.", "REGARD", "regardless"],
+ ["But you should protect your ___.", "PRIVATE", "privacy"],
+ ["Not everyone online is ___.", "TRUST", "trustworthy"],
+ ["A real ___ is still better than a chat.", "MEET", "meeting"]]}],
+ 16:[{t:"Libraries today",q:[
+ ["Modern libraries are ___ different from old ones.", "TOTAL", "totally"],
+ ["They offer a free Internet ___.", "CONNECT", "connection"],
+ ["___ help visitors to find information.", "LIBRARY", "librarians"],
+ ["Many libraries organise ___ for children.", "COMPETE", "competitions"],
+ ["A library is an ___ place to study.", "IDEA", "ideal"]]}],
+ 17:[{t:"Detective stories",q:[
+ ["Detective stories are full of ___.", "TENSE", "tension"],
+ ["The reader tries to find the ___.", "CRIME", "criminal"],
+ ["The final ___ is usually unexpected.", "EXPLAIN", "explanation"],
+ ["A good detective is always ___.", "OBSERVE", "observant"],
+ ["Agatha Christie created ___ unforgettable characters.", "COUNT", "countless"]]}],
+ 18:[{t:"Zoos: for and against",q:[
+ ["Zoos help with the ___ of rare species.", "PROTECT", "protection"],
+ ["Children learn about animal ___.", "BEHAVE", ["behaviour", "behavior"]],
+ ["However, life in a cage is ___.", "COMFORT", "uncomfortable"],
+ ["Some old zoos are ___ small.", "TERRIBLE", "terribly"],
+ ["Modern zoos try to create better ___.", "SURROUND", "surroundings"]]}],
+ 19:[{t:"A school exchange",q:[
+ ["An exchange programme is a great ___.", "OPPORTUNE", "opportunity"],
+ ["Students live with a host family and improve their ___.", "FLUENT", "fluency"],
+ ["At first, some ___ customs may be surprising.", "TRADITION", "traditional"],
+ ["Host families are usually very ___.", "CARE", "caring"],
+ ["Most students return home with ___ memories.", "PLEASE", "pleasant"]]}],
+ 20:[{t:"Online shopping",q:[
+ ["Online shopping saves time and is ___ cheap.", "COMPARE", "comparatively"],
+ ["___ is usually fast.", "DELIVER", "delivery"],
+ ["Read the ___ of the product carefully.", "DESCRIBE", "description"],
+ ["Some ___ are not honest.", "SELL", "sellers"],
+ ["If you are ___, you can return the goods.", "SATISFY", ["dissatisfied", "unsatisfied"]]]}],
+ 21:[{t:"A radio interview",q:[
+ ["Today our guest is a famous ___.", "ACT", ["actor", "actress"]],
+ ["His latest film was a great ___.", "SUCCEED", "success"],
+ ["Critics praised his ___ acting.", "POWER", "powerful"],
+ ["He spoke ___ about his childhood.", "OPEN", "openly"],
+ ["His main ___ to young people is to work hard.", "RECOMMEND", "recommendation"]]}],
+ 22:[{t:"My pen friend",q:[
+ ["Her letters are always ___.", "AMUSE", "amusing"],
+ ["She describes her town ___.", "VIVID", "vividly"],
+ ["Our ___ began three years ago.", "CORRESPOND", "correspondence"],
+ ["I am ___ for her help with English.", "THANK", "thankful"],
+ ["I answer every letter ___.", "IMMEDIATE", "immediately"]]}],
+ 23:[{t:"A weekend trip",q:[
+ ["I had an ___ weekend.", "AMAZE", "amazing"],
+ ["The ___ to the old castle was free.", "ENTER", "entrance"],
+ ["The guide was very ___.", "TALK", "talkative"],
+ ["___, it started raining.", "SUDDEN", "suddenly"],
+ ["It was a small ___, but we still had fun.", "APPOINT", "disappointment"]]}],
+ 24:[{t:"Opinion words",q:[
+ ["In ___, I would like to say that sport is useful for everyone.", "CONCLUDE", "conclusion"],
+ ["This is a ___ point of view.", "REASON", "reasonable"],
+ ["However, I ___ disagree with it.", "STRONG", "strongly"],
+ ["The main ___ of this plan is its cost.", "WEAK", "weakness"],
+ ["This problem needs a quick ___.", "RESPOND", "response"]]}],
+ 25:[{t:"A survey of reading habits",q:[
+ ["The survey was carried out among ___.", "TEENAGE", "teenagers"],
+ ["The results were quite ___.", "REMARK", "remarkable"],
+ ["Paper books are ___ losing readers.", "GRADUAL", "gradually"],
+ ["The ___ of e-books is easy to explain.", "CONVENIENT", "convenience"],
+ ["Libraries should ___ their collections.", "MODERN", ["modernise", "modernize"]]]}],
+ 26:[{t:"Free time",q:[
+ ["Teenagers have little free time ___.", "NOW", "nowadays"],
+ ["Many choose ___ activities such as drawing.", "CREATE", "creative"],
+ ["Others prefer ___ sports.", "COMPETE", "competitive"],
+ ["A lack of rest leads to ___.", "EXHAUST", "exhaustion"],
+ ["Careful ___ of the week is the best solution.", "PLAN", "planning"]]}],
+ 27:[{t:"The human voice",q:[
+ ["Every voice is ___ different.", "SLIGHT", "slightly"],
+ ["Correct ___ makes speech clear.", "BREATH", "breathing"],
+ ["___ practise for hours every day.", "SING", "singers"],
+ ["A ___ voice is pleasant to hear.", "MELODY", ["melodic", "melodious"]],
+ ["Shouting can ___ your voice.", "WEAK", "weaken"]]}],
+ 28:[{t:"At the sports club",q:[
+ ["The club offers a free ___ lesson.", "INTRODUCE", "introductory"],
+ ["___ costs 2,000 roubles a month.", "MEMBER", "membership"],
+ ["The ___ are highly qualified.", "INSTRUCT", "instructors"],
+ ["The pool is ___ on Mondays.", "AVAIL", "unavailable"],
+ ["The ___ near the metro is very convenient.", "LOCATE", "location"]]}],
+ 29:[{t:"Talking about yourself",q:[
+ ["Give ___ answers.", "DETAIL", "detailed"],
+ ["Speak ___, as you do with a friend.", "NATURE", "naturally"],
+ ["Avoid the ___ of the same words.", "REPEAT", "repetition"],
+ ["Explain your ___.", "PREFER", "preferences"],
+ ["A short pause is ___ acceptable.", "PERFECT", "perfectly"]]}],
+ 30:[{t:"My project",q:[
+ ["I am going to give a ___ about my project.", "PRESENT", "presentation"],
+ ["The first photo shows a ___ street.", "CROWD", "crowded"],
+ ["In the second one the ___ is completely different.", "LIGHT", "lighting"],
+ ["Both pictures ___ city life.", "ILLUSTRATION", "illustrate"],
+ ["I ___ recommend the second photo.", "HIGH", "highly"]]}],
+ 31:[{t:"After the exam",q:[
+ ["After the exam you will feel great ___.", "RELIEVE", "relief"],
+ ["The ___ of the results takes about two weeks.", "ANNOUNCE", "announcement"],
+ ["Waiting can be ___.", "PAIN", "painful"],
+ ["Whatever the result, be proud of your ___.", "PERSIST", "persistence"],
+ ["Then comes the ___ of a new life.", "BEGIN", "beginning"]]}],
+};
 function exam26Own(mode,w){
- if(mode==='grammar')return w===1?exam26Grammar:(exam26NewGrammar[w]||[]);
+ if(mode==='grammar')return w===1?exam26Grammar:(exam26NewGrammar[w]||[]).concat(exam26L3Grammar[w]||[]);
  if(w===1)return week2WFByLesson.map(x=>x[0]);
- if(w===12)return [exam26WF[0]];
- if(w===13)return [exam26WF[1]];
- return exam26NewWF[w]||[];
+ const first=w===12?[exam26WF[0]]:w===13?[exam26WF[1]]:(exam26NewWF[w]||[]);
+ return first.concat(exam26L3WF[w]||[]);
 }
 /* Сначала задания текущей недели, затем повторение предыдущих недель (от ближайшей к первой) */
 function exam26List(mode,w){
