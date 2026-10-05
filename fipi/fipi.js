@@ -78,6 +78,10 @@ window.openFipi=function(){
     const b=el('button','fp-topic','<b>'+String(i+1).padStart(2,'0')+' · '+esc(t.name)+'</b><small>Speaking 1–4 · 2 варианта<br>Writing 37 · 38.1 · 38.2'+(t.gr?'<br>Grammar 19–24 · Word formation 25–29':'')+'</small>');b.type='button';b.onclick=()=>openTopic(i);grids[gname].append(b);});
   if(window.FIPI_INTERVIEWS){box.append(el('div','fp-sec','Задание 3 · интервью из Открытого банка ФИПИ · аудио с паузами 40 секунд'));const g=el('div','fp-grid fp-ivgrid');
     window.FIPI_INTERVIEWS.forEach((v,k)=>{const b=el('button','fp-topic','<b>'+v.n+' · '+esc(v.theme)+'</b><small>'+(v.audio?'аудио · 4:20':'без аудио · озвучка браузера')+'</small>');b.type='button';b.onclick=()=>openBankIv(k,null);g.append(b);});box.append(g);}
+  if(window.FIPI_BANK2){box.append(el('div','fp-sec','Задание 2 · объявления из Открытого банка ФИПИ · с картинками'));const g=el('div','fp-grid fp-ivgrid');
+    window.FIPI_BANK2.forEach((v,k)=>{const b=el('button','fp-topic','<b>'+v.n+' · '+esc(v.title)+'</b>');b.type='button';b.onclick=()=>openBankTask(2,k,null);g.append(b);});box.append(g);}
+  if(window.FIPI_BANK4){box.append(el('div','fp-sec','Задание 4 · проекты с фотографиями из Открытого банка ФИПИ'));const g=el('div','fp-grid fp-ivgrid');
+    window.FIPI_BANK4.forEach((v,k)=>{const b=el('button','fp-topic','<b>'+v.n+' · '+esc(v.theme)+'</b>');b.type='button';b.onclick=()=>openBankTask(4,k,null);g.append(b);});box.append(g);}
   if(window.FIPI_BANK){const d=el('details','fp-bank','<summary>Задания о России в Открытом банке ФИПИ · по кодам</summary><p>Официальные задания открываются на сайте ФИПИ: <a href="https://ege.fipi.ru/bank/" target="_blank" rel="noopener">ege.fipi.ru/bank</a> → Английский язык → поиск по номеру задания.</p>'+window.FIPI_BANK.map(g=>'<h4>'+esc(g[0])+'</h4><ul><li>'+g[1].map(esc).join('</li><li>')+'</li></ul>').join(''));box.append(d);}
   box.append(el('p','fp-note','Тексты заданий составлены специально для этого сайта по модели демоверсии ФИПИ. Номера страниц пособия Expert по каждой теме указаны в ключах.'));
   host.append(box);window.scrollTo(0,0);
@@ -94,6 +98,8 @@ function openTopic(i){
   [0,1].forEach(v=>add(g,'Задание 2 · вариант '+(v+1),t.ads[v].title,()=>openSpeak(i,2,v)));
   [0,1].forEach(v=>add(g,'Задание 3 · вариант '+(v+1),'Интервью: '+t.iv[v].theme+' · вопросы только звучат',()=>openSpeak(i,3,v)));
   [0,1].forEach(v=>add(g,'Задание 4 · вариант '+(v+1),'Проект «'+t.ph[v].project+'»',()=>openSpeak(i,4,v)));
+  [[2,window.FIPI_BANK2,'Задание 2 · объявления из банка ФИПИ · с картинками',v=>v.title],[4,window.FIPI_BANK4,'Задание 4 · проекты из банка ФИПИ · с фотографиями',v=>'Проект «'+v.project+'»']].forEach(c=>{const list=(c[1]||[]).map((v,k)=>[v,k]).filter(x=>x[0].topic===t.id);
+    if(list.length){g=group(c[2]);list.forEach(x=>add(g,'Вариант '+x[0].n,c[3](x[0]),()=>openBankTask(c[0],x[1],i)));}});
   const bank=(window.FIPI_INTERVIEWS||[]).map((v,k)=>[v,k]).filter(x=>x[0].topic===t.id);
   if(bank.length){g=group('Задание 3 · интервью из банка ФИПИ · аудио');bank.forEach(x=>add(g,'Вариант '+x[0].n+' · '+x[0].theme,x[0].audio?'запись диктора с паузами по 40 секунд':'без аудио · озвучка браузера',()=>openBankIv(x[1],i)));}
   g=group('Устная часть целиком · как на экзамене');
@@ -120,7 +126,7 @@ const INST={
  3:'Task 3. You are going to give an interview. You have to answer five questions. Give full answers to the questions (2–3 sentences). Remember that you have 40 seconds to answer each question.'
 };
 function openSpeak(ti,task,v,chain,ivOver){
-  const t=T()[ti],{body}=shell(t.name+' · Задание '+task+(chain?' · вариант '+(v+1)+' целиком':''),()=>openTopic(ti),'К теме');
+  const t=T()[ti],{body}=shell(ivOver&&ivOver.label?ivOver.label:t.name+' · Задание '+task+(chain?' · вариант '+(v+1)+' целиком':''),ivOver&&ivOver.back?ivOver.back:()=>openTopic(ti),ivOver&&ivOver.backLabel||'К теме');const SRC='<p>Источник: Открытый банк заданий ЕГЭ, ФИПИ.</p>';
   const kim=el('div','fp-kim'),head=el('div','fp-kimhead'),bar=el('div','fp-bar','<i></i>'),kb=el('div','fp-kimbody');
   const phase=el('span','fp-phase','Нажмите «Начать»'),clock=el('span','fp-clock','0:00');
   head.append(el('b',null,'Задание '+task),phase,clock);kim.append(head,bar,kb);
@@ -131,14 +137,14 @@ function openSpeak(ti,task,v,chain,ivOver){
     keyHtml='<h4>Оценивание · 1 балл</h4><p>Речь воспринимается легко, нет необоснованных пауз, фразовое ударение и интонация без нарушений нормы; не более пяти фонетических ошибок, из них не более двух искажают смысл.</p><p>В тексте '+t.read.split(/\s+/).length+' слов.</p>'+bookRef(ti,[['reading','Текст для чтения',true]]);
   }
   if(task===2){
-    const a=t.ads[v];
+    const a=ivOver||t.ads[v];
     kb.append(el('p','fp-inst','Task 2. Study the advertisement.'),el('div','fp-adtitle',esc(a.title)));
-    const ap=el('div','fp-adpic');ap.append(picture(t.id+'-ad'+(v+1),'Картинка объявления',a.pic));kb.append(ap);
+    const ap=el('div','fp-adpic');ap.append(picture(a.img||t.id+'-ad'+(v+1),'Картинка объявления',a.pic||''));kb.append(ap);
     kb.append(el('p','fp-inst',esc(a.intro)+' In 1.5 minutes you are to ask four direct questions to find out about the following:'));
     points=el('ol','fp-points');a.points.forEach(p=>points.append(el('li',null,esc(p))));kb.append(points);
     kb.append(el('p','fp-inst','You have 20 seconds to ask each question.'));
     phases=[{label:'Подготовка',kind:'prep',sec:90}].concat(a.points.map((p,k)=>({label:'Вопрос '+(k+1),kind:'answer',sec:20,point:k})));
-    keyHtml='<h4>Возможные вопросы</h4><ol><li>'+a.key.map(esc).join('</li><li>')+'</li></ol><h4>Оценивание · 4 балла</h4><p>По 1 баллу за вопрос: вопрос прямой, отвечает пункту задания, грамматически верен, фонетика и лексика не мешают пониманию.</p>'+bookRef(ti,[['questions','Задание 2',true],['speakingKeys','Модели ответов']]);
+    keyHtml=(a.key?'<h4>Возможные вопросы</h4><ol><li>'+a.key.map(esc).join('</li><li>')+'</li></ol>':'')+'<h4>Оценивание · 4 балла</h4><p>По 1 баллу за вопрос: вопрос прямой, отвечает пункту задания, грамматически верен, фонетика и лексика не мешают пониманию.</p>'+(ivOver?SRC:bookRef(ti,[['questions','Задание 2',true],['speakingKeys','Модели ответов']]));
   }
   if(task===3){
     const iv=ivOver||t.iv[v];
@@ -151,13 +157,13 @@ function openSpeak(ti,task,v,chain,ivOver){
     if(!window.speechSynthesis)kb.append(el('p',null,'В этом браузере нет озвучивания текста – откройте ключ и прочитайте вопросы ученице вслух.'));
   }
   if(task===4){
-    const p=t.ph[v];
+    const p=ivOver||t.ph[v];
     kb.append(el('p','fp-inst','Task 4. Imagine that you and your friend are doing a school project “'+esc(p.project)+'”. You have found some photos to illustrate it but for technical reasons you cannot send them now. Leave a voice message to your friend explaining your choice of the photos and sharing some ideas about the project. In 2.5 minutes be ready to:'));
     kb.append(el('ul','fp-points','<li>explain the choice of the illustrations for the project by briefly describing them and noting the differences;</li><li>mention the advantages (1–2) of '+esc(p.kind)+';</li><li>mention the disadvantages (1–2) of '+esc(p.kind)+';</li><li>express your opinion on the subject of the project – '+esc(p.pref)+'.</li>'));
     kb.append(el('p','fp-inst','You will speak for not more than 3 minutes (12–15 sentences). You have to talk continuously.'));
-    const pics=el('div','fp-pics');[['a','Photo 1',p.p1],['b','Photo 2',p.p2]].forEach(x=>{const d=el('div','fp-pic',x[1]);d.append(picture(t.id+'-ph'+(v+1)+x[0],x[1],x[2]));pics.append(d);});kb.append(pics);
+    if(p.img){const st=el('div','fp-strip');st.append(picture(p.img,'Фотографии',''));kb.append(st);}else{const pics=el('div','fp-pics');[['a','Photo 1',p.p1],['b','Photo 2',p.p2]].forEach(x=>{const d=el('div','fp-pic',x[1]);d.append(picture(t.id+'-ph'+(v+1)+x[0],x[1],x[2]));pics.append(d);});kb.append(pics);}
     phases=[{label:'Подготовка',kind:'prep',sec:150},{label:'Ответ',kind:'answer',sec:180}];
-    keyHtml='<h4>Идеи для ответа</h4><p><b>Advantages:</b> '+esc(p.adv)+'</p><p><b>Disadvantages:</b> '+esc(p.dis)+'</p><h4>Оценивание · 10 баллов</h4><ul><li>Решение коммуникативной задачи – 4: раскрыты все четыре пункта плана, 12–15 фраз.</li><li>Организация – 3: обращение к другу, вступление и заключение, средства связи.</li><li>Языковое оформление – 3.</li></ul>'+bookRef(ti,[['photos','Задание 4',true],['speakingKeys','Модели ответов']]);
+    keyHtml=(p.adv?'<h4>Идеи для ответа</h4><p><b>Advantages:</b> '+esc(p.adv)+'</p><p><b>Disadvantages:</b> '+esc(p.dis)+'</p>':'')+'<h4>Оценивание · 10 баллов</h4><ul><li>Решение коммуникативной задачи – 4: раскрыты все четыре пункта плана, 12–15 фраз.</li><li>Организация – 3: обращение к другу, вступление и заключение, средства связи.</li><li>Языковое оформление – 3.</li></ul>'+(ivOver?SRC:bookRef(ti,[['photos','Задание 4',true],['speakingKeys','Модели ответов']]));
   }
   body.append(kim);
   const ctrl=el('div','fp-ctrl'),recBox=el('div'),key=el('div','fp-key',keyHtml);key.hidden=true;
@@ -209,6 +215,11 @@ function openSpeak(ti,task,v,chain,ivOver){
   }
 }
 
+function openBankTask(task,k,backTi){
+  const v=(task===2?window.FIPI_BANK2:window.FIPI_BANK4)[k],num=String(v.n).padStart(2,'0');let ti=T().findIndex(t=>t.id===v.topic);if(ti<0)ti=0;
+  const o=Object.assign({},v,{img:'bank'+task+'-'+num,label:'Задание '+task+' · банк ФИПИ · вариант '+v.n+' · '+(v.title||v.theme),back:backTi==null?close:()=>openTopic(backTi),backLabel:backTi==null?'К списку':'К теме'});
+  openSpeak(ti,task,0,false,o);
+}
 function openBankIv(k,backTi){
   const v=window.FIPI_INTERVIEWS[k],back=backTi==null?close:()=>openTopic(backTi);
   if(!v.audio){let ti=T().findIndex(t=>t.id===v.topic);if(ti<0)ti=0;openSpeak(ti,3,0,false,{theme:v.theme.toLowerCase(),q:v.q});return;}
