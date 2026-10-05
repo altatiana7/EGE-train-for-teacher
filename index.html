@@ -474,7 +474,13 @@ async function loadArinaHomeworkResults(){
   list.innerHTML=arinaReportHTML(rows)+rows.map(renderArinaSubmission).join('');
  }catch(e){status.textContent='Не удалось загрузить результаты. Проверьте интернет и нажмите «Обновить».'}
 }
+function arinaAudioHTML(d){const a=String(d&&d.audio||'');return /^data:(audio|video)\/[\w.+-]+(;[\w=.+-]+)*;base64,[A-Za-z0-9+\/=]+$/.test(a)?'<audio controls preload="metadata" style="width:100%;max-width:520px;height:38px;display:block;margin-top:8px" src="'+a+'"></audio>':''}
+function renderArinaRecording(r){
+ const d=(Array.isArray(r.details)?r.details:[])[0]||{};
+ return '<div class="lesson" style="margin:0;border-left:5px solid #D52B1E"><div style="padding:12px"><div class="eyebrow">'+arinaEsc(new Date(r.created_at).toLocaleString('ru-RU'))+' · запись голоса</div><h2 style="margin:4px 0">'+arinaEsc(String(r.test_title||r.test_id).replace(/^Запись голоса · /,''))+'</h2><div style="font-size:14px;color:var(--mut)">'+arinaEsc(d.question||'')+'</div>'+arinaAudioHTML(d)+'</div></div>';
+}
 function renderArinaSubmission(r){
+ if(Array.isArray(r.details)&&r.details[0]&&r.details[0].audio)return renderArinaRecording(r);
  const when=new Date(r.created_at).toLocaleString('ru-RU');
  const pct=r.max_score?Math.round(r.score/r.max_score*100):0;
  const details=Array.isArray(r.details)?r.details:[];
