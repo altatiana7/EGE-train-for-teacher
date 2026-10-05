@@ -166,6 +166,9 @@
 .taskModal{inset:38px 0 0 0!important;padding:8px!important;overflow:hidden!important}.taskModalCard{height:calc(100vh - 54px)!important;max-width:1200px!important;overflow:auto!important;padding:10px!important}.taskModalTop{position:sticky!important;top:-10px!important;z-index:30!important;background:#fff!important;padding:8px 0!important;margin-bottom:7px!important}
 .fullScreenPanel{inset:38px 0 0!important;padding:7px 10px!important;overflow:hidden!important}.fullScreenPanel .content{height:calc(100vh - 52px)!important;overflow:auto!important;max-width:1400px!important}.fullScreenBack{position:sticky!important;top:0!important;z-index:30!important;margin:0 0 6px!important;padding:6px 10px!important}
 @media(max-width:800px){.lessonPage .lessonMenu{grid-template-columns:1fr 1fr!important}.lessonPage .cols{grid-template-columns:1fr!important}.lessonPage{overflow:auto!important}.lessonPage>.lesson{height:auto!important;overflow:visible!important}}
+
+/* LESSON 3 TRUE ONE-SCREEN TABS 2026-10-05 */
+.lesson3OneScreen{height:calc(100vh - 135px);display:grid;grid-template-columns:245px 1fr;gap:8px;overflow:hidden}.lesson3Menu{display:grid;grid-template-columns:1fr;gap:4px;align-content:start}.lesson3Menu button{border:1px solid #b7c9e8;border-left:4px solid #0039A6;background:#fff;color:#0039A6;border-radius:7px;padding:8px;text-align:left;font-size:11px;font-weight:900}.lesson3Menu button.active{background:#dcecff;border-left-color:#D52B1E}.lesson3Panel{overflow:auto;background:#fff;border:1px solid #d9e1ec;border-radius:10px;padding:6px}.lesson3Panel>.examCard{margin:0;border:0;padding:8px}.lesson3Panel .table{display:grid;grid-template-columns:1fr 1fr;gap:5px}.lesson3Panel .crit{margin:0;padding:7px}.lesson3Panel h2{font-size:14px!important;margin:2px 0 6px!important}@media(max-width:800px){.lesson3OneScreen{height:auto;grid-template-columns:1fr}.lesson3Menu{grid-template-columns:1fr 1fr}.lesson3Panel{max-height:70vh}}
 </style><meta name="theme-color" content="#ffffff">
 
 <style id="teacherHubDistinctTheme">
@@ -871,6 +874,8 @@ function checkL3Ege(btn){
 }
 function resetL3Ege(btn){const root=btn.closest('.l3EgeSet');root.querySelectorAll('[data-l3ege]').forEach(x=>{x.value='';x.style.borderBottomColor='#0039A6';x.style.background='#f7f9fc'});root.querySelector('.egeSetResult').textContent=''}
 
+
+function showL3Panel(i){const store=document.getElementById('l3Store'),out=document.getElementById('l3Panel');if(!store||!out)return;const s=store.querySelector('[data-l3="'+i+'"]');if(!s)return;out.innerHTML=s.innerHTML;document.querySelectorAll('.lesson3Menu button').forEach((b,n)=>b.classList.toggle('active',n===i));if(typeof initKahoots==='function')initKahoots();}
 function lesson3TeacherHTML(key){
  return `
  <div class="hero" style="margin-bottom:10px">
@@ -879,7 +884,7 @@ function lesson3TeacherHTML(key){
    <p>60 минут · цель: проверить 4 Present forms, закрепить stative/dynamic verbs, irregular verbs и вывести Арину в формат ЕГЭ 19–24.</p>
  </div>
 
- <div class="examCard"><h2 style="margin:0 0 8px">ПЛАН УРОКА · 60 MIN</h2>
+ <div class="lesson3OneScreen"><div class="lesson3Menu"><button type="button" onclick="showL3Panel(0)">ПЛАН · 60 MIN</button><button type="button" onclick="showL3Panel(1)">1 · WARM-UP</button><button type="button" onclick="showL3Panel(2)">2 · PRESENT RETRIEVAL</button><button type="button" onclick="showL3Panel(3)">3 · STATIVE ↔ DYNAMIC</button><button type="button" onclick="showL3Panel(4)">4 · IRREGULAR VERBS</button><button type="button" onclick="showL3Panel(5)">5 · EGE 19–24</button><button type="button" onclick="showL3Panel(6)">6 · CHECKPOINT</button><button type="button" onclick="showL3Panel(7)">7 · ERROR LOG</button><button type="button" onclick="showL3Panel(8)">HOMEWORK</button></div><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none"><section data-l3="0"><div class="examCard"><h2>ПЛАН УРОКА · 60 MIN</h2>
    <div class="table">
      <div class="crit"><span><b>0–7</b> · EGE Reading Aloud warm-up</span><span class="pts">7 min</span></div>
      <div class="crit"><span><b>7–15</b> · Present Retrieval</span><span class="pts">8 min</span></div>
@@ -890,43 +895,36 @@ function lesson3TeacherHTML(key){
      <div class="crit"><span><b>52–60</b> · Error Log + Homework</span><span class="pts">8 min</span></div>
    </div>
  </div>
-
- <div class="examCard"><h2>1 · WARM-UP · EGE READING ALOUD</h2>
+</div></section><section data-l3="1"><div class="examCard"><h2>1 · WARM-UP · EGE READING ALOUD</h2>
    <p class="tiny">1:30 preparation → reading aloud → исправить только 3–4 главные ошибки: stress, endings, pauses, intonation.</p>
    ${oralReadingHTML()}
    <details class="hw"><summary>TEACHER FOCUS</summary><div class="hwbody"><div class="task">
    Не перебивай во время чтения. После чтения отметь: <b>word stress · final -s/-ed · thought groups · sentence stress · intonation</b>.
    </div></div></details>
  </div>
-
- <div class="examCard"><h2>2 · PRESENT RETRIEVAL · INTERACTIVE TEST</h2>
+</div></section><section data-l3="2"><div class="examCard"><h2>2 · PRESENT RETRIEVAL · INTERACTIVE TEST</h2>
    ${l3QuizHTML('PRESENT TENSES · 8 QUESTIONS',l3PresentQuiz,key+'present')}
    <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">studies · am listening · have finished · has been learning · have known · are you looking · has never been · are working</div></div></details>
  </div>
-
- <div class="examCard"><h2>3 · STATIVE ↔ DYNAMIC · INTERACTIVE TEST</h2>
+</div></section><section data-l3="3"><div class="examCard"><h2>3 · STATIVE ↔ DYNAMIC · INTERACTIVE TEST</h2>
    ${l3QuizHTML('STATIVE / DYNAMIC · 6 QUESTIONS',l3StativeQuiz,key+'stative')}
    <details class="hw"><summary>TEACHER FOCUS</summary><div class="hwbody"><div class="task">После проверки спросите: <b>What does the verb mean here? Why is / isn't Continuous possible?</b></div></div></details>
  </div>
-
- <div class="examCard"><h2>4 · IRREGULAR VERBS · INTERACTIVE CHECK</h2>
+</div></section><section data-l3="4"><div class="examCard"><h2>4 · IRREGULAR VERBS · INTERACTIVE CHECK</h2>
    ${l3QuizHTML('IRREGULAR VERBS · V3 IN CONTEXT · 10 QUESTIONS',l3IrregularQuiz,key+'irr')}
    <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task"><b>read · seen · broken · done · become · come · given · known · bought · taken</b></div></div></details>
  </div>
-
- <div class="examCard" style="border:2px solid #315b7d"><h2>5 · EGE 19–24 · INTERACTIVE EXAM BLOCK</h2>
+</div></section><section data-l3="5"><div class="examCard"><h2>5 · EGE 19–24 · INTERACTIVE EXAM BLOCK</h2>
    <p><b>Алгоритм:</b> сначала прочитать весь текст → затем <b>signal → meaning → tense → form</b>.</p>
    ${l3EgeInteractive()}
    <details class="hw"><summary>TEACHER KEY + REASON</summary><div class="hwbody"><div class="task">19 <b>starts</b> — usually/routine · 20 <b>is paying</b> — this week/temporary · 21 <b>has already completed</b> — result now · 22 <b>has been helping</b> — duration to now · 23 <b>has never believed</b> — state to now · 24 <b>is working</b> — at the moment</div></div></details>
  </div>
-
- <div class="examCard"><h2>6 · WEEK 1 CHECKPOINT · INTERACTIVE</h2>
+</div></section><section data-l3="6"><div class="examCard"><h2>6 · WEEK 1 CHECKPOINT · INTERACTIVE</h2>
    ${l3QuizHTML('CHECKPOINT · 5 QUESTIONS',l3Checkpoint,key+'checkpoint')}
    <p><b>Target: 4/5 minimum.</b></p>
    <details class="hw"><summary>TEACHER KEY</summary><div class="hwbody"><div class="task">have known · has been preparing · is calling · does · have taken</div></div></details>
  </div>
-
- <div class="examCard"><h2>7 · ERROR LOG · ONLY REAL ERRORS</h2>
+</div></section><section data-l3="7"><div class="examCard"><h2>7 · ERROR LOG · ONLY REAL ERRORS</h2>
    <div class="task" style="font-size:14px;line-height:1.8">
    <b>MY ANSWER → CORRECT ANSWER → WHY? → MY NEW EXAMPLE</b><br><br>
    1. __________________ → __________________ → __________________ → __________________<br>
@@ -934,8 +932,7 @@ function lesson3TeacherHTML(key){
    3. __________________ → __________________ → __________________ → __________________
    </div>
  </div>
-
- <div class="examCard" style="background:#eef3f7"><h2>HOMEWORK</h2>
+</div></section><section data-l3="8"><div class="examCard"><h2>HOMEWORK</h2>
    <div class="task">
    <b>1.</b> Повторить 20 irregular verbs.<br>
    <b>2.</b> Исправить все ошибки Lesson 3 по схеме answer → rule → new example.<br>
@@ -944,7 +941,7 @@ function lesson3TeacherHTML(key){
    </div>
    <div class="task"><b>Переход к Week 2:</b> только если checkpoint ≥ 4/5 и Арина объясняет выбор формы, а не угадывает по одному marker.</div>
  </div>
- `;
+ </div></section></div></div>`;
 }
 
 function lessonStarter(w,i){
@@ -995,7 +992,7 @@ function lessonFullHTML(x,i,w){
  }
  return html+'</div></div>';
 }
-function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+(w===1?'<div class="examCard" style="margin:10px 14px 20px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Grammar 19–24 + Word Formation 25–29 · материалы 2026</div></div><button class="action studentRequiredTest" type="button" onclick="closeLesson();renderExam2026()">ОТКРЫТЬ EXAM 2026</button></div></div>':'');p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);scrollTo(0,0)}
+function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+(w===1?'<div class="examCard" style="margin:10px 14px 20px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Grammar 19–24 + Word Formation 25–29 · материалы 2026</div></div><button class="action studentRequiredTest" type="button" onclick="closeLesson();renderExam2026()">ОТКРЫТЬ EXAM 2026</button></div></div>':'');p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);if(w===0&&i===2)setTimeout(()=>showL3Panel(0),0);scrollTo(0,0)}
 function closeLesson(){const p=document.getElementById('lessonPage');if(p)p.style.display='none'}
 function week1EgePanel(){return '<aside class="week1EgePanel"><h3>Развёрнутые задания</h3><div class="egeLongRow"><span>37 · Email</span><b>6</b></div><div class="egeLongRow"><span>38 · Essay</span><b>14</b></div><div class="egeLongRow"><span>39 · Reading</span><b>1</b></div><div class="egeLongRow"><span>40 · Questions</span><b>4</b></div><div class="egeLongRow"><span>41 · Interview</span><b>5</b></div><div class="egeLongRow"><span>42 · Photo project</span><b>10</b></div><a class="egeRefBtn demo" href="https://fipi.ru/ege/demoversii-specifikacii-kodifikatory" target="_blank" rel="noopener">Пробная версия ЕГЭ 2027</a><a class="egeRefBtn bank" href="https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege" target="_blank" rel="noopener">Открытый банк ФИПИ</a><div class="egeRefNote">Сейчас опубликован проект КИМ-2027; после утверждения данные на хабе нужно сверить ещё раз.</div></aside>'}
 function renderWeek(i){if(i<0||i>=weeks.length)return;document.body.classList.remove('fullWeek');document.getElementById('examView').classList.remove('on');document.getElementById('trainerView').classList.remove('on');document.getElementById('weekView').classList.add('on');document.querySelectorAll('.wbtn').forEach(b=>b.classList.toggle('active',+b.dataset.i===i));const w=weeks[i];currentWeek=i;document.querySelectorAll('.teacherNav').forEach(x=>x.classList.remove('active'));document.getElementById('weekView').innerHTML='<div class="weekTitle"><b>Неделя '+(i+1)+' · '+(weekLabels[i]||'EGE Focus')+'</b> · '+w.d+'</div>'+teacherWeekCard(i,w)+'<div class="weekMeta"><div class="card"><div class="eyebrow">Цель недели</div><h2>'+w.g+'</h2></div><div class="card result"><div class="eyebrow">Критерий готовности</div><p><b>'+w.r+'</b></p></div></div>'+(i===0?'<div class="week1Grid"><div class="week1Lessons">'+w.l.map((x,j)=>lessonHTML(x,j,i)).join('')+'</div>'+week1EgePanel()+'</div>':w.l.map((x,j)=>lessonHTML(x,j,i)).join(''))+(i===1?'<div class="examCard" style="margin-top:10px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Реальные материалы 2026 · Grammar 19–24 + Word Formation 25–29</div></div><button class="action studentRequiredTest" type="button" onclick="renderExam2026()">ОТКРЫТЬ EXAM 2026</button></div></div>':'');restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));if(innerWidth<801)document.getElementById('side').classList.remove('open');scrollTo({top:0,behavior:'smooth'})}
