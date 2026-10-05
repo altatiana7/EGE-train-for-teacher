@@ -7,7 +7,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;};
 const btn=(label,fn,cls)=>{const b=el('button','fp-btn'+(cls?' '+cls:''));b.type='button';b.textContent=label;b.onclick=fn;return b;};
 const mmss=s=>{s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
-let overlay=null,run=null,catalog=null,micOn=false,stream=null,recorder=null,chunks=[],writeTimer=null;
+let curAudio=null,overlay=null,run=null,catalog=null,micOn=false,stream=null,recorder=null,chunks=[],writeTimer=null;
 
 /* ---------- страницы пособия (только номера страниц) ---------- */
 fetch(new URL('../expert/catalog.json',base)).then(r=>r.ok?r.json():null).then(d=>{catalog=d;}).catch(()=>{});
@@ -54,7 +54,7 @@ function recStop(target,name){
 }
 
 /* ---------- оболочка ---------- */
-function stopRun(){if(run){clearInterval(run.tick);run.cancelSpeak&&run.cancelSpeak();run=null;}if(window.speechSynthesis)speechSynthesis.cancel();if(recorder&&recorder.state!=='inactive'){recorder.onstop=null;recorder.stop();}recorder=null;clearInterval(writeTimer);writeTimer=null;}
+function stopRun(){if(curAudio){curAudio.pause();curAudio=null;}if(run){clearInterval(run.tick);run.cancelSpeak&&run.cancelSpeak();run=null;}if(window.speechSynthesis)speechSynthesis.cancel();if(recorder&&recorder.state!=='inactive'){recorder.onstop=null;recorder.stop();}recorder=null;clearInterval(writeTimer);writeTimer=null;}
 function shell(title,back,backLabel){
   stopRun();
   if(!overlay){overlay=el('section','fp-overlay');overlay.setAttribute('role','dialog');overlay.setAttribute('aria-label','Задания в формате ФИПИ');document.body.appendChild(overlay);}
@@ -76,6 +76,8 @@ window.openFipi=function(){
   const grids={};
   T().forEach((t,i)=>{const gname=t.group||'Темы кодификатора';if(!grids[gname]){box.append(el('div','fp-sec',esc(gname)));grids[gname]=el('div','fp-grid');box.append(grids[gname]);}
     const b=el('button','fp-topic','<b>'+String(i+1).padStart(2,'0')+' · '+esc(t.name)+'</b><small>Speaking 1–4 · 2 варианта<br>Writing 37 · 38.1 · 38.2'+(t.gr?'<br>Grammar 19–24 · Word formation 25–29':'')+'</small>');b.type='button';b.onclick=()=>openTopic(i);grids[gname].append(b);});
+  if(window.FIPI_INTERVIEWS){box.append(el('div','fp-sec','Задание 3 · интервью из Открытого банка ФИПИ · аудио с паузами 40 секунд'));const g=el('div','fp-grid fp-ivgrid');
+    window.FIPI_INTERVIEWS.forEach((v,k)=>{const b=el('button','fp-topic','<b>'+v.n+' · '+esc(v.theme)+'</b><small>'+(v.audio?'аудио · 4:20':'без аудио · озвучка браузера')+'</small>');b.type='button';b.onclick=()=>openBankIv(k,null);g.append(b);});box.append(g);}
   if(window.FIPI_BANK){const d=el('details','fp-bank','<summary>Задания о России в Открытом банке ФИПИ · по кодам</summary><p>Официальные задания открываются на сайте ФИПИ: <a href="https://ege.fipi.ru/bank/" target="_blank" rel="noopener">ege.fipi.ru/bank</a> → Английский язык → поиск по номеру задания.</p>'+window.FIPI_BANK.map(g=>'<h4>'+esc(g[0])+'</h4><ul><li>'+g[1].map(esc).join('</li><li>')+'</li></ul>').join(''));box.append(d);}
   box.append(el('p','fp-note','Тексты заданий составлены специально для этого сайта по модели демоверсии ФИПИ. Номера страниц пособия Expert по каждой теме указаны в ключах.'));
   host.append(box);window.scrollTo(0,0);
@@ -92,6 +94,8 @@ function openTopic(i){
   [0,1].forEach(v=>add(g,'Задание 2 · вариант '+(v+1),t.ads[v].title,()=>openSpeak(i,2,v)));
   [0,1].forEach(v=>add(g,'Задание 3 · вариант '+(v+1),'Интервью: '+t.iv[v].theme+' · вопросы только звучат',()=>openSpeak(i,3,v)));
   [0,1].forEach(v=>add(g,'Задание 4 · вариант '+(v+1),'Проект «'+t.ph[v].project+'»',()=>openSpeak(i,4,v)));
+  const bank=(window.FIPI_INTERVIEWS||[]).map((v,k)=>[v,k]).filter(x=>x[0].topic===t.id);
+  if(bank.length){g=group('Задание 3 · интервью из банка ФИПИ · аудио');bank.forEach(x=>add(g,'Вариант '+x[0].n+' · '+x[0].theme,x[0].audio?'запись диктора с паузами по 40 секунд':'без аудио · озвучка браузера',()=>openBankIv(x[1],i)));}
   g=group('Устная часть целиком · как на экзамене');
   [0,1].forEach(v=>add(g,'Вариант '+(v+1)+' · задания 1–4 подряд','около 17 минут · переход к следующему заданию кнопкой',()=>openSpeak(i,1,v,true),'fp-chain'));
   g=group('Письменная часть');
@@ -115,7 +119,7 @@ const INST={
  1:'Task 1. Imagine that you are preparing a project with your friend. You have found some interesting material for the presentation and you want to read this text to your friend. You have 1.5 minutes to read the text silently, then be ready to read it out aloud. You will not have more than 1.5 minutes to read it.',
  3:'Task 3. You are going to give an interview. You have to answer five questions. Give full answers to the questions (2–3 sentences). Remember that you have 40 seconds to answer each question.'
 };
-function openSpeak(ti,task,v,chain){
+function openSpeak(ti,task,v,chain,ivOver){
   const t=T()[ti],{body}=shell(t.name+' · Задание '+task+(chain?' · вариант '+(v+1)+' целиком':''),()=>openTopic(ti),'К теме');
   const kim=el('div','fp-kim'),head=el('div','fp-kimhead'),bar=el('div','fp-bar','<i></i>'),kb=el('div','fp-kimbody');
   const phase=el('span','fp-phase','Нажмите «Начать»'),clock=el('span','fp-clock','0:00');
@@ -137,7 +141,7 @@ function openSpeak(ti,task,v,chain){
     keyHtml='<h4>Возможные вопросы</h4><ol><li>'+a.key.map(esc).join('</li><li>')+'</li></ol><h4>Оценивание · 4 балла</h4><p>По 1 баллу за вопрос: вопрос прямой, отвечает пункту задания, грамматически верен, фонетика и лексика не мешают пониманию.</p>'+bookRef(ti,[['questions','Задание 2',true],['speakingKeys','Модели ответов']]);
   }
   if(task===3){
-    const iv=t.iv[v];
+    const iv=ivOver||t.iv[v];
     kb.append(el('p','fp-inst',esc(INST[3])));big=el('div','fp-big','Interview<small>Вопросы не показываются на экране – их нужно слушать.</small>');kb.append(big);
     const say=(text,label,k)=>({label:label,kind:'listen',text:text,q:k});
     phases=[say("Hello everybody! It's Teenagers Round the World Channel. Our guest today is a teenager from Russia and we are going to discuss "+iv.theme+". We'd like to know our guest's point of view on this issue. Please answer five questions. So, let's get started.",'Вступление')];
@@ -203,6 +207,26 @@ function openSpeak(ti,task,v,chain){
     if(points&&points.tagName==='OL')[...points.children].forEach(li=>li.className='');
     pauseB.disabled=skipB.disabled=true;recStop(recBox,t.id+'-task'+task+'-v'+(v+1));
   }
+}
+
+function openBankIv(k,backTi){
+  const v=window.FIPI_INTERVIEWS[k],back=backTi==null?close:()=>openTopic(backTi);
+  if(!v.audio){let ti=T().findIndex(t=>t.id===v.topic);if(ti<0)ti=0;openSpeak(ti,3,0,false,{theme:v.theme.toLowerCase(),q:v.q});return;}
+  const {body}=shell('Задание 3 · вариант '+v.n+' · '+v.theme,back,backTi==null?'К списку':'К теме');
+  const kim=el('div','fp-kim'),head=el('div','fp-kimhead'),bar=el('div','fp-bar','<i></i>'),kb=el('div','fp-kimbody');
+  const phase=el('span','fp-phase','Нажмите «Начать»'),clock=el('span','fp-clock','0:00');
+  head.append(el('b',null,'Задание 3'),phase,clock);kim.append(head,bar,kb);
+  const big=el('div','fp-big','Interview<small>Вопросы не показываются на экране – их нужно слушать. После каждого вопроса в записи пауза 40 секунд для ответа.</small>');
+  kb.append(el('p','fp-inst',esc(INST[3])),big);body.append(kim);
+  const au=new Audio(new URL('audio/iv'+String(v.n).padStart(2,'0')+'.mp3',base).href);au.preload='metadata';
+  const ctrl=el('div','fp-ctrl'),recBox=el('div'),key=el('div','fp-key','<h4>Вопросы интервьюера</h4><ol><li>'+v.q.map(esc).join('</li><li>')+'</li></ol><h4>Оценивание · 5 баллов</h4><p>По 1 баллу за ответ: полный и точный ответ из 2–3 фраз, без ошибок, мешающих пониманию. Односложный ответ или ответ не на тот вопрос – 0.</p><p>Источник: Открытый банк заданий ЕГЭ, ФИПИ.</p>');key.hidden=true;
+  const startB=btn('Начать',()=>{stopRun();recBox.innerHTML='';curAudio=au;au.currentTime=0;au.play().then(()=>{recStart();startB.textContent='Сначала';pauseB.disabled=false;pauseB.textContent='Пауза';}).catch(()=>{phase.textContent='Запись не загрузилась · повторите';});},'fp-main');
+  const pauseB=btn('Пауза',()=>{if(au.paused){au.play();recStart();pauseB.textContent='Пауза';}else{au.pause();recPause();pauseB.textContent='Продолжить';}});pauseB.disabled=true;
+  const micB=btn('Запись ответа: '+(micOn?'вкл':'выкл'),()=>toggleMic(micB));micB.setAttribute('aria-pressed',micOn?'true':'false');
+  ctrl.append(startB,pauseB,micB,btn('Ключ · для учителя',()=>{key.hidden=!key.hidden;},'fp-red fp-sp'));body.append(ctrl,recBox,key);
+  au.ontimeupdate=()=>{if(!au.duration)return;clock.textContent=mmss(au.duration-au.currentTime);clock.className='fp-clock fp-listen';bar.firstChild.style.width=(100*au.currentTime/au.duration)+'%';phase.textContent='Идёт интервью · слушайте и отвечайте';};
+  au.onended=()=>{phase.textContent='Интервью окончено';clock.className='fp-clock';clock.textContent='0:00';pauseB.disabled=true;beep(520,500);recStop(recBox,'interview-v'+v.n);curAudio=null;};
+  au.onerror=()=>{phase.textContent='Запись не загрузилась · обновите страницу';};
 }
 
 /* ---------- письменная часть ---------- */
