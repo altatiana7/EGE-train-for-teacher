@@ -169,6 +169,14 @@
 
 /* LESSON 3 TRUE ONE-SCREEN TABS 2026-10-05 */
 .lesson3OneScreen{height:calc(100vh - 135px);display:grid;grid-template-columns:245px 1fr;gap:8px;overflow:hidden}.lesson3Menu{display:grid;grid-template-columns:1fr;gap:4px;align-content:start}.lesson3Menu button{border:1px solid #b7c9e8;border-left:4px solid #0039A6;background:#fff;color:#0039A6;border-radius:7px;padding:8px;text-align:left;font-size:11px;font-weight:900}.lesson3Menu button.active{background:#dcecff;border-left-color:#D52B1E}.lesson3Panel{overflow:auto;background:#fff;border:1px solid #d9e1ec;border-radius:10px;padding:6px}.lesson3Panel>.examCard{margin:0;border:0;padding:8px}.lesson3Panel .table{display:grid;grid-template-columns:1fr 1fr;gap:5px}.lesson3Panel .crit{margin:0;padding:7px}.lesson3Panel h2{font-size:14px!important;margin:2px 0 6px!important}@media(max-width:800px){.lesson3OneScreen{height:auto;grid-template-columns:1fr}.lesson3Menu{grid-template-columns:1fr 1fr}.lesson3Panel{max-height:70vh}}
+
+/* W1L3 LAYOUT FIX 2026-10-05b */
+.lessonPage .hero{background:#294f6d!important;border-color:#294f6d!important;border-left:5px solid #D52B1E!important;color:#fff!important;padding:8px 12px!important;margin-bottom:7px!important}
+.lessonPage .hero .eyebrow{color:#fff!important;opacity:.9!important}.lessonPage .hero h1{color:#fff!important;font-size:16px!important}.lessonPage .hero p{color:#eaf3ff!important}
+.lesson3OneScreen{height:calc(100vh - 128px)!important;display:grid!important;grid-template-columns:245px minmax(0,1fr)!important;gap:8px!important;overflow:hidden!important}.lesson3Menu{height:100%!important;overflow:auto!important}.lesson3Panel{height:100%!important;overflow:auto!important;min-width:0!important}.lesson3Panel>.examCard{width:100%!important;max-width:none!important}
+/* old lesson content must never appear below the two-column workspace */
+.lesson3OneScreen~*{display:none!important}
+@media(max-width:800px){.lesson3OneScreen{grid-template-columns:190px minmax(0,1fr)!important;height:calc(100vh - 135px)!important}.lesson3Menu{grid-template-columns:1fr!important}.lesson3Menu button{font-size:9px!important;padding:6px!important}}
 </style><meta name="theme-color" content="#ffffff">
 
 <style id="teacherHubDistinctTheme">
@@ -875,7 +883,7 @@ function checkL3Ege(btn){
 function resetL3Ege(btn){const root=btn.closest('.l3EgeSet');root.querySelectorAll('[data-l3ege]').forEach(x=>{x.value='';x.style.borderBottomColor='#0039A6';x.style.background='#f7f9fc'});root.querySelector('.egeSetResult').textContent=''}
 
 
-function showL3Panel(i){const store=document.getElementById('l3Store'),out=document.getElementById('l3Panel');if(!store||!out)return;const s=store.querySelector('[data-l3="'+i+'"]');if(!s)return;out.innerHTML=s.innerHTML;document.querySelectorAll('.lesson3Menu button').forEach((b,n)=>b.classList.toggle('active',n===i));if(typeof initKahoots==='function')initKahoots();}
+function showL3Panel(i){const store=document.getElementById('l3Store'),out=document.getElementById('l3Panel');if(!store||!out)return;const current=out.querySelector('[data-l3]');if(current)store.appendChild(current);const s=store.querySelector('[data-l3="'+i+'"]');if(!s)return;out.replaceChildren(s);document.querySelectorAll('.lesson3Menu button').forEach((b,n)=>b.classList.toggle('active',n===i));out.scrollTop=0;if(typeof initKahoots==='function')initKahoots();}
 function lesson3TeacherHTML(key){
  return `
  <div class="hero" style="margin-bottom:10px">
