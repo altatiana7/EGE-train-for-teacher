@@ -973,7 +973,21 @@ function lessonStarter(w,i){
   return '<div class="lessonMenu" style="grid-template-columns:1fr 1fr"><button class="lessonMenuBtn" type="button" onclick="openStativePanel(\'rule\',\''+key+'\')">RULE · STATIVE / DYNAMIC</button><button class="lessonMenuBtn studentRequiredTest" style="background:#fff7f7!important;border:1px solid #e7a3a3!important;color:#9f2d2d!important;box-shadow:none!important" type="button" onclick="openStativePanel(\'test\',\''+key+'s\')"><span style="font-size:8px;color:#b95b5b">СДЕЛАТЬ · </span>GRAMMAR TEST · 25</button></div>'+stativeExtraHTML();
  }
  if(w===0&&i===2){return lesson3TeacherHTML(key)}
- return egePresentPractice(key);
+ /* у каждого урока своё задание недели: урок 1 — Grammar 19–24, урок 2 — Word Formation 25–29 */
+ const g=exam26Own('grammar',w),f=exam26Own('wf',w);
+ if(i===0)return exam26InlineHTML('grammar',w,0);
+ if(i===1)return exam26InlineHTML('wf',w,Math.min(1,f.length-1));
+ return (g[1]?exam26InlineHTML('grammar',w,1):'')+(f[2]?exam26InlineHTML('wf',w,2):'');
+}
+function exam26InlineHTML(mode,w,k){
+ const set=exam26Own(mode,w)[k];if(!set)return '';
+ const start=mode==='grammar'?19:25;
+ return '<div class="egePresentSet" style="margin-bottom:10px" data-mode="'+mode+'" data-w="'+w+'" data-k="'+k+'"><h3>EGE '+(mode==='grammar'?'19–24 · Grammar':'25–29 · Word Formation')+' · '+set.t+'</h3><div class="tiny">Неделя '+(w+1)+'. Преобразуй слово, напечатанное заглавными буквами, так, чтобы оно подходило по смыслу и грамматике.</div><div class="egePresentText">'+set.q.map((x,n)=>(n+start)+'. '+x[0].replace('___','<span class="egeGap"><input autocomplete="off" autocapitalize="off" spellcheck="false"><span class="egeBase">'+x[1]+'</span></span>')).join('<br>')+'</div><div class="egeSetActions"><button type="button" onclick="checkExam26Inline(this)">CHECK</button></div><div class="egeSetResult"></div></div>';
+}
+function checkExam26Inline(btn){
+ const box=btn.closest('.egePresentSet'),set=exam26Own(box.dataset.mode,+box.dataset.w)[+box.dataset.k];let good=0;
+ box.querySelectorAll('.egeGap input').forEach((x,i)=>{const a=exam26Norm(x.value),ok=[].concat(set.q[i][2]).some(v=>exam26Norm(v)===a);if(ok)good++;x.style.borderBottomColor=ok?'#15803d':'#D52B1E'});
+ box.querySelector('.egeSetResult').textContent=good+' / '+set.q.length;
 }
 function submitBox(key,title){
  return '<div class="submitBox" data-submit="'+key+'"><b>ОТПРАВИТЬ РЕЗУЛЬТАТ УЧИТЕЛЮ</b><p>После отправки ответы блокируются. Исправить или пройти тест повторно нельзя.</p><div class="submitStatus"></div></div>';
@@ -1011,10 +1025,10 @@ function lessonFullHTML(x,i,w){
  }
  return html+'</div></div>';
 }
-function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+(w===1?'<div class="examCard" style="margin:10px 14px 20px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Grammar 19–24 + Word Formation 25–29 · материалы 2026</div></div><button class="action studentRequiredTest" type="button" onclick="closeLesson();renderExam2026('+i+')">ОТКРЫТЬ EXAM 2026</button></div></div>':'');p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);if(w===0&&i===2)setTimeout(()=>showL3Panel(0),0);scrollTo(0,0)}
+function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+exam26Card(w,i);p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);if(w===0&&i===2)setTimeout(()=>showL3Panel(0),0);scrollTo(0,0)}
 function closeLesson(){const p=document.getElementById('lessonPage');if(p)p.style.display='none'}
 function week1EgePanel(){return '<aside class="week1EgePanel"><h3>Развёрнутые задания</h3><div class="egeLongRow"><span>37 · Email</span><b>6</b></div><div class="egeLongRow"><span>38 · Essay</span><b>14</b></div><div class="egeLongRow"><span>39 · Reading</span><b>1</b></div><div class="egeLongRow"><span>40 · Questions</span><b>4</b></div><div class="egeLongRow"><span>41 · Interview</span><b>5</b></div><div class="egeLongRow"><span>42 · Photo project</span><b>10</b></div><a class="egeRefBtn demo" href="https://fipi.ru/ege/demoversii-specifikacii-kodifikatory" target="_blank" rel="noopener">Пробная версия ЕГЭ 2027</a><a class="egeRefBtn bank" href="https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege" target="_blank" rel="noopener">Открытый банк ФИПИ</a><div class="egeRefNote">Сейчас опубликован проект КИМ-2027; после утверждения данные на хабе нужно сверить ещё раз.</div></aside>'}
-function renderWeek(i){if(i<0||i>=weeks.length)return;document.body.classList.remove('fullWeek');document.getElementById('examView').classList.remove('on');document.getElementById('trainerView').classList.remove('on');document.getElementById('weekView').classList.add('on');document.querySelectorAll('.wbtn').forEach(b=>b.classList.toggle('active',+b.dataset.i===i));const w=weeks[i];currentWeek=i;document.querySelectorAll('.teacherNav').forEach(x=>x.classList.remove('active'));document.getElementById('weekView').innerHTML='<div class="weekTitle"><b>Неделя '+(i+1)+' · '+(weekLabels[i]||'EGE Focus')+'</b> · '+w.d+'</div>'+teacherWeekCard(i,w)+'<div class="weekMeta"><div class="card"><div class="eyebrow">Цель недели</div><h2>'+w.g+'</h2></div><div class="card result"><div class="eyebrow">Критерий готовности</div><p><b>'+w.r+'</b></p></div></div>'+(i===0?'<div class="week1Grid"><div class="week1Lessons">'+w.l.map((x,j)=>lessonHTML(x,j,i)).join('')+'</div>'+week1EgePanel()+'</div>':w.l.map((x,j)=>lessonHTML(x,j,i)).join(''))+(i===1?'<div class="examCard" style="margin-top:10px;border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM 2026</b><div class="tiny">Реальные материалы 2026 · Grammar 19–24 + Word Formation 25–29</div></div><button class="action studentRequiredTest" type="button" onclick="renderExam2026(0)">ОТКРЫТЬ EXAM 2026 · LESSON 1</button></div></div>':'');restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));if(innerWidth<801)document.getElementById('side').classList.remove('open');scrollTo({top:0,behavior:'smooth'})}
+function renderWeek(i){if(i<0||i>=weeks.length)return;['weekView','examView','trainerView'].forEach(id=>document.getElementById(id).style.display='');document.body.classList.remove('fullWeek');document.getElementById('examView').classList.remove('on');document.getElementById('trainerView').classList.remove('on');document.getElementById('weekView').classList.add('on');document.querySelectorAll('.wbtn').forEach(b=>b.classList.toggle('active',+b.dataset.i===i));const w=weeks[i];currentWeek=i;document.querySelectorAll('.teacherNav').forEach(x=>x.classList.remove('active'));document.getElementById('weekView').innerHTML='<div class="weekTitle"><b>Неделя '+(i+1)+' · '+(weekLabels[i]||'EGE Focus')+'</b> · '+w.d+'</div>'+teacherWeekCard(i,w)+'<div class="weekMeta"><div class="card"><div class="eyebrow">Цель недели</div><h2>'+w.g+'</h2></div><div class="card result"><div class="eyebrow">Критерий готовности</div><p><b>'+w.r+'</b></p></div></div>'+(i===0?'<div class="week1Grid"><div class="week1Lessons">'+w.l.map((x,j)=>lessonHTML(x,j,i)).join('')+'</div>'+week1EgePanel()+'</div>':w.l.map((x,j)=>lessonHTML(x,j,i)).join(''))+exam26Card(i);restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));if(innerWidth<801)document.getElementById('side').classList.remove('open');scrollTo({top:0,behavior:'smooth'})}
 let saved={};try{saved=JSON.parse(localStorage.getItem('arinaPlanV4')||'{}')}catch(e){}function restore(){document.querySelectorAll('[data-save]').forEach(x=>{x.checked=!!saved[x.dataset.save];x.onchange=()=>{saved[x.dataset.save]=x.checked;localStorage.setItem('arinaPlanV4',JSON.stringify(saved))}})}
 function exitWeek(){document.body.classList.remove('fullWeek');document.getElementById('side').classList.add('open')}function checkQuizSet(btn){
  const set=btn.parentElement.querySelector('.quizSet');
@@ -1187,15 +1201,431 @@ const week2WFByLesson=[
  ['International ___ is essential in large scientific projects.','COOPERATE','cooperation']]}
 ]
 ];
-let exam26Lesson=0;
-let exam26Mode='grammar',exam26Index=0;
-function renderExam2026(lessonIndex){exam26Lesson=Number.isInteger(lessonIndex)?lessonIndex:0;exam26Mode='grammar';exam26Index=0;renderExam26View()}
-function renderExam26View(){
- document.getElementById('lessonPage').style.display='none';document.getElementById('examView').style.display='block';document.getElementById('weekView').style.display='none';
- const data=exam26Mode==='grammar'?exam26Grammar:(week2WFByLesson[exam26Lesson]||week2WFByLesson[0]),set=data[exam26Index],start=exam26Mode==='grammar'?19:25;
- document.getElementById('examView').innerHTML='<button class="lessonBack" onclick="renderWeek(currentWeek)">← Назад</button><div class="hero"><div class="eyebrow">EXAM 2026</div><h1>'+(exam26Mode==='grammar'?'Grammar 19–24':'Word Formation 25–29')+'</h1></div><div class="exam26Tabs"><button onclick="exam26Mode=\'grammar\';exam26Index=0;renderExam26View()">GRAMMAR · 19–24</button><button onclick="exam26Mode=\'wf\';exam26Index=0;renderExam26View()">WORD FORMATION · 25–29</button></div><div class="exam26Set"><h3>'+set.t+'</h3><div class="exam26Text">'+set.q.map((x,i)=>(start+i)+'. '+x[0].replace('___','<span class="exam26Gap"><input data-i="'+i+'" autocomplete="off"><span class="exam26Base">'+x[1]+'</span></span>')).join('<br>')+'</div><div class="exam26Nav"><button onclick="checkExam26(this)">CHECK</button><button onclick="exam26Index=(exam26Index+1)%'+data.length+';renderExam26View()">NEXT SET →</button></div><div class="exam26Result"></div></div>';
+const exam26NewGrammar={
+ 0:[{t:"A school science club",q:[
+ ["Our school science club ___ every Thursday after lessons.", "MEET", "meets"],
+ ["At the moment the members ___ on a project about clean water.", "WORK", "are working"],
+ ["So far they ___ more than fifty water samples from local rivers.", "COLLECT", "have collected"],
+ ["Anna, the club leader, ___ the data since early morning, so she looks tired.", "ANALYSE", ["has been analysing", "has been analyzing"]],
+ ["She ___ that the results will surprise everyone.", "BELIEVE", "believes"],
+ ["This is the ___ project the club has ever done.", "INTERESTING", "most interesting"]]}],
+ 2:[{t:"A trip to Kazan",q:[
+ ["Next weekend our class ___ to Kazan; the tickets are already booked.", "GO", ["is going", "is going to go"]],
+ ["The train ___ at 6.40 a.m. on Saturday.", "LEAVE", "leaves"],
+ ["I am sure we ___ the trip.", "ENJOY", "will enjoy"],
+ ["By the time we come back, we ___ about ten museums and monuments.", "VISIT", "will have visited"],
+ ["When we ___ in Kazan, a local guide will meet us at the station.", "ARRIVE", "arrive"],
+ ["Last year our teacher ___ us to Suzdal, and everybody loved it.", "TAKE", "took"]]}],
+ 3:[{t:"The Trans-Siberian Railway",q:[
+ ["The Trans-Siberian Railway ___ at the end of the 19th century.", "BUILD", "was built"],
+ ["Today it ___ by millions of passengers every year.", "USE", "is used"],
+ ["Several stations ___ at the moment, so some trains are delayed.", "REPAIR", "are being repaired"],
+ ["Since its opening, the line ___ many times.", "MODERNISE", ["has been modernised", "has been modernized"]],
+ ["New high-speed trains ___ on this route in the near future.", "INTRODUCE", "will be introduced"],
+ ["It is the ___ railway line in the world.", "LONG", "longest"]]}],
+ 4:[{t:"Museum rules",q:[
+ ["Large bags must ___ in the cloakroom.", "LEAVE", "be left"],
+ ["Photos can ___ only without a flash.", "TAKE", "be taken"],
+ ["The guide is late; she might ___ another group round the building right now.", "SHOW", "be showing"],
+ ["The vase is broken. Somebody must ___ it yesterday.", "DROP", "have dropped"],
+ ["You should ___ the tickets online; now we have to queue.", "BUY", "have bought"],
+ ["In the past, visitors ___ to touch the exhibits.", "NOT ALLOW", ["were not allowed", "weren't allowed"]]]}],
+ 5:[{t:"My grandparents' village",q:[
+ ["Every summer my cousins and I visit our grandparents; we love ___ very much.", "THEY", "them"],
+ ["Grandma keeps bees and makes all the honey ___.", "SHE", "herself"],
+ ["There are a lot of ___ in the village, and all of them play together.", "CHILD", "children"],
+ ["This house is ___; my grandfather built it forty years ago.", "THEY", "theirs"],
+ ["Two ___ swim in the pond behind the garden.", "GOOSE", "geese"],
+ ["This is my ___ summer in the village, and I never get bored.", "TEN", "tenth"]]}],
+ 6:[{t:"Lake Baikal",q:[
+ ["Lake Baikal is the ___ lake in the world.", "DEEP", "deepest"],
+ ["It is also much ___ than most other lakes on the planet.", "OLD", "older"],
+ ["In February the ice is ___ than in December.", "THICK", "thicker"],
+ ["The weather here can be ___ than tourists expect.", "BAD", "worse"],
+ ["Some people say Baikal has the ___ water they have ever tasted.", "GOOD", "best"],
+ ["The ___ you travel from the shore, the more beautiful the view becomes.", "FAR", ["farther", "further"]]]}],
+ 7:[{t:"A young photographer",q:[
+ ["Maria enjoys ___ pictures of wild birds.", "TAKE", "taking"],
+ ["She spends hours ___ for the right moment.", "WAIT", "waiting"],
+ ["She is interested in ___ a professional photographer.", "BECOME", "becoming"],
+ ["The photos ___ last spring won a national prize.", "TAKE", "taken"],
+ ["Yesterday she ___ to enter an international competition.", "DECIDE", "decided"],
+ ["Without ___ a word, she showed me her best shot.", "SAY", "saying"]]}],
+ 8:[{t:"Advice from a friend",q:[
+ ["If I ___ you, I would start preparing for the exam now.", "BE", "were"],
+ ["If you revise a little every day, you ___ much calmer in June.", "FEEL", "will feel"],
+ ["If Tom had listened to his teacher, he ___ the test last week.", "PASS", "would have passed"],
+ ["I wish I ___ more free time now.", "HAVE", "had"],
+ ["If we ___ earlier yesterday, we would not have missed the train.", "LEAVE", "had left"],
+ ["Unless it ___ tomorrow, we will study in the park.", "RAIN", "rains"]]}],
+ 9:[{t:"An interview with a writer",q:[
+ ["The journalist asked the writer where she ___ her ideas.", "FIND", "found"],
+ ["She said that she ___ her first story at the age of ten.", "WRITE", ["had written", "wrote"]],
+ ["She explained that she ___ on a new novel at that time.", "WORK", "was working"],
+ ["She promised that the book ___ out the following year.", "COME", "would come"],
+ ["She admitted that she ___ giving interviews.", "NOT LIKE", ["did not like", "didn't like"]],
+ ["It was her ___ interview that month.", "THREE", "third"]]}],
+ 10:[{t:"The lost keys",q:[
+ ["As soon as Mark ___ home, he will call you.", "GET", "gets"],
+ ["The boy ___ next to the window is my brother.", "SIT", "sitting"],
+ ["While we ___ dinner, the lights suddenly went out.", "HAVE", "were having"],
+ ["By the time the police arrived, the thief ___.", "ESCAPE", "had escaped"],
+ ["She will not go to bed until she ___ this chapter.", "FINISH", ["finishes", "has finished"]],
+ ["The letter ___ by my grandfather in 1960 is still kept in our family.", "WRITE", "written"]]}],
+ 11:[{t:"The history of chocolate",q:[
+ ["Chocolate ___ from cocoa beans.", "MAKE", "is made"],
+ ["The Aztecs ___ it as a bitter drink.", "DRINK", "drank"],
+ ["In the 16th century cocoa ___ to Europe by Spanish travellers.", "BRING", "was brought"],
+ ["Since then chocolate ___ one of the most popular sweets in the world.", "BECOME", "has become"],
+ ["Dark chocolate is considered ___ than milk chocolate.", "HEALTHY", "healthier"],
+ ["Today many ___ prefer chocolate with nuts or fruit.", "PERSON", "people"]]}],
+ 12:[{t:"The Hermitage cats",q:[
+ ["Cats ___ in the Hermitage since the 18th century.", "LIVE", ["have lived", "have been living"]],
+ ["They ___ there to protect the paintings from mice.", "BRING", "were brought"],
+ ["Today about fifty cats ___ after by museum workers.", "LOOK", "are looked"],
+ ["Each cat has ___ own passport and a bowl.", "IT", "its"],
+ ["Every spring the museum ___ a special holiday in honour of the cats.", "HOLD", "holds"],
+ ["Some visitors say the cats are the ___ part of the museum.", "FUNNY", "funniest"]]}],
+ 13:[{t:"A letter from London",q:[
+ ["I ___ in London for two weeks already, and I love it.", "BE", "have been"],
+ ["Yesterday my host family ___ me to the Tower.", "TAKE", "took"],
+ ["While we ___ along the river, it started to rain.", "WALK", "were walking"],
+ ["English weather is much ___ than I expected.", "WET", "wetter"],
+ ["My English ___ better every day.", "GET", "is getting"],
+ ["I hope you ___ me a long letter soon.", "WRITE", "will write"]]}],
+ 14:[{t:"The first Olympic Games",q:[
+ ["The first Olympic Games ___ in Greece almost three thousand years ago.", "HOLD", "were held"],
+ ["Only ___ could take part in them at that time.", "MAN", "men"],
+ ["The winners ___ money; they received olive wreaths.", "NOT GET", ["did not get", "didn't get"]],
+ ["The modern Games ___ in 1896.", "BEGIN", "began"],
+ ["Since then they ___ place every four years, with a few exceptions.", "TAKE", "have taken"],
+ ["Today the Olympics are the ___ sports event in the world.", "BIG", "biggest"]]}],
+ 15:[{t:"My younger sister",q:[
+ ["My sister Katya is two years ___ than me.", "YOUNG", "younger"],
+ ["She ___ the piano since she was six.", "PLAY", ["has been playing", "has played"]],
+ ["Last month she ___ first prize in a city competition.", "WIN", "won"],
+ ["Right now she ___ for a concert in the next room.", "PRACTISE", ["is practising", "is practicing"]],
+ ["Our parents are very proud of ___.", "SHE", "her"],
+ ["I think she ___ a famous musician one day.", "BECOME", "will become"]]}],
+ 16:[{t:"The Moscow Metro",q:[
+ ["The first trains of the Moscow Metro ___ passengers in 1935.", "CARRY", "carried"],
+ ["Today it ___ more than two hundred stations.", "HAVE", "has"],
+ ["Many of ___ look like underground palaces.", "THEY", "them"],
+ ["Several new stations ___ at the moment.", "BUILD", "are being built"],
+ ["It is one of the ___ underground systems in the world.", "BUSY", "busiest"],
+ ["Tourists often say that they ___ such beautiful stations before.", "NEVER SEE", "have never seen"]]}],
+ 17:[{t:"A storm at sea",q:[
+ ["The fishermen ___ the harbour early in the morning.", "LEAVE", "left"],
+ ["They ___ for three hours when the wind suddenly changed.", "SAIL", "had been sailing"],
+ ["The waves were ___ than any of them had ever seen.", "HIGH", "higher"],
+ ["The radio ___, so they could not call for help.", "NOT WORK", ["was not working", "wasn't working", "did not work", "didn't work"]],
+ ["Luckily, the boat ___ by a passing ship.", "NOTICE", "was noticed"],
+ ["When they reached the shore, their ___ were waiting for them.", "WIFE", "wives"]]}],
+ 18:[{t:"Honey bees",q:[
+ ["A bee ___ up to two thousand flowers a day.", "VISIT", "visits"],
+ ["Honey ___ by people for thousands of years.", "EAT", "has been eaten"],
+ ["In ancient Egypt it ___ as medicine.", "USE", "was used"],
+ ["Scientists say that the number of bees ___ now.", "FALL", "is falling"],
+ ["Without bees, our life would be much ___.", "HARD", "harder"],
+ ["If bees disappeared, many plants ___ too.", "DIE", "would die"]]}],
+ 19:[{t:"My first day at a new school",q:[
+ ["I still remember my ___ day at the new school.", "ONE", "first"],
+ ["I ___ anybody there, so I felt nervous.", "NOT KNOW", ["did not know", "didn't know"]],
+ ["By the time I found the classroom, the lesson ___.", "BEGIN", "had begun"],
+ ["The teacher asked me where I ___ from.", "COME", "came"],
+ ["A girl ___ at the next desk smiled at me.", "SIT", "sitting"],
+ ["Now we ___ best friends for three years.", "BE", "have been"]]}],
+ 20:[{t:"Robots in our life",q:[
+ ["Robots ___ in factories for more than sixty years.", "USE", "have been used"],
+ ["The word \"robot\" ___ by a Czech writer in 1920.", "INVENT", "was invented"],
+ ["Modern robots can do many things ___ than people.", "FAST", "faster"],
+ ["At the moment engineers ___ robots that can help doctors.", "DEVELOP", "are developing"],
+ ["Some experts believe that robots ___ most housework in the future.", "DO", "will do"],
+ ["However, a robot cannot make decisions by ___.", "IT", "itself"]]}],
+ 21:[{t:"The Bolshoi Theatre",q:[
+ ["The Bolshoi Theatre ___ in the centre of Moscow.", "STAND", "stands"],
+ ["It ___ in 1776.", "FOUND", "was founded"],
+ ["The building ___ several times because of fires.", "REBUILD", ["has been rebuilt", "was rebuilt"]],
+ ["Tickets for the ___ performances are sold out months in advance.", "POPULAR", "most popular"],
+ ["Last year my aunt ___ me to see \"Swan Lake\" there.", "TAKE", "took"],
+ ["I ___ anything so beautiful before.", "NEVER SEE", "had never seen"]]}],
+ 22:[{t:"A healthy lifestyle",q:[
+ ["My brother ___ to the gym three times a week.", "GO", "goes"],
+ ["He ___ fast food two years ago.", "GIVE UP", "gave up"],
+ ["Since then he ___ much stronger.", "BECOME", "has become"],
+ ["He feels ___ than ever before.", "GOOD", "better"],
+ ["Fresh vegetables ___ in our family every day.", "EAT", "are eaten"],
+ ["If I ___ more willpower, I would join him.", "HAVE", "had"]]}],
+ 23:[{t:"The discovery of penicillin",q:[
+ ["Penicillin ___ by Alexander Fleming in 1928.", "DISCOVER", "was discovered"],
+ ["He ___ with bacteria when he noticed something strange.", "WORK", "was working"],
+ ["Somebody ___ a window open, and mould got onto one of the dishes.", "LEAVE", "had left"],
+ ["It was one of the ___ discoveries in the history of medicine.", "IMPORTANT", "most important"],
+ ["Since then millions of ___ have been saved.", "LIFE", "lives"],
+ ["Today antibiotics ___ all over the world.", "PRODUCE", "are produced"]]}],
+ 24:[{t:"Winter holidays",q:[
+ ["New Year is the holiday that Russian ___ like best.", "CHILD", "children"],
+ ["This year we ___ it at my grandparents' house.", "CELEBRATE", ["are celebrating", "will celebrate", "are going to celebrate"]],
+ ["Mum ___ all the presents already.", "BUY", "has bought"],
+ ["Yesterday Dad ___ home a huge fir tree.", "BRING", "brought"],
+ ["We ___ it when the lights went out.", "DECORATE", "were decorating"],
+ ["I hope this year will be even ___ than the last one.", "HAPPY", "happier"]]}],
+ 25:[{t:"The volcanoes of Kamchatka",q:[
+ ["Kamchatka ___ for its volcanoes.", "KNOW", "is known"],
+ ["There are more than three hundred ___ there.", "VOLCANO", ["volcanoes", "volcanos"]],
+ ["Klyuchevskaya Sopka is the ___ active volcano in Eurasia.", "HIGH", "highest"],
+ ["It ___ many times over the last century.", "ERUPT", "has erupted"],
+ ["Its activity ___ by scientists day and night.", "WATCH", "is watched"],
+ ["Few tourists ___ the top of the volcano last year because of bad weather.", "REACH", "reached"]]}],
+ 26:[{t:"A book that changed my life",q:[
+ ["I ___ this book three times, and I still enjoy it.", "READ", "have read"],
+ ["It ___ by Jules Verne in 1870.", "WRITE", "was written"],
+ ["My grandfather ___ it to me for my twelfth birthday.", "GIVE", "gave"],
+ ["Before that, I ___ reading at all.", "NOT ENJOY", ["had not enjoyed", "hadn't enjoyed", "did not enjoy", "didn't enjoy"]],
+ ["Now my little brother ___ it, and he cannot stop.", "READ", "is reading"],
+ ["I think it is the ___ adventure story ever written.", "EXCITING", "most exciting"]]}],
+ 27:[{t:"Wolves",q:[
+ ["Wolves live in groups ___ packs.", "CALL", "called"],
+ ["Each pack ___ by the strongest pair.", "LEAD", "is led"],
+ ["A wolf can run much ___ than a dog.", "FAR", ["farther", "further"]],
+ ["Young ___ stay with their parents for about two years.", "WOLF", "wolves"],
+ ["For centuries people ___ afraid of these animals.", "BE", "have been"],
+ ["In fact, a healthy wolf ___ people.", "NOT ATTACK", ["does not attack", "doesn't attack"]]]}],
+ 28:[{t:"Mobile phones",q:[
+ ["The first mobile phone call ___ in 1973.", "MAKE", "was made"],
+ ["Early phones were much ___ than modern ones.", "HEAVY", "heavier"],
+ ["Today almost everyone ___ a smartphone.", "HAVE", "has"],
+ ["My grandmother ___ hers for only a year, but she already uses it well.", "HAVE", "has had"],
+ ["When I called her yesterday, she ___ a video online.", "WATCH", "was watching"],
+ ["She says she ___ how people lived without the internet.", "NOT UNDERSTAND", ["does not understand", "doesn't understand"]]]}],
+ 29:[{t:"The Great Wall of China",q:[
+ ["The Great Wall ___ over many centuries.", "BUILD", "was built"],
+ ["Millions of workers ___ part in its construction.", "TAKE", "took"],
+ ["It is the ___ man-made structure on Earth.", "LONG", "longest"],
+ ["Every year it ___ by millions of tourists.", "VISIT", "is visited"],
+ ["Some parts of the wall ___ now.", "RESTORE", "are being restored"],
+ ["My friend, who ___ there twice, says it is unforgettable.", "BE", "has been"]]}],
+ 30:[{t:"Preparing for the exam",q:[
+ ["I ___ for my English exam since September.", "PREPARE", "have been preparing"],
+ ["Last week I ___ my first full mock test.", "WRITE", "wrote"],
+ ["My result was ___ than I had expected.", "GOOD", "better"],
+ ["By June I ___ all the topics.", "REVISE", "will have revised"],
+ ["My teacher says that practice ___ perfect.", "MAKE", "makes"],
+ ["If I had started earlier, I ___ less nervous now.", "BE", "would be"]]}],
+ 31:[{t:"Yuri Gagarin",q:[
+ ["Yuri Gagarin ___ in a small village in 1934.", "BEAR", "was born"],
+ ["As a boy, he dreamed of ___ a pilot.", "BECOME", "becoming"],
+ ["On 12 April 1961 he ___ into space.", "FLY", "flew"],
+ ["No one ___ it before him.", "DO", "had done"],
+ ["His flight ___ 108 minutes.", "LAST", "lasted"],
+ ["Since then, 12 April ___ as Cosmonautics Day.", "CELEBRATE", "has been celebrated"]]}],
+};
+const exam26NewWF={
+ 0:[{t:"Learning English",q:[
+ ["English is an ___ language spoken on every continent.", "NATION", "international"],
+ ["Good ___ helps people to understand you easily.", "PRONOUNCE", "pronunciation"],
+ ["It is ___ to learn a language without regular practice.", "POSSIBLE", "impossible"],
+ ["Watching films in English is both useful and ___.", "ENJOY", "enjoyable"],
+ ["After a year of study you will speak much more ___.", "FLUENT", "fluently"]]}],
+ 2:[{t:"The city of the future",q:[
+ ["Many ___ believe that cities will look very different in fifty years.", "RESEARCH", "researchers"],
+ ["Cars will be driven ___ by computers.", "COMPLETE", "completely"],
+ ["Air ___ will no longer be a serious problem.", "POLLUTE", "pollution"],
+ ["Life in such a city will be safe and ___.", "COMFORT", "comfortable"],
+ ["However, some people find these ideas ___.", "REAL", "unrealistic"]]}],
+ 3:[{t:"The invention of the radio",q:[
+ ["The radio was one of the greatest ___ of the 19th century.", "INVENT", "inventions"],
+ ["Alexander Popov was a talented ___ who demonstrated his device in 1895.", "PHYSICS", "physicist"],
+ ["His work was ___ important for sailors.", "SPECIAL", "especially"],
+ ["At first many people were ___ about the new device.", "DOUBT", "doubtful"],
+ ["Today wireless ___ is part of our everyday life.", "COMMUNICATE", "communication"]]}],
+ 4:[{t:"Volunteers",q:[
+ ["Volunteers give their time ___ and do not expect money.", "WILLING", "willingly"],
+ ["They help ___ people and children in hospitals.", "HOME", "homeless"],
+ ["Their ___ is very important for those in need.", "KIND", "kindness"],
+ ["The work may be hard, but it is never ___.", "MEANING", "meaningless"],
+ ["Volunteering also teaches ___ and patience.", "RESPONSIBLE", "responsibility"]]}],
+ 5:[{t:"A visit to the doctor",q:[
+ ["Last week I had a terrible ___.", "HEAD", "headache"],
+ ["The doctor examined me ___.", "CAREFUL", "carefully"],
+ ["She said my ___ was not serious.", "ILL", "illness"],
+ ["She gave me a ___ for some tablets.", "PRESCRIBE", "prescription"],
+ ["After two days of ___ I felt well again.", "TREAT", "treatment"]]}],
+ 6:[{t:"Hiking in the mountains",q:[
+ ["Hiking in the mountains is an ___ experience.", "FORGET", "unforgettable"],
+ ["The views from the top are ___ beautiful.", "INCREDIBLE", "incredibly"],
+ ["However, the weather there is often ___.", "PREDICT", "unpredictable"],
+ ["An experienced guide ensures the ___ of the group.", "SAFE", "safety"],
+ ["Beginners should choose ___ easy routes.", "RELATIVE", "relatively"]]}],
+ 7:[{t:"My grandfather's stamps",q:[
+ ["Collecting stamps was my grandfather's favourite ___.", "ACTIVE", "activity"],
+ ["His ___ included more than five thousand stamps.", "COLLECT", "collection"],
+ ["Some of them are very rare and ___.", "EXPENSE", "expensive"],
+ ["He could talk about them ___.", "END", "endlessly"],
+ ["Now I am the proud ___ of his albums.", "OWN", "owner"]]}],
+ 8:[{t:"Dreams and ambitions",q:[
+ ["Everybody dreams of a ___ career.", "SUCCESS", "successful"],
+ ["But success requires hard work and ___.", "PATIENT", "patience"],
+ ["Without a clear goal, ___ quickly disappears.", "MOTIVATE", "motivation"],
+ ["It is ___ to give up after the first failure.", "WISE", "unwise"],
+ ["Those who work ___ usually achieve their aims.", "REGULAR", "regularly"]]}],
+ 9:[{t:"The press",q:[
+ ["A good ___ always checks the facts.", "JOURNAL", "journalist"],
+ ["Readers want ___ information, not rumours.", "RELY", "reliable"],
+ ["___, some websites publish fake news.", "FORTUNATE", "unfortunately"],
+ ["A well-written ___ can change public opinion.", "PUBLISH", "publication"],
+ ["That is why the ___ of the press is so important.", "FREE", "freedom"]]}],
+ 10:[{t:"Friendship",q:[
+ ["True ___ is based on trust.", "FRIEND", "friendship"],
+ ["Friends may have ___ from time to time.", "AGREE", "disagreements"],
+ ["But a sincere ___ usually solves the problem.", "APOLOGISE", "apology"],
+ ["Good friends support each other in ___ situations.", "STRESS", "stressful"],
+ ["Their help is truly ___.", "PRICE", "priceless"]]}],
+ 11:[{t:"British weather",q:[
+ ["The weather in Britain is very ___.", "CHANGE", "changeable"],
+ ["A ___ morning can turn into a wet afternoon.", "SUN", "sunny"],
+ ["British people talk about the weather ___.", "CONSTANT", "constantly"],
+ ["Heavy ___ is rare in the south of the country.", "SNOW", "snowfall"],
+ ["Still, the mild climate makes the country green and ___.", "ATTRACT", "attractive"]]}],
+ 14:[{t:"Ecotourism",q:[
+ ["___ is one of the fastest-growing industries.", "TOUR", "tourism"],
+ ["Many travellers want to protect the ___.", "ENVIRON", "environment"],
+ ["They choose ___ friendly hotels.", "ECOLOGY", "ecologically"],
+ ["___ animals should not be disturbed.", "DANGER", "endangered"],
+ ["Such trips are both exciting and ___.", "INFORM", "informative"]]}],
+ 15:[{t:"A job interview",q:[
+ ["Every ___ wants to make a good impression.", "APPLY", "applicant"],
+ ["Your ___ matters, so dress neatly.", "APPEAR", "appearance"],
+ ["Answer the questions ___ and clearly.", "HONEST", "honestly"],
+ ["Good ___ of the company will help you.", "KNOW", "knowledge"],
+ ["Being late is absolutely ___.", "ACCEPT", "unacceptable"]]}],
+ 16:[{t:"Why read?",q:[
+ ["Reading develops our ___.", "IMAGINE", "imagination"],
+ ["It makes us more ___ and attentive.", "THINK", "thoughtful"],
+ ["A good ___ can describe a whole world in a few pages.", "WRITE", "writer"],
+ ["Some stories are so exciting that they seem ___.", "BELIEVE", "unbelievable"],
+ ["Reading before bed is also very ___.", "RELAX", "relaxing"]]}],
+ 17:[{t:"Podcasts",q:[
+ ["Podcasts have become ___ popular.", "SURPRISE", "surprisingly"],
+ ["A good ___ speaks clearly and not too fast.", "PRESENT", "presenter"],
+ ["___ can enjoy them anywhere, even on the bus.", "LISTEN", "listeners"],
+ ["There is a wide ___ of topics.", "VARY", "variety"],
+ ["Many of them are free and ___.", "ENTERTAIN", "entertaining"]]}],
+ 18:[{t:"Rainforests",q:[
+ ["Rainforests are home to ___ species of plants.", "NUMBER", "numerous"],
+ ["Their ___ is a serious global problem.", "DESTROY", "destruction"],
+ ["Many animals lose their ___ habitat.", "NATURE", "natural"],
+ ["___, the situation is slowly changing for the better.", "HOPE", "hopefully"],
+ ["International ___ work to save the forests.", "ORGANISE", ["organisations", "organizations"]]]}],
+ 19:[{t:"School uniform",q:[
+ ["School uniform is a subject of endless ___.", "DISCUSS", ["discussion", "discussions"]],
+ ["Some students think it limits their ___.", "INDIVIDUAL", "individuality"],
+ ["Others say it creates a feeling of ___.", "EQUAL", "equality"],
+ ["Parents usually find it ___ cheap.", "REASON", "reasonably"],
+ ["In my opinion, the choice should be ___.", "PERSON", "personal"]]}],
+ 20:[{t:"Artificial intelligence",q:[
+ ["Artificial ___ is developing quickly.", "INTELLIGENT", "intelligence"],
+ ["Smart programs can ___ long texts in seconds.", "SUMMARY", ["summarise", "summarize"]],
+ ["This technology will ___ change many professions.", "DOUBT", "undoubtedly"],
+ ["Some people are afraid of ___.", "EMPLOY", "unemployment"],
+ ["Others see it as a useful ___.", "ASSIST", "assistant"]]}],
+ 21:[{t:"Tchaikovsky",q:[
+ ["Tchaikovsky is a world-famous Russian ___.", "COMPOSE", "composer"],
+ ["His ___ melodies are known everywhere.", "BEAUTY", "beautiful"],
+ ["A live ___ of his music is a special experience.", "PERFORM", "performance"],
+ ["___ come from all over the world to play his works.", "MUSIC", "musicians"],
+ ["The audience always listens ___.", "ATTENTIVE", "attentively"]]}],
+ 22:[{t:"Sport and health",q:[
+ ["Regular exercise keeps us fit and ___.", "HEALTH", "healthy"],
+ ["___ athletes train every day.", "PROFESSION", "professional"],
+ ["Daily ___ is more important than talent.", "TRAIN", "training"],
+ ["An ___ lifestyle can cause many problems.", "ACTIVE", "inactive"],
+ ["Even a short workout can ___ your muscles.", "STRONG", "strengthen"]]}],
+ 23:[{t:"Marie Curie",q:[
+ ["Marie Curie was an outstanding ___.", "CHEMISTRY", "chemist"],
+ ["Her ___ experiments changed modern medicine.", "SCIENCE", "scientific"],
+ ["She worked in very ___ conditions.", "DANGER", "dangerous"],
+ ["She was ___ interested in radioactivity.", "DEEP", "deeply"],
+ ["Her ___ to science is recognised everywhere.", "CONTRIBUTE", "contribution"]]}],
+ 24:[{t:"Writing an email",q:[
+ ["An email to a friend should be ___.", "FORMAL", "informal"],
+ ["Begin with a short ___.", "GREET", "greeting"],
+ ["Thank your friend for the ___.", "INVITE", "invitation"],
+ ["Answer all the questions ___.", "FULL", "fully"],
+ ["A ___ ending makes a good impression.", "FRIEND", "friendly"]]}],
+ 25:[{t:"Describing a table",q:[
+ ["The table shows a ___ between two age groups.", "COMPARE", "comparison"],
+ ["The ___ of teenagers prefer online games.", "MAJOR", "majority"],
+ ["Board games are ___ less popular.", "SIGNIFICANT", "significantly"],
+ ["This ___ is easy to explain.", "DIFFER", "difference"],
+ ["A possible ___ is to organise school clubs.", "SOLVE", "solution"]]}],
+ 26:[{t:"City or countryside?",q:[
+ ["Life in a big city is fast and ___.", "NOISE", "noisy"],
+ ["There is a wide ___ of jobs.", "CHOOSE", "choice"],
+ ["But traffic jams make people ___.", "NERVE", "nervous"],
+ ["Village life is ___ and quiet.", "PEACE", "peaceful"],
+ ["___, I would prefer a small town.", "PERSON", "personally"]]}],
+ 27:[{t:"Speaking in public",q:[
+ ["Speaking in public is a ___ experience for many people.", "FRIGHT", "frightening"],
+ ["A clear ___ helps the audience to follow you.", "INTRODUCE", "introduction"],
+ ["Speak slowly and ___.", "CONFIDENT", "confidently"],
+ ["Avoid long and ___ sentences.", "NECESSARY", "unnecessary"],
+ ["Finish with a short and ___ conclusion.", "MEMORY", "memorable"]]}],
+ 28:[{t:"A delayed flight",q:[
+ ["Our ___ was delayed by two hours.", "FLY", "flight"],
+ ["The airline apologised for the ___.", "CONVENIENT", "inconvenience"],
+ ["Passengers waited ___ at the gate.", "PATIENT", "patiently"],
+ ["Finally, the ___ of the plane was announced.", "DEPART", "departure"],
+ ["After a smooth flight, our ___ in Sochi was a real relief.", "ARRIVE", "arrival"]]}],
+ 29:[{t:"Teenagers and money",q:[
+ ["Pocket money teaches teenagers financial ___.", "INDEPENDENT", "independence"],
+ ["Some of them spend it ___.", "THOUGHT", "thoughtlessly"],
+ ["A part-time job can be a ___ experience.", "BENEFIT", "beneficial"],
+ ["Good money ___ is a skill for life.", "MANAGE", "management"],
+ ["Adults should ___ teenagers to save.", "COURAGE", "encourage"]]}],
+ 30:[{t:"Comparing photos",q:[
+ ["A good ___ notices details that others miss.", "PHOTOGRAPH", "photographer"],
+ ["The picture on the left looks more ___.", "CHEER", "cheerful"],
+ ["The two pictures have one clear ___: both show people outdoors.", "SIMILAR", "similarity"],
+ ["The people in it are ___ enjoying themselves.", "OBVIOUS", "obviously"],
+ ["The second photo is more ___ for my project.", "SUIT", "suitable"]]}],
+ 31:[{t:"The day before the exam",q:[
+ ["The night before the exam, good sleep is of great ___.", "SIGNIFICANT", "significance"],
+ ["Do not try to learn new rules: it is ___.", "POINT", "pointless"],
+ ["Read every task ___.", "THOROUGH", "thoroughly"],
+ ["___ can cost you several points.", "CARE", "carelessness"],
+ ["Stay calm and believe in your ___.", "ABLE", ["ability", "abilities"]]]}],
+};
+/* Свои задания на каждую неделю: Grammar 19–24 и Word Formation 25–29 */
+function exam26Own(mode,w){
+ if(mode==='grammar')return w===1?exam26Grammar:(exam26NewGrammar[w]||[]);
+ if(w===1)return week2WFByLesson.map(x=>x[0]);
+ if(w===12)return [exam26WF[0]];
+ if(w===13)return [exam26WF[1]];
+ return exam26NewWF[w]||[];
 }
-function checkExam26(btn){const data=exam26Mode==='grammar'?exam26Grammar:(week2WFByLesson[exam26Lesson]||week2WFByLesson[0]),set=data[exam26Index],box=btn.closest('.exam26Set');let good=0;box.querySelectorAll('input').forEach((x,i)=>{const a=x.value.trim().toLowerCase().replace(/\s+/g,' '),ok=a===set.q[i][2];if(ok)good++;x.style.borderBottomColor=ok?'#15803d':'#D52B1E'});box.querySelector('.exam26Result').textContent=good+' / '+set.q.length}
+/* Сначала задания текущей недели, затем повторение предыдущих недель (от ближайшей к первой) */
+function exam26List(mode,w){
+ const out=exam26Own(mode,w).map(s=>({s:s,w:w}));
+ for(let k=w-1;k>=0;k--)exam26Own(mode,k).forEach(s=>out.push({s:s,w:k}));
+ return out;
+}
+let exam26Week=0,exam26Lesson=0;
+let exam26Mode='grammar',exam26Index=0;
+function exam26Start(){return exam26Mode==='wf'&&exam26Week===1?Math.min(exam26Lesson,2):0}
+function renderExam2026(week,lessonIndex){exam26Week=Number.isInteger(week)?week:currentWeek;exam26Lesson=Number.isInteger(lessonIndex)?lessonIndex:0;exam26Mode='grammar';exam26Index=exam26Start();renderExam26View()}
+function exam26SetMode(m){exam26Mode=m;exam26Index=exam26Start();renderExam26View()}
+function renderExam26View(){
+ const lp=document.getElementById('lessonPage');if(lp)lp.style.display='none';
+ ['weekView','examView','trainerView'].forEach(id=>{const el=document.getElementById(id);el.style.display='';el.classList.toggle('on',id==='examView')});
+ const data=exam26List(exam26Mode,exam26Week),item=data[exam26Index]||data[0],set=item.s,start=exam26Mode==='grammar'?19:25;
+ const own=item.w===exam26Week,tag=own?'Неделя '+(exam26Week+1)+' · новое задание':'Повторение · неделя '+(item.w+1);
+ document.getElementById('examView').innerHTML='<button class="lessonBack" onclick="renderWeek(exam26Week)">← Неделя '+(exam26Week+1)+'</button><div class="hero"><div class="eyebrow">EXAM · Неделя '+(exam26Week+1)+' · '+(weekLabels[exam26Week]||'')+'</div><h1>'+(exam26Mode==='grammar'?'Grammar 19–24':'Word Formation 25–29')+'</h1></div><div class="exam26Tabs"><button'+(exam26Mode==='grammar'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'grammar\')">GRAMMAR · 19–24</button><button'+(exam26Mode==='wf'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'wf\')">WORD FORMATION · 25–29</button></div><div class="exam26Set"><div class="tiny" style="font-weight:900;color:'+(own?'#D52B1E':'#0039A6')+'">'+tag+' · '+(exam26Index+1)+' / '+data.length+'</div><h3>'+set.t+'</h3><div class="exam26Text">'+set.q.map((x,i)=>(start+i)+'. '+x[0].replace('___','<span class="exam26Gap"><input data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="exam26Base">'+x[1]+'</span></span>')).join('<br>')+'</div><div class="exam26Nav"><button onclick="checkExam26(this)">CHECK</button>'+(data.length>1?'<button onclick="exam26Index=(exam26Index+1)%'+data.length+';renderExam26View()">NEXT SET →</button>':'')+'</div><div class="exam26Result"></div></div>';
+ scrollTo(0,0);
+}
+function exam26Norm(s){return String(s).trim().toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g,' ')}
+function checkExam26(btn){const data=exam26List(exam26Mode,exam26Week),set=(data[exam26Index]||data[0]).s,box=btn.closest('.exam26Set');let good=0;box.querySelectorAll('input').forEach((x,i)=>{const a=exam26Norm(x.value),ok=[].concat(set.q[i][2]).some(v=>exam26Norm(v)===a);if(ok)good++;x.style.borderBottomColor=ok?'#15803d':'#D52B1E'});box.querySelector('.exam26Result').textContent=good+' / '+set.q.length}
+function exam26Card(w,i){const inLesson=Number.isInteger(i);return '<div class="examCard" style="margin:'+(inLesson?'10px 14px 20px':'10px 0 0')+';border:2px solid #D52B1E;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><b style="color:#D52B1E;font-size:14px">EXAM · НЕДЕЛЯ '+(w+1)+'</b><div class="tiny">Grammar 19–24 + Word Formation 25–29 · задания этой недели + повторение</div></div><button class="action studentRequiredTest" type="button" onclick="'+(inLesson?'closeLesson();renderExam2026('+w+','+i+')':'renderExam2026('+w+')')+'">ОТКРЫТЬ EXAM · НЕДЕЛЯ '+(w+1)+'</button></div></div>'}
 const EX={grammar1924:['19–24 · Грамматика','<div class="examCard"><h3>Место для заданий 19–24</h3><p>Грамматические формы. Задания будут добавляться сюда отдельно.</p></div>'],wordformation:['25–29 · Словообразование','<div class="examCard"><h3>Место для заданий 25–29</h3><p>Word Formation. Задания будут добавляться сюда отдельно.</p></div>'],vocabulary3036:['30–36 · Лексика','<div class="examCard"><h3>Место для заданий 30–36</h3><p>Лексико-грамматический выбор. Задания будут добавляться сюда отдельно.</p></div>'],overview:['ЕГЭ 2027 · баллы по заданиям','<table class="table"><tr><th>Задание</th><th>Макс.</th></tr><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>3</td></tr><tr><td>3–9</td><td>по 1</td></tr><tr><td>10</td><td>3</td></tr><tr><td>11</td><td>2</td></tr><tr><td>12–18</td><td>по 1</td></tr><tr><td>19–24</td><td>по 1</td></tr><tr><td>25–29</td><td>по 1</td></tr><tr><td>30–36</td><td>по 1</td></tr><tr><td>37 · email</td><td>6</td></tr><tr><td>38 · письменное высказывание</td><td>14</td></tr><tr><td>39 · чтение вслух</td><td>1</td></tr><tr><td>40 · 4 вопроса</td><td>4</td></tr><tr><td>41 · интервью</td><td>5</td></tr><tr><td>42 · монолог</td><td>10</td></tr><tr><td><b>Итого</b></td><td><b>82</b></td></tr></table>'],listen:['1–9 · Аудирование · 12 баллов','<div class="crit"><span>№1 · понимание основного содержания</span><span class="pts">2</span></div><div class="crit"><span>№2 · понимание запрашиваемой информации</span><span class="pts">3</span></div><div class="crit"><span>№3–9 · полное понимание текста</span><span class="pts">7</span></div>'],read:['10–18 · Чтение · 12 баллов','<div class="crit"><span>№10 · основное содержание</span><span class="pts">3</span></div><div class="crit"><span>№11 · структурно-смысловые связи</span><span class="pts">2</span></div><div class="crit"><span>№12–18 · полное понимание</span><span class="pts">7</span></div>'],grammar:['19–36 · Грамматика и лексика · 18 баллов','<div class="crit"><span>19–24 · грамматические формы</span><span class="pts">6</span></div><div class="crit"><span>25–29 · словообразование</span><span class="pts">5</span></div><div class="crit"><span>30–36 · лексико-грамматический выбор</span><span class="pts">7</span></div>'],write:['37–38 · Письменная речь · 20 баллов','<h3>№37 · email · 100–140 слов · 6 баллов</h3><div class="crit"><span>К1 Решение коммуникативной задачи</span><span class="pts">2</span></div><div class="crit"><span>К2 Организация текста</span><span class="pts">2</span></div><div class="crit"><span>К3 Языковое оформление</span><span class="pts">2</span></div><h3>№38 · 200–250 слов · 14 баллов</h3><div class="crit"><span>К1 Решение коммуникативной задачи</span><span class="pts">3</span></div><div class="crit"><span>К2 Организация</span><span class="pts">3</span></div><div class="crit"><span>К3 Лексика</span><span class="pts">3</span></div><div class="crit"><span>К4 Грамматика</span><span class="pts">3</span></div><div class="crit"><span>К5 Орфография и пунктуация</span><span class="pts">2</span></div><p class="tiny">0 по К1 обнуляет соответствующее задание. При проверке учитываются правила объёма и 10%-го допуска из критериев ФИПИ.</p>'],speak:['39–42 · Устная часть · 20 баллов','<div class="crit"><span>39 · чтение текста вслух</span><span class="pts">1</span></div><div class="crit"><span>40 · 4 прямых вопроса</span><span class="pts">4</span></div><div class="crit"><span>41 · 5 ответов интервью</span><span class="pts">5</span></div><div class="crit"><span>42 · связный монолог: К1 РКЗ + К2 организация + К3 язык</span><span class="pts">10</span></div><p class="tiny">Устная часть — 17 минут. Для задания 42: 12–15 фраз, подготовка 2,5 минуты, ответ до 3 минут.</p>']};
 function renderExam(id){document.body.classList.remove('fullWeek');document.getElementById('weekView').classList.remove('on');document.getElementById('trainerView').classList.remove('on');document.getElementById('examView').classList.add('on');document.querySelectorAll('.wbtn').forEach(b=>b.classList.remove('active'));const e=EX[id];document.getElementById('examView').innerHTML='<div class="hero"><div class="eyebrow">Структура ЕГЭ · английский язык</div><h1>'+e[0]+'</h1><p>Баллы, время и критерии собраны в одном компактном блоке.</p></div><div class="examCard">'+e[1]+'<a class="official" href="https://fipi.ru/ege/demoversii-specifikacii-kodifikatory" target="_blank" rel="noopener">Официальные проекты ФИПИ 2027 ↗</a></div>';if(innerWidth<801)document.getElementById('side').classList.remove('open');scrollTo({top:0,behavior:'smooth'})}
 
