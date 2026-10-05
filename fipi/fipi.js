@@ -72,10 +72,12 @@ window.openFipi=function(){
   const host=document.getElementById('trainerView');host.classList.add('on');
   document.querySelectorAll('.wbtn,.teacherNav').forEach(e=>e.classList.remove('active'));
   const side=document.getElementById('side');if(side)side.classList.remove('open');
-  host.innerHTML='';const box=el('div','fp-shell','<h1>ЕГЭ · задания в формате ФИПИ</h1><p>13 тем · устная часть 1–4 с таймерами · письмо 37 · проект 38 · ключи открываются отдельной кнопкой</p>');
-  const grid=el('div','fp-grid');
-  T().forEach((t,i)=>{const b=el('button','fp-topic','<b>'+String(i+1).padStart(2,'0')+' · '+esc(t.name)+'</b><small>Speaking 1–4 · 2 варианта<br>Writing 37 · 38.1 · 38.2</small>');b.type='button';b.onclick=()=>openTopic(i);grid.append(b);});
-  box.append(grid,el('p','fp-note','Тексты заданий составлены специально для этого сайта по модели демоверсии ФИПИ. Номера страниц пособия Expert по каждой теме указаны в ключах.'));
+  host.innerHTML='';const box=el('div','fp-shell','<h1>ЕГЭ · задания в формате ФИПИ</h1><p>13 тем кодификатора и блок «Россия» · устная часть 1–4 с таймерами · письмо 37 · проект 38 · ключи открываются отдельной кнопкой</p>');
+  const grids={};
+  T().forEach((t,i)=>{const gname=t.group||'Темы кодификатора';if(!grids[gname]){box.append(el('div','fp-sec',esc(gname)));grids[gname]=el('div','fp-grid');box.append(grids[gname]);}
+    const b=el('button','fp-topic','<b>'+String(i+1).padStart(2,'0')+' · '+esc(t.name)+'</b><small>Speaking 1–4 · 2 варианта<br>Writing 37 · 38.1 · 38.2'+(t.gr?'<br>Grammar 19–24 · Word formation 25–29':'')+'</small>');b.type='button';b.onclick=()=>openTopic(i);grids[gname].append(b);});
+  if(window.FIPI_BANK){const d=el('details','fp-bank','<summary>Задания о России в Открытом банке ФИПИ · по кодам</summary><p>Официальные задания открываются на сайте ФИПИ: <a href="https://ege.fipi.ru/bank/" target="_blank" rel="noopener">ege.fipi.ru/bank</a> → Английский язык → поиск по номеру задания.</p>'+window.FIPI_BANK.map(g=>'<h4>'+esc(g[0])+'</h4><ul><li>'+g[1].map(esc).join('</li><li>')+'</li></ul>').join(''));box.append(d);}
+  box.append(el('p','fp-note','Тексты заданий составлены специально для этого сайта по модели демоверсии ФИПИ. Номера страниц пособия Expert по каждой теме указаны в ключах.'));
   host.append(box);window.scrollTo(0,0);
 };
 
@@ -96,6 +98,9 @@ function openTopic(i){
   add(g,'Задание 37 · Email','100–140 слов · письмо от '+t.mail.from,()=>openWrite(i,37,0));
   add(g,'Задание 38.1 · таблица','200–250 слов · '+t.pr[0].col,()=>openWrite(i,38,0));
   add(g,'Задание 38.2 · диаграмма','200–250 слов · '+t.pr[1].col,()=>openWrite(i,38,1));
+  if(t.gr||t.wf){g=group('Грамматика и лексика');
+    if(t.gr)add(g,'Задания 19–24 · Grammar',t.gr.title,()=>openGap(i,'gr'));
+    if(t.wf)add(g,'Задания 25–29 · Word formation',t.wf.title,()=>openGap(i,'wf'));}
 }
 
 /* ---------- картинки: файл fipi/img/<имя>.jpg, иначе место под фото ---------- */
@@ -218,7 +223,7 @@ function openWrite(ti,task,v){
     const m=t.mail;
     kb.append(el('p','fp-inst','You have received an email message from your English-speaking pen-friend '+esc(m.from)+':'));
     kb.append(el('div','fp-mail','<div><b>From:</b> '+esc(m.from)+'@mail.uk</div><div><b>To:</b> Russian_friend@ege.ru</div><div><b>Subject:</b> '+esc(m.subject)+'</div><p>'+esc(m.body)+'</p>'));
-    kb.append(el('p','fp-inst','Write an email to '+esc(m.from)+'.<br>In your message:<br>– answer '+(/^(Emily|Alice|Jessica|Sarah|Laura|Helen)$/.test(m.from)?'her':'his')+' questions;<br>– ask <b>3 questions</b> about '+esc(m.ask)+'.<br>Write <b>100–140 words</b>.<br>Remember the rules of email writing.'));
+    kb.append(el('p','fp-inst','Write an email to '+esc(m.from)+'.<br>In your message:<br>– answer '+(m.g||(/^(Emily|Alice|Jessica|Sarah|Laura|Helen)$/.test(m.from)?'her':'his'))+' questions;<br>– ask <b>3 questions</b> about '+esc(m.ask)+'.<br>Write <b>100–140 words</b>.<br>Remember the rules of email writing.'));
     keyHtml='<h4>Образец ответа · '+countWords(m.sample)+' слов</h4><pre>'+esc(m.sample)+'</pre><h4>Оценивание · 6 баллов</h4><ul><li>Решение коммуникативной задачи – 2: ответы на три вопроса, три вопроса по теме, благодарность, надежда на контакт, обращение, завершающая фраза, подпись.</li><li>Организация текста – 2: логика, абзацы, средства связи.</li><li>Языковое оформление – 2.</li></ul><p>Объём: меньше 90 слов – 0 баллов за задание; больше 154 – проверяются первые 140 слов.</p>'+bookRef(ti,[['email','Письмо'],['writingKeys','Ключи и образцы']]);
   }else{
     const p=t.pr[v],chart=v===1,word=chart?'pie chart':'table',top=p.rows.slice().sort((a,b)=>b[1]-a[1]);
@@ -240,6 +245,25 @@ function openWrite(ti,task,v){
   paper.append(ta,cnt,tools);upd();grid.append(kim,paper);body.append(grid);
   const key=el('div','fp-key',keyHtml);key.hidden=true;const ctrl=el('div','fp-ctrl');ctrl.style.maxWidth='1400px';key.style.maxWidth='1400px';
   ctrl.append(btn('Ключ · для учителя',()=>{key.hidden=!key.hidden;},'fp-red fp-sp'));body.append(ctrl,key);
+}
+/* ---------- грамматика 19–24 и словообразование 25–29 ---------- */
+const GAPINST={
+ gr:'Прочитайте приведённый ниже текст. Преобразуйте, если необходимо, слова, напечатанные заглавными буквами в конце строк, обозначенных номерами 19–24, так, чтобы они грамматически соответствовали содержанию текста. Заполните пропуски полученными словами. Каждый пропуск соответствует отдельному заданию из группы 19–24.',
+ wf:'Прочитайте приведённый ниже текст. Образуйте от слов, напечатанных заглавными буквами в конце строк, обозначенных номерами 25–29, однокоренные слова так, чтобы они грамматически и лексически соответствовали содержанию текста. Заполните пропуски полученными словами. Каждый пропуск соответствует отдельному заданию из группы 25–29.'};
+const norm=x=>String(x).toLowerCase().replace(/[^a-z']/g,'');
+function openGap(ti,kind){
+  const t=T()[ti],d=t[kind],first=kind==='gr'?19:25,title='Задания '+first+'–'+(first+d.items.length-1),{body}=shell(t.name+' · '+title,()=>openTopic(ti),'К теме');
+  const kim=el('div','fp-kim'),kb=el('div','fp-kimbody');kim.append(el('div','fp-kimhead','<b>'+title+'</b><span class="fp-phase">'+(kind==='gr'?'Грамматика':'Словообразование')+'</span>'),kb);
+  kb.append(el('p','fp-inst',GAPINST[kind]),el('div','fp-adtitle',esc(d.title)));
+  const tab=el('table','fp-gap'),inputs=[];
+  d.items.forEach((it,k)=>{const tr=el('tr'),td=el('td');const inp=el('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('aria-label','Ответ '+(first+k));inputs.push(inp);
+    td.append(document.createTextNode(it[0]+(it[0]?' ':'')),inp,document.createTextNode(it[1]));tr.append(el('td','fp-gapn',String(first+k)),td,el('td','fp-gapw',esc(it[2])));tab.append(tr);});
+  kb.append(tab);body.append(kim);
+  const res=el('span','fp-phase'),key=el('div','fp-key','<h4>Ответы</h4><ol start="'+first+'"><li>'+d.items.map(it=>esc(it[3].join(' / '))).join('</li><li>')+'</li></ol><p>В бланк ответов ЕГЭ ответ из нескольких слов записывается без пробелов. По 1 баллу за каждый верный ответ; орфографическая ошибка – 0.</p>');key.hidden=true;
+  const ctrl=el('div','fp-ctrl');
+  ctrl.append(btn('Проверить',()=>{let n=0;inputs.forEach((inp,k)=>{const ok=d.items[k][3].some(a=>norm(a)===norm(inp.value));inp.className=inp.value.trim()?(ok?'fp-right':'fp-wrong'):'';if(ok)n++;});res.textContent='Верно: '+n+' из '+inputs.length;},'fp-main'),
+    btn('Очистить',()=>{inputs.forEach(i=>{i.value='';i.className='';});res.textContent='';}),res,btn('Ключ · для учителя',()=>{key.hidden=!key.hidden;},'fp-red fp-sp'));
+  body.append(ctrl,key);
 }
 /* подсчёт слов по правилам ЕГЭ: считаются все слова, включая артикли и предлоги; сокращения (I'm) и числа – одно слово */
 function countWords(s){const m=String(s).trim().match(/[A-Za-zА-Яа-яЁё0-9]+(?:['’\-][A-Za-zА-Яа-яЁё0-9]+)*/g);return m?m.length:0;}
