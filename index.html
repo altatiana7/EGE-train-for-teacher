@@ -329,7 +329,46 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <script defer src="expert/vendor/pdf.min.js"></script>
 <script defer src="expert/expert.js?v=20261003-expert"></script>
 <script defer src="today/lesson.js?v=20261003-past-l3"></script>
-<link rel="stylesheet" href="fipi/fipi.css?v=20261005d"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005d"></script></head><body>
+<link rel="stylesheet" href="fipi/fipi.css?v=20261005d"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005d"></script><style>
+/* Единая типографика уроков недель 2–32: 16px текст, 20px заголовок шага, 13px подписи */
+.lsOne{grid-template-columns:250px minmax(0,1fr)!important;gap:14px!important;font-family:Arial,Helvetica,sans-serif}
+.lsOne .lesson3Menu{gap:6px!important;width:250px!important;min-width:250px!important}
+.lsOne .lsTitle{font-size:13px;color:#64748b;line-height:1.4;padding:2px 2px 4px}
+.lsOne .lsTitle b{display:block;font-size:16px;color:#142337}
+.lsOne .lsGroup{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#64748b;margin:8px 2px 0}
+.lsOne .lesson3Menu button{display:grid!important;grid-template-columns:24px 1fr auto;align-items:center;gap:8px;font-size:15px!important;font-weight:700!important;padding:10px 10px!important;border:1px solid #d5deea!important;border-left:4px solid #0039A6!important;border-radius:9px!important;color:#142337!important;background:#fff!important;text-align:left;cursor:pointer}
+.lsOne .lesson3Menu button .lsNum{width:24px;height:24px;border-radius:50%;background:#e8eef7;color:#0039A6;font-size:13px;display:grid;place-items:center}
+.lsOne .lesson3Menu button em{font-style:normal;font-size:13px;font-weight:400;color:#64748b}
+.lsOne .lesson3Menu button.active{background:#e6f0ff!important;border-left-color:#D52B1E!important}
+.lsOne .lesson3Menu button.active .lsNum{background:#0039A6;color:#fff}
+.lsOne .lesson3Panel{padding:0!important;border-radius:12px!important}
+.lsOne .lesson3Panel>section{max-width:none!important}
+.lsOne .lsBar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border-bottom:1px solid #d9e1ec;padding:12px 20px}
+.lsOne .lsBar small{font-size:13px!important;color:#64748b}
+.lsOne .lsBar h2{font-size:20px!important;margin:2px 0 0!important;color:#142337!important;text-transform:none!important;letter-spacing:0!important}
+.lsOne .lsNav{display:flex;gap:8px;flex:none}
+.lsOne .lsNav button{font-size:15px!important;font-weight:700;padding:9px 14px;border-radius:9px;border:1px solid #b7c9e8;background:#fff;color:#0039A6;cursor:pointer}
+.lsOne .lsNav button.next{background:#0039A6;color:#fff;border-color:#0039A6}
+.lsOne .lsBody{padding:18px 20px 24px;max-width:960px;font-size:16px;line-height:1.6;color:#142337}
+.lsOne .lsBody p,.lsOne .lsBody li,.lsOne .lsBody label,.lsOne .lsBody .task,.lsOne .lsBody .crit,.lsOne .lsBody .readingText,.lsOne .lsBody .egePresentText,.lsOne .lsBody .q p,.lsOne .lsBody .miniTask,.lsOne .lsBody .box,.lsOne .lsBody input,.lsOne .lsBody select,.lsOne .lsBody a,.lsOne .lsBody .tiHead p{font-size:16px!important;line-height:1.6!important}
+.lsOne .lsBody .egePresentText{line-height:1.9!important}
+.lsOne .lsBody h2,.lsOne .lsBody h3,.lsOne .lsBody .box h3{font-size:16px!important;font-weight:700!important;text-transform:none!important;letter-spacing:0!important;margin:0 0 8px!important;color:#0039A6!important}
+.lsOne .lsBody .tiny,.lsOne .lsBody small,.lsOne .lsBody .pts,.lsOne .lsBody .egeBase,.lsOne .lsBody .eyebrow{font-size:13px!important;line-height:1.4!important}
+.lsOne .lsBody button{font-size:15px!important}
+.lsOne .lsBody .examCard,.lsOne .lsBody .egePresentSet,.lsOne .lsBody .tiTrack{border:0!important;padding:0!important;margin:0 0 14px!important;background:none!important;box-shadow:none!important}
+.lsOne .lsBody .examCard>h2:first-child,.lsOne .lsBody .tiTrack>h3:first-child{display:none}
+.lsOne .lsBody .tiBtns{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;max-width:520px}
+.lsOne .lsBody .tiBtns button{padding:14px 16px!important;text-align:left;border-radius:10px!important}
+.lsOne .lsBody .tiBtns button b,.lsOne .lsBody .tiBtns button strong{font-size:16px!important}
+.lsOne .lsBody .crit{padding:10px 12px!important;margin:0 0 6px!important}
+.lsOne .lsBody .task{padding:12px 14px!important}
+.lsOne .lsBody .egeGap input{width:150px!important;padding:4px 6px!important}
+.lsOne .lsBody .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.lsOne .lsBody .box{padding:12px 14px!important}
+.lsOne .lsBody .check{display:flex;gap:8px;align-items:center;margin-top:12px}
+@media(max-width:800px){.lsOne{grid-template-columns:1fr!important}.lsOne .lesson3Menu{width:100%!important;min-width:0!important}.lsOne .lsBody .cols{grid-template-columns:1fr}.lsOne .lsBar{flex-wrap:wrap}}
+</style>
+</head><body>
 <header class="top"><div class="brand">ARINA TEACHER HUB · <b>EGE</b></div><div class="topnote">диагностика → план → урок → контроль → коррекция</div><button class="mobile" id="mobileBtn">План</button></header>
 <aside class="side" id="side"><div class="sidehead">Teacher control</div><div class="teacherSidePanel"><button class="teacherNav" data-teachernav="diagnostic" onclick="showTeacherDashboard('diagnostic')">Диагностика</button><button class="teacherNav" data-teachernav="progress" onclick="showTeacherDashboard('progress')">Прогресс</button><button class="teacherNav" data-teachernav="errors" onclick="showTeacherDashboard('errors')">Error Log</button><button class="teacherNav" onclick="openArinaHomeworkResults()">Результаты Арины</button><button class="teacherNav" data-teachernav="plan" onclick="showTeacherDashboard('plan')">План</button></div><button class="trainerBtn" onclick="openArinaPastToday()">СЕГОДНЯ · PAST<small>Week 2 · Lesson 3 · 60 минут</small></button><button class="expert-entry" onclick="openExpert()">EXPERT · все материалы<small>13 тем · 26 аудио · задания и ответы</small></button><button class="expert-entry" onclick="openFipi()">ЕГЭ · ФОРМАТ ФИПИ<small>13 тем + Россия · Speaking · Writing · 19–29</small></button><div class="sidehead">32 недели · план</div><div class="weekBtns" id="weekBtns"></div><div class="sidehead" style="margin-top:14px">Тренажёры</div><button class="trainerBtn" onclick="renderTrainer('verbs')">Неправильные глаголы · 60</button><button class="trainerBtn" onclick="renderTrainer('markers')">Present Markers · Training</button><button class="trainerBtn" onclick="renderTrainer('difficult')">Difficult Words · карточки + чтение</button><button class="fipiReadingBtn" onclick="openFipiReading()">READING · ФИПИ<small>Task 1 · тексты ← / → · 1:30 · British audio</small></button><div class="sidehead" style="margin-top:10px">ЕГЭ · ГРАММАТИКА И ЛЕКСИКА</div><button class="ebtn egeCore" style="width:100%" onclick="renderExam('grammar1924')"><b>GRAMMAR · 19–24</b><small>грамматические формы</small></button><button class="ebtn egeCore" style="width:100%;margin-top:4px" onclick="renderExam('wordformation')"><b>WORD FORMATION · 25–29</b><small>словообразование</small></button><button class="ebtn" style="width:100%;margin-top:4px" onclick="renderExam('vocabulary3036')">VOCABULARY · 30–36<small>лексико-грамматический выбор</small></button><button class="ebtn" style="width:100%;margin-top:8px" onclick="renderExam('overview')">ЕГЭ 2027 · Структура<small>баллы за каждое задание</small></button></aside>
 <main class="main"><section id="weekView" class="content on"></section><section id="examView" class="content"></section><section id="trainerView" class="content"></section></main>
@@ -1018,35 +1057,38 @@ function renderButtons(){const root=document.getElementById('weekBtns');root.inn
 function lessonHTML(x,i,w){
  return '<div class="lesson" onclick="openLesson('+w+','+i+')" style="cursor:pointer"><div class="lessonHead" style="display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;padding:14px"><span class="lnum">'+(i+1)+'</span><span class="ltitle"><b>Урок '+(i+1)+' · '+x[0]+'</b><small>Открыть урок</small></span><span class="chev">→</span></div></div>'
 }
-/* Уроки недель 2–32: один экран — меню слева, один блок справа (без длинной страницы) */
+/* Уроки недель 2–32: один экран — шаги слева, один шаг справа; единый размер шрифта */
 function lessonTabs(x,i,w){
- const key='w'+w+'l'+i,tabs=[];
+ const key='w'+w+'l'+i,steps=[],after=[];
+ const plan='<div class="cols"><div class="box"><h3>На уроке</h3><ul>'+x[1].split('; ').map(s=>'<li>'+s+'</li>').join('')+'</ul></div><div class="box"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></div>';
  if(w===1&&i===0){
   const ti=h=>'<div class="tiHome">'+h+'</div>';
-  tabs.push(['ПЛАН · 60 MIN',ti('<div class="tiHead"><h2>Week 2 · Lesson 1 · Present + Past Intensive</h2><p><b>60 минут:</b> Present markers + 4 Present forms → 4 Past forms → Reading → EGE 19–24 → irregular verbs. Маркер — подсказка, сначала смысл и timeline.</p></div>'+todayScheduleHTML())]);
-  tabs.push(['0–17 · PRESENT',ti('<div class="tiTracks" style="grid-template-columns:1fr"><section class="tiTrack present"><h3>0–17 MIN · PRESENT</h3><p>Маркеры, ловушки, Simple / Continuous / Perfect / Perfect Continuous.</p><div class="tiBtns">'+tiButton("presentMarkers","MARKERS DRILL","marker → tense")+tiButton("presentPractice","PRESENT · 24","context → choose tense")+tiButton("traps","MARKER TRAPS","for / since / now / already")+'</div></section></div>')]);
-  tabs.push(['17–38 · PAST',ti('<div class="tiTracks" style="grid-template-columns:1fr"><section class="tiTrack past"><h3>17–38 MIN · PAST</h3><p>Simple / Continuous / Perfect / Perfect Continuous.</p><div class="tiBtns">'+tiButton("pastMap","PAST MAP","4 meanings → 4 forms")+tiButton("pastMarkers","PAST MARKERS","when / while / before / by the time")+tiButton("pastPractice","PAST · 24","context → choose tense")+'</div></section></div>')]);
-  tabs.push(['38–48 · READING',ti(todayReadingHTML(key))]);
-  tabs.push(['48–56 · EGE 19–24',ti('<div class="examCard"><h2>48–56 MIN · EGE 19–24</h2><div class="tiBtns">'+tiButton("presentEge","EGE 19–24 · PRESENT","transformations")+tiButton("pastEge","EGE 19–24 · PAST","transformations")+tiButton("mixed","FINAL CONTRAST","Present + Past")+'</div></div>')]);
-  tabs.push(['56–60 · IRREGULAR VERBS',ti(todayIrregularHTML())]);
-  tabs.push(['ERROR LOG',ti('<div class="examCard"><h2>ERROR LOG</h2><div class="task"><b>My answer → Correct answer → Why? → New example</b><br>1. _______________________________<br>2. _______________________________<br>3. _______________________________</div></div>')]);
-  tabs.push(['ФИПИ · ПРАКТИКА 19–24',ti(fipiLinksHTML())]);
+  steps.push(['План урока · 60 минут','',ti(todayScheduleHTML())+materialBox(key+'-teacher')]);
+  steps.push(['Present','0–17',ti('<section class="tiTrack present"><p>Маркеры, ловушки, Simple / Continuous / Perfect / Perfect Continuous. Откройте по порядку:</p><div class="tiBtns">'+tiButton("presentMarkers","1 · MARKERS DRILL","marker → tense")+tiButton("presentPractice","2 · PRESENT · 24","context → choose tense")+tiButton("traps","3 · MARKER TRAPS","for / since / now / already")+'</div></section>')]);
+  steps.push(['Past','17–38',ti('<section class="tiTrack past"><p>Simple / Continuous / Perfect / Perfect Continuous. Откройте по порядку:</p><div class="tiBtns">'+tiButton("pastMap","1 · PAST MAP","4 meanings → 4 forms")+tiButton("pastMarkers","2 · PAST MARKERS","when / while / before / by the time")+tiButton("pastPractice","3 · PAST · 24","context → choose tense")+'</div></section>')]);
+  steps.push(['Reading','38–48',ti(todayReadingHTML(key))]);
+  steps.push(['EGE 19–24','48–56',ti('<section class="tiTrack"><p>Преобразование слов в формате экзамена. Откройте по порядку:</p><div class="tiBtns">'+tiButton("presentEge","1 · EGE 19–24 · PRESENT","transformations")+tiButton("pastEge","2 · EGE 19–24 · PAST","transformations")+tiButton("mixed","3 · FINAL CONTRAST","Present + Past")+'</div></section>')]);
+  steps.push(['Irregular verbs','56–60',ti(todayIrregularHTML())]);
+  steps.push(['Error log','',ti('<div class="task"><b>My answer → Correct answer → Why? → New example</b><br>1. _______________________________<br>2. _______________________________<br>3. _______________________________</div>')]);
+  after.push(['ФИПИ · практика 19–24','',ti(fipiLinksHTML())]);
  }else{
   const g=exam26Own('grammar',w),f=exam26Own('wf',w);
-  if(i===0&&g[0])tabs.push(['19–24 · GRAMMAR',exam26InlineHTML('grammar',w,0)]);
-  if(i===1&&f.length)tabs.push(['25–29 · WORD FORMATION',exam26InlineHTML('wf',w,w===1?1:0)]);
-  if(i===2){if(g[1])tabs.push(['19–24 · GRAMMAR',exam26InlineHTML('grammar',w,1)]);if(f.length>1)tabs.push(['25–29 · WORD FORMATION',exam26InlineHTML('wf',w,w===1?2:1)]);}
+  steps.push(['План урока','',plan+materialBox(key+'-teacher')]);
+  if(i===0&&g[0])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,0)]);
+  if(i===1&&f.length)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?1:0)]);
+  if(i===2){if(g[1])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,1)]);if(f.length>1)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?2:1)]);}
  }
- tabs.push(['НА УРОКЕ','<div class="cols"><div class="box"><h3>На уроке</h3><ul>'+x[1].split('; ').map(s=>'<li>'+s+'</li>').join('')+'</ul></div><div class="box"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></div>'+materialBox(key+'-teacher')]);
- tabs.push(['ДОМАШНЯЯ РАБОТА','<div class="examCard"><h2>Домашняя работа</h2><div class="task">'+x[2].split('; ').map((s,n)=>'<b>'+(n+1)+'.</b> '+s).join('<br>')+'</div>'+materialBox(key+'-hw')+'<label class="check"><input type="checkbox" data-save="'+key+'"> Домашняя работа выполнена</label></div>']);
- tabs.push(['EXAM · НЕДЕЛЯ '+(w+1),exam26Card(w,i)]);
- return tabs;
+ after.push(['Домашняя работа','','<div class="task">'+x[2].split('; ').map((s,n)=>'<b>'+(n+1)+'.</b> '+s).join('<br>')+'</div>'+materialBox(key+'-hw')+'<label class="check"><input type="checkbox" data-save="'+key+'"> Домашняя работа выполнена</label>']);
+ after.push(['EXAM · неделя '+(w+1),'',exam26Card(w,i)]);
+ return {steps:steps,after:after};
 }
 function lessonFullHTML(x,i,w){
  let html='<button class="lessonBack" onclick="closeLesson()">← Неделя '+(w+1)+'</button><div class="lesson"><div class="lessonbody">';
  if(w===0)return html+lessonStarter(w,i)+'</div></div>';
- const tabs=lessonTabs(x,i,w);
- html+='<div class="lesson3OneScreen"><div class="lesson3Menu"><div style="font-size:11px;font-weight:900;color:#142337;padding:2px 2px 6px;line-height:1.35">Неделя '+(w+1)+' · Урок '+(i+1)+'<br><span style="color:#0039A6">'+x[0]+'</span></div>'+tabs.map((t,n)=>'<button type="button" onclick="showL3Panel('+n+')">'+t[0]+'</button>').join('')+'</div><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none">'+tabs.map((t,n)=>'<section data-l3="'+n+'">'+t[1]+'</section>').join('')+'</div></div>';
+ const T=lessonTabs(x,i,w),all=T.steps.concat(T.after),N=all.length;
+ const btn=(t,n)=>'<button type="button" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'·')+'</span><span>'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+'</button>';
+ const sec=(t,n)=>'<section data-l3="'+n+'"><div class="lsBar"><div><small>'+(n<T.steps.length?'Шаг '+(n+1)+' из '+T.steps.length:'После урока')+(t[1]?' · '+t[1]+' мин':'')+'</small><h2>'+t[0]+'</h2></div><div class="lsNav">'+(n>0?'<button type="button" onclick="showL3Panel('+(n-1)+')">← Назад</button>':'')+(n<N-1?'<button type="button" class="next" onclick="showL3Panel('+(n+1)+')">Дальше →</button>':'')+'</div></div><div class="lsBody">'+t[2]+'</div></section>';
+ html+='<div class="lesson3OneScreen lsOne"><div class="lesson3Menu"><div class="lsTitle">Неделя '+(w+1)+' · Урок '+(i+1)+'<b>'+x[0]+'</b></div><div class="lsGroup">На уроке</div>'+T.steps.map((t,n)=>btn(t,n)).join('')+'<div class="lsGroup">После урока</div>'+T.after.map((t,n)=>btn(t,n+T.steps.length)).join('')+'</div><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none">'+all.map(sec).join('')+'</div></div>';
  return html+'</div></div>';
 }
 function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+(w===0?exam26Card(w,i):'');p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);if(p.querySelector('#l3Store'))showL3Panel(0);scrollTo(0,0)}
