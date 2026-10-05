@@ -71,21 +71,31 @@ style.textContent=`
 .apHeads label{display:flex;gap:10px;align-items:flex-start;border:1px solid #d5deea;border-radius:8px;padding:4px 10px;cursor:pointer}
 .apHeads label.sel{border-color:#0039a6;background:#e6f0ff}
 .apHeads input{margin-top:6px}
-.apCards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 10px}
-.apCard{min-height:132px;border:1px solid #b7c9e8;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:#fff}
-.apCard.back{background:#f0f5ff;border-color:#0039a6}
-.apCard .num{font-size:14px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#64748b}
-.apCard .big{font-size:22px;font-weight:700;color:#0039a6}
-.apCard .q{font-weight:700}
-.apCard .tip{font-size:16px;color:#53657a}
-.apCard .sp{flex:1}
-.apCard .clock{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
-.apCard .clock.run{color:#d52b1e}
-.apCard .acts{display:flex;gap:8px;flex-wrap:wrap}
-.apCard .acts button{padding:7px 12px;font-size:16px}
 .ap audio{width:100%;margin:6px 0 0}
-@media(max-width:900px){.ap{font-size:17px}.apWrap{grid-template-columns:1fr;overflow:auto}.apSteps{flex-direction:row;flex-wrap:wrap;overflow:visible}.apSteps .grp{display:none}.apSteps button{grid-template-columns:26px auto}.apSteps button em{display:none}.apPanel{min-height:70vh}.apOpts,.apTwo,.apRead{grid-template-columns:1fr}.apCols{columns:1}.apCards{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.apCards{grid-template-columns:1fr}.apGap input,.apLine input{width:160px}}
+.ivTop{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin:0 0 10px}
+.ivTop .apBtn{white-space:nowrap;padding:6px 10px}
+.ivTop select{max-width:205px;padding:6px 8px;border:1px solid #b7c9e8;border-radius:8px;background:#fff;font-weight:700;color:#142337}
+.ivNums{display:flex;gap:6px}.ivNums button{width:40px;height:36px;border:1px solid #b7c9e8;border-radius:8px;background:#fff;color:#0039a6;font-weight:700}.ivNums button.on{background:#0039a6;color:#fff;border-color:#0039a6}
+.ivPill{display:none}
+.ivGrid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:12px;align-items:stretch}
+.ivTimer,.ivCard{border:1px solid #d5deea;border-radius:14px;background:#fff;padding:14px 18px}
+.ivTimer{display:flex;flex-direction:column;align-items:center;gap:12px}
+.ivRing{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;align-content:center;position:relative;background:conic-gradient(#3b6cf6 360deg,#e3e9f5 0)}
+.ivRing::before{content:"";position:absolute;inset:12px;border-radius:50%;background:#fff}
+.ivRing b,.ivRing span{position:relative}.ivRing b{font-size:46px;line-height:1;color:#142337}.ivRing span{font-size:15px;color:#53657a}
+.ivRing.end b{color:#d52b1e}
+.ivBtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}
+.ivCard{display:flex;flex-direction:column;gap:8px;min-height:250px}
+.ivCard.back{background:#f0f5ff;border-color:#0039a6}
+.ivEy{font-size:14px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#64748b}
+.ivBig{font-size:30px;font-weight:800;line-height:1.15;color:#142337}
+.ivQ{font-size:26px;font-weight:800;line-height:1.25;color:#0039a6}
+.ivTip{font-size:18px}
+.ivVoice{font-size:14px;color:#64748b;min-height:18px}
+.ivHint{margin-top:auto;border:1px dashed #c5d2e4;border-radius:10px;padding:8px 12px;font-size:16px;color:#53657a}
+.ivRec{margin-top:10px;font-size:16px}.ivRec summary{cursor:pointer;font-weight:700;color:#0039a6}
+@media(max-width:900px){.ap{font-size:17px}.apWrap{grid-template-columns:1fr;overflow:auto}.apSteps{flex-direction:row;flex-wrap:wrap;overflow:visible}.apSteps .grp{display:none}.apSteps button{grid-template-columns:26px auto}.apSteps button em{display:none}.apPanel{min-height:70vh}.apOpts,.apTwo,.apRead,.ivGrid{grid-template-columns:1fr}.ivTop{flex-wrap:wrap}.apCols{columns:1}}
+@media(max-width:560px){.apGap input,.apLine input{width:160px}}
 `;
 document.head.append(style);
 
@@ -161,13 +171,15 @@ const cards=[
 ['Past follow-up','What did you do after school yesterday?','Past Simple, цепочка событий.','I went home and had lunch. Then I did my English homework and went for a walk with a friend.'],
 ['Past follow-up','What were you doing at eight last night?','Past Continuous: процесс в момент.','At eight I was revising grammar for today’s lesson. My brother was watching a film in the next room.'],
 ['Past follow-up','Had you finished your homework before you went to bed?','Past Perfect: раньше другого события.','Yes, I had finished everything by ten. I had even packed my bag before I went to bed.'],
-['Past follow-up','How long had you been studying before you took your last break?','Past Perfect Continuous: длительность.','I had been studying for about an hour. I had been doing exercises, so I really needed a rest.']];
+['Past follow-up','How long had you been studying before you took your last break?','Past Perfect Continuous: длительность.','I had been studying for about an hour. I had been doing exercises, so I really needed a rest.'],
+['Past follow-up','What was the best thing that happened to you last week?','Past Simple: что произошло + почему это было хорошо.','The best thing was a trip to the cinema with my friends. We saw a new comedy and laughed a lot. After the film we went for a walk and talked until late.']];
+const variants=[['Вариант 1','Education',[0,1,2,3,4]],['Вариант 2','Past follow-up',[5,6,7,8,9]]];
 
 const steps=[
-['Правило: 4 Past','0–5'],['Выбор формы','5–13'],['Раскрой скобки','13–21'],['ЕГЭ 19–24','21–33'],['Найди ошибку','33–38'],['Reading','38–46'],['Интервью: карточки','46–54'],['Exit test','54–60'],['Домашняя работа','']];
+['Правило: 4 Past','0–5'],['Выбор формы','5–13'],['Раскрой скобки','13–21'],['ЕГЭ 19–24','21–33'],['Найди ошибку','33–38'],['Reading','38–46'],['Интервью','46–54'],['Exit test','54–60'],['Домашняя работа','']];
 
 /* ---------- каркас ---------- */
-let box,step=0,item=0,clock=null;const values={},flipped={},marks={};
+let box,step=0,item=0,clock=null,ivVar=0,ivQ=0,ivFlip=false,ivLeft=40,ivVoice='';const values={},marks={};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=s=>String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/n't/g,' not').replace(/\s+/g,' ').trim();
 const right=(val,accepted)=>accepted.some(a=>norm(a)===norm(val));
@@ -211,10 +223,11 @@ function body(){
  if(step===3)return '<p class="apNote">Формат экзамена: сначала прочитай весь текст, потом заполняй. 6 минут на сет.</p>'+chips(2,'s',i=>i?'Set B':'Set A')+'<h4 style="margin:0 0 10px;font-size:18px;color:#0039a6">'+sets[item].title+'</h4>'+gapHTML(sets[item],'s'+item+'-');
  if(step===4)return '<p class="apNote">В каждом предложении одна ошибка во времени. Впиши правильную форму глагола.</p>'+linesHTML(errors,'e',false)+keysBtn(errors.map((q,j)=>'<b>'+(j+1)+'. '+esc(q[2])+'</b> — '+q[3]).join('<br>'));
  if(step===5){const q=texts[item],id='r'+item;return '<p class="apNote">Подбери заголовок к тексту. Каждый заголовок используется один раз, один лишний.</p>'+chips(texts.length,'r',i=>String.fromCharCode(65+i))+'<div class="apRead"><div class="apText">'+esc(q[0])+'</div><div><div class="apHeads">'+headings.map((x,j)=>'<label class="'+(values[id]===String(j)?'sel':'')+'"><input type="radio" name="'+id+'" value="'+j+'"'+(values[id]===String(j)?' checked':'')+'><span>'+(j+1)+'. '+x+'</span></label>').join('')+'</div><div class="apFb" role="status" style="margin-top:12px"></div><div class="apRow" style="margin-top:0"><button class="apBtn prim" data-check="read">Проверить</button></div></div></div>'+keysBtn('A–6 · B–4 · C–1 · D–3 · E–2 · F–5. Лишний: 7.');}
- if(step===6)return '<p class="apNote">Ученица вопрос не видит: нажмите «Слушать вопрос», затем идёт 40 секунд на ответ. Текст вопроса и образец — на обороте карточки.</p><div class="apCards">'+cards.map((c,i)=>flipped[i]?
-   '<div class="apCard back"><div class="num">'+c[0]+' · '+(i+1)+'</div><div class="q">'+esc(c[1])+'</div><div class="tip">'+c[2]+'</div><div class="tip"><b>Образец:</b> '+esc(c[3])+'</div><div class="sp"></div><div class="acts"><button class="apBtn" data-flip="'+i+'">Лицевая сторона</button></div></div>':
-   '<div class="apCard"><div class="num">'+c[0]+'</div><div class="big">Question '+(i+1)+'</div><div class="clock" data-clock="'+i+'">00:40</div><div class="sp"></div><div class="acts"><button class="apBtn prim" data-say="'+i+'">Слушать вопрос</button><button class="apBtn" data-flip="'+i+'">Оборот</button></div></div>').join('')+'</div>'+
-  '<div class="apBox"><h4>Запись из пособия Expert · Education interview</h4><p class="apNote" style="margin:0">Пять вопросов подряд с паузами для ответа — как на экзамене.</p><audio controls preload="metadata" src="'+url('expert/audio/13.mp3')+'"></audio><div class="apRow"><a href="'+url('expert/pdf/expert-07.pdf')+'#page=3" target="_blank" rel="noopener">Скрипт из пособия</a><a href="'+url('expert/pdf/expert-07.pdf')+'#page=4" target="_blank" rel="noopener">Модели ответов</a></div></div>';
+ if(step===6){const v=variants[ivVar],c=cards[v[2][ivQ]];return '<div class="ivTop"><select data-ivvar aria-label="Вариант">'+variants.map((x,k)=>'<option value="'+k+'"'+(k===ivVar?' selected':'')+'>'+x[0]+' — '+x[1]+'</option>').join('')+'</select><div class="ivNums">'+v[2].map((x,k)=>'<button data-ivq="'+k+'" class="'+(k===ivQ?'on':'')+'">'+(k+1)+'</button>').join('')+'</div><span class="ivPill">Вопрос '+(ivQ+1)+' из '+v[2].length+'</span><span class="apFill"></span><button class="apBtn" data-ivq="'+(ivQ-1)+'"'+(ivQ===0?' disabled':'')+'>← Назад</button><button class="apBtn prim" data-ivflip>'+(ivFlip?'Скрыть вопрос':'Перевернуть карточку')+'</button><button class="apBtn" data-ivq="'+(ivQ+1)+'"'+(ivQ===v[2].length-1?' disabled':'')+'>Вперёд →</button></div>'+
+  '<div class="ivGrid"><div class="ivTimer"><div class="ivRing" data-ring><b data-left>'+ivLeft+'</b><span>seconds</span></div><div class="ivBtns"><button class="apBtn prim" data-ivstart>Start 40 s</button><button class="apBtn" data-ivreset>Reset</button></div></div>'+
+  (ivFlip?'<div class="ivCard back"><div class="ivEy">Question '+(ivQ+1)+' · '+v[1]+'</div><div class="ivQ">'+esc(c[1])+'</div><div class="ivTip"><b>Как ответить:</b> '+c[2]+'</div><div class="ivTip"><b>Образец:</b> '+esc(c[3])+'</div></div>':
+   '<div class="ivCard"><div class="ivEy">Question audio</div><div class="ivBig">Listen to the question</div><p class="apNote">Вопрос не показывается на экране. Слушайте и отвечайте вслух в формате ЕГЭ: 2–3 предложения.</p><div class="ivBtns"><button class="apBtn prim" data-ivplay>Play question</button><button class="apBtn" data-ivplay>Replay</button><button class="apBtn" data-ivstop>Stop voice</button></div><div class="ivVoice" data-voice>'+esc(ivVoice)+'</div><div class="ivHint">Сначала прозвучит вопрос, потом начнётся отсчёт 40 секунд. После ответа переверните карточку и сравните с образцом.</div></div>')+'</div>'+
+  '<details class="ivRec"><summary>Запись из пособия Expert · Education interview (5 вопросов подряд с паузами)</summary><audio controls preload="metadata" src="'+url('expert/audio/13.mp3')+'"></audio><div class="apRow"><a href="'+url('expert/pdf/expert-07.pdf')+'#page=3" target="_blank" rel="noopener">Скрипт из пособия</a><a href="'+url('expert/pdf/expert-07.pdf')+'#page=4" target="_blank" rel="noopener">Модели ответов</a></div></details>';}
  if(step===7)return '<p class="apNote">Контроль урока: без подсказок и без ключей. 5–6 из 6 — тема закрыта, 3–4 — повторить шаги 2–3, меньше — вернуться к правилу.</p><h4 style="margin:0 0 10px;font-size:18px;color:#0039a6">'+exit.title+'</h4>'+gapHTML(exit,'x');
  return '<div class="apBox"><ol><li>Повтори Set A и Set B без ключей. Для каждой ошибки: my answer → correct answer → reason.</li><li>Напиши 6–8 предложений о вчерашнем дне: используй все четыре Past tenses и подчеркни формы.</li><li>Запиши устный ответ: What did you do last weekend? — 2–3 полных предложения.</li><li>Повтори V2 / V3: go, come, take, give, see, write, leave, forget, find, tell, know, begin.</li></ol></div>'+keysBtn('go – went – gone · come – came – come · take – took – taken · give – gave – given · see – saw – seen · write – wrote – written · leave – left – left · forget – forgot – forgotten · find – found – found · tell – told – told · know – knew – known · begin – began – begun');
 }
@@ -231,13 +244,25 @@ function wire(){
   fb.textContent=score+' / '+list.length+(score===list.length?' — отлично.':' — объясни выбор формы в красных пропусках.');
  });
  box.querySelectorAll('.apHeads input').forEach(r=>r.onchange=()=>{values[r.name]=r.value;box.querySelectorAll('.apHeads label').forEach(l=>l.classList.toggle('sel',l.querySelector('input').checked));});
- box.querySelectorAll('[data-flip]').forEach(b=>b.onclick=()=>{const i=+b.dataset.flip;flipped[i]=!flipped[i];go(step);});
- box.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{
-  const i=+b.dataset.say,el=box.querySelector('[data-clock="'+i+'"]');stopAll();box.querySelectorAll('.clock').forEach(c=>{c.textContent='00:40';c.classList.remove('run');});
-  const start=()=>{let n=40;el.classList.add('run');clock=setInterval(()=>{n--;el.textContent='00:'+String(n).padStart(2,'0');if(n<=0){clearInterval(clock);clock=null;el.classList.remove('run');el.textContent='Время';}},1000);};
-  if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){start();return}
-  const u=new SpeechSynthesisUtterance(cards[i][1]);u.lang='en-GB';u.rate=.88;const vs=speechSynthesis.getVoices();u.voice=vs.find(v=>v.lang==='en-GB')||vs.find(v=>/^en/.test(v.lang))||null;
-  let started=false;const once=()=>{if(!started){started=true;start();}};u.onend=once;u.onerror=once;speechSynthesis.speak(u);setTimeout(once,9000);
- });
+ const ring=box.querySelector('[data-ring]'),left=box.querySelector('[data-left]');
+ if(ring){
+  const paint=()=>{left.textContent=ivLeft;ring.style.background='conic-gradient(#3b6cf6 '+(ivLeft/40*360)+'deg,#e3e9f5 0)';ring.classList.toggle('end',ivLeft===0);};paint();
+  const run=()=>{clearInterval(clock);ivLeft=40;paint();clock=setInterval(()=>{ivLeft--;paint();if(ivLeft<=0){clearInterval(clock);clock=null;}},1000);};
+  const reset=()=>{clearInterval(clock);clock=null;ivLeft=40;paint();};
+  const say=()=>{
+   if(window.speechSynthesis)speechSynthesis.cancel();reset();
+   const text=cards[variants[ivVar][2][ivQ]][1];
+   if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){run();return}
+   const u=new SpeechSynthesisUtterance(text),vs=speechSynthesis.getVoices(),v=vs.find(x=>x.lang==='en-GB'&&/male|daniel|george|oliver/i.test(x.name))||vs.find(x=>x.lang==='en-GB')||vs.find(x=>/^en/.test(x.lang))||null;
+   u.lang='en-GB';u.rate=.88;if(v){u.voice=v;ivVoice='Voice: '+v.name+' ('+v.lang+')';const vl=box.querySelector('[data-voice]');if(vl)vl.textContent=ivVoice;}
+   let started=false;const once=()=>{if(!started){started=true;if(box.querySelector('[data-ring]')===ring)run();}};u.onend=once;u.onerror=once;speechSynthesis.speak(u);setTimeout(once,text.length*110+3000);
+  };
+  box.querySelectorAll('[data-ivplay]').forEach(b=>b.onclick=say);
+  const st=box.querySelector('[data-ivstop]');if(st)st.onclick=()=>{if(window.speechSynthesis)speechSynthesis.cancel();};
+  box.querySelector('[data-ivstart]').onclick=run;box.querySelector('[data-ivreset]').onclick=reset;
+  box.querySelector('[data-ivflip]').onclick=()=>{ivFlip=!ivFlip;const keepLeft=ivLeft,running=!!clock;render();if(running){ivLeft=keepLeft;const r2=box.querySelector('[data-ring]'),l2=box.querySelector('[data-left]');const p2=()=>{l2.textContent=ivLeft;r2.style.background='conic-gradient(#3b6cf6 '+(ivLeft/40*360)+'deg,#e3e9f5 0)';};p2();clearInterval(clock);clock=setInterval(()=>{ivLeft--;p2();if(ivLeft<=0){clearInterval(clock);clock=null;}},1000);}};
+  box.querySelectorAll('[data-ivq]').forEach(b=>b.onclick=()=>{ivQ=+b.dataset.ivq;ivFlip=false;ivLeft=40;go(step);});
+  box.querySelector('[data-ivvar]').onchange=e=>{ivVar=+e.target.value;ivQ=0;ivFlip=false;ivLeft=40;go(step);};
+ }
 }
 })();
