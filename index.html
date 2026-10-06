@@ -1128,6 +1128,181 @@ function lessonHTML(x,i,w){
  return '<div class="lesson" onclick="openLesson('+w+','+i+')" style="cursor:pointer"><div class="lessonHead" style="display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;padding:14px"><span class="lnum">'+(i+1)+'</span><span class="ltitle"><b>Урок '+(i+1)+' · '+x[0]+'</b><small>Открыть урок</small></span><span class="chev">→</span></div></div>'
 }
 /* Уроки недель 2–32: один экран — шаги слева, один шаг справа; единый размер шрифта */
+
+function fwReveal(items){
+ const esc=v=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+ return '<div class="fwReveal">'+items.map((x,n)=>'<div class="task fwItem"><div><b>'+(n+1)+'.</b> '+x[0]+'</div><button type="button" class="action teacherRevealBtn" onclick="this.nextElementSibling.hidden=false;this.disabled=true">Ответ</button><div class="futureAnswer" hidden><b>'+esc(x[1])+'</b>'+(x[2]?'<small>'+x[2]+'</small>':'')+'</div></div>').join('')+'</div>';
+}
+function fwPrompts(items){
+ return '<div class="cols">'+items.map((x,n)=>'<div class="box"><b>'+(n+1)+'. '+x+'</b><div class="tiny">Ответить 2–3 фразами и назвать выбранную future form.</div></div>').join('')+'</div>';
+}
+function fwExplain(items){
+ return '<div class="fwExplain">'+items.map((x,n)=>'<div class="task"><b>'+(n+1)+'.</b> '+x+'<br><span class="tiny">Форма → временная точка → доказательство из контекста.</span></div>').join('')+'</div>';
+}
+function futureWeekTabs(i,key){
+ const steps=[],after=[];
+ const intro='<div class="box"><h3>Week 3 · Future + Mixed Tenses</h3><p>Не выбирать время по одному маркеру. Сначала определить смысл: prediction / instant decision / prior plan / arrangement / timetable / action in progress at a future point / action completed by a deadline.</p></div>';
+ if(i===0){
+   const drill=[
+    ['I think people ___ (LIVE) on Mars one day.','will live','prediction / opinion'],
+    ['Look at those clouds! It ___ (RAIN).','is going to rain','evidence now'],
+    ['We ___ (MEET) our tutor at 6 p.m. tomorrow.','are meeting','arrangement'],
+    ['The train ___ (LEAVE) at 07:45 tomorrow morning.','leaves','timetable'],
+    ['I forgot my notebook. — Don’t worry, I ___ (LEND) you mine.','will lend','instant decision'],
+    ['Arina has already bought the tickets. She ___ (FLY) to Istanbul next Friday.','is flying','fixed arrangement'],
+    ['I have decided what to do. I ___ (START) a new course next month.','am going to start','prior intention'],
+    ['The lesson ___ (BEGIN) at 4:30 according to the timetable.','begins','schedule'],
+    ['Be careful! You ___ (DROP) those books.','are going to drop','visible evidence'],
+    ['I’m sure you ___ (DO) well in the exam.','will do','prediction'],
+    ['We ___ (HAVE) dinner with my parents tonight; the table is booked.','are having','arrangement'],
+    ['Perhaps the weather ___ (CHANGE) later.','will change','uncertain prediction'],
+    ['As soon as she ___ (FINISH) the task, she will send it to me.','finishes','time clause: Present Simple'],
+    ['If I ___ (HAVE) time tomorrow, I’ll check the essay.','have','if-clause: Present Simple'],
+    ['What time ___ the museum ___ (OPEN) tomorrow?','does the museum open','timetable'],
+    ['I’ve saved enough money. I ___ (BUY) a new laptop.','am going to buy','plan already decided']
+   ];
+   const personal=[
+    'Make one prediction about your English by the end of this school year.',
+    'Name one plan you have already decided for this weekend.',
+    'Describe one fixed arrangement you have for the next seven days.',
+    'Give one timetable fact about school, a train, flight or lesson.',
+    'Make an instant decision beginning with “OK, I’ll …”.',
+    'Predict one change in education in the next ten years.',
+    'Say what you are going to improve before the EGE.',
+    'Complete: “As soon as I finish school, …”'
+   ];
+   const transforms=[
+    ['I have decided to revise irregular verbs tonight. → Use GOING TO.','I am going to revise irregular verbs tonight.'],
+    ['The school programme says the exam starts at 10:00. → Use PRESENT SIMPLE.','The exam starts at 10:00.'],
+    ['We arranged to meet Kate at the café at 5. → Use PRESENT CONTINUOUS.','We are meeting Kate at the café at 5.'],
+    ['Maybe she gets the result tomorrow. → Correct the future form.','Maybe she will get the result tomorrow.'],
+    ['I promise I help you with this task. → Correct.','I promise I will help you with this task.'],
+    ['Look at him! He falls! → Correct.','Look at him! He is going to fall!'],
+    ['When I will get home, I will call you. → Correct.','When I get home, I will call you.'],
+    ['If it will rain, we will stay inside. → Correct.','If it rains, we will stay inside.'],
+    ['Our plane is leaving according to the official schedule at 09:20. → Use timetable form.','Our plane leaves at 09:20.'],
+    ['The tickets are booked for Friday evening. → Use arrangement form.','We are going / travelling / flying on Friday evening.']
+   ];
+   steps.push(['Future map','0–8',intro+'<div class="cols"><div class="box"><h3>WILL</h3><p>opinion · prediction · instant decision · promise</p></div><div class="box"><h3>BE GOING TO</h3><p>prior plan · evidence-based prediction</p></div><div class="box"><h3>PRESENT CONTINUOUS</h3><p>arrangement: time/place/person is fixed</p></div><div class="box"><h3>PRESENT SIMPLE</h3><p>timetable · programme · after when/if/as soon as</p></div></div>']);
+   steps.push(['16 contexts','8–25',fwReveal(drill)]);
+   steps.push(['Personalise · 8','25–35',fwPrompts(personal)]);
+   steps.push(['Transformations · 10','35–45',fwReveal(transforms)]);
+   const g=exam26Own('grammar',2);
+   steps.push(['EGE 19–24','45–55',g[0]?exam26InlineHTML('grammar',2,0):'<div class="task">EGE set is not available.</div>']);
+   steps.push(['Exit ticket','55–60',fwExplain([
+    'Explain the difference: “I’ll study tonight” vs “I’m going to study tonight.”',
+    'Explain why we say: “The train leaves at 8.”',
+    'Explain why there is no WILL after WHEN in “When I get home, I’ll call you.”',
+    'Give one Present Continuous future arrangement.',
+    'Give one evidence-based prediction with GOING TO.'
+   ])]);
+ } else if(i===1){
+   const drill=[
+    ['This time tomorrow we ___ (FLY) over Europe.','will be flying','action in progress at a future point'],
+    ['By 8 p.m. I ___ (FINISH) all my homework.','will have finished','completed before a deadline'],
+    ['At 10 tomorrow Arina ___ (WRITE) a practice test.','will be writing','in progress at 10'],
+    ['By the end of the month she ___ (COMPLETE) three full grammar units.','will have completed','result by deadline'],
+    ['Don’t call at 7; we ___ (HAVE) dinner.','will be having','process at a future time'],
+    ['By next summer they ___ (LIVE) here for ten years.','will have lived','state completed up to a future point'],
+    ['At this time next week I ___ (RELAX) after my exams.','will be relaxing','future process'],
+    ['By the time you arrive, I ___ (PREPARE) everything.','will have prepared','earlier future completion'],
+    ['At noon tomorrow the students ___ (TAKE) their speaking test.','will be taking','future action in progress'],
+    ['By 2030 scientists ___ (DEVELOP) more efficient batteries.','will have developed','prediction of completion by 2030'],
+    ['At 6 p.m. tonight I ___ (TRAVEL) home.','will be travelling','action in progress'],
+    ['By Friday we ___ (READ) all three texts.','will have read','completion by Friday']
+   ];
+   const trans=[
+    ['I finish the report before Friday. → Use FUTURE PERFECT.','I will have finished the report by Friday.'],
+    ['At 9 tomorrow I work on the project. → Use FUTURE CONTINUOUS.','At 9 tomorrow I will be working on the project.'],
+    ['The lesson ends before you arrive. → Show earlier future completion.','The lesson will have ended by the time you arrive.'],
+    ['At this time tomorrow she travels to Moscow. → Correct.','At this time tomorrow she will be travelling to Moscow.'],
+    ['By next month we complete the unit. → Correct.','By next month we will have completed the unit.'],
+    ['Do not ring at eight because I have my lesson then. → Use FUTURE CONTINUOUS.','Do not ring at eight because I will be having my lesson then.']
+   ];
+   steps.push(['Timeline','0–10',intro+'<div class="cols"><div class="box"><h3>Future Continuous</h3><p><b>will be + V-ing</b><br>Что будет происходить в конкретный момент будущего?</p></div><div class="box"><h3>Future Perfect</h3><p><b>will have + V3</b><br>Что уже завершится к моменту / дедлайну?</p></div></div>']);
+   steps.push(['12 contrasts','10–28',fwReveal(drill)]);
+   steps.push(['Transformations · 6','28–40',fwReveal(trans)]);
+   steps.push(['By 2030 · production','40–50',fwPrompts([
+    'By 2030, I will have …',
+    'This time next year, I will be …',
+    'By the end of this school year, I will have …',
+    'At 8 p.m. tomorrow, I will be …',
+    'By the age of 25, I will have …',
+    'When I finish the EGE, I will …'
+   ])]);
+   const f=exam26Own('wf',2);
+   steps.push(['Word Formation 25–29','50–57',f.length?exam26InlineHTML('wf',2,0):'<div class="task">Word Formation set is not available.</div>']);
+   steps.push(['Exit ticket','57–60',fwExplain([
+    'What is the difference between “At 8 I will be studying” and “By 8 I will have studied”?',
+    'Create one sentence with THIS TIME TOMORROW.',
+    'Create one sentence with BY THE END OF.'
+   ])]);
+ } else {
+   const mixed=[
+    ['I usually ___ (GO) by bus, but tomorrow my father ___ (DRIVE) me.','go / is driving'],
+    ['When we arrived, the film ___ already ___ (START).','had already started'],
+    ['I ___ (KNOW) her since primary school.','have known'],
+    ['This time tomorrow we ___ (TAKE) the train to Moscow.','will be taking'],
+    ['Look! The child ___ (FALL).','is going to fall'],
+    ['By next Monday I ___ (FINISH) the project.','will have finished'],
+    ['She ___ (READ) when I called her yesterday.','was reading'],
+    ['I ___ never ___ (SEE) this film before last night.','had never seen'],
+    ['He normally ___ (WORK) from home on Fridays.','works'],
+    ['We ___ (WAIT) for an hour when the bus finally came.','had been waiting'],
+    ['I can’t talk now; I ___ (COOK).','am cooking'],
+    ['Perhaps she ___ (JOIN) us later.','will join'],
+    ['They ___ (LIVE) here for five years and still love the area.','have lived / have been living'],
+    ['The museum ___ (OPEN) at ten tomorrow.','opens'],
+    ['As soon as I ___ (GET) the results, I’ll message you.','get'],
+    ['Last year we ___ (TRAVEL) around Türkiye.','travelled'],
+    ['By 2030 many schools ___ (INTRODUCE) more digital assessment.','will have introduced'],
+    ['At 5 tomorrow she ___ (HAVE) her English lesson.','will be having'],
+    ['He was tired because he ___ (STUDY) all night.','had been studying'],
+    ['I ___ already ___ (DO) three tasks today.','have already done'],
+    ['The tickets are booked; we ___ (FLY) on Friday.','are flying'],
+    ['When I was a child, I ___ (SPEND) every summer by the sea.','spent'],
+    ['Don’t worry. I ___ (HELP) you with it.','will help'],
+    ['If she ___ (PRACTISE) regularly, she will improve quickly.','practises']
+   ];
+   const ege=[
+    ['When Helen ___ (ARRIVE) at the airport, she discovered that her flight had been delayed.','arrived'],
+    ['She ___ (WAIT) for nearly two hours when the gate finally opened.','had been waiting'],
+    ['The airline ___ already ___ (SEND) her a message, but her phone was off.','had already sent'],
+    ['Tomorrow at the same time she ___ (FLY) over the Atlantic.','will be flying'],
+    ['By the end of the trip she ___ (VISIT) four cities.','will have visited'],
+    ['Her brother usually ___ (MEET) her at the airport.','meets'],
+    ['This week he ___ (WORK) abroad, so he cannot come.','is working'],
+    ['Helen ___ never ___ (TRAVEL) alone before this journey.','had never travelled'],
+    ['Since then she ___ (BECOME) much more confident.','has become'],
+    ['Look at the board! The departure time ___ (CHANGE).','has changed'],
+    ['The next train ___ (LEAVE) at 18:10.','leaves'],
+    ['I think the weather ___ (IMPROVE) tomorrow.','will improve'],
+    ['They have bought paint because they ___ (DECORATE) the room this weekend.','are going to decorate'],
+    ['At 9 tonight I ___ (REVISE), so call me later.','will be revising'],
+    ['By Friday Arina ___ (COMPLETE) all the practice sets.','will have completed'],
+    ['When she ___ (FINISH), she will check every answer again.','finishes'],
+    ['Yesterday she ___ (MAKE) only two tense mistakes.','made'],
+    ['She ___ (WORK) on this grammar topic since September.','has been working']
+   ];
+   steps.push(['Mixed checkpoint · 24','0–28',intro+fwReveal(mixed)]);
+   steps.push(['Explain 8 choices','28–38',fwExplain([
+    'Item 2: why Past Perfect, not Past Simple?',
+    'Item 4: why Future Continuous?',
+    'Item 6: why Future Perfect?',
+    'Item 10: why Past Perfect Continuous?',
+    'Item 13: why can both Present Perfect forms work?',
+    'Item 15: why no WILL after AS SOON AS?',
+    'Item 21: why Present Continuous for the future?',
+    'Item 24: why Present Simple after IF?'
+   ])]);
+   steps.push(['EGE-style · 18','38–53',fwReveal(ege)]);
+   const g=exam26Own('grammar',2);
+   if(g[1])steps.push(['Extra EGE 19–24','53–57',exam26InlineHTML('grammar',2,1)]);
+   steps.push(['Error log','57–60','<div class="task"><b>Записать только повторяющиеся ошибки:</b><br>1. My answer → Correct answer → Why?<br>2. My answer → Correct answer → Why?<br>3. Rule I must remember next lesson.</div>']);
+ }
+ return {steps,after};
+}
+
 function lessonTabs(x,i,w){
  const key='w'+w+'l'+i,steps=[],after=[];
  const plan='<div class="cols"><div class="box"><h3>На уроке</h3><ul>'+x[1].split('; ').map(s=>'<li>'+s+'</li>').join('')+'</ul></div><div class="box"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></div>';
@@ -1141,6 +1316,10 @@ function lessonTabs(x,i,w){
   steps.push(['Irregular verbs','56–60',ti(todayIrregularHTML())]);
   steps.push(['Error log','',ti('<div class="task"><b>My answer → Correct answer → Why? → New example</b><br>1. _______________________________<br>2. _______________________________<br>3. _______________________________</div>')]);
   after.push(['ФИПИ · практика 19–24','',ti(fipiLinksHTML())]);
+ }else if(w===2){
+  const F=futureWeekTabs(i,key);
+  steps.push(...F.steps);
+  after.push(...F.after);
  }else{
   const g=exam26Own('grammar',w),f=exam26Own('wf',w);
   steps.push(['План урока','',plan+materialBox(key+'-teacher')]);
