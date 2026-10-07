@@ -266,6 +266,52 @@ body,button,input,textarea,select,
   font-weight:700!important;
 }
 
+
+/* ===== ARINA · TENSE LOGIC STEP-BY-STEP ===== */
+.tenseLogicEntry{border-left:5px solid #a63f3f!important;background:#f8fafc!important}
+.tenseLogicEntry small{display:block;margin-top:3px;font-size:9px!important;color:#64748b!important;font-weight:600!important}
+.tlShell{max-width:1180px;margin:0 auto;font-family:"Segoe UI",Arial,sans-serif}
+.tlHero{background:#20364a;color:#fff;border-radius:14px;padding:16px 18px;margin-bottom:10px}
+.tlHero .eyebrow{color:#cdddea!important}.tlHero h1{margin:3px 0 5px;font-size:22px;color:#fff}
+.tlHero p{margin:0;font-size:13px;line-height:1.5;color:#e6eef4}
+.tlRulebar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
+.tlRule{background:#fff;border:1px solid #d7dde4;border-radius:10px;padding:9px;text-align:center}
+.tlRule b{display:block;font-size:11px;color:#20364a}.tlRule span{display:block;font-size:9px;color:#64748b;margin-top:2px}
+.tlRule.active{border-color:#315b7d;box-shadow:inset 0 0 0 2px #315b7d;background:#eef3f7}
+.tlRule.done{border-color:#2f6f5f;background:#eef8f4}
+.tlTopline{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:10px 0 7px;font-size:12px;color:#64748b}
+.tlTopline b{color:#20364a}
+.tlProgress{height:8px;background:#e5e9ee;border-radius:999px;overflow:hidden;margin-bottom:12px}
+.tlProgress i{display:block;height:100%;background:#315b7d;border-radius:999px;transition:width .25s}
+.tlCard{background:#fff;border:1px solid #d8dee5;border-radius:15px;padding:18px;box-shadow:0 8px 24px #0f172a0d}
+.tlSentence{font-size:24px;line-height:1.55;color:#202124;font-weight:500;margin:2px 0 14px}
+.tlBase{display:inline-block;font-size:12px;color:#64748b;background:#f3f5f7;border-radius:7px;padding:4px 7px;margin-left:5px}
+.tlQuestion{font-size:13px;font-weight:800;color:#20364a;margin:0 0 9px}
+.tlQuestion small{display:block;font-weight:500;color:#64748b;margin-top:3px}
+.tlChoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tlChoice{min-height:54px;border:1px solid #bdc8d2;border-radius:10px;background:#fff;color:#20364a;font-size:14px;font-weight:700;padding:10px 12px;text-align:left}
+.tlChoice:hover{background:#f4f7f9;border-color:#829caf}
+.tlChoice.ok{background:#edf8f3;border-color:#2f6f5f;color:#235648}
+.tlChoice.no{background:#fff1f0;border-color:#a63f3f;color:#873333}
+.tlChoice:disabled{cursor:default}
+.tlFeedback{min-height:28px;margin-top:9px;font-size:13px;font-weight:700}
+.tlFeedback.good{color:#2f6f5f}.tlFeedback.bad{color:#a63f3f}
+.tlTimeline{display:flex;align-items:center;gap:7px;margin:11px 0 15px;padding:10px;background:#f7f9fb;border:1px solid #e0e5ea;border-radius:10px}
+.tlDot{width:12px;height:12px;border-radius:50%;background:#b7c1cb;flex:0 0 auto}
+.tlDot.hot{background:#315b7d;box-shadow:0 0 0 4px #dfe9f1}
+.tlLine{height:2px;background:#bdc7d0;flex:1}.tlTimeLabel{font-size:10px;font-weight:800;color:#536170;white-space:nowrap}
+.tlLocked{opacity:.42;pointer-events:none}
+.tlResult{border:1px solid #b9d5c8;background:#f2faf6;border-radius:12px;padding:13px;margin-top:12px}
+.tlResult h3{margin:0 0 5px;font-size:17px;color:#235648}.tlResult p{margin:3px 0;font-size:13px;line-height:1.5;color:#334155}
+.tlFormula{display:inline-block;background:#20364a;color:#fff;border-radius:7px;padding:4px 8px;font-weight:800}
+.tlNext{display:flex;justify-content:space-between;gap:8px;margin-top:12px}
+.tlBtn{border:0;border-radius:9px;background:#20364a;color:#fff;padding:10px 14px;font-size:12px;font-weight:800}
+.tlBtn.secondary{background:#fff;color:#20364a;border:1px solid #bdc8d2}
+.tlSummary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.tlStat{background:#fff;border:1px solid #d9dee5;border-radius:10px;padding:9px}.tlStat b{font-size:18px;color:#20364a}.tlStat span{display:block;font-size:9px;color:#64748b;margin-top:2px}
+.tlMiniGuide{margin-top:10px;background:#fff;border:1px solid #d9dee5;border-left:5px solid #315b7d;border-radius:10px;padding:11px;font-size:12px;line-height:1.55;color:#334155}
+@media(max-width:800px){.tlRulebar,.tlSummary{grid-template-columns:1fr 1fr}.tlChoices{grid-template-columns:1fr}.tlSentence{font-size:20px}.tlCard{padding:13px}}
+
 </style><meta name="theme-color" content="#ffffff">
 
 <style id="teacherHubDistinctTheme">
@@ -508,7 +554,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 </style>
 </head><body>
 <header class="top"><div class="brand">ARINA TEACHER HUB · <b>EGE</b></div><div class="topnote">диагностика → план → урок → контроль → коррекция</div><button class="mobile" id="mobileBtn">План</button></header>
-<aside class="side" id="side"><div class="sidehead">Teacher control</div><div class="teacherSidePanel"><button class="teacherNav" data-teachernav="diagnostic" onclick="showTeacherDashboard('diagnostic')">Диагностика</button><button class="teacherNav" data-teachernav="progress" onclick="showTeacherDashboard('progress')">Прогресс</button><button class="teacherNav" data-teachernav="errors" onclick="showTeacherDashboard('errors')">Error Log</button><button class="teacherNav" onclick="openArinaHomeworkResults()">Результаты Арины</button></div><button class="trainerBtn" onclick="openArinaPastToday()">СЕГОДНЯ · PAST<small>Week 2 · Lesson 3 · 60 минут</small></button><button class="expert-entry" onclick="openExpert()">EXPERT · все материалы<small>13 тем · 26 аудио · задания и ответы</small></button><button class="expert-entry" onclick="openFipi()">ЕГЭ · ФОРМАТ ФИПИ<small>13 тем + Россия · Speaking · Writing · 19–29</small></button><div class="sidehead">32 недели · план</div><div class="weekBtns" id="weekBtns"></div><div class="sidehead" style="margin-top:14px">Тренажёры</div><button class="trainerBtn" onclick="renderTrainer('verbs')">Неправильные глаголы · 60</button><button class="trainerBtn" onclick="renderTrainer('markers')">Present Markers · Training</button><button class="trainerBtn" onclick="renderTrainer('difficult')">Difficult Words · карточки + чтение</button><button class="fipiReadingBtn" onclick="openFipiReading()">READING · ФИПИ<small>Task 1 · тексты ← / → · 1:30 · British audio</small></button><div class="sidehead" style="margin-top:10px">ЕГЭ · ГРАММАТИКА И ЛЕКСИКА</div><button class="ebtn egeCore" style="width:100%" onclick="renderExam('grammar1924')"><b>GRAMMAR · 19–24</b><small>грамматические формы</small></button><button class="ebtn egeCore" style="width:100%;margin-top:4px" onclick="renderExam('wordformation')"><b>WORD FORMATION · 25–29</b><small>словообразование</small></button><button class="ebtn" style="width:100%;margin-top:4px" onclick="renderExam('vocabulary3036')">VOCABULARY · 30–36<small>лексико-грамматический выбор</small></button><button class="ebtn" style="width:100%;margin-top:8px" onclick="renderExam('overview')">ЕГЭ 2027 · Структура<small>баллы за каждое задание</small></button></aside>
+<aside class="side" id="side"><div class="sidehead">Teacher control</div><div class="teacherSidePanel"><button class="teacherNav" data-teachernav="diagnostic" onclick="showTeacherDashboard('diagnostic')">Диагностика</button><button class="teacherNav" data-teachernav="progress" onclick="showTeacherDashboard('progress')">Прогресс</button><button class="teacherNav" data-teachernav="errors" onclick="showTeacherDashboard('errors')">Error Log</button><button class="teacherNav" onclick="openArinaHomeworkResults()">Результаты Арины</button></div><button class="trainerBtn tenseLogicEntry" onclick="openTenseLogicTrainer()">TENSE LOGIC · STEP BY STEP<small>Anchor → Position → Meaning → Form</small></button><button class="trainerBtn" onclick="openArinaPastToday()">СЕГОДНЯ · PAST<small>Week 2 · Lesson 3 · 60 минут</small></button><button class="expert-entry" onclick="openExpert()">EXPERT · все материалы<small>13 тем · 26 аудио · задания и ответы</small></button><button class="expert-entry" onclick="openFipi()">ЕГЭ · ФОРМАТ ФИПИ<small>13 тем + Россия · Speaking · Writing · 19–29</small></button><div class="sidehead">32 недели · план</div><div class="weekBtns" id="weekBtns"></div><div class="sidehead" style="margin-top:14px">Тренажёры</div><button class="trainerBtn" onclick="renderTrainer('verbs')">Неправильные глаголы · 60</button><button class="trainerBtn" onclick="renderTrainer('markers')">Present Markers · Training</button><button class="trainerBtn" onclick="renderTrainer('difficult')">Difficult Words · карточки + чтение</button><button class="fipiReadingBtn" onclick="openFipiReading()">READING · ФИПИ<small>Task 1 · тексты ← / → · 1:30 · British audio</small></button><div class="sidehead" style="margin-top:10px">ЕГЭ · ГРАММАТИКА И ЛЕКСИКА</div><button class="ebtn egeCore" style="width:100%" onclick="renderExam('grammar1924')"><b>GRAMMAR · 19–24</b><small>грамматические формы</small></button><button class="ebtn egeCore" style="width:100%;margin-top:4px" onclick="renderExam('wordformation')"><b>WORD FORMATION · 25–29</b><small>словообразование</small></button><button class="ebtn" style="width:100%;margin-top:4px" onclick="renderExam('vocabulary3036')">VOCABULARY · 30–36<small>лексико-грамматический выбор</small></button><button class="ebtn" style="width:100%;margin-top:8px" onclick="renderExam('overview')">ЕГЭ 2027 · Структура<small>баллы за каждое задание</small></button></aside>
 <main class="main"><section id="weekView" class="content on"></section><section id="examView" class="content"></section><section id="trainerView" class="content"></section></main>
 <script>
 
@@ -1596,6 +1642,147 @@ function moveOralRead(d){oralReadIndex=(oralReadIndex+d+oralReadingTexts.length)
 function resetOralTimer(){clearInterval(oralTimerId);oralSeconds=90;const e=document.getElementById('oralTimer');if(e)e.textContent='01:30'}
 function startOralTimer(s){clearInterval(oralTimerId);oralSeconds=s;const e=document.getElementById('oralTimer');const draw=()=>{const m=String(Math.floor(oralSeconds/60)).padStart(2,'0'),x=String(oralSeconds%60).padStart(2,'0');if(e)e.textContent=m+':'+x;if(oralSeconds<=0){clearInterval(oralTimerId);return}oralSeconds--};draw();oralTimerId=setInterval(draw,1000)}
 function speakOralReading(){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(oralReadingTexts[oralReadIndex]);u.lang='en-GB';u.rate=.88;const v=speechSynthesis.getVoices();u.voice=v.find(x=>x.lang==='en-GB'&&/male|daniel|george|oliver/i.test(x.name))||v.find(x=>x.lang==='en-GB')||null;speechSynthesis.speak(u)}
+
+const tenseLogicItems=[
+ {s:'I ___ this film three times.',base:'SEE',anchor:'NOW',position:'UP TO NOW',meaning:'RESULT / EXPERIENCE',form:'have seen',tense:'Present Perfect',formula:'have / has + V3',why:'The experience is counted up to the present moment.'},
+ {s:'I ___ English for two hours and I am still studying.',base:'STUDY',anchor:'NOW',position:'UP TO NOW',meaning:'DURATION',form:'have been studying',tense:'Present Perfect Continuous',formula:'have / has been + V-ing',why:'The activity started earlier and continues up to NOW; duration matters.'},
+ {s:'She ___ three chapters so far.',base:'WRITE',anchor:'NOW',position:'UP TO NOW',meaning:'RESULT / NUMBER',form:'has written',tense:'Present Perfect',formula:'have / has + V3',why:'The number of completed chapters is the result now.'},
+ {s:'You look hot. — Yes, I ___ tennis for two hours.',base:'PLAY',anchor:'NOW',position:'UP TO NOW',meaning:'DURATION',form:'have been playing',tense:'Present Perfect Continuous',formula:'have / has been + V-ing',why:'There is a present result and the duration of the activity is important.'},
+ {s:'I ___ my first phone when I was ten.',base:'GET',anchor:'THEN',position:'AT THEN',meaning:'FACT / EVENT',form:'got',tense:'Past Simple',formula:'V2 / -ed',why:'It is one finished event at a finished past time.'},
+ {s:'At this time last Sunday we ___ in the sea.',base:'SWIM',anchor:'THEN',position:'AT THEN',meaning:'PROCESS',form:'were swimming',tense:'Past Continuous',formula:'was / were + V-ing',why:'The camera stops at a past moment and shows an action in progress.'},
+ {s:'At that moment our neighbours ___ a snowman in the yard.',base:'BUILD',anchor:'THEN',position:'AT THEN',meaning:'PROCESS',form:'were building',tense:'Past Continuous',formula:'was / were + V-ing',why:'At that past moment the activity was in progress.'},
+ {s:'While he ___ for the competition, he practised for three hours a day.',base:'PREPARE',anchor:'THEN',position:'AT THEN',meaning:'PROCESS',form:'was preparing',tense:'Past Continuous',formula:'was / were + V-ing',why:'WHILE introduces the background process in the past scene.'},
+ {s:'It was the first time most of us ___ such an ancient city.',base:'SEE',anchor:'THEN',position:'BEFORE THEN',meaning:'RESULT / EXPERIENCE',form:'had seen',tense:'Past Perfect',formula:'had + V3',why:'The reference point is WAS; the experience is earlier than that past point.'},
+ {s:'By the time we reached the airport, the plane ___.',base:'LEAVE',anchor:'THEN',position:'BEFORE THEN',meaning:'RESULT / COMPLETED',form:'had left',tense:'Past Perfect',formula:'had + V3',why:'The plane left before the later past event: we reached the airport.'},
+ {s:'They ___ for an hour when the doctor came.',base:'WAIT',anchor:'THEN',position:'BEFORE THEN',meaning:'DURATION',form:'had been waiting',tense:'Past Perfect Continuous',formula:'had been + V-ing',why:'The waiting continued for a period before the past point “the doctor came”.'},
+ {s:'They ___ for three hours before they found the right road.',base:'DRIVE',anchor:'THEN',position:'BEFORE THEN',meaning:'DURATION',form:'had been driving',tense:'Past Perfect Continuous',formula:'had been + V-ing',why:'Three hours is duration leading up to another past event.'},
+ {s:'Before last night, I ___ this film three times.',base:'SEE',anchor:'THEN',position:'BEFORE THEN',meaning:'RESULT / EXPERIENCE',form:'had seen',tense:'Past Perfect',formula:'had + V3',why:'The three experiences happened before the past reference point “last night”.'},
+ {s:'When Mum came home, I ___ my homework, so I was free.',base:'FINISH',anchor:'THEN',position:'BEFORE THEN',meaning:'RESULT / COMPLETED',form:'had finished',tense:'Past Perfect',formula:'had + V3',why:'The homework was already complete before Mum came home.'},
+ {s:'When Mum came home, I ___ my homework.',base:'DO',anchor:'THEN',position:'AT THEN',meaning:'PROCESS',form:'was doing',tense:'Past Continuous',formula:'was / were + V-ing',why:'Mum came home during the activity, so the action was in progress at THEN.'},
+ {s:'Over time, the activity ___ into an important cultural tradition.',base:'DEVELOP',anchor:'NOW',position:'UP TO NOW',meaning:'RESULT / CHANGE',form:'has developed',tense:'Present Perfect',formula:'have / has + V3',why:'The development happened over time and its result is relevant now.'}
+];
+let tenseLogicState={index:0,step:0,errors:0,correct:0,attempts:0};
+function tlEsc(v){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function openTenseLogicTrainer(){
+ document.body.classList.remove('fullWeek');
+ const lp=document.getElementById('lessonPage');if(lp)lp.style.display='none';
+ document.querySelectorAll('.content').forEach(x=>x.classList.remove('on'));
+ document.querySelectorAll('.wbtn,.teacherNav').forEach(x=>x.classList.remove('active'));
+ const root=document.getElementById('trainerView');root.classList.add('on');
+ tenseLogicState={index:0,step:0,errors:0,correct:0,attempts:0};
+ renderTenseLogic();
+ if(innerWidth<801)document.getElementById('side').classList.remove('open');
+ scrollTo({top:0,behavior:'smooth'});
+}
+function tlChoicesFor(item,step){
+ if(step===0)return ['NOW','THEN'];
+ if(step===1)return item.anchor==='NOW'?['UP TO NOW','BEFORE THEN']:['AT THEN','BEFORE THEN'];
+ if(step===2){
+  const bank=['FACT / EVENT','PROCESS','RESULT / EXPERIENCE','RESULT / COMPLETED','RESULT / NUMBER','RESULT / CHANGE','DURATION'];
+  const distract=bank.filter(x=>x!==item.meaning);
+  const picks=[item.meaning];
+  for(let i=0;i<distract.length&&picks.length<4;i++){
+   const x=distract[(item.s.length+i*3)%distract.length];
+   if(!picks.includes(x))picks.push(x);
+  }
+  return picks.sort((a,b)=>((a.length+item.s.length)%7)-((b.length+item.s.length)%7));
+ }
+ const forms={
+  'Present Perfect':['have seen','has written','have done','had seen'],
+  'Present Perfect Continuous':['have been studying','have studied','had been studying','was studying'],
+  'Past Simple':['got','had got','have got','was getting'],
+  'Past Continuous':['were swimming','was doing','had been swimming','have been swimming'],
+  'Past Perfect':['had seen','had left','had finished','have seen'],
+  'Past Perfect Continuous':['had been waiting','had waited','were waiting','have been waiting']
+ };
+ let opts=(forms[item.tense]||[item.form]).slice();
+ if(!opts.includes(item.form))opts[0]=item.form;
+ // adapt forms to target verb where needed
+ if(item.base==='PREPARE')opts=['was preparing','had prepared','had been preparing','is preparing'];
+ if(item.base==='BUILD')opts=['were building','had built','are building','had been building'];
+ if(item.base==='DRIVE')opts=['had been driving','had driven','were driving','have been driving'];
+ if(item.base==='WAIT')opts=['had been waiting','had waited','were waiting','have been waiting'];
+ if(item.base==='FINISH')opts=['had finished','finished','has finished','was finishing'];
+ if(item.base==='DO')opts=['was doing','did','had done','has done'];
+ if(item.base==='DEVELOP')opts=['has developed','developed','had developed','is developing'];
+ if(item.base==='PLAY')opts=['have been playing','have played','had been playing','am playing'];
+ if(item.base==='WRITE')opts=['has written','has been writing','had written','wrote'];
+ return opts;
+}
+function tlCorrect(item,step){
+ return step===0?item.anchor:step===1?item.position:step===2?item.meaning:item.form;
+}
+function tlTimelineHTML(item,step){
+ const a=step>0?item.anchor:null,p=step>1?item.position:null;
+ if(a==='NOW'){
+  return '<div class="tlTimeline"><span class="tlTimeLabel">PAST</span><span class="tlDot"></span><span class="tlLine"></span><span class="tlTimeLabel">'+(p==='UP TO NOW'?'UP TO NOW':'NOW')+'</span><span class="tlDot hot"></span></div>';
+ }
+ if(a==='THEN'){
+  return '<div class="tlTimeline"><span class="tlTimeLabel">BEFORE THEN</span><span class="tlDot '+(p==='BEFORE THEN'?'hot':'')+'"></span><span class="tlLine"></span><span class="tlTimeLabel">THEN</span><span class="tlDot '+(p==='AT THEN'||!p?'hot':'')+'"></span><span class="tlLine"></span><span class="tlTimeLabel">NOW</span><span class="tlDot"></span></div>';
+ }
+ return '<div class="tlTimeline"><span class="tlTimeLabel">PAST</span><span class="tlDot"></span><span class="tlLine"></span><span class="tlTimeLabel">THEN</span><span class="tlDot"></span><span class="tlLine"></span><span class="tlTimeLabel">NOW</span><span class="tlDot"></span></div>';
+}
+function renderTenseLogic(){
+ const root=document.getElementById('trainerView'),S=tenseLogicState,item=tenseLogicItems[S.index];
+ if(!item){renderTenseLogicFinish();return}
+ const labels=[
+  ['1 · ANCHOR','NOW or THEN?'],
+  ['2 · POSITION','At the anchor or before it?'],
+  ['3 · MEANING','Fact, process, result or duration?'],
+  ['4 · FORM','Only now build the verb']
+ ];
+ const question=[
+  ['WHERE IS THE ANCHOR?','Do not think about the tense name yet. Is the reference point NOW or THEN?'],
+  ['WHERE IS THE ACTION ON THE TIMELINE?','Place the action relative to the anchor you have already chosen.'],
+  ['WHAT MATTERS IN THIS SENTENCE?','Choose the meaning, not a grammar label.'],
+  ['BUILD THE FORM','Now choose the verb form. The tense name comes last.']
+ ][S.step];
+ const choices=tlChoicesFor(item,S.step);
+ root.innerHTML='<div class="tlShell">'+
+  '<div class="tlHero"><div class="eyebrow">ARINA · TENSE LOGIC</div><h1>TIME → MEANING → FORM</h1><p>Никаких прыжков сразу к времени. Сначала точка отсчёта, затем положение действия, затем смысл — и только в конце форма.</p></div>'+
+  '<div class="tlRulebar">'+labels.map((x,i)=>'<div class="tlRule '+(i<S.step?'done':i===S.step?'active':'')+'"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join('')+'</div>'+
+  '<div class="tlTopline"><span>Sentence <b>'+(S.index+1)+' / '+tenseLogicItems.length+'</b></span><span>Correct first attempts: <b>'+S.correct+'</b> · Errors: <b>'+S.errors+'</b></span></div>'+
+  '<div class="tlProgress"><i style="width:'+Math.round(((S.index+S.step/4)/tenseLogicItems.length)*100)+'%"></i></div>'+
+  '<div class="tlCard">'+
+   '<div class="tlSentence">'+tlEsc(item.s)+' <span class="tlBase">'+tlEsc(item.base)+'</span></div>'+
+   tlTimelineHTML(item,S.step)+
+   '<div class="tlQuestion">'+question[0]+'<small>'+question[1]+'</small></div>'+
+   '<div class="tlChoices">'+choices.map(x=>'<button class="tlChoice" type="button" data-answer="'+tlEsc(x)+'" onclick="answerTenseLogic(this)">'+tlEsc(x)+'</button>').join('')+'</div>'+
+   '<div class="tlFeedback" id="tlFeedback"></div>'+
+   '<div id="tlResultSlot"></div>'+
+  '</div>'+
+  '<div class="tlMiniGuide"><b>Teacher script:</b> если Арина сразу называет форму, возвращай к первому вопросу: <b>“Where is the anchor — NOW or THEN?”</b> Не объясняй время до завершения всех четырёх шагов.</div>'+
+ '</div>';
+}
+function answerTenseLogic(btn){
+ const S=tenseLogicState,item=tenseLogicItems[S.index],correct=tlCorrect(item,S.step),fb=document.getElementById('tlFeedback');
+ S.attempts++;
+ if(btn.dataset.answer!==correct){
+  S.errors++;btn.classList.add('no');btn.disabled=true;
+  fb.className='tlFeedback bad';
+  fb.textContent=S.step===0?'Stop. Find the reference point first. NOW or THEN?':S.step===1?'Keep the anchor. Now place the action relative to it.':S.step===2?'Do not name the tense. What is important: event, process, result or duration?':'Return to the meaning you chose. Build the form from that meaning.';
+  return;
+ }
+ S.correct++;btn.classList.add('ok');
+ btn.parentElement.querySelectorAll('button').forEach(x=>x.disabled=true);
+ fb.className='tlFeedback good';
+ fb.textContent=['Anchor fixed. Now place the action.','Position fixed. Now identify the meaning.','Meaning fixed. Only now build the verb.','Correct. Now the tense name may appear.'][S.step];
+ if(S.step<3){
+  setTimeout(()=>{S.step++;renderTenseLogic()},450);
+ }else{
+  document.getElementById('tlResultSlot').innerHTML='<div class="tlResult"><h3>'+tlEsc(item.form)+' · '+tlEsc(item.tense)+'</h3><p><span class="tlFormula">'+tlEsc(item.formula)+'</span></p><p><b>Why:</b> '+tlEsc(item.why)+'</p><p><b>Route:</b> '+tlEsc(item.anchor)+' → '+tlEsc(item.position)+' → '+tlEsc(item.meaning)+' → '+tlEsc(item.form)+'</p></div><div class="tlNext"><button class="tlBtn secondary" onclick="restartTenseLogicItem()">REPEAT THIS SENTENCE</button><button class="tlBtn" onclick="nextTenseLogicItem()">NEXT SENTENCE →</button></div>';
+ }
+}
+function restartTenseLogicItem(){tenseLogicState.step=0;renderTenseLogic()}
+function nextTenseLogicItem(){tenseLogicState.index++;tenseLogicState.step=0;renderTenseLogic()}
+function renderTenseLogicFinish(){
+ const root=document.getElementById('trainerView'),S=tenseLogicState,total=tenseLogicItems.length*4,accuracy=S.attempts?Math.round(S.correct/S.attempts*100):0;
+ root.innerHTML='<div class="tlShell"><div class="tlHero"><div class="eyebrow">ARINA · TENSE LOGIC</div><h1>Round complete</h1><p>Цель — не угадать форму, а стабильно пройти один и тот же маршрут выбора.</p></div>'+
+ '<div class="tlSummary"><div class="tlStat"><b>'+tenseLogicItems.length+'</b><span>sentences completed</span></div><div class="tlStat"><b>'+S.correct+'</b><span>correct decisions</span></div><div class="tlStat"><b>'+S.errors+'</b><span>wrong clicks</span></div><div class="tlStat"><b>'+accuracy+'%</b><span>decision accuracy</span></div></div>'+
+ '<div class="tlMiniGuide"><b>Критерий перехода дальше:</b> два прохода подряд с точностью не ниже 80%. До этого не добавлять новые времена — только повторять тот же алгоритм ANCHOR → POSITION → MEANING → FORM.</div>'+
+ '<div class="tlNext"><button class="tlBtn" onclick="tenseLogicState={index:0,step:0,errors:0,correct:0,attempts:0};renderTenseLogic()">START AGAIN</button></div></div>';
+}
+
 function renderTrainer(id){
  let html='';
  if(id==='verbs'){const blocks=[[0,30],[30,60]];html='<div class="hero"><div class="eyebrow">Тренажёры</div><h1>Irregular Verbs · EGE Focus</h1></div><div class="verbTwoCols"><div class="verbLists">'+blocks.map((b,k)=>'<details class="verbBlock"><summary><b>Открыть глаголы · Block '+(k+1)+' · '+(b[0]+1)+'–'+b[1]+'</b></summary>'+irregularVerbs.slice(b[0],b[1]).map(s=>{const a=s.split('|');return '<div class="verbRow"><b>'+a[0]+'</b><span>'+a[1]+'</span><span>'+a[2]+'</span><span>'+a[3]+'</span></div>'}).join('')+'</details>').join('')+'</div><aside class="verbSide"><div class="verbSideTitle">TRAINING</div>'+verbPractice(0,60,'egeverbs')+'</aside></div>';openFullScreen('',html,initVerbGames)}
