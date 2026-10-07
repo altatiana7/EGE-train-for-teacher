@@ -1246,40 +1246,40 @@ function futureWeekTabs(i,key){
     ['I’ve saved enough money. I ___ (BUY) a new laptop.','am going to buy','plan already decided']
    ];
    const personal=[
-    'Make one prediction about your English by the end of this school year.',
-    'Name one plan you have already decided for this weekend.',
-    'Describe one fixed arrangement you have for the next seven days.',
-    'Give one timetable fact about school, a train, flight or lesson.',
-    'Make an instant decision beginning with “OK, I’ll …”.',
-    'Predict one change in education in the next ten years.',
-    'Say what you are going to improve before the EGE.',
-    'Complete: “As soon as I finish school, …”'
+    'What are you doing this weekend? → answer with Present Continuous.',
+    'What are you going to improve before the EGE? → answer with be going to.',
+    'What do you think your life will be like in five years? → answer with will.',
+    'What will you do when you finish school? → use will in the main clause + Present Simple after when.'
    ];
    const transforms=[
     ['I have decided to revise irregular verbs tonight. → Use GOING TO.','I am going to revise irregular verbs tonight.'],
-    ['The school programme says the exam starts at 10:00. → Use PRESENT SIMPLE.','The exam starts at 10:00.'],
     ['We arranged to meet Kate at the café at 5. → Use PRESENT CONTINUOUS.','We are meeting Kate at the café at 5.'],
-    ['Maybe she gets the result tomorrow. → Correct the future form.','Maybe she will get the result tomorrow.'],
-    ['I promise I help you with this task. → Correct.','I promise I will help you with this task.'],
     ['Look at him! He falls! → Correct.','Look at him! He is going to fall!'],
     ['When I will get home, I will call you. → Correct.','When I get home, I will call you.'],
     ['If it will rain, we will stay inside. → Correct.','If it rains, we will stay inside.'],
     ['Our plane is leaving according to the official schedule at 09:20. → Use timetable form.','Our plane leaves at 09:20.'],
+    ['Maybe she gets the result tomorrow. → Correct the future form.','Maybe she will get the result tomorrow.'],
     ['The tickets are booked for Friday evening. → Use arrangement form.','We are going / travelling / flying on Friday evening.']
+   ];
+
+   const egeTrap=[
+    ['I think she ___ the exam. (PASS)','will pass','opinion / prediction'],
+    ['Look at her preparation! She ___ the exam easily. (PASS)','is going to pass','evidence now'],
+    ['She ___ her tutor tomorrow at five. (MEET)','is meeting','fixed arrangement'],
+    ['The exam ___ at ten tomorrow. (START)','starts','official timetable']
    ];
    steps.push(['REVISION · ошибки Арины','0–18',arinaW3RevisionHTML()]);
    steps.push(['Future map','18–24',intro+'<div class="cols"><div class="box"><h3>WILL</h3><p>opinion · prediction · instant decision · promise</p></div><div class="box"><h3>BE GOING TO</h3><p>prior plan · evidence-based prediction</p></div><div class="box"><h3>PRESENT CONTINUOUS</h3><p>arrangement: time/place/person is fixed</p></div><div class="box"><h3>PRESENT SIMPLE</h3><p>timetable · programme · after when/if/as soon as</p></div></div>']);
-   steps.push(['16 contexts','24–38',fwReveal(drill)]);
-   steps.push(['Personalise · 8','38–45',fwPrompts(personal)]);
-   steps.push(['Transformations · 10','45–52',fwReveal(transforms)]);
+   steps.push(['16 contexts','24–36',fwReveal(drill)]);
+   steps.push(['Speaking · Future plans · 4','36–42',fwPrompts(personal)+'<div class="task"><b>Teacher rule:</b> после каждого ответа Арина заканчивает фразу: <b>“I chose this form because …”</b></div>']);
+   steps.push(['Transformations · 8','42–48',fwReveal(transforms)]);
+   steps.push(['EGE TRAP · 4','48–52','<div class="box"><h3>ONE IDEA · FOUR FUTURE FORMS</h3><p>Не выбирать форму по слову tomorrow. Сначала определить значение ситуации.</p></div>'+fwReveal(egeTrap)+'<div class="task"><b>После каждого пункта:</b> “I chose this form because …”</div>']);
    const g=exam26Own('grammar',2);
    steps.push(['EGE 19–24','52–57',g[0]?exam26InlineHTML('grammar',2,0):'<div class="task">EGE set is not available.</div>']);
-   steps.push(['Exit ticket','57–60',fwExplain([
-    'Explain the difference: “I’ll study tonight” vs “I’m going to study tonight.”',
-    'Explain why we say: “The train leaves at 8.”',
-    'Explain why there is no WILL after WHEN in “When I get home, I’ll call you.”',
-    'Give one Present Continuous future arrangement.',
-    'Give one evidence-based prediction with GOING TO.'
+   steps.push(['Exit ticket · Error Log','57–60',fwExplain([
+    'Write one mistake from today: My answer → Correct answer → Why?',
+    'Explain one Past Continuous / Past Perfect Continuous contrast in your own words.',
+    'Explain why there is no WILL after WHEN or IF in a future time clause.'
    ])]);
  } else if(i===1){
    const drill=[
