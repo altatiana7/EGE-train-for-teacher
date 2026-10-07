@@ -551,6 +551,9 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 .plBtn.plMain{background:#0039A6;border-color:#0039A6;color:#fff}
 .plBtn:disabled{opacity:.4;cursor:default}
 .memo,.memo button{font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+
+/* Tense Logic · three-round scaffold */
+.tlPermanentRule{position:sticky;top:42px;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0 10px;background:#f7f9fc;padding:6px;border:1px solid #d9e1ec;border-radius:12px}.tlPermanentRule>div{background:#fff;border:1px solid #d7dde4;border-radius:9px;padding:8px;text-align:center}.tlPermanentRule b{display:block;font-size:11px;color:#20364a}.tlPermanentRule span{display:block;margin-top:2px;font-size:10px;color:#64748b}.tlRoundBanner{display:flex;justify-content:space-between;gap:14px;align-items:center;border-left:5px solid #315b7d;background:#eef3f7;border-radius:9px;padding:9px 11px;margin-bottom:8px}.tlRoundBanner b{font-size:12px;color:#20364a}.tlRoundBanner span{font-size:11px;color:#536170}.tlRule.tlLocked{opacity:.24}.tlHero h1{letter-spacing:.01em}@media(max-width:720px){.tlPermanentRule{grid-template-columns:repeat(2,1fr);top:48px}.tlRoundBanner{display:block}.tlRoundBanner span{display:block;margin-top:4px}}
 </style>
 </head><body>
 <header class="top"><div class="brand">ARINA TEACHER HUB · <b>EGE</b></div><div class="topnote">диагностика → план → урок → контроль → коррекция</div><button class="mobile" id="mobileBtn">План</button></header>
@@ -1661,22 +1664,24 @@ const tenseLogicItems=[
  {s:'When Mum came home, I ___ my homework.',base:'DO',anchor:'THEN',position:'AT THEN',meaning:'PROCESS',form:'was doing',tense:'Past Continuous',formula:'was / were + V-ing',why:'Mum came home during the activity, so the action was in progress at THEN.'},
  {s:'Over time, the activity ___ into an important cultural tradition.',base:'DEVELOP',anchor:'NOW',position:'UP TO NOW',meaning:'RESULT / CHANGE',form:'has developed',tense:'Present Perfect',formula:'have / has + V3',why:'The development happened over time and its result is relevant now.'}
 ];
-let tenseLogicState={index:0,step:0,errors:0,correct:0,attempts:0};
+let tenseLogicState={round:1,index:0,step:0,errors:0,correct:0,attempts:0};
 function tlEsc(v){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function tlRoundSteps(round){return round===1?[0]:round===2?[0,1]:[0,1,2,3]}
+function tlRoundName(round){return round===1?'ROUND 1 · ANCHOR':round===2?'ROUND 2 · ANCHOR + POSITION':'ROUND 3 · FULL ROUTE'}
 function openTenseLogicTrainer(){
  document.body.classList.remove('fullWeek');
  const lp=document.getElementById('lessonPage');if(lp)lp.style.display='none';
  document.querySelectorAll('.content').forEach(x=>x.classList.remove('on'));
  document.querySelectorAll('.wbtn,.teacherNav').forEach(x=>x.classList.remove('active'));
  const root=document.getElementById('trainerView');root.classList.add('on');
- tenseLogicState={index:0,step:0,errors:0,correct:0,attempts:0};
+ tenseLogicState={round:1,index:0,step:0,errors:0,correct:0,attempts:0};
  renderTenseLogic();
  if(innerWidth<801)document.getElementById('side').classList.remove('open');
  scrollTo({top:0,behavior:'smooth'});
 }
 function tlChoicesFor(item,step){
  if(step===0)return ['NOW','THEN'];
- if(step===1)return item.anchor==='NOW'?['UP TO NOW','BEFORE THEN']:['AT THEN','BEFORE THEN'];
+ if(step===1)return item.anchor==='NOW'?['AT NOW','UP TO NOW']:['AT THEN','BEFORE THEN'];
  if(step===2){
   const bank=['FACT / EVENT','PROCESS','RESULT / EXPERIENCE','RESULT / COMPLETED','RESULT / NUMBER','RESULT / CHANGE','DURATION'];
   const distract=bank.filter(x=>x!==item.meaning);
@@ -1697,7 +1702,6 @@ function tlChoicesFor(item,step){
  };
  let opts=(forms[item.tense]||[item.form]).slice();
  if(!opts.includes(item.form))opts[0]=item.form;
- // adapt forms to target verb where needed
  if(item.base==='PREPARE')opts=['was preparing','had prepared','had been preparing','is preparing'];
  if(item.base==='BUILD')opts=['were building','had built','are building','had been building'];
  if(item.base==='DRIVE')opts=['had been driving','had driven','were driving','have been driving'];
@@ -1710,7 +1714,10 @@ function tlChoicesFor(item,step){
  return opts;
 }
 function tlCorrect(item,step){
- return step===0?item.anchor:step===1?item.position:step===2?item.meaning:item.form;
+ if(step===0)return item.anchor;
+ if(step===1)return item.position==='UP TO NOW'?'UP TO NOW':item.position;
+ if(step===2)return item.meaning;
+ return item.form;
 }
 function tlTimelineHTML(item,step){
  const a=step>0?item.anchor:null,p=step>1?item.position:null;
@@ -1722,65 +1729,93 @@ function tlTimelineHTML(item,step){
  }
  return '<div class="tlTimeline"><span class="tlTimeLabel">PAST</span><span class="tlDot"></span><span class="tlLine"></span><span class="tlTimeLabel">THEN</span><span class="tlDot"></span><span class="tlLine"></span><span class="tlTimeLabel">NOW</span><span class="tlDot"></span></div>';
 }
+function tlRuleStrip(){
+ return '<div class="tlPermanentRule">'+
+  '<div><b>NOW</b><span>have / has</span></div>'+
+  '<div><b>THEN</b><span>was / were / V2</span></div>'+
+  '<div><b>BEFORE THEN</b><span>had</span></div>'+
+  '<div><b>DURATION</b><span>been + V-ing</span></div>'+
+ '</div>';
+}
 function renderTenseLogic(){
  const root=document.getElementById('trainerView'),S=tenseLogicState,item=tenseLogicItems[S.index];
- if(!item){renderTenseLogicFinish();return}
+ if(!item){renderTenseLogicRoundFinish();return}
+ const activeSteps=tlRoundSteps(S.round),actualStep=activeSteps[S.step];
  const labels=[
-  ['1 · ANCHOR','NOW or THEN?'],
-  ['2 · POSITION','At the anchor or before it?'],
-  ['3 · MEANING','Fact, process, result or duration?'],
-  ['4 · FORM','Only now build the verb']
+  ['ANCHOR','NOW / THEN'],
+  ['POSITION','AT / BEFORE'],
+  ['MEANING','FACT / PROCESS / RESULT / DURATION'],
+  ['FORM','BUILD THE VERB']
  ];
- const question=[
-  ['WHERE IS THE ANCHOR?','Do not think about the tense name yet. Is the reference point NOW or THEN?'],
-  ['WHERE IS THE ACTION ON THE TIMELINE?','Place the action relative to the anchor you have already chosen.'],
-  ['WHAT MATTERS IN THIS SENTENCE?','Choose the meaning, not a grammar label.'],
-  ['BUILD THE FORM','Now choose the verb form. The tense name comes last.']
- ][S.step];
- const choices=tlChoicesFor(item,S.step);
+ const questions=[
+  ['WHERE IS THE ANCHOR?','NOW or THEN?'],
+  ['WHERE IS THE ACTION?','Place it relative to the anchor.'],
+  ['WHAT MATTERS?','Choose the meaning. Do not name the tense.'],
+  ['BUILD THE FORM','Only now choose the verb form.']
+ ];
+ const choices=tlChoicesFor(item,actualStep);
  root.innerHTML='<div class="tlShell">'+
-  '<div class="tlHero"><div class="eyebrow">ARINA · TENSE LOGIC</div><h1>TIME → MEANING → FORM</h1><p>Никаких прыжков сразу к времени. Сначала точка отсчёта, затем положение действия, затем смысл — и только в конце форма.</p></div>'+
-  '<div class="tlRulebar">'+labels.map((x,i)=>'<div class="tlRule '+(i<S.step?'done':i===S.step?'active':'')+'"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join('')+'</div>'+
-  '<div class="tlTopline"><span>Sentence <b>'+(S.index+1)+' / '+tenseLogicItems.length+'</b></span><span>Correct first attempts: <b>'+S.correct+'</b> · Errors: <b>'+S.errors+'</b></span></div>'+
-  '<div class="tlProgress"><i style="width:'+Math.round(((S.index+S.step/4)/tenseLogicItems.length)*100)+'%"></i></div>'+
+  '<div class="tlHero"><div class="eyebrow">ARINA · TENSE LOGIC</div><h1>ANCHOR → POSITION → MEANING → FORM</h1><p>Один и тот же маршрут. Нельзя перейти к форме, пока не определена точка отсчёта.</p></div>'+
+  tlRuleStrip()+
+  '<div class="tlRoundBanner"><b>'+tlRoundName(S.round)+'</b><span>'+(
+    S.round===1?'Только NOW / THEN. Формы глагола пока не существуют.':
+    S.round===2?'Сначала ANCHOR, затем POSITION. Те же предложения.':
+    'Полный маршрут. Только на последнем шаге появляется форма.'
+  )+'</span></div>'+
+  '<div class="tlRulebar">'+labels.map((x,i)=>'<div class="tlRule '+(i===actualStep?'active':activeSteps.indexOf(i)>=0&&i<actualStep?'done':activeSteps.indexOf(i)<0?'tlLocked':'')+'"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join('')+'</div>'+
+  '<div class="tlTopline"><span>Sentence <b>'+(S.index+1)+' / '+tenseLogicItems.length+'</b></span><span>Round <b>'+S.round+' / 3</b> · Correct: <b>'+S.correct+'</b> · Errors: <b>'+S.errors+'</b></span></div>'+
+  '<div class="tlProgress"><i style="width:'+Math.round(((S.index+S.step/activeSteps.length)/tenseLogicItems.length)*100)+'%"></i></div>'+
   '<div class="tlCard">'+
    '<div class="tlSentence">'+tlEsc(item.s)+' <span class="tlBase">'+tlEsc(item.base)+'</span></div>'+
-   tlTimelineHTML(item,S.step)+
-   '<div class="tlQuestion">'+question[0]+'<small>'+question[1]+'</small></div>'+
+   tlTimelineHTML(item,actualStep)+
+   '<div class="tlQuestion">'+questions[actualStep][0]+'<small>'+questions[actualStep][1]+'</small></div>'+
    '<div class="tlChoices">'+choices.map(x=>'<button class="tlChoice" type="button" data-answer="'+tlEsc(x)+'" onclick="answerTenseLogic(this)">'+tlEsc(x)+'</button>').join('')+'</div>'+
    '<div class="tlFeedback" id="tlFeedback"></div>'+
    '<div id="tlResultSlot"></div>'+
   '</div>'+
-  '<div class="tlMiniGuide"><b>Teacher script:</b> если Арина сразу называет форму, возвращай к первому вопросу: <b>“Where is the anchor — NOW or THEN?”</b> Не объясняй время до завершения всех четырёх шагов.</div>'+
+  '<div class="tlMiniGuide"><b>Teacher script:</b> если Арина сразу говорит форму, не исправляй её объяснением. Возвращай: <b>“Where is the anchor — NOW or THEN?”</b></div>'+
  '</div>';
 }
 function answerTenseLogic(btn){
- const S=tenseLogicState,item=tenseLogicItems[S.index],correct=tlCorrect(item,S.step),fb=document.getElementById('tlFeedback');
+ const S=tenseLogicState,item=tenseLogicItems[S.index],steps=tlRoundSteps(S.round),actualStep=steps[S.step],correct=tlCorrect(item,actualStep),fb=document.getElementById('tlFeedback');
  S.attempts++;
  if(btn.dataset.answer!==correct){
   S.errors++;btn.classList.add('no');btn.disabled=true;
   fb.className='tlFeedback bad';
-  fb.textContent=S.step===0?'Stop. Find the reference point first. NOW or THEN?':S.step===1?'Keep the anchor. Now place the action relative to it.':S.step===2?'Do not name the tense. What is important: event, process, result or duration?':'Return to the meaning you chose. Build the form from that meaning.';
+  fb.textContent=actualStep===0?'Find the reference point first: NOW or THEN?':actualStep===1?'Keep the anchor. Is the action AT it or BEFORE it?':actualStep===2?'Do not name the tense. What matters: fact, process, result or duration?':'Return to the meaning. Build the form from it.';
   return;
  }
  S.correct++;btn.classList.add('ok');
  btn.parentElement.querySelectorAll('button').forEach(x=>x.disabled=true);
  fb.className='tlFeedback good';
- fb.textContent=['Anchor fixed. Now place the action.','Position fixed. Now identify the meaning.','Meaning fixed. Only now build the verb.','Correct. Now the tense name may appear.'][S.step];
- if(S.step<3){
-  setTimeout(()=>{S.step++;renderTenseLogic()},450);
+ const messages={0:'Anchor fixed.',1:'Position fixed.',2:'Meaning fixed. Only now build the verb.',3:'Correct. The tense name may appear now.'};
+ fb.textContent=messages[actualStep];
+ if(S.step<steps.length-1){
+  setTimeout(()=>{S.step++;renderTenseLogic()},350);
+ }else if(S.round<3){
+  setTimeout(()=>{S.index++;S.step=0;renderTenseLogic()},350);
  }else{
-  document.getElementById('tlResultSlot').innerHTML='<div class="tlResult"><h3>'+tlEsc(item.form)+' · '+tlEsc(item.tense)+'</h3><p><span class="tlFormula">'+tlEsc(item.formula)+'</span></p><p><b>Why:</b> '+tlEsc(item.why)+'</p><p><b>Route:</b> '+tlEsc(item.anchor)+' → '+tlEsc(item.position)+' → '+tlEsc(item.meaning)+' → '+tlEsc(item.form)+'</p></div><div class="tlNext"><button class="tlBtn secondary" onclick="restartTenseLogicItem()">REPEAT THIS SENTENCE</button><button class="tlBtn" onclick="nextTenseLogicItem()">NEXT SENTENCE →</button></div>';
+  document.getElementById('tlResultSlot').innerHTML='<div class="tlResult"><h3>'+tlEsc(item.form)+' · '+tlEsc(item.tense)+'</h3><p><span class="tlFormula">'+tlEsc(item.formula)+'</span></p><p><b>Route:</b> '+tlEsc(item.anchor)+' → '+tlEsc(item.position)+' → '+tlEsc(item.meaning)+' → '+tlEsc(item.form)+'</p></div><div class="tlNext"><button class="tlBtn secondary" onclick="restartTenseLogicItem()">REPEAT THIS SENTENCE</button><button class="tlBtn" onclick="nextTenseLogicItem()">NEXT SENTENCE →</button></div>';
  }
 }
 function restartTenseLogicItem(){tenseLogicState.step=0;renderTenseLogic()}
 function nextTenseLogicItem(){tenseLogicState.index++;tenseLogicState.step=0;renderTenseLogic()}
-function renderTenseLogicFinish(){
- const root=document.getElementById('trainerView'),S=tenseLogicState,total=tenseLogicItems.length*4,accuracy=S.attempts?Math.round(S.correct/S.attempts*100):0;
- root.innerHTML='<div class="tlShell"><div class="tlHero"><div class="eyebrow">ARINA · TENSE LOGIC</div><h1>Round complete</h1><p>Цель — не угадать форму, а стабильно пройти один и тот же маршрут выбора.</p></div>'+
- '<div class="tlSummary"><div class="tlStat"><b>'+tenseLogicItems.length+'</b><span>sentences completed</span></div><div class="tlStat"><b>'+S.correct+'</b><span>correct decisions</span></div><div class="tlStat"><b>'+S.errors+'</b><span>wrong clicks</span></div><div class="tlStat"><b>'+accuracy+'%</b><span>decision accuracy</span></div></div>'+
- '<div class="tlMiniGuide"><b>Критерий перехода дальше:</b> два прохода подряд с точностью не ниже 80%. До этого не добавлять новые времена — только повторять тот же алгоритм ANCHOR → POSITION → MEANING → FORM.</div>'+
- '<div class="tlNext"><button class="tlBtn" onclick="tenseLogicState={index:0,step:0,errors:0,correct:0,attempts:0};renderTenseLogic()">START AGAIN</button></div></div>';
+function renderTenseLogicRoundFinish(){
+ const root=document.getElementById('trainerView'),S=tenseLogicState;
+ if(S.round<3){
+  const next=S.round+1;
+  root.innerHTML='<div class="tlShell"><div class="tlHero"><div class="eyebrow">ARINA · TENSE LOGIC</div><h1>'+tlRoundName(S.round)+' complete</h1><p>Теперь повторяем <b>те же самые предложения</b>. Новый контекст не добавляем.</p></div>'+
+  tlRuleStrip()+
+  '<div class="tlSummary"><div class="tlStat"><b>'+tenseLogicItems.length+'</b><span>same sentences</span></div><div class="tlStat"><b>'+S.correct+'</b><span>correct decisions</span></div><div class="tlStat"><b>'+S.errors+'</b><span>wrong clicks</span></div></div>'+
+  '<div class="tlNext"><button class="tlBtn" onclick="tenseLogicState.round='+next+';tenseLogicState.index=0;tenseLogicState.step=0;renderTenseLogic()">START '+tlRoundName(next)+' →</button></div></div>';
+  return;
+ }
+ const accuracy=S.attempts?Math.round(S.correct/S.attempts*100):0;
+ root.innerHTML='<div class="tlShell"><div class="tlHero"><div class="eyebrow">ARINA · TENSE LOGIC</div><h1>Three rounds complete</h1><p>Цель — автоматизировать маршрут выбора, а не угадывать название времени.</p></div>'+
+ tlRuleStrip()+
+ '<div class="tlSummary"><div class="tlStat"><b>'+tenseLogicItems.length+'</b><span>sentences × 3 rounds</span></div><div class="tlStat"><b>'+S.correct+'</b><span>correct decisions</span></div><div class="tlStat"><b>'+S.errors+'</b><span>wrong clicks</span></div><div class="tlStat"><b>'+accuracy+'%</b><span>decision accuracy</span></div></div>'+
+ '<div class="tlMiniGuide"><b>Критерий:</b> повторить цикл, если Арина всё ещё пытается назвать форму до определения ANCHOR. Не добавлять новую теорию.</div>'+
+ '<div class="tlNext"><button class="tlBtn" onclick="tenseLogicState={round:1,index:0,step:0,errors:0,correct:0,attempts:0};renderTenseLogic()">START AGAIN</button></div></div>';
 }
 
 function renderTrainer(id){
