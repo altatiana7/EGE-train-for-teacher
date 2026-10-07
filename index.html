@@ -188,6 +188,26 @@
 .lesson3Panel .oralReadText,.lesson3Panel .readingText{font-size:16px!important;line-height:1.55!important;width:100%!important;max-width:none!important;overflow:visible!important;max-height:none!important}
 .lesson3Panel .oralRead{display:block!important}.lesson3Panel .oralReadTop{display:flex!important;justify-content:space-between!important;align-items:center!important}
 #l3Store{display:none!important}
+
+/* Week 3 Lesson 1 · personalised revision */
+.arinaRevision{max-width:1100px;margin:0 auto}
+.arinaRevHead{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end;border:1px solid var(--line);border-left:5px solid var(--red);border-radius:12px;background:#fff;padding:14px;margin-bottom:9px}
+.arinaRevHead span{font-size:10px;font-weight:900;letter-spacing:.09em;color:var(--red)}
+.arinaRevHead h3{margin:4px 0 0;font-size:20px;color:#0039A6}
+.arinaRevStats{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px;max-width:440px}
+.arinaRevStats b{font-size:10px;border:1px solid #b7c9e8;background:var(--soft);border-radius:999px;padding:6px 8px;color:#0039A6}
+.arinaRevRoute{font-size:12px;line-height:1.5;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#f8fafc;margin-bottom:8px}
+.arinaRevBlock{border:1px solid var(--line);border-radius:11px;background:#fff;margin:7px 0;overflow:hidden}
+.arinaRevBlock>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;cursor:pointer;font-weight:900;color:#0039A6}
+.arinaRevBlock>summary::-webkit-details-marker{display:none}
+.arinaRevBlock>summary:after{content:'+';font-size:18px;color:var(--red)}
+.arinaRevBlock[open]>summary:after{content:'−'}
+.arinaRevBlock>summary small{margin-left:auto;font-size:10px;color:var(--mut);font-weight:800}
+.arinaRevBody{border-top:1px solid var(--line);padding:9px}
+.arinaRevBody .fwItem{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}
+.arinaRevBody .futureAnswer{grid-column:1/-1}
+@media(max-width:800px){.arinaRevHead{grid-template-columns:1fr}.arinaRevStats{justify-content:flex-start}.arinaRevBlock>summary{align-items:flex-start}.arinaRevBody .fwItem{grid-template-columns:1fr}}
+
 </style><meta name="theme-color" content="#ffffff">
 
 <style id="teacherHubDistinctTheme">
@@ -1139,6 +1159,70 @@ function fwPrompts(items){
 function fwExplain(items){
  return '<div class="fwExplain">'+items.map((x,n)=>'<div class="task"><b>'+(n+1)+'.</b> '+x+'<br><span class="tiny">Форма → временная точка → доказательство из контекста.</span></div>').join('')+'</div>';
 }
+
+function arinaW3RevisionHTML(){
+ const past=[
+  ["At 8 p.m. yesterday I ___ for my English exam. (PREPARE)","was preparing","action in progress at a past moment"],
+  ["They ___ for nearly an hour when the bus finally arrived. (WAIT)","had been waiting","duration before another past event"],
+  ["At this time last Saturday we ___ in the sea. (SWIM)","were swimming","action in progress at a specific past time"],
+  ["She was exhausted because she ___ all morning. (WORK)","had been working","past result caused by earlier duration"],
+  ["It was the first time I ___ such an impressive building. (SEE)","had seen","first time + earlier past experience"],
+  ["While Tom ___ for the competition, he trained every evening. (PREPARE)","was preparing","background process with WHILE"],
+  ["By the time we reached the airport, the plane ___. (LEAVE)","had left","completed before another past action"],
+  ["They ___ for three hours before they found the village. (DRIVE)","had been driving","duration up to a past point"],
+  ["When I was ten, I ___ my first smartphone. (GET)","got","finished past event"],
+  ["At that moment our neighbours ___ a snowman outside. (BUILD)","were building","action in progress at that moment"]
+ ];
+ const perfect=[
+  ["You look tired. — I ___ since six o’clock. (STUDY)","have been studying","duration + visible present result"],
+  ["She ___ three chapters so far. (WRITE)","has written","completed result / quantity"],
+  ["We ___ for two hours before the teacher arrived. (WAIT)","had been waiting","duration before a past point"],
+  ["He ___ his homework, so he can go out now. (FINISH)","has finished","completed present result"],
+  ["My hands are dirty because I ___ my bike. (REPAIR)","have been repairing","recent activity + present evidence"],
+  ["Before they moved to Moscow, they ___ in Kazan for ten years. (LIVE)","had lived / had been living","both possible; state/result vs duration emphasis"],
+  ["This is the best book I ___. (EVER / READ)","have ever read","present experience up to now"],
+  ["I was tired because I ___ all day. (WORK)","had been working","earlier duration explains past result"]
+ ];
+ const state=[
+  ["You are looking pale today. → Correct if necessary.","You look pale today.","LOOK = appearance here, so Simple"],
+  ["This room is measuring five metres by four. → Correct if necessary.","This room measures five metres by four.","MEASURE = permanent characteristic"],
+  ["I am thinking about changing my university course. → Correct if necessary.","Correct.","THINK ABOUT = active mental process"],
+  ["Most critics are considering her one of the best young writers. → Correct if necessary.","Most critics consider her one of the best young writers.","CONSIDER = opinion here"],
+  ["What are you thinking about? → Correct if necessary.","Correct.","THINK ABOUT = active process"],
+  ["This soup is tasting strange. → Correct if necessary.","This soup tastes strange.","TASTE = property"],
+  ["I see what you mean. → Correct if necessary.","Correct.","SEE = understand"],
+  ["The doctor is seeing another patient at the moment. → Correct if necessary.","Correct.","SEE = meet / examine, dynamic"]
+ ];
+ const wf=[
+  ["Russia has made many important scientific ___. (ACHIEVE)","achievements","achievement → achievements"],
+  ["Several Russian ___ took part in the project. (SCIENCE)","scientists","science → scientist → scientists"],
+  ["The actor became internationally ___. (FAME)","famous","fame → famous"],
+  ["She was wearing a ___ scarf. (COLOUR)","colourful","British spelling for EGE: colourful"],
+  ["It was an impressive scientific ___. (ACHIEVE)","achievement","spelling: achieve + ment"],
+  ["Some of the world’s most famous ___ worked on the programme. (SCIENCE)","scientists","scientist + plural -s"]
+ ];
+ const readRepair=[
+  ["TEXT A · Important inventions often require years of hard work, but some discoveries happen unexpectedly. Which idea wins?","No effort, just luck!","Focus on the contrast: years of work vs an accidental discovery."],
+  ["TEXT F · Harry Coover tried to create transparent plastic for gun sights, but produced something that seemed useless at first.","The unexpected side of a failure.","The failed experiment later had a useful result."],
+  ["TEXT G · At the 1904 World Fair an ice-cream seller ran out of paper cups; a nearby waffle seller helped.","Have the right neighbour!","The solution came from a nearby seller, not from luck alone."],
+  ["Museum text · A large collection of ancient Greek and Roman statues arrived and more space became necessary.","Reason for extension.","The new collection created the need for more space."],
+  ["Highlands text · Wild mountains, lakes and dramatic scenery dominate the paragraph.","Land of nature wonders.","The main idea is natural landscape, not activities."],
+  ["Zoo text · A long-term project changed enclosures so visitors could observe animals differently.","A visit to the zoo.","Choose the broad heading that covers the visitor experience."]
+ ];
+ const block=(title,sub,body)=>'<details class="arinaRevBlock"><summary><span>'+title+'</span><small>'+sub+'</small></summary><div class="arinaRevBody">'+body+'</div></details>';
+ return '<div class="arinaRevision">'+
+  '<div class="arinaRevHead"><div><span>REVISION · ПО РЕАЛЬНЫМ ОШИБКАМ</span><h3>Сначала закрываем слабые места, потом Future</h3></div><div class="arinaRevStats"><b>Reading 10 · 52%</b><b>Past Continuous · 67%</b><b>Past Perfect Continuous · 71%</b><b>Stative · 80%</b></div></div>'+
+  '<div class="arinaRevRoute"><b>Маршрут:</b> Past timeline → Perfect vs Continuous → State or Action → Word Formation → Reading 10. Не угадывать по одному маркеру: сначала смысл и временная линия.</div>'+
+  block('1 · PAST ERROR CLINIC','10 точечных предложений',fwReveal(past))+
+  block('2 · PERFECT OR CONTINUOUS','8 контрастов · result / duration',fwReveal(perfect))+
+  block('3 · STATE OR ACTION','8 ловушек stative / dynamic',fwReveal(state))+
+  block('4 · WORD FORMATION · SPELLING','6 ошибок из отчёта',fwReveal(wf)+
+   '<div class="task"><b>Spelling strip:</b> achievement — achievements · science — scientist — scientists · fame — famous · colour — colourful · feel — felt — felt</div>')+
+  block('5 · READING 10 · REPAIR','ошибки выбора заголовка',fwReveal(readRepair)+
+   '<div class="task"><b>Алгоритм Reading 10:</b><br>1. Сожми heading до ключевой мысли.<br>2. После абзаца сформулируй его смысл в 2–4 словах.<br>3. Сопоставь идеи, а не одинаковые слова.<br>4. Найди одно доказательство в тексте и только потом фиксируй ответ.</div>')+
+ '</div>';
+}
+
 function futureWeekTabs(i,key){
  const steps=[],after=[];
  const intro='<div class="box"><h3>Week 3 · Future + Mixed Tenses</h3><p>Не выбирать время по одному маркеру. Сначала определить смысл: prediction / instant decision / prior plan / arrangement / timetable / action in progress at a future point / action completed by a deadline.</p></div>';
@@ -1183,13 +1267,14 @@ function futureWeekTabs(i,key){
     ['Our plane is leaving according to the official schedule at 09:20. → Use timetable form.','Our plane leaves at 09:20.'],
     ['The tickets are booked for Friday evening. → Use arrangement form.','We are going / travelling / flying on Friday evening.']
    ];
-   steps.push(['Future map','0–8',intro+'<div class="cols"><div class="box"><h3>WILL</h3><p>opinion · prediction · instant decision · promise</p></div><div class="box"><h3>BE GOING TO</h3><p>prior plan · evidence-based prediction</p></div><div class="box"><h3>PRESENT CONTINUOUS</h3><p>arrangement: time/place/person is fixed</p></div><div class="box"><h3>PRESENT SIMPLE</h3><p>timetable · programme · after when/if/as soon as</p></div></div>']);
-   steps.push(['16 contexts','8–25',fwReveal(drill)]);
-   steps.push(['Personalise · 8','25–35',fwPrompts(personal)]);
-   steps.push(['Transformations · 10','35–45',fwReveal(transforms)]);
+   steps.push(['REVISION · ошибки Арины','0–18',arinaW3RevisionHTML()]);
+   steps.push(['Future map','18–24',intro+'<div class="cols"><div class="box"><h3>WILL</h3><p>opinion · prediction · instant decision · promise</p></div><div class="box"><h3>BE GOING TO</h3><p>prior plan · evidence-based prediction</p></div><div class="box"><h3>PRESENT CONTINUOUS</h3><p>arrangement: time/place/person is fixed</p></div><div class="box"><h3>PRESENT SIMPLE</h3><p>timetable · programme · after when/if/as soon as</p></div></div>']);
+   steps.push(['16 contexts','24–38',fwReveal(drill)]);
+   steps.push(['Personalise · 8','38–45',fwPrompts(personal)]);
+   steps.push(['Transformations · 10','45–52',fwReveal(transforms)]);
    const g=exam26Own('grammar',2);
-   steps.push(['EGE 19–24','45–55',g[0]?exam26InlineHTML('grammar',2,0):'<div class="task">EGE set is not available.</div>']);
-   steps.push(['Exit ticket','55–60',fwExplain([
+   steps.push(['EGE 19–24','52–57',g[0]?exam26InlineHTML('grammar',2,0):'<div class="task">EGE set is not available.</div>']);
+   steps.push(['Exit ticket','57–60',fwExplain([
     'Explain the difference: “I’ll study tonight” vs “I’m going to study tonight.”',
     'Explain why we say: “The train leaves at 8.”',
     'Explain why there is no WILL after WHEN in “When I get home, I’ll call you.”',
