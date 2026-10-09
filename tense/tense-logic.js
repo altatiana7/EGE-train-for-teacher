@@ -7,7 +7,7 @@ const PICS=[['Сейчас','four-pictures.jpg?v=1','Watch an episode — чет
 
 const style=document.createElement('style');
 style.textContent=`
-.tx{position:fixed;inset:38px 0 0;z-index:100;background:#f4f6f9;color:#142337;display:flex;flex-direction:column;font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.35}
+.tx{position:fixed;inset:38px 0 0;z-index:110;background:#f4f6f9;color:#142337;display:flex;flex-direction:column;font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.35}
 .tx[hidden]{display:none}
 .tx *{box-sizing:border-box}
 .tx button,.tx input{font:inherit}
@@ -392,7 +392,7 @@ function act(t){
  if(k==='check')return check(id);
 }
 
-function open(){
+function open(start){
  if(!root){
   root=document.createElement('div');root.className='tx';document.body.appendChild(root);
   root.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t)});
@@ -400,7 +400,7 @@ function open(){
   root.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.in){e.preventDefault();check(e.target.dataset.in)}});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root&&!root.hidden){if(S&&S.zoom){S.zoom=false;render()}else root.hidden=true}});
  }
- S=fresh();root.hidden=false;render();
+ S=fresh();if([1,2,3,4].includes(start))S.tab=start;root.hidden=false;render();
  const side=document.getElementById('side');if(side&&innerWidth<801)side.classList.remove('open');
 }
 window.openTenseLogicTrainer=open;
