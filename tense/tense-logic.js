@@ -1,4 +1,4 @@
-/* Arina · Времена шаг за шагом: Когда? -> Что вижу? -> Форма.
+/* Arina · Времена шаг за шагом: Когда? -> Какая картинка? -> Форма.
    Шпаргалка по-русски + 3 круга на одних и тех же предложениях + проверка на новых.
    Ничего не сохраняется: каждый раз открывается с начала. */
 (function(){
@@ -72,7 +72,8 @@ style.textContent=`
 .txCard h5{margin:0 0 3px;font-size:18px;color:#142337}
 .txCard h5 small{font-size:16px;color:#53657a;font-weight:400}
 .txCard p{margin:0 0 3px;font-size:16px}
-.txCard .en{font-size:17px;font-weight:700;color:#0039a6}
+.txCard .en{font-size:18px;font-weight:700;color:#0039a6}
+.txCard .frm{margin-top:4px}
 .txCard .no{color:#9a251f;text-decoration:line-through;font-weight:400}
 .txSteps{display:grid;gap:7px;margin:0 0 10px}
 .txSteps div{border:1px solid #d5deea;border-left:4px solid #0039a6;border-radius:10px;padding:7px 10px;font-size:17px}
@@ -89,31 +90,32 @@ document.head.appendChild(style);
 
 /* ---------- данные ---------- */
 const WHEN={N:'Сейчас',T:'Тогда'};
-const VIEW={F:'Факт',P:'Процесс',R:'Результат',D:'Длительность'};
-const CHECK={F:'«обычно», «вчера»',P:'«как раз в этот момент»',R:'«уже»',D:'«уже два часа»'};
+/* Четыре картинки. Подпись зависит от того, сейчас это или тогда. */
+const VW={N:{F:'Обычно',P:'В эту минуту',R:'Уже готово',D:'Уже сколько-то'},T:{F:'Просто было',P:'В ту минуту',R:'Уже было готово',D:'Уже сколько-то'}};
+const SIDE={F:'Обычно · просто было',P:'В эту минуту · в ту минуту',R:'Уже готово',D:'Уже сколько-то времени'};
 const FORMULA={NF:'V / V-s',NP:'am / is / are + V-ing',NR:'have / has + V3',ND:'have / has been + V-ing',TF:'V2 (-ed)',TP:'was / were + V-ing',TR:'had + V3',TD:'had been + V-ing'};
 const TENSE={NF:'Present Simple',NP:'Present Continuous',NR:'Present Perfect',ND:'Present Perfect Continuous',TF:'Past Simple',TP:'Past Continuous',TR:'Past Perfect',TD:'Past Perfect Continuous'};
 
 /* Шесть троек: одна ситуация, три разных взгляда. s — предложение, cw — слова-опоры «когда», cv — слова-опоры «что вижу». */
 const SETS=[
- [{s:'When Mum came home, I ___ my homework. I was still busy.',b:'do',w:'T',v:'P',f:'was doing',cw:['When Mum came home'],cv:['I was still busy'],ww:'Мама пришла (came) — это момент в прошлом.',wv:'В тот момент я ещё была занята: действие шло. Это процесс.'},
-  {s:'When Mum came home, I ___ my homework, so I was free.',b:'finish',w:'T',v:'R',f:'had finished',cw:['When Mum came home'],cv:['so I was free'],ww:'Мама пришла (came) — это момент в прошлом.',wv:'К её приходу уроки уже готовы, я свободна. Результат к тому моменту.'},
-  {s:'Mum came home at six, and I ___ my homework after dinner.',b:'do',w:'T',v:'F',f:'did',cw:['came home at six'],cv:['after dinner'],ww:'came home at six — названо время в прошлом.',wv:'Просто события по порядку: пришла, потом сделала. Факт.'}],
- [{s:'I ___ this film three times.',b:'see',w:'N',v:'R',f:'have seen',alt:["'ve seen","i've seen"],cw:[],cv:['three times'],ww:'Не сказано, когда именно. Значит, считаем до сегодняшнего дня: сейчас.',wv:'Три раза к этому моменту — мой опыт, итог. Результат.'},
-  {s:'I ___ this film last Sunday.',b:'see',w:'T',v:'F',f:'saw',cw:['last Sunday'],cv:['last Sunday'],ww:'last Sunday — названо законченное прошлое.',wv:'Сказано, когда это было, и больше ничего. Факт.'},
-  {s:'I ___ this film right now, call me later.',b:'watch',w:'N',v:'P',f:'am watching',alt:["'m watching"],cw:['right now'],cv:['right now'],ww:'right now — прямо сейчас.',wv:'Действие идёт в эту минуту: я посреди фильма. Процесс.'}],
- [{s:'I ___ English for two hours, and I am still studying.',b:'study',w:'N',v:'D',f:'have been studying',alt:["'ve been studying"],cw:['I am still studying'],cv:['for two hours'],ww:'I am still studying — действие дотянулось до сейчас.',wv:'Уже два часа и ещё не закончила: важно, сколько длится. Длительность.'},
-  {s:'I ___ English every day.',b:'study',w:'N',v:'F',f:'study',cw:['every day'],cv:['every day'],ww:'every day — так устроена моя жизнь сейчас.',wv:'Так бывает обычно, регулярно. Факт.'},
-  {s:"At five o'clock yesterday I ___ English.",b:'study',w:'T',v:'P',f:'was studying',cw:['yesterday'],cv:["At five o'clock"],ww:'yesterday — прошлое.',wv:'Названа точная минута, и в неё действие шло. Процесс.'}],
- [{s:'They ___ for an hour when the doctor finally came.',b:'wait',w:'T',v:'D',f:'had been waiting',cw:['when the doctor finally came'],cv:['for an hour'],ww:'Врач пришёл (came) — момент в прошлом.',wv:'К его приходу ждали уже час: важно, сколько длилось. Длительность.'},
-  {s:'Look! They ___ for the doctor now.',b:'wait',w:'N',v:'P',f:'are waiting',alt:["'re waiting"],cw:['now'],cv:['Look!'],ww:'now — сейчас.',wv:'Look! — посмотри, это происходит у нас на глазах. Процесс.'},
-  {s:"They ___ for the doctor since nine o'clock, and he is still not here.",b:'wait',w:'N',v:'D',f:'have been waiting',alt:["'ve been waiting"],cw:['he is still not here'],cv:["since nine o'clock"],ww:'he is still not here — ждут до сих пор, до сейчас.',wv:'С девяти и до сих пор: важно, сколько длится. Длительность.'}],
- [{s:'By the time we reached the airport, the plane ___.',b:'leave',w:'T',v:'R',f:'had left',cw:['we reached the airport'],cv:['By the time'],ww:'reached — мы добрались, это прошлое.',wv:'By the time — к тому моменту самолёта уже не было. Результат.'},
-  {s:'The plane ___ at 7.15 yesterday morning.',b:'leave',w:'T',v:'F',f:'left',cw:['yesterday morning'],cv:['at 7.15'],ww:'yesterday morning — прошлое.',wv:'Сказано, когда это случилось, и всё. Факт.'},
-  {s:'We are too late. The plane ___.',b:'leave',w:'N',v:'R',f:'has left',cw:['We are too late'],cv:['We are too late'],ww:'We are — говорим о том, что имеем сейчас.',wv:'Когда улетел — неважно. Важно, что его уже нет. Результат.'}],
- [{s:'She ___ three chapters so far.',b:'write',w:'N',v:'R',f:'has written',cw:['so far'],cv:['three chapters'],ww:'so far — «к настоящему моменту», то есть до сейчас.',wv:'Три главы готовы: считаем сделанное. Результат.'},
-  {s:'She usually ___ in the morning.',b:'write',w:'N',v:'F',f:'writes',cw:['usually'],cv:['usually'],ww:'usually — так у неё заведено сейчас.',wv:'Обычно, регулярно. Факт.'},
-  {s:'She ___ her book for two years before she found a publisher.',b:'write',w:'T',v:'D',f:'had been writing',cw:['before she found a publisher'],cv:['for two years'],ww:'found — нашла издателя, это прошлое.',wv:'До того момента писала уже два года: важно, сколько длилось. Длительность.'}]
+ [{s:'When Mum came home, I ___ my homework. I was still busy.',b:'do',w:'T',v:'P',f:'was doing',cw:['When Mum came home'],cv:['I was still busy'],ww:'Мама пришла (came) — это момент в прошлом.',wv:'В тот момент я ещё была занята: действие шло.'},
+  {s:'When Mum came home, I ___ my homework, so I was free.',b:'finish',w:'T',v:'R',f:'had finished',cw:['When Mum came home'],cv:['so I was free'],ww:'Мама пришла (came) — это момент в прошлом.',wv:'К её приходу уроки уже готовы, я свободна.'},
+  {s:'Mum came home at six, and I ___ my homework after dinner.',b:'do',w:'T',v:'F',f:'did',cw:['came home at six'],cv:['after dinner'],ww:'came home at six — названо время в прошлом.',wv:'Просто события по порядку: пришла, потом сделала.'}],
+ [{s:'I ___ this film three times.',b:'see',w:'N',v:'R',f:'have seen',alt:["'ve seen","i've seen"],cw:[],cv:['three times'],ww:'Не сказано, когда именно. Значит, считаем до сегодняшнего дня: сейчас.',wv:'Три раза к этому моменту — мой опыт, итог.'},
+  {s:'I ___ this film last Sunday.',b:'see',w:'T',v:'F',f:'saw',cw:['last Sunday'],cv:['last Sunday'],ww:'last Sunday — названо законченное прошлое.',wv:'Сказано, когда это было, и больше ничего.'},
+  {s:'I ___ this film right now, call me later.',b:'watch',w:'N',v:'P',f:'am watching',alt:["'m watching"],cw:['right now'],cv:['right now'],ww:'right now — прямо сейчас.',wv:'Действие идёт в эту минуту: я посреди фильма.'}],
+ [{s:'I ___ English for two hours, and I am still studying.',b:'study',w:'N',v:'D',f:'have been studying',alt:["'ve been studying"],cw:['I am still studying'],cv:['for two hours'],ww:'I am still studying — действие дотянулось до сейчас.',wv:'Уже два часа и ещё не закончила: важно, сколько длится.'},
+  {s:'I ___ English every day.',b:'study',w:'N',v:'F',f:'study',cw:['every day'],cv:['every day'],ww:'every day — так устроена моя жизнь сейчас.',wv:'Так бывает обычно, регулярно.'},
+  {s:"At five o'clock yesterday I ___ English.",b:'study',w:'T',v:'P',f:'was studying',cw:['yesterday'],cv:["At five o'clock"],ww:'yesterday — прошлое.',wv:'Названа точная минута, и в неё действие шло.'}],
+ [{s:'They ___ for an hour when the doctor finally came.',b:'wait',w:'T',v:'D',f:'had been waiting',cw:['when the doctor finally came'],cv:['for an hour'],ww:'Врач пришёл (came) — момент в прошлом.',wv:'К его приходу ждали уже час: важно, сколько длилось.'},
+  {s:'Look! They ___ for the doctor now.',b:'wait',w:'N',v:'P',f:'are waiting',alt:["'re waiting"],cw:['now'],cv:['Look!'],ww:'now — сейчас.',wv:'Look! — посмотри, это происходит у нас на глазах.'},
+  {s:"They ___ for the doctor since nine o'clock, and he is still not here.",b:'wait',w:'N',v:'D',f:'have been waiting',alt:["'ve been waiting"],cw:['he is still not here'],cv:["since nine o'clock"],ww:'he is still not here — ждут до сих пор, до сейчас.',wv:'С девяти и до сих пор: важно, сколько длится.'}],
+ [{s:'By the time we reached the airport, the plane ___.',b:'leave',w:'T',v:'R',f:'had left',cw:['we reached the airport'],cv:['By the time'],ww:'reached — мы добрались, это прошлое.',wv:'By the time — к тому моменту самолёта уже не было.'},
+  {s:'The plane ___ at 7.15 yesterday morning.',b:'leave',w:'T',v:'F',f:'left',cw:['yesterday morning'],cv:['at 7.15'],ww:'yesterday morning — прошлое.',wv:'Сказано, когда это случилось, и всё.'},
+  {s:'We are too late. The plane ___.',b:'leave',w:'N',v:'R',f:'has left',cw:['We are too late'],cv:['We are too late'],ww:'We are — говорим о том, что имеем сейчас.',wv:'Когда улетел — неважно. Важно, что его уже нет.'}],
+ [{s:'She ___ three chapters so far.',b:'write',w:'N',v:'R',f:'has written',cw:['so far'],cv:['three chapters'],ww:'so far — «к настоящему моменту», то есть до сейчас.',wv:'Три главы готовы: считаем сделанное.'},
+  {s:'She usually ___ in the morning.',b:'write',w:'N',v:'F',f:'writes',cw:['usually'],cv:['usually'],ww:'usually — так у неё заведено сейчас.',wv:'Обычно, регулярно.'},
+  {s:'She ___ her book for two years before she found a publisher.',b:'write',w:'T',v:'D',f:'had been writing',cw:['before she found a publisher'],cv:['for two years'],ww:'found — нашла издателя, это прошлое.',wv:'До того момента писала уже два года: важно, сколько длилось.'}]
 ];
 /* Проверка: новые предложения, только ввод формы — как на экзамене. */
 const TEST=[
@@ -135,9 +137,9 @@ TEST.forEach((it,i)=>it.id='t'+i);
 
 const ROUNDS={
  1:{tab:'1 · Когда?',task:'<b>Круг 1.</b> Только один вопрос: о каком времени речь — <b>сейчас</b> или <b>тогда</b>? Форму глагола пока не трогаем.'},
- 2:{tab:'2 · Что вижу?',task:'<b>Круг 2.</b> Те же предложения. «Когда» уже известно. Что я вижу: <b>факт, процесс, результат</b> или <b>длительность</b>?'},
- 3:{tab:'3 · Собери форму',task:'<b>Круг 3.</b> Весь путь: когда? → что вижу? → по формуле пишу форму глагола.'},
- 4:{tab:'4 · Проверка',task:'<b>Проверка.</b> Новые предложения, как на экзамене: сразу пишу форму. Два вопроса задаю себе в уме.'}
+ 2:{tab:'2 · Какая картинка?',task:'<b>Круг 2.</b> Те же предложения, «когда» уже известно. Какая это картинка: <b>обычно, в эту минуту, уже готово</b> или <b>уже сколько-то</b>?'},
+ 3:{tab:'3 · Собери форму',task:'<b>Круг 3.</b> Весь путь: когда? → какая картинка? → по формуле пишу форму глагола.'},
+ 4:{tab:'4 · Проверка',task:'<b>Проверка.</b> Новые предложения, как на экзамене: сразу пишу форму. Вопросы задаю себе в уме.'}
 };
 
 /* ---------- состояние (только в памяти) ---------- */
@@ -165,7 +167,7 @@ function sentenceHTML(it,opt){
  return '<div class="txSent">'+h.replace('___',gap)+'</div>';
 }
 function chip(label,act,id,val,cls,dis){return '<button type="button" class="txChip '+(cls||'')+'" data-act="'+act+'" data-id="'+id+'" data-val="'+val+'"'+(dis?' disabled':'')+'>'+label+'</button>'}
-function route(it){return WHEN[it.w]+' + '+VIEW[it.v].toLowerCase()+' = <span class="txFormula">'+FORMULA[it.w+it.v]+'</span> · '+TENSE[it.w+it.v]}
+function route(it){return WHEN[it.w]+' + '+VW[it.w][it.v].toLowerCase()+' = <span class="txFormula">'+FORMULA[it.w+it.v]+'</span> · '+TENSE[it.w+it.v]}
 
 function row1(it){
  const a=S.ans[1][it.id]||{},done=!!a.pick,ok=a.pick===it.w;
@@ -175,8 +177,8 @@ function row1(it){
 }
 function row2(it){
  const a=S.ans[2][it.id]||{},done=!!a.pick,ok=a.pick===it.v;
- const chips=['F','P','R','D'].map(k=>chip(VIEW[k],'view2',it.id,k,done?(k===it.v?'ok':k===a.pick?'no':''):'',done)).join('');
- const fb=done?(ok?'<b class="g">Верно.</b> ':'<b class="r">Нет, это «'+VIEW[it.v].toLowerCase()+'».</b> ')+esc(it.wv):'';
+ const chips=['F','P','R','D'].map(k=>chip(VW[it.w][k],'view2',it.id,k,done?(k===it.v?'ok':k===a.pick?'no':''):'',done)).join('');
+ const fb=done?(ok?'<b class="g">Верно.</b> ':'<b class="r">Нет, это «'+VW[it.w][it.v].toLowerCase()+'».</b> ')+esc(it.wv):'';
  return '<div class="txRow '+(done?(ok?'ok':'bad'):'')+'">'+sentenceHTML(it,{cw:true,cv:done})+'<div class="txCtl"><span class="txTag">'+WHEN[it.w]+'</span><span class="txSep"></span>'+chips+'</div><div class="txFb">'+fb+'</div></div>';
 }
 function inputHTML(r,it,a,enabled){
@@ -188,13 +190,13 @@ function row3(it){
  const wrongW=a.wrongW||[],wrongV=a.wrongV||[];
  let ctl;
  if(!a.when)ctl=['N','T'].map(k=>chip(WHEN[k],'when3',it.id,k,wrongW.includes(k)?'no':'',wrongW.includes(k))).join('');
- else if(!a.what)ctl='<span class="txTag">'+WHEN[it.w]+'</span><span class="txSep"></span>'+['F','P','R','D'].map(k=>chip(VIEW[k],'view3',it.id,k,wrongV.includes(k)?'no':'',wrongV.includes(k))).join('');
- else ctl='<span class="txTag">'+WHEN[it.w]+'</span><span class="txTag v">'+VIEW[it.v]+'</span>'+(a.done?'':'<span class="txSep"></span>'+inputHTML(3,it,a,true));
+ else if(!a.what)ctl='<span class="txTag">'+WHEN[it.w]+'</span><span class="txSep"></span>'+['F','P','R','D'].map(k=>chip(VW[it.w][k],'view3',it.id,k,wrongV.includes(k)?'no':'',wrongV.includes(k))).join('');
+ else ctl='<span class="txTag">'+WHEN[it.w]+'</span><span class="txTag v">'+VW[it.w][it.v]+'</span>'+(a.done?'':'<span class="txSep"></span>'+inputHTML(3,it,a,true));
  let fb='';
  if(a.done)fb=(a.ok?'<b class="g">Верно.</b> ':'<b class="r">Смотри, как надо.</b> ')+route(it);
  else if(a.msg)fb=a.msg;
  else if(!a.when)fb='Сначала: о каком времени речь?';
- else if(!a.what)fb='Теперь: что я вижу?';
+ else if(!a.what)fb='Теперь: какая это картинка?';
  else fb='Собери форму: <span class="txFormula">'+FORMULA[it.w+it.v]+'</span>';
  return '<div class="txRow '+(a.done?(a.ok&&!a.slip?'ok':'bad'):'')+'">'+sentenceHTML(it,{cw:!!a.when,cv:!!a.what,fill:!!a.done})+
   '<div class="txCtl">'+ctl+'</div><div class="txFb">'+fb+'</div></div>';
@@ -212,29 +214,35 @@ const ROW={1:row1,2:row2,3:row3,4:row4};
 function sideHTML(){
  const hot=S.last||'';
  const cell=k=>'<div class="txCell'+(hot===k?' hot':'')+'">'+FORMULA[k]+'</div>';
- return '<h4>Форма = когда + что вижу</h4><div class="txGrid"><div class="h">Сейчас</div><div class="h">Тогда</div>'+
-  ['F','P','R','D'].map(v=>'<div class="lab"><b>'+VIEW[v]+'</b> · '+CHECK[v]+'</div>'+cell('N'+v)+cell('T'+v)).join('')+'</div>'+
+ return '<h4>Когда + какая картинка = форма</h4><div class="txGrid"><div class="h">Сейчас</div><div class="h">Тогда</div>'+
+  ['F','P','R','D'].map(v=>'<div class="lab"><b>'+SIDE[v]+'</b></div>'+cell('N'+v)+cell('T'+v)).join('')+'</div>'+
   '<h4>Слова-опоры</h4><p class="txClues"><b>Сейчас:</b> now, every day, usually, so far, already, still<br><b>Тогда:</b> yesterday, last …, … ago, when I was …, by the time</p>';
 }
 
 function helpHTML(){
- const nav='<div class="txHelpNav">'+['Главная мысль','Три ловушки','Как решать'].map((t,i)=>'<button type="button" class="txTab'+(S.help===i?' on':'')+'" data-act="help" data-val="'+i+'">'+t+'</button>').join('')+'</div>';
+ const nav='<div class="txHelpNav">'+['Сейчас','Вчера','Три ловушки','Как решать'].map((t,i)=>'<button type="button" class="txTab'+(S.help===i?' on':'')+'" data-act="help" data-val="'+i+'">'+t+'</button>').join('')+'</div>';
+ const cards=list=>'<div class="txCards">'+list.map(c=>'<div class="txCard"><h5>'+c[0]+'</h5><p>'+c[1]+'</p><p class="en">'+c[2]+'</p><p class="frm"><span class="txFormula">'+c[3]+'</span></p></div>').join('')+'</div>';
  let b='';
  if(S.help===0){
-  b='<p class="txLead">В русском глагол отвечает на один вопрос: <b>когда?</b> В английском — сразу на два: <b>когда?</b> и <b>что я вижу?</b></p><div class="txCards">'+
-  [['Факт','Simple','Просто сообщаю: бывает, было, случилось.','F','I do my homework every day.','Я делаю уроки каждый день.'],
-   ['Процесс','Continuous','В этот момент действие в разгаре: уже началось, ещё не закончилось.','P','I am doing my homework now.','Я как раз делаю уроки.'],
-   ['Результат','Perfect','К этому моменту уже готово. Have = «имею».','R','I have done my homework.','Уроки уже сделаны.'],
-   ['Длительность','Perfect Continuous','К этому моменту уже столько-то длится.','D','I have been doing it for an hour.','Делаю уже час.']
-  ].map(c=>'<div class="txCard"><h5>'+c[0]+' <small>· '+c[1]+'</small></h5><p>'+c[2]+' Проверка: '+CHECK[c[3]]+'.</p><p class="en">'+c[4]+'</p><p>'+c[5]+'</p></div>').join('')+'</div>';
+  b='<p class="txLead">По-русски всё это одно слово — <b>«делаю»</b>. В английском это четыре разные картинки. Спроси себя, какая перед тобой.</p>'+cards([
+   ['Это обычно, всегда?','«Я делаю уроки каждый день.»','I do my homework every day.','V / V-s'],
+   ['Это прямо в эту минуту?','«Не звони, я делаю уроки!»','I am doing my homework.','am / is / are + V-ing'],
+   ['Это уже готово?','«Я сделала уроки, можно гулять!»','I have done my homework.','have / has + V3'],
+   ['Это уже сколько-то времени?','«Я делаю уроки уже два часа!»','I have been doing my homework for two hours.','have / has been + V-ing']]);
  }else if(S.help===1){
+  b='<p class="txLead">Те же четыре картинки, только вчера. Вопросы те же, меняется первое слово: <b>am → was, have → had</b>.</p>'+cards([
+   ['Просто было?','«Вчера я сделала уроки.»','I did my homework yesterday.','V2 (-ed)'],
+   ['В ту самую минуту?','«Вчера в пять я делала уроки.»','At five I was doing my homework.','was / were + V-ing'],
+   ['К тому моменту уже готово?','«Когда мама пришла, уроки были уже сделаны.»','When Mum came, I had done my homework.','had + V3'],
+   ['К тому моменту уже сколько-то?','«Когда мама пришла, я делала уроки уже два часа.»','When Mum came, I had been doing it for two hours.','had been + V-ing']]);
+ }else if(S.help===2){
   b='<p class="txLead">Здесь русский язык подсказывает неправильно. Перед ответом задай себе вопрос.</p><div class="txCards three">'+
-   '<div class="txCard"><h5>«Я видела этот фильм»</h5><p>Вопрос: <b>сказано ли, когда?</b></p><p>Сказано:</p><p class="en">I saw it yesterday.</p><p>Не сказано, важен опыт:</p><p class="en">I have seen it.</p></div>'+
-   '<div class="txCard"><h5>«Я живу здесь пять лет»</h5><p>По-русски настоящее. Но есть <b>«уже сколько-то»</b> — действие тянется из прошлого до сейчас.</p><p class="en">I have lived here for five years.</p><p class="en no">I live here for five years.</p></div>'+
-   '<div class="txCard"><h5>«Когда мама пришла, я сделала уроки»</h5><p>Два действия в прошлом. Что было <b>раньше</b> — с had:</p><p class="en">I had done my homework.</p><p>Пришла посреди дела:</p><p class="en">I was doing my homework.</p></div></div>';
+   '<div class="txCard"><h5>«Я видела этот фильм»</h5><p>Вопрос: <b>сказано ли, когда?</b></p><p>Сказано:</p><p class="en">I saw it yesterday.</p><p>Не сказано:</p><p class="en">I have seen it.</p></div>'+
+   '<div class="txCard"><h5>«Я живу здесь пять лет»</h5><p>По-русски «живу». Но есть <b>«уже сколько-то»</b> — началось раньше и всё ещё идёт.</p><p class="en">I have lived here for five years.</p><p class="en no">I live here for five years.</p></div>'+
+   '<div class="txCard"><h5>«Когда мама пришла, я сделала уроки»</h5><p>К её приходу <b>уже было готово</b>:</p><p class="en">I had done my homework.</p><p>Пришла, а я <b>в ту минуту</b> ещё делала:</p><p class="en">I was doing my homework.</p></div></div>';
  }else{
   b='<div class="txSteps"><div><b>1. Когда?</b> Сейчас или тогда. Ищу в предложении слова-опоры: yesterday, when I was ten, now, so far.</div>'+
-   '<div><b>2. Что вижу?</b> Факт, процесс, результат или длительность. Подставляю слово-проверку: «обычно», «как раз в этот момент», «уже», «уже столько-то».</div>'+
+   '<div><b>2. Какая картинка?</b> Задаю четыре вопроса: это обычно? в эту минуту? уже готово? уже сколько-то времени?</div>'+
    '<div><b>3. Собираю форму</b> по таблице справа. Название времени вспоминать не нужно — оно получится само.</div></div>'+
    '<button type="button" class="txBtn prim" data-act="tab" data-val="1">Начать круг 1 →</button>';
  }
@@ -251,7 +259,7 @@ function resultHTML(r){
    const a=S.ans[r][it.id]||{};
    const answered=isDone(r,it);
    return '<div class="txMiss">'+esc(it.s.replace('___','___ ('+it.b+')'))+'<span>'+(answered?'':'Не отвечено. ')+'Правильно: <b>'+
-    (r===1?WHEN[it.w]:r===2?VIEW[it.v]:esc(it.f))+'</b> · '+(r===1?esc(it.ww):esc(it.wv))+(r>2?' '+WHEN[it.w]+' + '+VIEW[it.v].toLowerCase()+' = '+FORMULA[it.w+it.v]+'.':'')+'</span></div>';
+    (r===1?WHEN[it.w]:r===2?VW[it.w][it.v]:esc(it.f))+'</b> · '+(r===1?esc(it.ww):esc(it.wv))+(r>2?' '+WHEN[it.w]+' + '+VW[it.w][it.v].toLowerCase()+' = '+FORMULA[it.w+it.v]+'.':'')+'</span></div>';
   }).join('')+'</div>';
  return h+'</div>';
 }
@@ -295,7 +303,7 @@ function check(id){
  if(a.tries>=2){a.done=true;a.ok=false;S.last=it.w+it.v;S.focus=nextInput(r,id);return render()}
  a.msg=r===3
   ?'<b class="r">Пока нет.</b> Собери точно по формуле <span class="txFormula">'+FORMULA[it.w+it.v]+'</span> от глагола '+esc(it.b.toUpperCase())+'. Ещё одна попытка.'
-  :'<b class="r">Пока нет.</b> Спроси себя: когда — сейчас или тогда? Что вижу — факт, процесс, результат, длительность? Ещё одна попытка.';
+  :'<b class="r">Пока нет.</b> Спроси себя: сейчас или тогда? Обычно, в эту минуту, уже готово или уже сколько-то? Ещё одна попытка.';
  S.focus=id;render();
 }
 function act(t){
@@ -320,7 +328,7 @@ function act(t){
  if(k==='view3'){
   if(!a.when||a.what)return;
   if(val===it.v){a.what=true;a.msg='';S.last=it.w+it.v;S.focus=id}
-  else{a.slip=true;(a.wrongV=a.wrongV||[]).push(val);a.msg='<b class="r">Нет, не «'+VIEW[val].toLowerCase()+'».</b> Подставь слова-проверки из таблицы справа: какое подходит?'}
+  else{a.slip=true;(a.wrongV=a.wrongV||[]).push(val);a.msg='<b class="r">Нет, не «'+VW[it.w][val].toLowerCase()+'».</b> Задай себе четыре вопроса из таблицы справа: какой подходит?'}
   return render();
  }
  if(k==='check')return check(id);
