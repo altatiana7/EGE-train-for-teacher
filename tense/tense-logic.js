@@ -3,6 +3,7 @@
    Ничего не сохраняется: каждый раз открывается с начала. */
 (function(){
 'use strict';
+const PIC=new URL('four-pictures.jpg?v=1',document.currentScript.src).href;
 
 const style=document.createElement('style');
 style.textContent=`
@@ -64,6 +65,14 @@ style.textContent=`
 .txCell.hot{background:#fff1b8;border-color:#c79a00;color:#142337}
 .txClues{font-size:15px;line-height:1.3;color:#3d4d61;margin:0}
 .txClues b{color:#142337}
+.txWrap.wide{grid-template-columns:1fr}
+.txWrap.wide .txSide{display:none}
+.txWrap.wide .txBody{display:flex;flex-direction:column}
+.txPic{flex:1;min-height:0;display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.txPic img{display:block;width:100%;height:100%;object-fit:contain}
+.txZoom{position:fixed;inset:0;z-index:200;background:#0b1626;display:flex;align-items:center;justify-content:center;cursor:zoom-out}
+.txZoom img{max-width:100%;max-height:100%;object-fit:contain}
+.txZoom .txBtn{position:absolute;top:8px;right:10px}
 .txHelpNav{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
 .txLead{font-size:19px;margin:0 0 8px}
 .txCards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -148,7 +157,7 @@ const esc=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function chunk(a,n){const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r}
 function buildScreens(r){return r===4?chunk(shuffle(TEST),3):SETS.map(set=>shuffle(set))}
-function fresh(){return{tab:'help',help:0,scr:{1:0,2:0,3:0,4:0},ans:{1:{},2:{},3:{},4:{}},screens:{1:buildScreens(1),2:buildScreens(2),3:buildScreens(3),4:buildScreens(4)},res:{},last:null,focus:null}}
+function fresh(){return{tab:'help',help:4,zoom:false,scr:{1:0,2:0,3:0,4:0},ans:{1:{},2:{},3:{},4:{}},screens:{1:buildScreens(1),2:buildScreens(2),3:buildScreens(3),4:buildScreens(4)},res:{},last:null,focus:null}}
 function A(r,it){return S.ans[r][it.id]||(S.ans[r][it.id]={})}
 function norm(v){return String(v||'').toLowerCase().replace(/[’`]/g,"'").replace(/[.!?]+$/,'').replace(/\s+/g,' ').trim()}
 function rightForm(it,v){v=norm(v);return v===it.f||(it.alt||[]).includes(v)}
@@ -220,7 +229,7 @@ function sideHTML(){
 }
 
 function helpHTML(){
- const nav='<div class="txHelpNav">'+['Сейчас','Вчера','Три ловушки','Как решать'].map((t,i)=>'<button type="button" class="txTab'+(S.help===i?' on':'')+'" data-act="help" data-val="'+i+'">'+t+'</button>').join('')+'</div>';
+ const nav='<div class="txHelpNav">'+[['Картинка',4],['Сейчас',0],['Вчера',1],['Три ловушки',2],['Как решать',3]].map(x=>'<button type="button" class="txTab'+(S.help===x[1]?' on':'')+'" data-act="help" data-val="'+x[1]+'">'+x[0]+'</button>').join('')+'</div>';
  const cards=list=>'<div class="txCards">'+list.map(c=>'<div class="txCard"><h5>'+c[0]+'</h5><p>'+c[1]+'</p><p class="en">'+c[2]+'</p><p class="frm"><span class="txFormula">'+c[3]+'</span></p></div>').join('')+'</div>';
  let b='';
  if(S.help===0){
@@ -235,6 +244,8 @@ function helpHTML(){
    ['В ту самую минуту?','«Вчера в десять я смотрела серию.» В десять она шла на экране.','At ten I was watching the episode.','was / were + V-ing'],
    ['К тому моменту уже готово?','«Когда мама пришла, я уже досмотрела серию.» Уже были титры.','When Mum came, I had watched the episode.','had + V3'],
    ['Сказано, сколько уже к тому моменту?','«Когда мама пришла, я смотрела серию уже час.» Назван срок: <b>for</b>.','When Mum came, I had been watching it for an hour.','had been + V-ing']]);
+ }else if(S.help===4){
+  b='<button type="button" class="txPic" data-act="zoom" title="Открыть крупно"><img src="'+PIC+'" alt="Watch an episode — четыре картинки: Present Simple, Present Continuous, Present Perfect, Present Perfect Continuous"></button>';
  }else if(S.help===2){
   b='<p class="txLead">Здесь русский язык подсказывает неправильно. Перед ответом задай себе вопрос.</p><div class="txCards three">'+
    '<div class="txCard"><h5>«Я видела этот фильм»</h5><p>Вопрос: <b>сказано ли, когда?</b></p><p>Сказано:</p><p class="en">I saw it yesterday.</p><p>Не сказано:</p><p class="en">I have seen it.</p></div>'+
@@ -248,6 +259,7 @@ function helpHTML(){
  }
  return nav+b;
 }
+function zoomHTML(){return S.zoom?'<div class="txZoom" data-act="unzoom"><img src="'+PIC+'" alt=""><button type="button" class="txBtn" data-act="unzoom">Закрыть</button></div>':''}
 
 function resultHTML(r){
  const items=allItems(r),clean=items.filter(it=>isClean(r,it)),miss=items.filter(it=>!isClean(r,it));
@@ -281,7 +293,7 @@ function render(){
   }
  }
  root.innerHTML='<div class="txTop"><h3>Времена · шаг за шагом</h3>'+tabs+'<span class="txFill"></span><button type="button" class="txBtn" data-act="close">Закрыть</button></div>'+
-  '<div class="txWrap"><div class="txMain"><div class="txBody">'+body+'</div>'+nav+'</div><aside class="txSide">'+sideHTML()+'</aside></div>';
+  '<div class="txWrap'+(S.tab==='help'&&S.help===4?' wide':'')+'"><div class="txMain"><div class="txBody">'+body+'</div>'+nav+'</div><aside class="txSide">'+sideHTML()+'</aside></div>'+zoomHTML();
  if(S.focus){const el=root.querySelector('[data-in="'+S.focus+'"]');if(el&&!el.disabled){el.focus();const n=el.value.length;try{el.setSelectionRange(n,n)}catch(e){}}S.focus=null}
 }
 
@@ -311,6 +323,8 @@ function act(t){
  if(k==='close'){root.hidden=true;return}
  if(k==='tab'){S.tab=val==='help'?'help':+val;return render()}
  if(k==='help'){S.help=+val;return render()}
+ if(k==='zoom'){S.zoom=true;return render()}
+ if(k==='unzoom'){S.zoom=false;return render()}
  if(k==='restart'){S=fresh();return render()}
  if(k==='again'){const r=+val;S.ans[r]={};S.scr[r]=0;S.res[r]=false;S.screens[r]=buildScreens(r);S.tab=r;return render()}
  const r=S.tab;
@@ -340,7 +354,7 @@ function open(){
   root.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t)});
   root.addEventListener('input',e=>{const el=e.target;if(el.dataset&&el.dataset.in&&S.tab!=='help'){const it=find(S.tab,el.dataset.in);if(it)A(S.tab,it).val=el.value}});
   root.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.in){e.preventDefault();check(e.target.dataset.in)}});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root&&!root.hidden)root.hidden=true});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root&&!root.hidden){if(S&&S.zoom){S.zoom=false;render()}else root.hidden=true}});
  }
  S=fresh();root.hidden=false;render();
  const side=document.getElementById('side');if(side&&innerWidth<801)side.classList.remove('open');
