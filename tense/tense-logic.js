@@ -224,16 +224,16 @@ function helpHTML(){
  const cards=list=>'<div class="txCards">'+list.map(c=>'<div class="txCard"><h5>'+c[0]+'</h5><p>'+c[1]+'</p><p class="en">'+c[2]+'</p><p class="frm"><span class="txFormula">'+c[3]+'</span></p></div>').join('')+'</div>';
  let b='';
  if(S.help===0){
-  b='<p class="txLead">По-русски всё это одно слово — <b>«смотрю»</b>. В английском это четыре разные картинки. Спроси себя, какая перед тобой.</p>'+cards([
-   ['Это обычно, всегда?','«Я смотрю сериалы каждый вечер.»','I watch series every evening.','V / V-s'],
-   ['Это прямо в эту минуту?','«Не звони, я смотрю сериал!»','I am watching a series.','am / is / are + V-ing'],
-   ['Это уже готово?','«Я посмотрела весь сезон, давай обсудим!»','I have watched the whole season.','have / has + V3'],
-   ['Это уже сколько-то времени?','«Я смотрю этот сериал уже три часа!»','I have been watching it for three hours.','have / has been + V-ing']]);
+  b='<p class="txLead">В английском это четыре разные картинки. Главный вопрос: серия <b>ещё идёт</b> на экране или <b>уже титры</b>?</p>'+cards([
+   ['Это обычно, всегда?','«Я смотрю сериалы каждый вечер.» Это привычка.','I watch series every evening.','V / V-s'],
+   ['Это прямо в эту минуту?','«Не звони, я смотрю серию!» Серия идёт на экране. Что делаю?','I am watching the episode.','am / is / are + V-ing'],
+   ['Это уже готово?','«Я посмотрела серию. Рассказать, чем кончилось?» Уже титры. Что сделала?','I have watched the episode.','have / has + V3'],
+   ['Это уже сколько-то времени?','«Я смотрю сериал уже три часа!» Начала давно и всё ещё смотрю.','I have been watching it for three hours.','have / has been + V-ing']]);
  }else if(S.help===1){
   b='<p class="txLead">Те же четыре картинки, только вчера. Вопросы те же, меняется первое слово: <b>am → was, have → had</b>.</p>'+cards([
    ['Просто было?','«Вчера я посмотрела две серии.»','I watched two episodes yesterday.','V2 (-ed)'],
-   ['В ту самую минуту?','«Вчера в десять я смотрела сериал.»','At ten I was watching a series.','was / were + V-ing'],
-   ['К тому моменту уже готово?','«Когда мама пришла, я уже досмотрела серию.»','When Mum came, I had watched the episode.','had + V3'],
+   ['В ту самую минуту?','«Вчера в десять я смотрела серию.» В десять она шла на экране.','At ten I was watching the episode.','was / were + V-ing'],
+   ['К тому моменту уже готово?','«Когда мама пришла, я уже досмотрела серию.» Уже были титры.','When Mum came, I had watched the episode.','had + V3'],
    ['К тому моменту уже сколько-то?','«Когда мама пришла, я смотрела сериал уже три часа.»','When Mum came, I had been watching it for three hours.','had been + V-ing']]);
  }else if(S.help===2){
   b='<p class="txLead">Здесь русский язык подсказывает неправильно. Перед ответом задай себе вопрос.</p><div class="txCards three">'+
