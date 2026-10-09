@@ -3,7 +3,7 @@
    Ничего не сохраняется: каждый раз открывается с начала. */
 (function(){
 'use strict';
-const PICS=[['Сейчас','four-pictures.jpg?v=1','Watch an episode — четыре картинки: Present Simple, Present Continuous, Present Perfect, Present Perfect Continuous'],['Вчера','four-pictures-past.jpg?v=1','Watch an episode — вчера: Past Simple, Past Continuous, Past Perfect, Past Perfect Continuous']].map(x=>({t:x[0],src:new URL(x[1],document.currentScript.src).href,alt:x[2]}));
+const PICS=[['Сейчас','four-pictures.jpg?v=1','Watch an episode — четыре картинки: Present Simple, Present Continuous, Present Perfect, Present Perfect Continuous'],['Вчера','four-pictures-past.jpg?v=1','Watch an episode — вчера: Past Simple, Past Continuous, Past Perfect, Past Perfect Continuous'],['Завтра','four-pictures-future.jpg?v=1','Watch an episode — завтра: Future Simple, Future Continuous, Future Perfect, Future Perfect Continuous']].map(x=>({t:x[0],src:new URL(x[1],document.currentScript.src).href,alt:x[2]}));
 
 const style=document.createElement('style');
 style.textContent=`
