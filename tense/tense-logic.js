@@ -3,7 +3,7 @@
    Ничего не сохраняется: каждый раз открывается с начала. */
 (function(){
 'use strict';
-const PIC=new URL('four-pictures.jpg?v=1',document.currentScript.src).href;
+const PICS=[['Сейчас','four-pictures.jpg?v=1','Watch an episode — четыре картинки: Present Simple, Present Continuous, Present Perfect, Present Perfect Continuous'],['Вчера','four-pictures-past.jpg?v=1','Watch an episode — вчера: Past Simple, Past Continuous, Past Perfect, Past Perfect Continuous']].map(x=>({t:x[0],src:new URL(x[1],document.currentScript.src).href,alt:x[2]}));
 
 const style=document.createElement('style');
 style.textContent=`
@@ -157,7 +157,7 @@ const esc=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function chunk(a,n){const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r}
 function buildScreens(r){return r===4?chunk(shuffle(TEST),3):SETS.map(set=>shuffle(set))}
-function fresh(){return{tab:'help',help:4,zoom:false,scr:{1:0,2:0,3:0,4:0},ans:{1:{},2:{},3:{},4:{}},screens:{1:buildScreens(1),2:buildScreens(2),3:buildScreens(3),4:buildScreens(4)},res:{},last:null,focus:null}}
+function fresh(){return{tab:'help',help:4,pic:0,zoom:false,scr:{1:0,2:0,3:0,4:0},ans:{1:{},2:{},3:{},4:{}},screens:{1:buildScreens(1),2:buildScreens(2),3:buildScreens(3),4:buildScreens(4)},res:{},last:null,focus:null}}
 function A(r,it){return S.ans[r][it.id]||(S.ans[r][it.id]={})}
 function norm(v){return String(v||'').toLowerCase().replace(/[’`]/g,"'").replace(/[.!?]+$/,'').replace(/\s+/g,' ').trim()}
 function rightForm(it,v){v=norm(v);return v===it.f||(it.alt||[]).includes(v)}
@@ -229,7 +229,7 @@ function sideHTML(){
 }
 
 function helpHTML(){
- const nav='<div class="txHelpNav">'+[['Картинка',4],['Сейчас',0],['Вчера',1],['Три ловушки',2],['Как решать',3]].map(x=>'<button type="button" class="txTab'+(S.help===x[1]?' on':'')+'" data-act="help" data-val="'+x[1]+'">'+x[0]+'</button>').join('')+'</div>';
+ const nav='<div class="txHelpNav">'+[['Картинки',4],['Сейчас',0],['Вчера',1],['Три ловушки',2],['Как решать',3]].map(x=>'<button type="button" class="txTab'+(S.help===x[1]?' on':'')+'" data-act="help" data-val="'+x[1]+'">'+x[0]+'</button>').join('')+(S.help===4?'<span class="txFill"></span>'+PICS.map((x,i)=>'<button type="button" class="txTab'+(S.pic===i?' on':'')+'" data-act="pic" data-val="'+i+'">Картинка: '+x.t.toLowerCase()+'</button>').join(''):'')+'</div>';
  const cards=list=>'<div class="txCards">'+list.map(c=>'<div class="txCard"><h5>'+c[0]+'</h5><p>'+c[1]+'</p><p class="en">'+c[2]+'</p><p class="frm"><span class="txFormula">'+c[3]+'</span></p></div>').join('')+'</div>';
  let b='';
  if(S.help===0){
@@ -245,7 +245,7 @@ function helpHTML(){
    ['К тому моменту уже готово?','«Когда мама пришла, я уже досмотрела серию.» Уже были титры.','When Mum came, I had watched the episode.','had + V3'],
    ['Сказано, сколько уже к тому моменту?','«Когда мама пришла, я смотрела серию уже час.» Назван срок: <b>for</b>.','When Mum came, I had been watching it for an hour.','had been + V-ing']]);
  }else if(S.help===4){
-  b='<button type="button" class="txPic" data-act="zoom" title="Открыть крупно"><img src="'+PIC+'" alt="Watch an episode — четыре картинки: Present Simple, Present Continuous, Present Perfect, Present Perfect Continuous"></button>';
+  b='<button type="button" class="txPic" data-act="zoom" title="Открыть крупно"><img src="'+PICS[S.pic].src+'" alt="'+PICS[S.pic].alt+'"></button>';
  }else if(S.help===2){
   b='<p class="txLead">Здесь русский язык подсказывает неправильно. Перед ответом задай себе вопрос.</p><div class="txCards three">'+
    '<div class="txCard"><h5>«Я видела этот фильм»</h5><p>Вопрос: <b>сказано ли, когда?</b></p><p>Сказано:</p><p class="en">I saw it yesterday.</p><p>Не сказано:</p><p class="en">I have seen it.</p></div>'+
@@ -259,7 +259,7 @@ function helpHTML(){
  }
  return nav+b;
 }
-function zoomHTML(){return S.zoom?'<div class="txZoom" data-act="unzoom"><img src="'+PIC+'" alt=""><button type="button" class="txBtn" data-act="unzoom">Закрыть</button></div>':''}
+function zoomHTML(){return S.zoom?'<div class="txZoom" data-act="unzoom"><img src="'+PICS[S.pic].src+'" alt=""><button type="button" class="txBtn" data-act="unzoom">Закрыть</button></div>':''}
 
 function resultHTML(r){
  const items=allItems(r),clean=items.filter(it=>isClean(r,it)),miss=items.filter(it=>!isClean(r,it));
@@ -323,6 +323,7 @@ function act(t){
  if(k==='close'){root.hidden=true;return}
  if(k==='tab'){S.tab=val==='help'?'help':+val;return render()}
  if(k==='help'){S.help=+val;return render()}
+ if(k==='pic'){S.pic=+val;return render()}
  if(k==='zoom'){S.zoom=true;return render()}
  if(k==='unzoom'){S.zoom=false;return render()}
  if(k==='restart'){S=fresh();return render()}
