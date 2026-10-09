@@ -126,7 +126,8 @@ const SETS=[
   {s:'She usually ___ in the morning.',b:'write',w:'N',v:'F',f:'writes',cw:['usually'],cv:['usually'],ww:'usually — так у неё заведено сейчас.',wv:'Обычно, регулярно.'},
   {s:'She ___ her book for two years before she found a publisher.',b:'write',w:'T',v:'D',f:'had been writing',cw:['before she found a publisher'],cv:['for two years'],ww:'found — нашла издателя, это прошлое.',wv:'До того момента писала уже два года: важно, сколько длилось.'}]
 ];
-/* Проверка: новые предложения, только ввод формы — как на экзамене. */
+/* Проверка: запас предложений (по 6 на каждую из 8 форм), только ввод формы — как на экзамене.
+   Каждый раз выпадают 12: по одному на каждую форму и ещё четыре. */
 const TEST=[
  {s:'It was the first time most of us ___ such an ancient city.',b:'see',w:'T',v:'R',f:'had seen',cw:['It was the first time'],cv:[],wv:'Точка отсчёта — was. Опыт накопился к тому моменту.'},
  {s:'At this time last Sunday we ___ in the sea.',b:'swim',w:'T',v:'P',f:'were swimming',cw:['last Sunday'],cv:['At this time'],wv:'Назван точный момент в прошлом, и в него действие шло.'},
@@ -139,7 +140,43 @@ const TEST=[
  {s:"Kate ___ her keys, so she can't open the door now.",b:'lose',w:'N',v:'R',f:'has lost',cw:["so she can't open the door now"],cv:[],wv:'Когда потеряла — неважно. Важен итог сейчас: дверь не открыть.'},
  {s:'While I ___ home, it started to rain.',b:'walk',w:'T',v:'P',f:'was walking',cw:['started'],cv:['While'],wv:'started — прошлое; дождь начался посреди действия.'},
  {s:'The teacher was angry because nobody ___ the homework.',b:'do',w:'T',v:'R',f:'had done',cw:['was angry'],cv:[],wv:'was angry — прошлое; домашку не сделали ещё раньше. Итог к тому моменту.'},
- {s:'The museum ___ at ten every day.',b:'open',w:'N',v:'F',f:'opens',cw:[],cv:['every day'],wv:'every day — расписание, так бывает всегда.'}
+ {s:'The museum ___ at ten every day.',b:'open',w:'N',v:'F',f:'opens',cw:[],cv:['every day'],wv:'every day — расписание, так бывает всегда.'},
+ {s:"My sister ___ coffee every morning.",b:"drink",w:"N",v:"F",f:"drinks",cw:[],cv:["every morning"],wv:"every morning — привычка, так бывает всегда."},
+ {s:"We usually ___ to school by bus.",b:"go",w:"N",v:"F",f:"go",cw:[],cv:["usually"],wv:"usually — обычно, так заведено."},
+ {s:"The sun ___ in the east.",b:"rise",w:"N",v:"F",f:"rises",cw:[],cv:[],wv:"Так бывает всегда, это закон природы."},
+ {s:"He never ___ meat. He is a vegetarian.",b:"eat",w:"N",v:"F",f:"eats",cw:["He is a vegetarian"],cv:["never"],wv:"never — так у него всегда."},
+ {s:"Listen! Somebody ___ at the door.",b:"knock",w:"N",v:"P",f:"is knocking",alt:["'s knocking"],cw:[],cv:["Listen!"],wv:"Listen! — это слышно прямо в эту минуту."},
+ {s:"I can't talk now. I ___ dinner.",b:"cook",w:"N",v:"P",f:"am cooking",alt:["'m cooking"],cw:["I can't talk now"],cv:[],wv:"Сейчас занята: действие идёт в эту минуту."},
+ {s:"Look out of the window! It ___.",b:"snow",w:"N",v:"P",f:"is snowing",alt:["'s snowing"],cw:[],cv:["Look out of the window!"],wv:"Это видно за окном прямо сейчас."},
+ {s:"Where is Dad? — He ___ the car in the yard.",b:"wash",w:"N",v:"P",f:"is washing",alt:["'s washing"],cw:["Where is Dad?"],cv:[],wv:"Спрашивают, где он сейчас: действие идёт в эту минуту."},
+ {s:"Please be quiet. The children ___ a test at the moment.",b:"write",w:"N",v:"P",f:"are writing",cw:[],cv:["at the moment"],wv:"at the moment — в данный момент."},
+ {s:"I can't find my phone. I think I ___ it.",b:"lose",w:"N",v:"R",f:"have lost",alt:["'ve lost"],cw:["I can't find my phone"],cv:[],wv:"Когда потеряла — неважно. Важно, что телефона сейчас нет."},
+ {s:"Tom ___ his leg, so he can't play football today.",b:"break",w:"N",v:"R",f:"has broken",cw:["so he can't play football today"],cv:[],wv:"Важен итог сейчас: играть он не может."},
+ {s:"It is the best film I ___ in my life.",b:"see",w:"N",v:"R",f:"have seen",alt:["'ve seen", "have ever seen"],cw:["It is"],cv:["in my life"],wv:"Весь мой опыт к этому моменту, время не названо."},
+ {s:"She ___ five books so far this year.",b:"read",w:"N",v:"R",f:"has read",cw:[],cv:["so far"],wv:"so far — к этому моменту. Считаем сделанное."},
+ {s:"It ___ since early morning, and the streets are wet.",b:"rain",w:"N",v:"D",f:"has been raining",cw:["the streets are wet"],cv:["since early morning"],wv:"since — с утра и до сих пор. Назван срок."},
+ {s:"We ___ for the bus for forty minutes, and it is still not here.",b:"wait",w:"N",v:"D",f:"have been waiting",alt:["'ve been waiting"],cw:["it is still not here"],cv:["for forty minutes"],wv:"for forty minutes — назван срок, и ждём до сих пор."},
+ {s:"My hands are dirty because I ___ in the garden all morning.",b:"work",w:"N",v:"D",f:"have been working",alt:["'ve been working"],cw:["My hands are dirty"],cv:["all morning"],wv:"all morning — назван срок, а след виден сейчас."},
+ {s:"He ___ the guitar since he was six, and he still takes lessons.",b:"play",w:"N",v:"D",f:"has been playing",cw:["he still takes lessons"],cv:["since he was six"],wv:"since he was six — с шести лет и до сих пор. Назван срок."},
+ {s:"She is tired because she ___ for the exam all week.",b:"prepare",w:"N",v:"D",f:"has been preparing",cw:["She is tired"],cv:["all week"],wv:"all week — назван срок, а усталость видна сейчас."},
+ {s:"We ___ to Sochi two years ago.",b:"go",w:"T",v:"F",f:"went",cw:["two years ago"],cv:[],wv:"two years ago — сказано, когда. Просто было."},
+ {s:"Columbus ___ America in 1492.",b:"discover",w:"T",v:"F",f:"discovered",cw:["in 1492"],cv:[],wv:"in 1492 — сказано, когда. Просто было."},
+ {s:"I ___ a new jacket last week.",b:"buy",w:"T",v:"F",f:"bought",cw:["last week"],cv:[],wv:"last week — сказано, когда. Просто было."},
+ {s:"She ___ the door, took off her coat and sat down.",b:"open",w:"T",v:"F",f:"opened",cw:["took off her coat and sat down"],cv:[],wv:"События по порядку, одно за другим. Просто было."},
+ {s:"When I was a child, I ___ in a small village.",b:"live",w:"T",v:"F",f:"lived",cw:["When I was a child"],cv:[],wv:"When I was a child — сказано, когда. Просто было."},
+ {s:"I ___ a shower when the phone rang.",b:"have",w:"T",v:"P",f:"was having",cw:["rang"],cv:["when the phone rang"],wv:"Телефон зазвонил посреди действия: в ту минуту оно шло."},
+ {s:"At eight o'clock yesterday evening we ___ dinner.",b:"have",w:"T",v:"P",f:"were having",cw:["yesterday evening"],cv:["At eight o'clock"],wv:"Названа точная минута в прошлом, и в неё действие шло."},
+ {s:"While the children ___ in the yard, Mum made lunch.",b:"play",w:"T",v:"P",f:"were playing",cw:["made"],cv:["While"],wv:"While — пока дети играли: действие шло в то время."},
+ {s:"It ___ heavily when we left the house.",b:"rain",w:"T",v:"P",f:"was raining",cw:["left"],cv:["when we left the house"],wv:"Мы вышли, а дождь в ту минуту шёл."},
+ {s:"We were late: when we got to the station, the train ___.",b:"leave",w:"T",v:"R",f:"had left",cw:["when we got to the station"],cv:["We were late"],wv:"К нашему приходу поезда уже не было."},
+ {s:"I didn't recognise her because she ___ her hair.",b:"cut",w:"T",v:"R",f:"had cut",cw:["I didn't recognise her"],cv:[],wv:"Постриглась раньше; к моменту встречи это уже было готово."},
+ {s:"She told me that she ___ the book the week before.",b:"read",w:"T",v:"R",f:"had read",cw:["She told me"],cv:["the week before"],wv:"Прочитала раньше, чем рассказала. Что было раньше — с had."},
+ {s:"By the time the police arrived, the thief ___.",b:"escape",w:"T",v:"R",f:"had escaped",cw:["the police arrived"],cv:["By the time"],wv:"By the time — к тому моменту вора уже не было."},
+ {s:"We ___ for two hours when it finally stopped raining.",b:"walk",w:"T",v:"D",f:"had been walking",cw:["when it finally stopped raining"],cv:["for two hours"],wv:"К тому моменту шли уже два часа. Назван срок."},
+ {s:"Her eyes were red because she ___ for a long time.",b:"cry",w:"T",v:"D",f:"had been crying",cw:["Her eyes were red"],cv:["for a long time"],wv:"for a long time — назван срок до того момента."},
+ {s:"He ___ English for five years before he moved to London.",b:"study",w:"T",v:"D",f:"had been studying",alt:["had studied"],cw:["before he moved to London"],cv:["for five years"],wv:"До переезда учил уже пять лет. Назван срок."},
+ {s:"The ground was wet because it ___ all night.",b:"rain",w:"T",v:"D",f:"had been raining",alt:["had rained"],cw:["The ground was wet"],cv:["all night"],wv:"all night — назван срок до того момента."},
+ {s:"I ___ for the bus for half an hour when it finally arrived.",b:"wait",w:"T",v:"D",f:"had been waiting",cw:["when it finally arrived"],cv:["for half an hour"],wv:"К приходу автобуса ждала уже полчаса. Назван срок."}
 ];
 SETS.forEach((set,i)=>set.forEach((it,j)=>it.id='s'+i+'_'+j));
 TEST.forEach((it,i)=>it.id='t'+i);
@@ -148,7 +185,7 @@ const ROUNDS={
  1:{tab:'1 · Когда?',task:'<b>Круг 1.</b> Только один вопрос: о каком времени речь — <b>сейчас</b> или <b>тогда</b>? Форму глагола пока не трогаем.'},
  2:{tab:'2 · Какая картинка?',task:'<b>Круг 2.</b> Те же предложения, «когда» уже известно. Какая это картинка: <b>обычно, в эту минуту, уже готово</b> или <b>уже сколько-то</b>?'},
  3:{tab:'3 · Собери форму',task:'<b>Круг 3.</b> Весь путь: когда? → какая картинка? → по формуле пишу форму глагола.'},
- 4:{tab:'4 · Проверка',task:'<b>Проверка.</b> Новые предложения, как на экзамене: сразу пишу форму. Вопросы задаю себе в уме.'}
+ 4:{tab:'4 · Проверка',task:'<b>Проверка.</b> Новые предложения, каждый раз другие. Как на экзамене: сразу пишу форму, вопросы задаю себе в уме.'}
 };
 
 /* ---------- состояние (только в памяти) ---------- */
@@ -156,7 +193,13 @@ let S=null,root=null;
 const esc=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function chunk(a,n){const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r}
-function buildScreens(r){return r===4?chunk(shuffle(TEST),3):SETS.map(set=>shuffle(set))}
+function pickTest(){
+ const by={};shuffle(TEST).forEach(it=>{(by[it.w+it.v]=by[it.w+it.v]||[]).push(it)});
+ const keys=shuffle(Object.keys(by)),out=keys.map(k=>by[k].shift());
+ shuffle(keys).slice(0,4).forEach(k=>{if(by[k].length)out.push(by[k].shift())});
+ return shuffle(out);
+}
+function buildScreens(r){return r===4?chunk(pickTest(),3):SETS.map(set=>shuffle(set))}
 function fresh(){return{tab:'help',help:4,pic:0,zoom:false,scr:{1:0,2:0,3:0,4:0},ans:{1:{},2:{},3:{},4:{}},screens:{1:buildScreens(1),2:buildScreens(2),3:buildScreens(3),4:buildScreens(4)},res:{},last:null,focus:null}}
 function A(r,it){return S.ans[r][it.id]||(S.ans[r][it.id]={})}
 function norm(v){return String(v||'').toLowerCase().replace(/[’`]/g,"'").replace(/[.!?]+$/,'').replace(/\s+/g,' ').trim()}
