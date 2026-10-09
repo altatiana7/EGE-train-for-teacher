@@ -223,7 +223,7 @@ function helpHTML(){
  if(S.help===0){
   b='<p class="txLead">В русском глагол отвечает на один вопрос: <b>когда?</b> В английском — сразу на два: <b>когда?</b> и <b>что я вижу?</b></p><div class="txCards">'+
   [['Факт','Simple','Просто сообщаю: бывает, было, случилось.','F','I do my homework every day.','Я делаю уроки каждый день.'],
-   ['Процесс','Continuous','Нажала на паузу — а действие идёт.','P','I am doing my homework now.','Я как раз делаю уроки.'],
+   ['Процесс','Continuous','В этот момент действие в разгаре: уже началось, ещё не закончилось.','P','I am doing my homework now.','Я как раз делаю уроки.'],
    ['Результат','Perfect','К этому моменту уже готово. Have = «имею».','R','I have done my homework.','Уроки уже сделаны.'],
    ['Длительность','Perfect Continuous','К этому моменту уже столько-то длится.','D','I have been doing it for an hour.','Делаю уже час.']
   ].map(c=>'<div class="txCard"><h5>'+c[0]+' <small>· '+c[1]+'</small></h5><p>'+c[2]+' Проверка: '+CHECK[c[3]]+'.</p><p class="en">'+c[4]+'</p><p>'+c[5]+'</p></div>').join('')+'</div>';
