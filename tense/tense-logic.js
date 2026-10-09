@@ -224,22 +224,22 @@ function helpHTML(){
  const cards=list=>'<div class="txCards">'+list.map(c=>'<div class="txCard"><h5>'+c[0]+'</h5><p>'+c[1]+'</p><p class="en">'+c[2]+'</p><p class="frm"><span class="txFormula">'+c[3]+'</span></p></div>').join('')+'</div>';
  let b='';
  if(S.help===0){
-  b='<p class="txLead">По-русски всё это одно слово — <b>«делаю»</b>. В английском это четыре разные картинки. Спроси себя, какая перед тобой.</p>'+cards([
-   ['Это обычно, всегда?','«Я делаю уроки каждый день.»','I do my homework every day.','V / V-s'],
-   ['Это прямо в эту минуту?','«Не звони, я делаю уроки!»','I am doing my homework.','am / is / are + V-ing'],
-   ['Это уже готово?','«Я сделала уроки, можно гулять!»','I have done my homework.','have / has + V3'],
-   ['Это уже сколько-то времени?','«Я делаю уроки уже два часа!»','I have been doing my homework for two hours.','have / has been + V-ing']]);
+  b='<p class="txLead">По-русски всё это одно слово — <b>«смотрю»</b>. В английском это четыре разные картинки. Спроси себя, какая перед тобой.</p>'+cards([
+   ['Это обычно, всегда?','«Я смотрю сериалы каждый вечер.»','I watch series every evening.','V / V-s'],
+   ['Это прямо в эту минуту?','«Не звони, я смотрю сериал!»','I am watching a series.','am / is / are + V-ing'],
+   ['Это уже готово?','«Я посмотрела весь сезон, давай обсудим!»','I have watched the whole season.','have / has + V3'],
+   ['Это уже сколько-то времени?','«Я смотрю этот сериал уже три часа!»','I have been watching it for three hours.','have / has been + V-ing']]);
  }else if(S.help===1){
   b='<p class="txLead">Те же четыре картинки, только вчера. Вопросы те же, меняется первое слово: <b>am → was, have → had</b>.</p>'+cards([
-   ['Просто было?','«Вчера я сделала уроки.»','I did my homework yesterday.','V2 (-ed)'],
-   ['В ту самую минуту?','«Вчера в пять я делала уроки.»','At five I was doing my homework.','was / were + V-ing'],
-   ['К тому моменту уже готово?','«Когда мама пришла, уроки были уже сделаны.»','When Mum came, I had done my homework.','had + V3'],
-   ['К тому моменту уже сколько-то?','«Когда мама пришла, я делала уроки уже два часа.»','When Mum came, I had been doing it for two hours.','had been + V-ing']]);
+   ['Просто было?','«Вчера я посмотрела две серии.»','I watched two episodes yesterday.','V2 (-ed)'],
+   ['В ту самую минуту?','«Вчера в десять я смотрела сериал.»','At ten I was watching a series.','was / were + V-ing'],
+   ['К тому моменту уже готово?','«Когда мама пришла, я уже досмотрела серию.»','When Mum came, I had watched the episode.','had + V3'],
+   ['К тому моменту уже сколько-то?','«Когда мама пришла, я смотрела сериал уже три часа.»','When Mum came, I had been watching it for three hours.','had been + V-ing']]);
  }else if(S.help===2){
   b='<p class="txLead">Здесь русский язык подсказывает неправильно. Перед ответом задай себе вопрос.</p><div class="txCards three">'+
    '<div class="txCard"><h5>«Я видела этот фильм»</h5><p>Вопрос: <b>сказано ли, когда?</b></p><p>Сказано:</p><p class="en">I saw it yesterday.</p><p>Не сказано:</p><p class="en">I have seen it.</p></div>'+
    '<div class="txCard"><h5>«Я живу здесь пять лет»</h5><p>По-русски «живу». Но есть <b>«уже сколько-то»</b> — началось раньше и всё ещё идёт.</p><p class="en">I have lived here for five years.</p><p class="en no">I live here for five years.</p></div>'+
-   '<div class="txCard"><h5>«Когда мама пришла, я сделала уроки»</h5><p>К её приходу <b>уже было готово</b>:</p><p class="en">I had done my homework.</p><p>Пришла, а я <b>в ту минуту</b> ещё делала:</p><p class="en">I was doing my homework.</p></div></div>';
+   '<div class="txCard"><h5>«Когда мама пришла, я смотрела серию»</h5><p>К её приходу <b>уже досмотрела</b>:</p><p class="en">I had watched the episode.</p><p>Пришла, а я <b>в ту минуту</b> ещё смотрела:</p><p class="en">I was watching the episode.</p></div></div>';
  }else{
   b='<div class="txSteps"><div><b>1. Когда?</b> Сейчас или тогда. Ищу в предложении слова-опоры: yesterday, when I was ten, now, so far.</div>'+
    '<div><b>2. Какая картинка?</b> Задаю четыре вопроса: это обычно? в эту минуту? уже готово? уже сколько-то времени?</div>'+
