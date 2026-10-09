@@ -92,7 +92,7 @@ document.head.appendChild(style);
 const WHEN={N:'Сейчас',T:'Тогда'};
 /* Четыре картинки. Подпись зависит от того, сейчас это или тогда. */
 const VW={N:{F:'Обычно',P:'В эту минуту',R:'Уже готово',D:'Уже сколько-то'},T:{F:'Просто было',P:'В ту минуту',R:'Уже было готово',D:'Уже сколько-то'}};
-const SIDE={F:'Обычно · просто было',P:'В эту минуту · в ту минуту',R:'Уже готово',D:'Уже сколько-то времени'};
+const SIDE={F:'Обычно · просто было',P:'В эту минуту · в ту минуту',R:'Уже готово',D:'Сказано, сколько уже: for, since'};
 const FORMULA={NF:'V / V-s',NP:'am / is / are + V-ing',NR:'have / has + V3',ND:'have / has been + V-ing',TF:'V2 (-ed)',TP:'was / were + V-ing',TR:'had + V3',TD:'had been + V-ing'};
 const TENSE={NF:'Present Simple',NP:'Present Continuous',NR:'Present Perfect',ND:'Present Perfect Continuous',TF:'Past Simple',TP:'Past Continuous',TR:'Past Perfect',TD:'Past Perfect Continuous'};
 
@@ -228,13 +228,13 @@ function helpHTML(){
    ['Это обычно, всегда?','«Я смотрю сериалы каждый вечер.» Это привычка.','I watch series every evening.','V / V-s'],
    ['Это прямо в эту минуту?','«Не звони, я смотрю серию!» Серия идёт на экране. Что делаю?','I am watching the episode.','am / is / are + V-ing'],
    ['Это уже готово?','«Я посмотрела серию. Рассказать, чем кончилось?» Уже титры. Что сделала?','I have watched the episode.','have / has + V3'],
-   ['Это уже сколько-то времени?','«Я смотрю сериал уже три часа!» Начала давно и всё ещё смотрю.','I have been watching it for three hours.','have / has been + V-ing']]);
+   ['Сказано, сколько уже?','«Я смотрю серию уже час!» Смотрю так же, но назван срок: <b>for</b>, <b>since</b>.','I have been watching the episode for an hour.','have / has been + V-ing']]);
  }else if(S.help===1){
   b='<p class="txLead">Те же четыре картинки, только вчера. Вопросы те же, меняется первое слово: <b>am → was, have → had</b>.</p>'+cards([
    ['Просто было?','«Вчера я посмотрела две серии.»','I watched two episodes yesterday.','V2 (-ed)'],
    ['В ту самую минуту?','«Вчера в десять я смотрела серию.» В десять она шла на экране.','At ten I was watching the episode.','was / were + V-ing'],
    ['К тому моменту уже готово?','«Когда мама пришла, я уже досмотрела серию.» Уже были титры.','When Mum came, I had watched the episode.','had + V3'],
-   ['К тому моменту уже сколько-то?','«Когда мама пришла, я смотрела сериал уже три часа.»','When Mum came, I had been watching it for three hours.','had been + V-ing']]);
+   ['Сказано, сколько уже к тому моменту?','«Когда мама пришла, я смотрела серию уже час.» Назван срок: <b>for</b>.','When Mum came, I had been watching it for an hour.','had been + V-ing']]);
  }else if(S.help===2){
   b='<p class="txLead">Здесь русский язык подсказывает неправильно. Перед ответом задай себе вопрос.</p><div class="txCards three">'+
    '<div class="txCard"><h5>«Я видела этот фильм»</h5><p>Вопрос: <b>сказано ли, когда?</b></p><p>Сказано:</p><p class="en">I saw it yesterday.</p><p>Не сказано:</p><p class="en">I have seen it.</p></div>'+
