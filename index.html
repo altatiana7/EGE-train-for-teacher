@@ -522,6 +522,8 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 
 const ARINA_DB_URL='https://lzxcmrlubhjfdhtqvqzt.supabase.co';
 const ARINA_DB_KEY='sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI';
+/* в общей базе лежат и работы Тимофея (сайт ОГЭ) — здесь показываем только Арину */
+function isArinaRow(x){const id=String(x&&x.test_id||''),t=String(x&&x.test_title||''),st=String(x&&x.answers&&x.answers.student||'');return !/^timofey/i.test(id)&&!/^Тимофей/.test(t)&&!/Тимофей/i.test(st)}
 function arinaEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function openArinaHomeworkResults(){
  document.querySelectorAll('.content').forEach(x=>x.classList.remove('on'));
@@ -553,7 +555,7 @@ async function loadArinaHomeworkResults(){
    if(r.status===400||r.status===401||r.status===403){localStorage.removeItem('arina-teacher-code');status.textContent='Неверный код доступа. Нажмите «Обновить» и введите код ещё раз.';return}
    throw new Error('load_failed');
   }
-  const all=await r.json(),seen={},rows=[];
+  const all=(await r.json()).filter(isArinaRow),seen={},rows=[];
   /* повторные нажатия кнопки: та же работа, тот же балл и те же ответы в пределах 10 минут — показываем один раз */
   all.forEach(x=>{const sig=(x.test_id||x.test_title)+'|'+x.score+'|'+x.max_score+'|'+JSON.stringify(x.answers||{}),t=new Date(x.created_at).getTime();if((seen[sig]||[]).some(u=>Math.abs(u-t)<600000))return;(seen[sig]=seen[sig]||[]).push(t);rows.push(x)});
   const hidden=all.length-rows.length;
@@ -3444,7 +3446,7 @@ async function loadArinaErrorsAuto(askCode){
  try{
   const r=await fetch(ARINA_DB_URL+'/rest/v1/rpc/get_arina_homework',{method:'POST',headers:{'apikey':ARINA_DB_KEY,'Authorization':'Bearer '+ARINA_DB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_teacher_code:code})});
   if(!r.ok){if(r.status===400||r.status===401||r.status===403){localStorage.removeItem('arina-teacher-code');box.innerHTML='Неверный код доступа. <button class="teacherBtn" onclick="loadArinaErrorsAuto(true)">Ввести код ещё раз</button>';return}throw new Error('load')}
-  arinaErrRows=await r.json();renderArinaErrorsAuto();
+  arinaErrRows=(await r.json()).filter(isArinaRow);renderArinaErrorsAuto();
  }catch(e){box.innerHTML='Не удалось загрузить работы Арины. Проверьте интернет. <button class="teacherBtn" onclick="loadArinaErrorsAuto()">Повторить</button>'}
 }
 function arinaErrList(){
