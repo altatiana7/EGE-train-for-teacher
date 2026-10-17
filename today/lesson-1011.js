@@ -92,7 +92,6 @@ const STEPS=[
  ['Времена · тренажёр','15 минут'],
  ['Чтение · Maslenitsa','12 минут'],
  ['Та же Масленица — другая картинка','8 минут'],
- ['Аудирование · Dasha','15 минут'],
  ['Итог и домашка','5 минут']
 ];
 /* Текст берётся из блока «Россия» (fipi/data4.js, тема ru-holidays); ниже запасная копия. */
@@ -197,7 +196,7 @@ function body(){
     return '<div class="alRow '+(a.done?(a.ok&&!a.slip?'ok':'bad'):'')+'"><div class="alQ"><b class="n">'+(i+1)+'.</b> '+esc(it.s).replace('___',gap)+(a.done?'':' <button type="button" class="alBtn prim" data-a="xcheck" data-v="'+i+'">OK</button>')+'</div><div class="alFb">'+fb+'</div></div>';
    }).join('');
  }
- if(s===4){
+ if(false){
   const can=!!(window.speechSynthesis&&window.SpeechSynthesisUtterance);
   const left='<div class="alPlayer"><div class="alCtl" style="margin:0"><button type="button" class="alBtn prim" data-a="play"'+(can?'':' disabled')+'>Play</button><button type="button" class="alBtn" data-a="stop"'+(can?'':' disabled')+'>Stop</button>'+
    '<button type="button" class="alBtn" data-a="script">'+(S.script?'Скрыть текст':'Показать текст')+'</button>'+(S.script?'<button type="button" class="alBtn" data-a="legend">'+(S.legend?'Скрыть картинки':'Картинки')+'</button>':'')+
@@ -208,7 +207,7 @@ function body(){
    '<p class="alTask"><b>True, False или Not stated?</b> Сначала прочитать, потом слушать.</p>'+pages('l',S.lp,LISTEN_Q)+tfRows('l',LISTEN_Q,S.lp)+'</div></div>';
  }
  const xs=TURN.filter((it,i)=>S.x[i]&&S.x[i].ok&&!S.x[i].slip).length;
- return '<div class="alScore"><div><b>'+(S.check!==''?esc(S.check):'—')+' / 12</b><span>Проверка в тренажёре</span></div><div><b>'+tfScore('r',READ_Q)+' / 6</b><span>Чтение</span></div><div><b>'+xs+' / 4</b><span>Другая картинка</span></div><div><b>'+tfScore('l',LISTEN_Q)+' / 6</b><span>Аудирование</span></div></div>'+
+ return '<div class="alScore"><div><b>'+(S.check!==''?esc(S.check):'—')+' / 12</b><span>Проверка в тренажёре</span></div><div><b>'+tfScore('r',READ_Q)+' / 6</b><span>Чтение</span></div><div><b>'+xs+' / 4</b><span>Другая картинка</span></div></div>'+
   '<div class="alCards"><div class="alCard"><h5>Спросить Арину в конце</h5><ul class="alList"><li>Какие четыре вопроса мы задаём?</li><li>Чем «смотрю серию» отличается от «смотрю серию уже час»?</li><li>Какие слова подсказали ответ в тексте про Дашу?</li></ul></div>'+
   '<div class="alCard"><h5>Домашнее задание</h5><ul class="alList"><li>Тренажёр «Времена»: Проверка ещё раз, записать счёт.</li><li>Текст Maslenitsa: прочитать вслух за 1,5 минуты.</li><li>Написать четыре предложения про свою семью — по одному на каждую картинку.</li></ul></div></div>'+
   '<div class="alCtl"><button type="button" class="alBtn" data-a="restart">Начать урок заново</button></div>';
