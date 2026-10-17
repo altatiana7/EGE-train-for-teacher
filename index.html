@@ -1448,7 +1448,26 @@ function futureWeekTabs(i,key){
     ['Yesterday she ___ (MAKE) only two tense mistakes.','made'],
     ['She ___ (WORK) on this grammar topic since September.','has been working']
    ];
-   steps.push(['Mixed checkpoint · 24','0–15',intro+fwReveal(mixed)]);
+   /* Ошибки Арины из работ 16–17 октября: предложения из её заданий, ответ Арины → верный ответ */
+   const arinaErr1617=[
+    ['Two years ago our family ___ to a smaller town. (MOVE)','moved','Арина: had moved'],
+    ['I ___ to Oslo when I was twenty-one, and I’ve been working there for quite a while now. (MOVE)','moved','Арина: had moved'],
+    ['Last summer my uncle ___ to fly to Sochi for a conference. (PLAN)','planned','Арина: had planned'],
+    ['At this time last Sunday we ___ in the sea. (SWIM)','were swimming','Арина: had swum'],
+    ['“I ___ my key and I can’t get into my house.” (LOSE)','have lost','Арина: had lost'],
+    ['Your eyes are red. ___ onions? (CHOP)','Have you been chopping','Арина: Had you chopped'],
+    ['When she finally came inside, she was exhausted: she ___ in the garden since breakfast. (WORK)','had been working','Арина: has been working'],
+    ['This year I ___ in Brazil for New Year. (BE)','am going to be','Арина: have been'],
+    ['You ___ pale. Are you all right? (LOOK)','look','Арина: are looking'],
+    ['Most critics ___ her the best writer of her generation. (CONSIDER)','consider','Арина: have considered'],
+    ['I ___ my summer holiday, you know. (PLAN)','am planning','Арина: was planning'],
+    ['He hasn’t opened a book all month — he’s <b>going to fail</b> the test. Что выражает going to?','Evidence now · be going to','Арина: Decision now / promise / offer · will'],
+    ['When I got to the station, I realised that I ___ my ticket. (FORGET)','had forgotten','Арина: had forgot'],
+    ['“If the box was mine, I ___ you to touch it whenever you wanted,” I answered. (ALLOW)','would allow','Арина: would'],
+    ['When you ___ a film and texting a friend at the same time, you’re not doing any of these properly. (WATCH)','are watching','Арина: are vatching'],
+    ['There are other less well-known ___ of our country in the space race. (ACHIEVE)','achievements','Арина: achivements']
+   ];
+   steps.push(['Ошибки Арины · 16–17 окт','0–15',fwReveal(arinaErr1617)]);
    
    
    const g=exam26Own('grammar',2);
