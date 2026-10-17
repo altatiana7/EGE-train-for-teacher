@@ -3357,14 +3357,21 @@ function exam26Items(set,mode,gapClass,baseClass){
 }
 function exam26Src(set){return set.f?'Открытый банк ФИПИ':'Тренировочное задание'}
 /* Сначала задания текущей недели, затем повторение предыдущих недель (от ближайшей к первой) */
+/* тексты, которые уже стоят внутри уроков недели, в EXAM не повторяются */
+function exam26LessonUsed(mode,w){
+ if(w===0)return [];
+ const g=mode==='grammar',ks=w===1?(g?[1]:[1,2]):w===2?(g?[0,1,2]:[0]):(g?[0,1]:[0,1]);
+ const own=exam26Own(mode,w);return ks.map(k=>own[k]).filter(Boolean);
+}
 function exam26List(mode,w){
- const out=exam26Own(mode,w).map(s=>({s:s,w:w}));
- for(let k=w-1;k>=0;k--)exam26Own(mode,k).forEach(s=>out.push({s:s,w:k}));
- return out;
+ const out=[];
+ for(let k=w;k>=0;k--){const used=exam26LessonUsed(mode,k);exam26Own(mode,k).forEach(s=>{if(!used.includes(s))out.push({s:s,w:k})})}
+ if(out.length)return out;
+ const all=exam26Own(mode,w).map(s=>({s:s,w:w}));for(let k=w-1;k>=0;k--)exam26Own(mode,k).forEach(s=>all.push({s:s,w:k}));return all;
 }
 let exam26Week=0,exam26Lesson=0;
 let exam26Mode='grammar',exam26Index=0;
-function exam26Start(){return exam26Mode==='wf'&&exam26Week===1?Math.min(exam26Lesson,2):0}
+function exam26Start(){return 0}
 function renderExam2026(week,lessonIndex){exam26Week=Number.isInteger(week)?week:currentWeek;exam26Lesson=Number.isInteger(lessonIndex)?lessonIndex:0;exam26Mode='grammar';exam26Index=exam26Start();renderExam26View()}
 function exam26SetMode(m){exam26Mode=m;exam26Index=exam26Start();renderExam26View()}
 function renderExam26View(){
