@@ -414,6 +414,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <script defer src="expert/expert.js?v=20261003-expert"></script>
 <script defer src="today/lesson.js?v=20261005-iv"></script>
 <script defer src="today/lesson-1011.js?v=20261010-a"></script>
+<script defer src="today/w3-checkpoint.js?v=20261017"></script>
 <script defer src="tense/tense-logic.js?v=20261010-open"></script>
 <link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005x"></script><style>
 /* Единая типографика уроков недель 2–32: 16px текст, 20px заголовок шага, 13px подписи */
@@ -514,6 +515,10 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 .plBtn:disabled{opacity:.4;cursor:default}
 .memo,.memo button{font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
 
+
+/* уроки открываются на весь экран, поверх верхней панели сайта */
+.lessonPage{inset:0!important;z-index:200!important}.lessonPage{padding-top:40px!important}.lessonBack{top:6px!important;z-index:220!important}
+.ap{inset:0!important;z-index:210!important}
 </style>
 </head><body>
 <header class="top"><div class="brand">ARINA TEACHER HUB · <b>EGE</b></div><div class="topnote">диагностика → план → урок → контроль → коррекция</div><button class="mobile" id="mobileBtn">План</button></header>
@@ -1057,7 +1062,7 @@ const l3Checkpoint=[
 ];
 function l3QuizHTML(title,items,key){
  return '<div class="l3Quiz" data-l3="'+key+'"><div class="wwTop"><b>'+title+'</b><span class="l3Score">0 / '+items.length+'</span></div>'+
- items.map((q,i)=>'<div class="q" data-answer="'+q[3]+'"><p><b>'+(i+1)+'.</b> '+q[0]+' <span class="egeBase">('+q[1]+')</span></p><div class="opts">'+q[2].map((o,j)=>'<label class="opt"><input type="radio" name="'+key+i+'" value="'+j+'"> '+o+'</label>').join('')+'</div><div class="fb"></div></div>').join('')+
+ items.map((q,i)=>'<div class="q" data-answer="'+q[3]+'"><p><b>'+(i+1)+'.</b> '+q[0]+'</p><div class="opts">'+q[2].map((o,j)=>'<label class="opt"><input type="radio" name="'+key+i+'" value="'+j+'"> '+o+'</label>').join('')+'</div><div class="fb"></div></div>').join('')+
  '<button class="action" type="button" onclick="checkL3Quiz(this)">ПРОВЕРИТЬ</button> <button class="action" type="button" style="background:#64748b" onclick="resetL3Quiz(this)">СБРОСИТЬ</button></div>';
 }
 function checkL3Quiz(btn){
@@ -1443,13 +1448,15 @@ function futureWeekTabs(i,key){
     ['Yesterday she ___ (MAKE) only two tense mistakes.','made'],
     ['She ___ (WORK) on this grammar topic since September.','has been working']
    ];
-   steps.push(['Mixed checkpoint · 24','0–30',intro+fwReveal(mixed)]);
+   steps.push(['Mixed checkpoint · 24','0–15',intro+fwReveal(mixed)]);
    
    
    const g=exam26Own('grammar',2);
-   if(g[1])steps.push(['EGE 19–24 · ФИПИ · текст 1','30–42',exam26InlineHTML('grammar',2,1)]);
-   if(g[2])steps.push(['EGE 19–24 · ФИПИ · текст 2','42–55',exam26InlineHTML('grammar',2,2)]);
-   steps.push(['Error log','55–60','<div class="task"><b>Записать только повторяющиеся ошибки:</b><br>1. My answer → Correct answer → Why?<br>2. My answer → Correct answer → Why?<br>3. Rule I must remember next lesson.</div>']);
+   if(g[1])steps.push(['EGE 19–24 · ФИПИ · текст 1','15–22',exam26InlineHTML('grammar',2,1)]);
+   steps.push(['Чтение · задание 10','22–37',typeof w3cpReadingHTML==='function'?w3cpReadingHTML():'<div class="task">Обновите страницу.</div>']);
+   steps.push(['Интервью · Travelling','37–50',typeof w3cpInterviewHTML==='function'?w3cpInterviewHTML():'<div class="task">Обновите страницу.</div>']);
+   if(g[2])steps.push(['EGE 19–24 · ФИПИ · текст 2','50–57',exam26InlineHTML('grammar',2,2)]);
+   steps.push(['Error log','57–60','<div class="task"><b>Записать только повторяющиеся ошибки:</b><br>1. My answer → Correct answer → Why?<br>2. My answer → Correct answer → Why?<br>3. Rule I must remember next lesson.</div>']);
  }
  return {steps,after};
 }
@@ -3653,5 +3660,15 @@ function arinaCopyReport(btn){
  const fallback=()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){alert(text)}ta.remove()};
  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(ok,fallback);else fallback();
 }
+</script>
+<script>
+/* весь экран: урок открывается во весь экран браузера, при закрытии — выход */
+function arinaFull(on){try{const d=document;if(on){if(!d.fullscreenElement&&d.documentElement.requestFullscreen)d.documentElement.requestFullscreen().catch(()=>{})}else if(d.fullscreenElement&&d.exitFullscreen)d.exitFullscreen().catch(()=>{})}catch(e){}}
+(function(){
+ const wrap=(name,on)=>{const f=window[name];if(typeof f!=='function'||f._full)return;const g=function(){arinaFull(on);return f.apply(this,arguments)};g._full=1;window[name]=g};
+ const all=()=>{wrap('openLesson',true);wrap('closeLesson',false);wrap('openArinaPastToday',true);wrap('openArinaToday',true);wrap('openTenseLogicTrainer',true)};
+ all();window.addEventListener('load',all);
+ document.addEventListener('click',e=>{if(e.target.closest('.ap [data-close]'))arinaFull(false)},true);
+})();
 </script>
 </body></html>
