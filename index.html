@@ -3611,6 +3611,11 @@ function openW3Rule(kind){openMemo(kind)}
 <script id="arinaReportScript">
 /* ---------- разбор результатов Арины: что не сдано, ошибки по темам, отчёт одним нажатием ---------- */
 const ARINA_ALL_TASKS=[["w0l0","Week 1 · Lesson 1 · Grammar test · Present Tenses"],["w0l1","Week 1 · Lesson 2 · Grammar test · Stative / Dynamic"],["w0l2","Week 1 · Lesson 3 · EGE 19–24 · Present forms"],["w2-present-stative","Week 2 · Lesson 1 · Present + Stative · 30"],["w2-fipi","Week 2 · Lesson 1 · ФИПИ · 4 блока"],["w2l2-contrast","Week 2 · Lesson 2 · Earlier past · 12"],["w2l2-mixed","Week 2 · Lesson 2 · Mixed Past · 15"],["w2l2-story","Week 2 · Lesson 2 · Story order · A missed flight"],["w2l2-transform","Week 2 · Lesson 2 · Transformations · 6"],["w2l3-ege","Week 2 · Lesson 3 · EGE 19–24 · Past · тексты A–B"],["w2l3-ege2","Week 2 · Lesson 3 · EGE 19–24 · Past · тексты C–D"],["w2l3-repair","Week 2 · Lesson 3 · Repair clinic · Past · 8"],["w3l1-ege","Week 3 · Lesson 1 · EGE 19–24 · два текста"],["w3l1-future16","Week 3 · Lesson 1 · Future forms · 16"],["w3l1-interview","Week 3 · Lesson 1 · Interview · Future plans"],["w3l1-meaning","Week 3 · Lesson 1 · Meaning → form"],["w3l1-personal","Week 3 · Lesson 1 · Personal examples · 8"],["w3l1-repair","Week 3 · Lesson 1 · Repair clinic"],["w3l1-revision","Week 3 · Lesson 1 · Revision · Present + Past"],["w3l1-transform","Week 3 · Lesson 1 · Transformations · 10"],["w3l1-reading-fipi","Week 3 · Lesson 1 · Reading · ЕГЭ 10–18 · Future"]];
+/* 24.10: домашка по теме Family (сайт Арины, заданы 17.10) — всегда считается заданной */
+const ARINA_FAMILY_TASKS=[["fam-g3","Family · Grammar · Family pastime"],["fam-g4","Family · Grammar · Surprise for mum"],["fam-g5","Family · Grammar · Paddington Bear"],["fam-g6","Family · Grammar · Fear of darkness"],["fam-w3","Family · Word formation · Children and talent"],["fam-w4","Family · Word formation · My friend Mark"],["fam-w5","Family · Word formation · Friend"],["fam-w7","Family · Word formation · Phobias"],["fam-r1","Family · Reading · The will"],["fam-r2","Family · Reading · A trip of her life"],["fam-r3","Family · Reading · Honesty lesson"],["fam-speak-t1-1","Family · Speaking · Task 1 · reading aloud · text 1"],["fam-speak-t1-2","Family · Speaking · Task 1 · reading aloud · text 2"],["fam-speak-t2-1","Family · Speaking · Task 2 · questions · advert 1"],["fam-speak-t2-2","Family · Speaking · Task 2 · questions · advert 2"],["fam-speak-iv1","Family · Speaking · Task 3 · interview 1"],["fam-speak-iv2","Family · Speaking · Task 3 · interview 2"]];
+ARINA_FAMILY_TASKS.forEach(t=>{if(!ARINA_ALL_TASKS.some(x=>x[0]===t[0]))ARINA_ALL_TASKS.push(t)});
+/* сдача пустой работы (ни одного ответа) не считается сданной */
+function arinaEmptySubmit(r){const d=Array.isArray(r.details)?r.details:[];return d.length>0&&d.every(x=>!String(x.chosen==null?'':x.chosen).trim()||String(x.chosen).trim()==='—')}
 const ARINA_ASSIGNED_FALLBACK=['w3l1-future16','w3l1-transform','w3l1-personal','w3l1-reading-fipi'];
 function arinaTopic(d,title){
  const c=String(d.correct||'').toLowerCase().replace(/[’‘]/g,"'"),t=String(title||'');
@@ -3638,10 +3643,11 @@ function arinaInRange(r){const d=new Date(r.created_at);const k=d.getFullYear()+
 function arinaSetRange(f,t){arinaRange={from:f||'',to:t||''};try{localStorage.setItem('arinaReportRange',JSON.stringify(arinaRange))}catch(e){}const box=document.getElementById('arinaReportBox');if(box)box.outerHTML=arinaReportHTML(arinaLastRows)}
 function arinaRangeLabel(){const f=x=>x?x.split('-').reverse().join('.'):'';return arinaRange.from||arinaRange.to?'за '+(arinaRange.from===arinaRange.to?f(arinaRange.from):(f(arinaRange.from)||'начала')+' – '+(f(arinaRange.to)||'сегодня')):'за всё время'}
 function arinaReportData(rows){
- const allRows=rows;rows=rows.filter(arinaInRange);
+ const allRows=rows;rows=rows.filter(r=>arinaInRange(r)&&!arinaEmptySubmit(r));
  const latest={};rows.forEach(r=>{const id=r.test_id||r.test_title;if(!latest[id]||new Date(r.created_at)>new Date(latest[id].created_at))latest[id]=r});
  let assigned=ARINA_ASSIGNED_FALLBACK;try{const v=JSON.parse(localStorage.getItem('arinaAssigned')||'null');if(Array.isArray(v))assigned=v}catch(e){}
- const done=new Set(allRows.map(r=>r.test_id||r.test_title));
+ const done=new Set(allRows.filter(r=>!arinaEmptySubmit(r)).map(r=>r.test_id||r.test_title));
+ assigned=assigned.concat(ARINA_FAMILY_TASKS.map(t=>t[0]));
  /* 24.10: разобраны на уроке (warm-up Week 4 · Lesson 2) — считаются сделанными */
  ['w0l0','w0l1','w2l3-ege','w2l3-repair','w3l1-interview'].forEach(id=>done.add(id));
  const missAssigned=ARINA_ALL_TASKS.filter(t=>assigned.includes(t[0])&&!done.has(t[0])),missOther=ARINA_ALL_TASKS.filter(t=>!assigned.includes(t[0])&&!done.has(t[0]));
