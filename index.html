@@ -3638,6 +3638,8 @@ function arinaReportData(rows){
  const latest={};rows.forEach(r=>{const id=r.test_id||r.test_title;if(!latest[id]||new Date(r.created_at)>new Date(latest[id].created_at))latest[id]=r});
  let assigned=ARINA_ASSIGNED_FALLBACK;try{const v=JSON.parse(localStorage.getItem('arinaAssigned')||'null');if(Array.isArray(v))assigned=v}catch(e){}
  const done=new Set(allRows.map(r=>r.test_id||r.test_title));
+ /* 24.10: разобраны на уроке (warm-up Week 4 · Lesson 2) — считаются сделанными */
+ ['w0l0','w0l1','w2l3-ege','w2l3-repair','w3l1-interview'].forEach(id=>done.add(id));
  const missAssigned=ARINA_ALL_TASKS.filter(t=>assigned.includes(t[0])&&!done.has(t[0])),missOther=ARINA_ALL_TASKS.filter(t=>!assigned.includes(t[0])&&!done.has(t[0]));
  const topics={},wrong=[];
  Object.values(latest).forEach(r=>(Array.isArray(r.details)?r.details:[]).forEach(d=>{
