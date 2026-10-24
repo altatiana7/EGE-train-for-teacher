@@ -3536,7 +3536,7 @@ function resetFipiReadTimer(){clearInterval(fipiReadTimerId);fipiReadSeconds=90;
 function startFipiReadTimer(sec){clearInterval(fipiReadTimerId);fipiReadSeconds=sec;var e=document.getElementById('fipiReadTimer');function draw(){if(!e)return;var m=String(Math.floor(fipiReadSeconds/60)).padStart(2,'0'),s=String(fipiReadSeconds%60).padStart(2,'0');e.textContent=m+':'+s;if(fipiReadSeconds<=0){clearInterval(fipiReadTimerId);return}fipiReadSeconds--}draw();fipiReadTimerId=setInterval(draw,1000)}
 function speakFipiReading(){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(fipiReadingTexts[fipiReadIndex].text);u.lang='en-GB';u.rate=.88;var vs=speechSynthesis.getVoices();u.voice=vs.find(function(v){return /en-GB/i.test(v.lang)&&/Daniel|George|Arthur|Oliver|male/i.test(v.name)})||vs.find(function(v){return /en-GB/i.test(v.lang)})||null;speechSynthesis.speak(u)}
 
-document.getElementById('mobileBtn').onclick=()=>document.getElementById('side').classList.toggle('open');renderButtons();renderWeek(0);
+document.getElementById('mobileBtn').onclick=()=>document.getElementById('side').classList.toggle('open');(function(){let i=weeks.findIndex((_,k)=>teacherWeekState[k]==='active');if(i<0){i=weeks.findIndex((_,k)=>teacherWeekState[k]!=='done');if(i<0)i=0}currentWeek=i;renderButtons();renderWeek(i);const b=document.querySelector('.wbtn[data-i="'+i+'"]');if(b)b.scrollIntoView({block:'nearest'})})();
 </script><!-- pages-republish -->
 <script id="memoScript">
 /* ---------- памятки: one viewer, tabs by topic, the same structure in every memo ---------- */
