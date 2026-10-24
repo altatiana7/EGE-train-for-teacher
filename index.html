@@ -1529,7 +1529,7 @@ function lessonTabs(x,i,w){
   if(i===1&&f.length)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?1:0)]);
   if(i===2){if(g[1])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,1)]);if(f.length>1)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?2:1)]);}
  }
- after.push(['Домашняя работа','','<div class="task">'+x[2].split('; ').map((s,n)=>'<b>'+(n+1)+'.</b> '+s).join('<br>')+'</div>'+materialBox(key+'-hw')+'<label class="check"><input type="checkbox" data-save="'+key+'"> Домашняя работа выполнена</label>']);
+ if(0)after.push(['Домашняя работа','','<div class="task">'+x[2].split('; ').map((s,n)=>'<b>'+(n+1)+'.</b> '+s).join('<br>')+'</div>'+materialBox(key+'-hw')+'<label class="check"><input type="checkbox" data-save="'+key+'"> Домашняя работа выполнена</label>']);
  after.push(['EXAM · неделя '+(w+1),'',exam26Card(w,i)]);
  return {steps:steps,after:after};
 }
@@ -1538,7 +1538,7 @@ function lessonFullHTML(x,i,w){
  if(w===0)return html+lessonStarter(w,i)+'</div></div>';
  const T=lessonTabs(x,i,w),all=T.steps.concat(T.after),N=all.length;
  const btn=(t,n)=>'<button type="button" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'·')+'</span><span>'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+'</button>';
- const strip=n=>'<div class="lsStrip"><button type="button" class="lsBackW" onclick="closeLesson()">← Неделя '+(w+1)+'</button><span class="lsWho">Урок '+(i+1)+'</span>'+all.map((t,k)=>'<button type="button" class="lsChip'+(k===n?' on':'')+(k>=T.steps.length?' after':'')+'" title="'+String(t[0]).replace(/"/g,'&quot;')+'" onclick="showL3Panel('+k+')">'+(k<T.steps.length?k+1:(k===T.steps.length?'ДЗ':'EXAM'))+'</button>').join('')+'</div>';
+ const strip=n=>'<div class="lsStrip"><button type="button" class="lsBackW" onclick="closeLesson()">← Неделя '+(w+1)+'</button><span class="lsWho">Урок '+(i+1)+'</span>'+all.map((t,k)=>'<button type="button" class="lsChip'+(k===n?' on':'')+(k>=T.steps.length?' after':'')+'" title="'+String(t[0]).replace(/"/g,'&quot;')+'" onclick="showL3Panel('+k+')">'+(k<T.steps.length?k+1:('EXAM'))+'</button>').join('')+'</div>';
  const sec=(t,n)=>'<section data-l3="'+n+'">'+strip(n)+'<div class="lsBar"><div><small>'+(n<T.steps.length?'Шаг '+(n+1)+' из '+T.steps.length:'После урока')+(t[1]?' · '+t[1]+' мин':'')+'</small><h2>'+t[0]+'</h2></div><div class="lsNav">'+(n>0?'<button type="button" onclick="showL3Panel('+(n-1)+')">← Назад</button>':'')+(n<N-1?'<button type="button" class="next" onclick="showL3Panel('+(n+1)+')">Дальше →</button>':'')+'</div></div><div class="lsBody">'+t[2]+'</div></section>';
  html+='<div class="lesson3OneScreen lsOne"><div class="lesson3Menu"><div class="lsTitle">Неделя '+(w+1)+' · Урок '+(i+1)+'<b>'+x[0]+'</b></div><div class="lsGroup">На уроке</div>'+T.steps.map((t,n)=>btn(t,n)).join('')+'<div class="lsGroup">После урока</div>'+T.after.map((t,n)=>btn(t,n+T.steps.length)).join('')+'</div><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none">'+all.map(sec).join('')+'</div></div>';
  return html+'</div></div>';
