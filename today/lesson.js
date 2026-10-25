@@ -196,7 +196,7 @@ function chips(n,key,label){let h='<div class="apChips">';for(let i=0;i<n;i++){c
 
 function render(){
  const lessonCount=steps.length-1;
- box.innerHTML='<div class="apTop"><span class="apLesson">W2 · L3 · Past tenses</span><h3>'+steps[step][0]+'</h3><small>'+(step<lessonCount?'шаг '+(step+1)+' из '+lessonCount+' · '+steps[step][1]+' мин':'после урока')+'</small><span class="apFill"></span><button class="apBtn" data-step="'+(step-1)+'"'+(step===0?' disabled':'')+'>← Назад</button><button class="apBtn prim" data-step="'+(step+1)+'"'+(step===steps.length-1?' disabled':'')+'>Дальше →</button><button class="apBtn" data-close>Закрыть</button></div>'+
+ box.innerHTML='<div class="apTop"><span class="apLesson">W2 · L3 · Past tenses</span><h3>'+steps[step][0]+'</h3><small>'+(step<lessonCount?(steps[step][1]?steps[step][1]+' мин':''):'после урока')+'</small><span class="apFill"></span><button class="apBtn" data-close>Закрыть</button></div>'+
  '<div class="apWrap"><nav class="apSteps"><div class="grp">На уроке</div>'+steps.map((s,i)=>(i===lessonCount?'<div class="grp">После урока</div>':'')+'<button data-step="'+i+'" class="'+(i===step?'on':'')+'"><i>'+(i<lessonCount?i+1:'·')+'</i><span>'+s[0]+'</span>'+(s[1]?'<em>'+s[1]+'</em>':'')+'</button>').join('')+'</nav>'+
  '<section class="apPanel"><div class="apBody"><div>'+body()+'</div></div></section></div>';
  box.querySelector('[data-close]').onclick=close;

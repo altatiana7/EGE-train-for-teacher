@@ -540,6 +540,36 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 .lsOne .lsBody{flex:1;min-height:0;max-width:none!important;overflow:hidden;padding:14px 22px 14px!important;transform-origin:0 0}
 .lsOne .lsBody.lsScroll{overflow:auto}
 .lsOne .lsBody .lsFitIn{transform-origin:0 0}
+/* ===== Урок = экран-хаб из блоков-кнопок, без шагов и без загрузки файлов ===== */
+.materialBox{display:none!important}
+.lsOne .lsTop{display:flex;align-items:center;gap:10px;flex:none;padding:7px 16px;border-bottom:1px solid #e3e9f2;background:#f7f9fc}
+.lsOne .lsTop .lsBackW{border:0;background:#1f2937;color:#fff;border-radius:8px;padding:6px 12px;font-weight:800;font-size:13px;cursor:pointer}
+.lsOne .lsTop .lsBackW:hover{background:#0039A6}
+.lsOne .lsTop .lsWho{font-size:13px;font-weight:800;color:#64748b;letter-spacing:.3px}
+.lsOne .lsTop .lsTheme{font-size:15px;color:#142337;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lsOne .lsHubSec{display:flex!important;flex-direction:column;height:100%;min-height:0}
+.lsOne .lsHubBody{flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:20px;padding:16px 18px 18px;align-content:safe center}
+.lsOne .lsHubGroup{font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#64748b;margin:0 0 8px}
+.lsOne .lsHubMain>.lsHubGroup+.lsTiles+.lsHubGroup{margin-top:16px}
+.lsOne .lsTiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.lsOne .lsTile{display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-areas:"n t" ". e";align-items:center;gap:4px 10px;text-align:left;padding:15px 14px;min-height:78px;border:1px solid #d9e1ec;border-left:4px solid #0039A6;border-radius:12px;background:#fff;cursor:pointer;box-shadow:0 1px 2px rgba(16,36,80,.05);transition:.15s}
+.lsOne .lsTile:hover{border-color:#0039A6;border-left-color:#D52B1E;box-shadow:0 4px 14px rgba(16,36,80,.12);transform:translateY(-1px)}
+.lsOne .lsTile .lsNum{grid-area:n;width:30px;height:30px;border-radius:50%;background:#e8eef7;color:#0039A6;font-size:14px;font-weight:800;display:grid;place-items:center}
+.lsOne .lsTile .lsTileT{grid-area:t;font-size:15px;font-weight:700;color:#142337;line-height:1.3}
+.lsOne .lsTile em{grid-area:e;font-style:normal;font-size:12.5px;color:#64748b}
+.lsOne .lsTile.after{border-left-color:#D52B1E;background:#fffaf9}
+.lsOne .lsTile.after .lsNum{background:#fde8e6;color:#D52B1E}
+.lsOne .lsPlan{display:grid;gap:10px;align-content:start}
+.lsOne .lsPlanBox{border:1px solid #d9e1ec;border-radius:12px;background:#f7f9fc;padding:11px 13px}
+.lsOne .lsPlanBox h3{margin:0 0 6px!important;font-size:12px!important;font-weight:800!important;letter-spacing:.6px;text-transform:uppercase!important;color:#0039A6!important}
+.lsOne .lsPlanBox ul{margin:0;padding-left:16px}
+.lsOne .lsPlanBox li,.lsOne .lsPlanBox p{font-size:13.5px;line-height:1.5;color:#334155;margin:0 0 2px}
+.lsOne .lsTile:focus{outline:none}
+.lsOne .lsTile:focus-visible{outline:2px solid #0039A6;outline-offset:2px}
+.lsOne .lsBar{display:flex!important;align-items:baseline;gap:10px;justify-content:flex-start!important;border-bottom:1px solid #e3e9f2;padding:7px 18px!important}
+.lsOne .lsBar h2{font-size:19px!important;margin:0!important}
+.lsOne .lsBar small{font-size:13px!important;color:#64748b}
+@media(max-width:900px){.lsOne .lsHubBody{grid-template-columns:minmax(0,1fr)}}
 .w42QGrid{grid-template-columns:repeat(auto-fill,minmax(400px,1fr))!important}
 .w42QOpts{display:flex!important;flex-wrap:wrap}.w42QOpts button{flex:0 1 auto}.w42QS{margin-bottom:6px!important}
 </style></head><body>
@@ -775,7 +805,7 @@ const markerSets=[
 [['tomorrow','завтра'],['next week','на следующей неделе'],['by 2030','к 2030 году'],['this time tomorrow','завтра в это время'],['soon','скоро'],['in two days','через два дня'],['tonight','сегодня вечером'],['in the future','в будущем']]
 ];
 function materialBox(key){
- return '<div class="materialBox"><b>Мои материалы к этому блоку</b><input type="file" multiple onchange="saveMaterials(this,\''+key+'\')"><div class="savedFiles" id="files-'+key+'"></div></div>';
+ return '';
 }
 async function saveMaterials(inp,key){
  const files=[...inp.files]; if(!files.length)return;
@@ -1119,7 +1149,35 @@ function checkL3Ege(btn){
 function resetL3Ege(btn){const root=btn.closest('.l3EgeSet');root.querySelectorAll('[data-l3ege]').forEach(x=>{x.value='';x.style.borderBottomColor='#0039A6';x.style.background='#f7f9fc'});root.querySelector('.egeSetResult').textContent=''}
 
 
-function showL3Panel(i){const store=document.getElementById('l3Store'),out=document.getElementById('l3Panel');if(!store||!out)return;const current=out.querySelector('[data-l3]');if(current)store.appendChild(current);const s=store.querySelector('[data-l3="'+i+'"]');if(!s)return;out.replaceChildren(s);document.querySelectorAll('.lesson3Menu button').forEach((b,n)=>b.classList.toggle('active',n===i));out.scrollTop=0;if(typeof initKahoots==='function')initKahoots();setTimeout(lsFit,0);}
+function l3Show(sel){const store=document.getElementById('l3Store'),out=document.getElementById('l3Panel');if(!store||!out)return;const current=out.querySelector('[data-l3]');if(current)store.appendChild(current);const s=store.querySelector(sel);if(!s)return;out.replaceChildren(s);out.scrollTop=0;if(typeof initKahoots==='function')initKahoots();setTimeout(lsFit,0);}
+function showL3Panel(i){l3Show('[data-l3="'+i+'"]')}
+function showL3Hub(){l3Show('[data-l3="hub"]')}
+/* если у урока хаб не собран вручную — строим его из блоков автоматически */
+function l3AutoHub(){
+ const store=document.getElementById('l3Store');if(!store||store.querySelector('[data-l3="hub"]'))return;
+ const secs=[...store.querySelectorAll('section[data-l3]')];if(!secs.length)return;
+ const tiles=secs.map((s,n)=>{
+  const h=s.querySelector('h2,h3');
+  let t=(h?h.textContent:'').trim().replace(/^\d+\s*·\s*/,'')||('Блок '+(n+1));
+  if(!s.querySelector(':scope>.lsTop')){
+   const bar=document.createElement('div');bar.className='lsTop';
+   bar.innerHTML='<button type="button" class="lsBackW" onclick="showL3Hub()">← К уроку</button><span class="lsWho"></span>';
+   bar.querySelector('.lsWho').textContent=t;
+   s.insertBefore(bar,s.firstChild);
+  }
+  const b=document.createElement('button');b.type='button';b.className='lsTile';
+  b.setAttribute('onclick','showL3Panel("'+s.dataset.l3+'")');
+  b.innerHTML='<span class="lsNum">'+(n+1)+'</span><span class="lsTileT"></span>';
+  b.querySelector('.lsTileT').textContent=t;
+  return b.outerHTML;
+ }).join('');
+ let title='Блоки урока';
+ const hero=document.querySelector('#lessonPage .hero');
+ if(hero){const h1=hero.querySelector('h1');if(h1)title=h1.textContent.trim();hero.style.display='none'}
+ const hub=document.createElement('section');hub.className='lsHubSec';hub.dataset.l3='hub';
+ hub.innerHTML='<div class="lsTop"><button type="button" class="lsBackW" onclick="closeLesson()">← Назад</button><span class="lsWho">'+title.replace(/[<>&]/g,'')+'</span></div><div class="lsHubBody"><div class="lsHubMain"><div class="lsHubGroup">На уроке</div><div class="lsTiles">'+tiles+'</div></div></div>';
+ store.insertBefore(hub,store.firstChild);
+}
 function lesson3TeacherHTML(key){
  return `
  <div class="hero" style="margin-bottom:10px">
@@ -1128,7 +1186,7 @@ function lesson3TeacherHTML(key){
    <p>60 минут · цель: проверить 4 Present forms, закрепить stative/dynamic verbs, irregular verbs и вывести Арину в формат ЕГЭ 19–24.</p>
  </div>
 
- <div class="lesson3OneScreen"><div class="lesson3Menu"><button type="button" onclick="showL3Panel(0)">ПЛАН · 60 MIN</button><button type="button" onclick="showL3Panel(1)">1 · WARM-UP</button><button type="button" onclick="showL3Panel(2)">2 · PRESENT RETRIEVAL</button><button type="button" onclick="showL3Panel(3)">3 · STATIVE ↔ DYNAMIC</button><button type="button" onclick="showL3Panel(4)">4 · IRREGULAR VERBS</button><button type="button" onclick="showL3Panel(5)">5 · EGE 19–24</button><button type="button" onclick="showL3Panel(6)">6 · CHECKPOINT</button><button type="button" onclick="showL3Panel(7)">7 · ERROR LOG</button><button type="button" onclick="showL3Panel(8)">HOMEWORK</button></div><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none"><section data-l3="0"><div class="examCard"><h2>ПЛАН УРОКА · 60 MIN</h2>
+ <div class="lesson3OneScreen lsOne"><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none"><section data-l3="0"><div class="examCard"><h2>ПЛАН УРОКА · 60 MIN</h2>
    <div class="table">
      <div class="crit"><span><b>0–7</b> · EGE Reading Aloud warm-up</span><span class="pts">7 min</span></div>
      <div class="crit"><span><b>7–15</b> · Present Retrieval</span><span class="pts">8 min</span></div>
@@ -1524,7 +1582,6 @@ function lessonTabs(x,i,w){
   after.push(...F.after);
  }else{
   const g=exam26Own('grammar',w),f=exam26Own('wf',w);
-  steps.push(['План урока','',plan+materialBox(key+'-teacher')]);
   if(i===0&&g[0])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,0)]);
   if(i===1&&f.length)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?1:0)]);
   if(i===2){if(g[1])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,1)]);if(f.length>1)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?2:1)]);}
@@ -1536,14 +1593,18 @@ function lessonTabs(x,i,w){
 function lessonFullHTML(x,i,w){
  let html='<button class="lessonBack" onclick="closeLesson()">← Неделя '+(w+1)+'</button><div class="lesson"><div class="lessonbody">';
  if(w===0)return html+lessonStarter(w,i)+'</div></div>';
- const T=lessonTabs(x,i,w),all=T.steps.concat(T.after),N=all.length;
- const btn=(t,n)=>'<button type="button" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'·')+'</span><span>'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+'</button>';
- const strip=n=>'<div class="lsStrip"><button type="button" class="lsBackW" onclick="closeLesson()">← Неделя '+(w+1)+'</button><span class="lsWho">Урок '+(i+1)+'</span>'+all.map((t,k)=>'<button type="button" class="lsChip'+(k===n?' on':'')+(k>=T.steps.length?' after':'')+'" title="'+String(t[0]).replace(/"/g,'&quot;')+'" onclick="showL3Panel('+k+')">'+(k<T.steps.length?k+1:('EXAM'))+'</button>').join('')+'</div>';
- const sec=(t,n)=>'<section data-l3="'+n+'">'+strip(n)+'<div class="lsBar"><div><small>'+(n<T.steps.length?'Шаг '+(n+1)+' из '+T.steps.length:'После урока')+(t[1]?' · '+t[1]+' мин':'')+'</small><h2>'+t[0]+'</h2></div><div class="lsNav">'+(n>0?'<button type="button" onclick="showL3Panel('+(n-1)+')">← Назад</button>':'')+(n<N-1?'<button type="button" class="next" onclick="showL3Panel('+(n+1)+')">Дальше →</button>':'')+'</div></div><div class="lsBody">'+t[2]+'</div></section>';
- html+='<div class="lesson3OneScreen lsOne"><div class="lesson3Menu"><div class="lsTitle">Неделя '+(w+1)+' · Урок '+(i+1)+'<b>'+x[0]+'</b></div><div class="lsGroup">На уроке</div>'+T.steps.map((t,n)=>btn(t,n)).join('')+'<div class="lsGroup">После урока</div>'+T.after.map((t,n)=>btn(t,n+T.steps.length)).join('')+'</div><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none">'+all.map(sec).join('')+'</div></div>';
+ const T=lessonTabs(x,i,w),all=T.steps.concat(T.after);
+ const top=(label,act)=>'<div class="lsTop"><button type="button" class="lsBackW" onclick="'+act+'">← '+label+'</button><span class="lsWho">Неделя '+(w+1)+' · Урок '+(i+1)+'</span><b class="lsTheme">'+x[0]+'</b></div>';
+ const tile=(t,n)=>'<button type="button" class="lsTile'+(n>=T.steps.length?' after':'')+'" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'★')+'</span><span class="lsTileT">'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+'</button>';
+ const planList=String(x[1]||'').split('; ').filter(Boolean).map(s=>'<li>'+s+'</li>').join('');
+ const W=weeks[w]||{};
+ const plan='<aside class="lsPlan"><div class="lsPlanBox"><h3>На уроке</h3><ul>'+planList+'</ul></div>'+(W.g?'<div class="lsPlanBox"><h3>Цель недели</h3><p>'+W.g+'</p></div>':'')+(W.r?'<div class="lsPlanBox"><h3>Критерий готовности</h3><p>'+W.r+'</p></div>':'')+'<div class="lsPlanBox"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></aside>';
+ const hub='<section data-l3="hub" class="lsHubSec">'+top('Неделя '+(w+1),'closeLesson()')+'<div class="lsHubBody"><div class="lsHubMain">'+(T.steps.length?'<div class="lsHubGroup">На уроке</div><div class="lsTiles">'+T.steps.map((t,n)=>tile(t,n)).join('')+'</div>':'')+(T.after.length?'<div class="lsHubGroup">После урока</div><div class="lsTiles">'+T.after.map((t,n)=>tile(t,n+T.steps.length)).join('')+'</div>':'')+'</div>'+plan+'</div></section>';
+ const sec=(t,n)=>'<section data-l3="'+n+'">'+top('К уроку','showL3Hub()')+'<div class="lsBar"><h2>'+t[0]+'</h2>'+(t[1]?'<small>'+t[1]+' мин</small>':'')+'</div><div class="lsBody">'+t[2]+'</div></section>';
+ html+='<div class="lesson3OneScreen lsOne"><div id="l3Panel" class="lesson3Panel"></div><div id="l3Store" style="display:none">'+hub+all.map(sec).join('')+'</div></div>';
  return html+'</div></div>';
 }
-function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+(w===0?exam26Card(w,i):'');p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);if(p.querySelector('#l3Store'))showL3Panel(0);scrollTo(0,0)}
+function openLesson(w,i){let p=document.getElementById('lessonPage');if(!p){p=document.createElement('div');p.id='lessonPage';p.className='lessonPage';document.body.appendChild(p)}p.innerHTML=lessonFullHTML(weeks[w].l[i],i,w)+(w===0?exam26Card(w,i):'');p.style.display='block';restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));initKahoots();const key='w'+w+'l'+i;if(localStorage.getItem('submitted-'+key))lockSubmitted(p,key);if(p.querySelector('#l3Store')){l3AutoHub();showL3Hub()}scrollTo(0,0)}
 function closeLesson(){const p=document.getElementById('lessonPage');if(p)p.style.display='none'}
 function week1EgePanel(){return '<aside class="week1EgePanel"><h3>Развёрнутые задания</h3><div class="egeLongRow"><span>37 · Email</span><b>6</b></div><div class="egeLongRow"><span>38 · Essay</span><b>14</b></div><div class="egeLongRow"><span>39 · Reading</span><b>1</b></div><div class="egeLongRow"><span>40 · Questions</span><b>4</b></div><div class="egeLongRow"><span>41 · Interview</span><b>5</b></div><div class="egeLongRow"><span>42 · Photo project</span><b>10</b></div><a class="egeRefBtn demo" href="https://fipi.ru/ege/demoversii-specifikacii-kodifikatory" target="_blank" rel="noopener">Пробная версия ЕГЭ 2027</a><a class="egeRefBtn bank" href="https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege" target="_blank" rel="noopener">Открытый банк ФИПИ</a><div class="egeRefNote">Сейчас опубликован проект КИМ-2027; после утверждения данные на хабе нужно сверить ещё раз.</div></aside>'}
 function renderWeek(i){if(i<0||i>=weeks.length)return;['weekView','examView','trainerView'].forEach(id=>document.getElementById(id).style.display='');document.body.classList.remove('fullWeek');document.getElementById('examView').classList.remove('on');document.getElementById('trainerView').classList.remove('on');document.getElementById('weekView').classList.add('on');document.querySelectorAll('.wbtn').forEach(b=>b.classList.toggle('active',+b.dataset.i===i));const w=weeks[i];currentWeek=i;document.querySelectorAll('.teacherNav').forEach(x=>x.classList.remove('active'));document.getElementById('weekView').innerHTML='<div class="weekTitle"><b>Неделя '+(i+1)+' · '+(weekLabels[i]||'EGE Focus')+'</b> · '+w.d+'</div>'+teacherWeekCard(i,w)+'<div class="weekMeta"><div class="card"><div class="eyebrow">Цель недели</div><h2>'+w.g+'</h2></div><div class="card result"><div class="eyebrow">Критерий готовности</div><p><b>'+w.r+'</b></p></div></div>'+(i===0?'<div class="week1Grid"><div class="week1Lessons">'+w.l.map((x,j)=>lessonHTML(x,j,i)).join('')+'</div>'+week1EgePanel()+'</div>':w.l.map((x,j)=>lessonHTML(x,j,i)).join(''))+exam26Card(i);restore();document.querySelectorAll('[id^="files-"]').forEach(x=>showMaterials(x.id.slice(6)));if(innerWidth<801)document.getElementById('side').classList.remove('open');scrollTo({top:0,behavior:'smooth'})}

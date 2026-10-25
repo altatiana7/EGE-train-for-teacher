@@ -218,8 +218,7 @@ function render(){
  const last=S.step===STEPS.length-1;
  root.innerHTML='<div class="alTop"><h3>Урок 11 октября · Времена «сейчас» + Россия</h3><small>60 минут</small><span class="alFill"></span><button type="button" class="alBtn" data-a="close">Закрыть</button></div>'+
   '<div class="alWrap"><div class="alSteps">'+steps+'</div><div class="alPanel"><div class="alBody">'+body()+'</div>'+
-  '<div class="alNav"><button type="button" class="alBtn" data-a="prev"'+(S.step===0?' disabled':'')+'>← Назад</button><span>Шаг '+(S.step+1)+' из '+STEPS.length+' · '+STEPS[S.step][1]+'</span><span class="alFill"></span>'+
-  (last?'':'<button type="button" class="alBtn prim" data-a="next">Дальше →</button>')+'</div></div></div>'+
+  '</div></div>'+
   (S.zoom?'<div class="alZoom" data-a="unzoom"><img src="'+url('tense/four-pictures.jpg?v=1')+'" alt=""><button type="button" class="alBtn" data-a="unzoom">Закрыть</button></div>':'');
  if(S.focus){const el=root.querySelector('[data-in="'+S.focus+'"]');if(el){el.focus();const n=el.value.length;try{el.setSelectionRange(n,n)}catch(e){}}S.focus=null}
 }
