@@ -597,8 +597,8 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 
 const ARINA_DB_URL='https://lzxcmrlubhjfdhtqvqzt.supabase.co';
 const ARINA_DB_KEY='sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI';
-/* в общей базе лежат и работы Тимофея (сайт ОГЭ) — здесь показываем только Арину */
-function isArinaRow(x){const id=String(x&&x.test_id||''),t=String(x&&x.test_title||''),st=String(x&&x.answers&&x.answers.student||'');return !/^timofey/i.test(id)&&!/^Тимофей/.test(t)&&!/Тимофей/i.test(st)}
+/* в общей базе лежат и работы Тимофея (сайт ОГЭ) и Кати (ЕГЭ B2) — здесь показываем только Арину */
+function isArinaRow(x){const id=String(x&&x.test_id||''),t=String(x&&x.test_title||''),st=String(x&&x.answers&&x.answers.student||'');return !/^timofey/i.test(id)&&!/^katya-ege:/i.test(id)&&!/^Тимофей/.test(t)&&!/Тимофей/i.test(st)}
 function arinaEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function openArinaHomeworkResults(){
  document.querySelectorAll('.content').forEach(x=>x.classList.remove('on'));
