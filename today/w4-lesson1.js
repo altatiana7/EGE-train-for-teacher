@@ -101,17 +101,13 @@ document.addEventListener('click',e=>{const t=e.target.closest('.w41Iv button');
 
 /* ---------- тест: нажать вариант — сразу видно, верно или нет ---------- */
 const QZ={};
+/* 25.10.2026: упражнения из предложений — по одному, как Kahoot; 19–24 и 25–29 — сплошным текстом как на ФИПИ (today/kq.js) */
 function qzOpts(h){const m=h.match(/<span class="w41Opt">([\s\S]*?)<\/span>/);return m?m[1].split(' · '):[]}
-function qzHTML(id){const it=QZ[id];let ok=0,bad=0;it.st.forEach(x=>{if(x===1)ok++;else if(x===2)bad++});
- return '<div class="w41QTop"><span>Верно: <span class="ok">'+ok+'</span> · Ошибок: <span class="bad">'+bad+'</span> · из '+it.d.length+'</span><button type="button" data-qzr>Заново</button></div>'+(it.head||'')+'<div class="w41QGrid'+(qzOpts(it.d[0][0]).length===2?' g3':' g2')+'">'+
- it.d.map((x,i)=>{const st=it.st[i],opts=qzOpts(x[0]),body=x[0].replace(/<span class="w41Opt">[\s\S]*?<\/span>/,'').replace('___','<span class="gap">'+(st?(x[3]||x[1]):'&nbsp;')+'</span>');
-  return '<div class="w41QItem'+(st===1?' ok':st===2?' bad':'')+'"><div class="w41QS"><b class="n">'+(i+(it.start||1))+'.</b>'+body+'</div><div class="w41QOpts'+(opts.length===2?' two':'')+'">'+opts.map((o,j)=>'<button type="button" data-qzi="'+i+'" data-qzo="'+j+'"'+(st?' disabled':'')+' class="'+(st&&o===x[1]?'right':(st===2&&it.ch[i]===j?'wrong':''))+'">'+o+'</button>').join('')+'</div>'+(st&&x[2]?'<div class="w41QWhy">'+x[2]+'</div>':'')+'</div>'}).join('')+'</div>'}
-function qzMake(id,d,o){QZ[id]=Object.assign({d:d,st:d.map(()=>0),ch:{}},o||{});return '<div class="w41Q" data-qz="'+id+'"></div>'}
-function qzInit(){P()&&P().querySelectorAll('.w41Q').forEach(el=>{const it=QZ[el.dataset.qz];it.st=it.d.map(()=>0);it.ch={};el.innerHTML=qzHTML(el.dataset.qz)})}
-document.addEventListener('click',e=>{const t=e.target.closest('.w41Q button');if(!t)return;const el=t.closest('.w41Q'),id=el.dataset.qz,it=QZ[id];
- if(t.dataset.qzr!==undefined){it.st=it.d.map(()=>0);it.ch={};el.innerHTML=qzHTML(id);return}
- const i=+t.dataset.qzi,o=qzOpts(it.d[i][0])[+t.dataset.qzo];it.ch[i]=+t.dataset.qzo;it.st[i]=o===it.d[i][1]?1:2;
- const top=P()||el.parentElement,y=top.scrollTop;el.innerHTML=qzHTML(id);top.scrollTop=y});
+function qzHint(h){const m=h.match(/<span class="khHint">([\s\S]*?)<\/span>/);return m?m[1].replace(/<[^>]+>/g,'').trim():''}
+function qzBody(h){return h.replace(/<span class="w41Opt">[\s\S]*?<\/span>/,'').replace(/<span class="khHint">[\s\S]*?<\/span>/,'').trim()}
+function qzMake(id,d,o){o=o||{};return (o.head||'')+KQ.kahoot(d.map(x=>({q:qzBody(x[0]),hint:qzHint(x[0]),opts:qzOpts(x[0]),a:x[1],why:x[2]||''})),{start:o.start||(o.off?o.off+1:1)})}
+function qzFipi(d,o,heads){heads=heads||{};let h='';return KQ.fipi(d.map((x,i)=>(h=heads[i]||h,{q:qzBody(x[0]),b:qzHint(x[0]),a:x[1],why:x[2]||'',h:h})),o||{})}
+function qzInit(){const p=document.getElementById('l3Panel');if(!p)return;p.querySelectorAll('.kq').forEach(el=>{el._kq=null});KQ.mountAll(p)}
 
 /* ---------- чтение · задание 10: текст по вкладкам, заголовок — нажатием ---------- */
 const R10={i:0,ch:{}};const L='ABCDEFG';
@@ -199,8 +195,8 @@ window.w4l1Steps=function(){const F=(d,o)=>qzMake('w41q'+Object.keys(QZ).length,
  ['Найди ошибку · Passive · повторение · 12','29–32',F(D.fix)],
  ['Active или Passive? · ФИПИ · 12','32–38',F(D.ap)],
  ['Passive: is / are / was / were + V3 · ФИПИ · 10','38–45',F(D.form)],
- ['ЕГЭ 19–24 · China tea ceremony · ФИПИ','45–49',F(D.ege1,{start:19})],
- ['ЕГЭ 19–24 · Smolensk / Norway · ФИПИ','49–53',F(D.ege2,{start:19})],
+ ['ЕГЭ 19–24 · China tea ceremony · ФИПИ','45–49',qzFipi(D.ege1,{start:19,kind:'gr',title:'China tea ceremony'})],
+ ['ЕГЭ 19–24 · Smolensk / Norway · ФИПИ','49–53',qzFipi(D.ege2,{start:19,kind:'gr'},{0:'Smolensk',3:'Norway'})],
  ['Interview · Modern inventions · ФИПИ','53–60','<div class="w41Iv" data-set="iv35"></div>'+teach('После ответа попросить сказать то же через Passive: <i>… was invented by …</i>, <i>… is used for …</i>.')]]};
 
 })();

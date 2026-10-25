@@ -186,15 +186,8 @@ function body(){
    '<p class="alTask"><b>True, False или Not stated?</b> Докажи фразой из текста.</p>'+pages('r',S.rp,READ_Q)+tfRows('r',READ_Q,S.rp)+'</div></div>';
  }
  if(s===3){
-  return '<p class="alTask">В тексте: <b>Families bake blini every day</b> — это «обычно». Те же блины, но картинка другая. Напиши форму и нажми Enter.</p>'+
-   TURN.map((it,i)=>{
-    const a=S.x[i]||{};
-    const gap=a.done?'<span class="alGap fill">'+esc(it.f)+'</span>':'<input class="alIn" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-in="x'+i+'" value="'+esc(a.val||'')+'"><span class="alVerb">'+it.b.toUpperCase()+'</span>';
-    let fb='';
-    if(a.done)fb=(a.ok&&!a.slip?'<b class="g">Верно.</b> ':a.ok?'<b class="g">Верно со второй попытки.</b> ':'<b class="r">Смотри, как надо.</b> ')+'<span class="alTag">'+PICS[it.p]+'</span>'+esc(it.why);
-    else if(a.msg)fb=a.msg;
-    return '<div class="alRow '+(a.done?(a.ok&&!a.slip?'ok':'bad'):'')+'"><div class="alQ"><b class="n">'+(i+1)+'.</b> '+esc(it.s).replace('___',gap)+(a.done?'':' <button type="button" class="alBtn prim" data-a="xcheck" data-v="'+i+'">OK</button>')+'</div><div class="alFb">'+fb+'</div></div>';
-   }).join('');
+  return '<p class="alTask">В тексте: <b>Families bake blini every day</b> — это «обычно». Те же блины, но картинка другая. Какая форма нужна?</p>'+ /* 25.10.2026: как на ФИПИ, ответ — нажатием на пропуск */
+   KQ.fipi(TURN.map(it=>({q:esc(it.s),b:it.b.toUpperCase(),a:it.f,why:'<span class="alTag">'+PICS[it.p]+'</span>'+esc(it.why)})),{start:1,kind:'gr'});
  }
  if(false){
   const can=!!(window.speechSynthesis&&window.SpeechSynthesisUtterance);

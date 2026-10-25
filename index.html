@@ -412,11 +412,11 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <link rel="stylesheet" href="expert/expert.css?v=20261003-expert">
 <script defer src="expert/vendor/pdf.min.js"></script>
 <script defer src="expert/expert.js?v=20261003-expert"></script>
-<script defer src="today/lesson.js?v=20261005-iv"></script>
-<script defer src="today/lesson-1011.js?v=20261017"></script>
+<script defer src="today/lesson.js?v=20261025"></script>
+<script defer src="today/lesson-1011.js?v=20261025"></script>
 <script defer src="today/w3-checkpoint.js?v=20261017b"></script>
-<script defer src="today/w4-lesson2.js?v=20261025c"></script>
-<script defer src="today/w4-lesson1.js?v=20261025d"></script>
+<script src="today/kq.js?v=20261025b"></script><script defer src="today/w4-lesson2.js?v=20261025e"></script>
+<script defer src="today/w4-lesson1.js?v=20261025e"></script>
 <script defer src="tense/tense-logic.js?v=20261010-open"></script>
 <link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005x"></script><style>
 /* Единая типографика уроков недель 2–32: 16px текст, 20px заголовок шага, 13px подписи */
@@ -1031,8 +1031,8 @@ function showChoiceIntensive(box){
  st.querySelectorAll('.tiOptions button').forEach(function(b){b.onclick=function(){var ok=+b.dataset.i===it[2];if(ok)box._score++;b.classList.add(ok?'ok':'no');st.querySelectorAll('.tiOptions button').forEach(function(x){x.disabled=true;if(+x.dataset.i===it[2])x.classList.add('ok')});st.querySelector('.tiFeedback').textContent=(ok?'Correct. ':'Not quite. ')+it[3];next.style.display='inline-block'}});
  next.onclick=function(){box._pos++;showChoiceIntensive(box)};
 }
-function egeIntensiveHTML(data,title){
- return '<div class="tiEgeText"><b>'+title+'</b><br>'+data.map(function(x,i){return (19+i)+'. '+x[0].replace('___','<span class="tiGap"><input data-ti-ege="'+i+'" autocomplete="off"><span class="tiBase">'+x[1]+'</span></span>')}).join('<br>')+'</div><button class="tiCheck" onclick="checkTenseEge(this)">CHECK</button><span class="tiScore"></span>';
+function egeIntensiveHTML(data,title){ /* 25.10.2026: сплошным текстом как на ФИПИ */
+ return KQ.fipi(data.map(function(x){return {q:x[0],b:x[1],a:[].concat(x[2]).join(' / ')}}),{start:data.length<=6?19:1,kind:'gr',title:title});
 }
 function checkTenseEge(btn){
  var root=btn.parentElement,data=root._egeData||[],ins=root.querySelectorAll('[data-ti-ege]'),good=0;
@@ -1082,8 +1082,8 @@ const egePresentItems=[
 ['The project ___ more popular over the last few months.','BECOME','has become'],
 ['For several weeks, volunteers ___ money for new equipment.','COLLECT','have been collecting']
 ];
-function egePresentPractice(key){
- return '<div class="egePresentSet"><h3>EGE 19–24 · Present forms</h3><div class="tiny">Преобразуй слово в скобках. Исходная форма должна измениться.</div><div class="egePresentText">'+egePresentItems.map((x,n)=>(n+19)+'. '+x[0].replace('___','<span class="egeGap"><input autocomplete="off" data-ege="'+n+'"><span class="egeBase">'+x[1]+'</span></span>')).join('<br>')+'</div><div class="egeSetActions"><button type="button" onclick="checkEgePresent(this)">CHECK</button></div><div class="egeSetResult"></div></div>';
+function egePresentPractice(key){ /* 25.10.2026: сплошным текстом как на ФИПИ */
+ return '<div class="egePresentSet"><h3>EGE 19–24 · Present forms</h3>'+KQ.fipi(egePresentItems.map(x=>({q:x[0],b:x[1],a:[].concat(x[2]).join(' / ')})),{start:egePresentItems.length<=6?19:1,kind:'gr'})+'</div>';
 }
 function checkEgePresent(btn){
  const box=btn.closest('.egePresentSet'),ins=box.querySelectorAll('[data-ege]');let good=0;
@@ -1129,10 +1129,8 @@ const l3Checkpoint=[
  ['My brother usually ___ his homework before dinner.','DO',['do','does','is doing','has done'],1],
  ['We ___ three practice tests this month already.','TAKE',['take','are taking','have taken','took'],2]
 ];
-function l3QuizHTML(title,items,key){
- return '<div class="l3Quiz" data-l3="'+key+'"><div class="wwTop"><b>'+title+'</b><span class="l3Score">0 / '+items.length+'</span></div>'+
- items.map((q,i)=>'<div class="q" data-answer="'+q[3]+'"><p><b>'+(i+1)+'.</b> '+q[0]+'</p><div class="opts">'+q[2].map((o,j)=>'<label class="opt"><input type="radio" name="'+key+i+'" value="'+j+'"> '+o+'</label>').join('')+'</div><div class="fb"></div></div>').join('')+
- '<button class="action" type="button" onclick="checkL3Quiz(this)">ПРОВЕРИТЬ</button> <button class="action" type="button" style="background:#64748b" onclick="resetL3Quiz(this)">СБРОСИТЬ</button></div>';
+function l3QuizHTML(title,items,key){ /* 25.10.2026: по одному вопросу, как Kahoot */
+ return '<div class="l3Quiz" data-l3="'+key+'"><div class="wwTop"><b>'+title+'</b></div>'+KQ.kahoot(items.map(q=>({q:q[0],hint:q[1]||'',opts:q[2],a:q[3]})))+'</div>';
 }
 function checkL3Quiz(btn){
  const root=btn.closest('.l3Quiz');
@@ -1153,9 +1151,7 @@ function l3EgeInteractive(){
   ['23','Arina ___ never ___ that one long study session is enough.','BELIEVE','has never believed'],
   ['24','At the moment she ___ on a mixed grammar task and checking every answer carefully.','WORK','is working']
  ];
- return '<div class="egePresentSet l3EgeSet"><h3>A STUDENT\'S NEW ROUTINE</h3><p class="tiny">Напечатай полную форму. Ответы используются для разбора на уроке.</p><div class="egePresentText">'+
- items.map((x,i)=>'<div class="miniTask" style="margin:7px 0"><b>'+x[0]+'.</b> '+x[1]+' <span class="egeBase">('+x[2]+')</span><br><input data-l3ege="'+i+'" type="text" autocomplete="off" placeholder="answer"></div>').join('')+
- '</div><div class="egeSetActions"><button type="button" onclick="checkL3Ege(this)">ПРОВЕРИТЬ 19–24</button><button type="button" style="background:#64748b" onclick="resetL3Ege(this)">СБРОСИТЬ</button></div><div class="egeSetResult"></div></div>';
+ return '<div class="egePresentSet l3EgeSet"><h3>A STUDENT\'S NEW ROUTINE</h3>'+KQ.fipi(items.map(x=>({q:x[1].replace(/___ (\w+) ___/,'___'),b:x[2],a:x[3]})),{start:+items[0][0]||19,kind:'gr'})+'</div>';
 }
 function checkL3Ege(btn){
  const answers=['starts','is paying','has already completed','has been helping','has never believed','is working'];
@@ -1282,7 +1278,7 @@ function lessonStarter(w,i){
 function exam26InlineHTML(mode,w,k){
  const set=exam26Own(mode,w)[k];if(!set)return '';
  const start=mode==='grammar'?19:25;
- return '<div class="egePresentSet" style="margin-bottom:10px" data-mode="'+mode+'" data-w="'+w+'" data-k="'+k+'"><h3>EGE '+(mode==='grammar'?'19–24 · Grammar':'25–29 · Word Formation')+' · '+set.t+'</h3><div class="tiny">Неделя '+(w+1)+' · '+exam26Src(set)+'. Преобразуй слово, напечатанное заглавными буквами, так, чтобы оно подходило по смыслу и грамматике.</div><div class="egePresentText">'+exam26Items(set,mode,'egeGap','egeBase')+'</div><div class="egeSetActions"><button type="button" onclick="checkExam26Inline(this)">CHECK</button></div><div class="egeSetResult"></div></div>';
+ return '<div class="egePresentSet" style="margin-bottom:10px" data-mode="'+mode+'" data-w="'+w+'" data-k="'+k+'"><h3>EGE '+(mode==='grammar'?'19–24 · Grammar':'25–29 · Word Formation')+' · '+set.t+'</h3><div class="tiny">Неделя '+(w+1)+' · '+exam26Src(set)+'. Преобразуй слово, напечатанное заглавными буквами, так, чтобы оно подходило по смыслу и грамматике.</div>'+exam26Fipi(set,mode)+'</div>';
 }
 function checkExam26Inline(btn){
  const box=btn.closest('.egePresentSet'),set=exam26Own(box.dataset.mode,+box.dataset.w)[+box.dataset.k];let good=0;
@@ -3487,6 +3483,8 @@ function exam26Items(set,mode,gapClass,baseClass){
  const start=mode==='grammar'?19:(set.q.length===5?25:1);
  return set.q.map((x,i)=>'<div style="margin:0 0 7px">'+(x[3]?'<b style="display:block;margin:10px 0 3px;color:#0039A6">'+x[3]+'</b>':'')+'<b>'+(start+i)+'.</b> '+x[0].replace('___','<span class="'+gapClass+'"><input data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="'+baseClass+'">'+x[1]+'</span></span>')+'</div>').join('');
 }
+/* 25.10.2026: 19–24 и 25–29 — сплошным текстом как на ФИПИ, ответ открывается нажатием на пропуск */
+function exam26Fipi(set,mode){const g=mode==='grammar';let h='';return KQ.fipi(set.q.map(x=>(h=x[3]||h,{q:x[0],b:x[1],a:[].concat(x[2]).join(' / '),h:h})),{start:g?19:(set.q.length===5?25:1),kind:g?'gr':'wf'})}
 function exam26Src(set){return set.f?'Открытый банк ФИПИ':'Тренировочное задание'}
 /* Сначала задания текущей недели, затем повторение предыдущих недель (от ближайшей к первой) */
 /* тексты, которые уже стоят внутри уроков недели, в EXAM не повторяются */
@@ -3518,7 +3516,7 @@ function renderExam26View(){
  ['weekView','examView','trainerView'].forEach(id=>{const el=document.getElementById(id);el.style.display='';el.classList.toggle('on',id==='examView')});
  const data=exam26List(exam26Mode,exam26Week),item=data[exam26Index]||data[0],set=item.s,start=exam26Mode==='grammar'?19:25;
  const rec=exam26Done[exam26Key(exam26Mode,set)],own=item.w===exam26Week,tag=own?'Неделя '+(exam26Week+1)+' · новое задание':'Повторение · неделя '+(item.w+1);
- document.getElementById('examView').innerHTML='<button class="lessonBack" onclick="renderWeek(exam26Week)">← Неделя '+(exam26Week+1)+'</button><div class="hero"><div class="eyebrow">EXAM · Неделя '+(exam26Week+1)+' · '+(weekLabels[exam26Week]||'')+'</div><h1>'+(exam26Mode==='grammar'?'Grammar 19–24':exam26Mode==='wf'?'Word Formation 25–29':'Vocabulary 30–36')+'</h1></div><div class="exam26Tabs" style="grid-template-columns:1fr 1fr 1fr"><button'+(exam26Mode==='grammar'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'grammar\')">GRAMMAR · 19–24</button><button'+(exam26Mode==='wf'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'wf\')">WORD FORMATION · 25–29</button><button'+(exam26Mode==='voc'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'voc\')">VOCABULARY · 30–36</button></div><div class="tiny" style="margin:0 0 5px;font-weight:800;color:#475569">Зелёные ✓ — уже были (наведите, чтобы увидеть дату и результат) · красные номера — новые задания недели · синие — повторение</div>'+exam26Chips(data)+'<div class="exam26Set"><div class="tiny" style="font-weight:900;color:'+(own?'#D52B1E':'#0039A6')+'">'+tag+' · '+exam26Src(set)+' · '+(exam26Index+1)+' / '+data.length+(rec?' · <span style="color:#24624f">БЫЛО '+rec.d+(rec.s?' · '+rec.s:'')+'</span>':'')+'</div><h3>'+set.t+'</h3>'+(exam26Mode==='voc'?exam26VocHTML(set):'<div class="exam26Text">'+exam26Items(set,exam26Mode,'exam26Gap','exam26Base')+'</div>')+'<div class="exam26Nav"><button onclick="checkExam26(this)">CHECK</button><button onclick="exam26ToggleDone()" style="background:'+(rec?'#64748b':'#24624f')+'">'+(rec?'СНЯТЬ ОТМЕТКУ':'ОТМЕТИТЬ: БЫЛО')+'</button>'+(data.length>1?'<button onclick="exam26Index=(exam26Index+1)%'+data.length+';renderExam26View()">NEXT SET →</button>':'')+'</div><div class="exam26Result"></div></div>';
+ document.getElementById('examView').innerHTML='<button class="lessonBack" onclick="renderWeek(exam26Week)">← Неделя '+(exam26Week+1)+'</button><div class="hero"><div class="eyebrow">EXAM · Неделя '+(exam26Week+1)+' · '+(weekLabels[exam26Week]||'')+'</div><h1>'+(exam26Mode==='grammar'?'Grammar 19–24':exam26Mode==='wf'?'Word Formation 25–29':'Vocabulary 30–36')+'</h1></div><div class="exam26Tabs" style="grid-template-columns:1fr 1fr 1fr"><button'+(exam26Mode==='grammar'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'grammar\')">GRAMMAR · 19–24</button><button'+(exam26Mode==='wf'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'wf\')">WORD FORMATION · 25–29</button><button'+(exam26Mode==='voc'?' style="outline:2px solid #0039A6"':'')+' onclick="exam26SetMode(\'voc\')">VOCABULARY · 30–36</button></div><div class="tiny" style="margin:0 0 5px;font-weight:800;color:#475569">Зелёные ✓ — уже были (наведите, чтобы увидеть дату и результат) · красные номера — новые задания недели · синие — повторение</div>'+exam26Chips(data)+'<div class="exam26Set"><div class="tiny" style="font-weight:900;color:'+(own?'#D52B1E':'#0039A6')+'">'+tag+' · '+exam26Src(set)+' · '+(exam26Index+1)+' / '+data.length+(rec?' · <span style="color:#24624f">БЫЛО '+rec.d+(rec.s?' · '+rec.s:'')+'</span>':'')+'</div><h3>'+set.t+'</h3>'+(exam26Mode==='voc'?exam26VocHTML(set):'<div class="exam26Text">'+exam26Fipi(set,exam26Mode)+'</div>')+'<div class="exam26Nav">'+(exam26Mode==='voc'?'<button onclick="checkExam26(this)">CHECK</button>':'')+'<button onclick="exam26ToggleDone()" style="background:'+(rec?'#64748b':'#24624f')+'">'+(rec?'СНЯТЬ ОТМЕТКУ':'ОТМЕТИТЬ: БЫЛО')+'</button>'+(data.length>1?'<button onclick="exam26Index=(exam26Index+1)%'+data.length+';renderExam26View()">NEXT SET →</button>':'')+'</div><div class="exam26Result"></div></div>';
  scrollTo(0,0);
 }
 /* как в бланке ЕГЭ: без пробелов и знаков; didn't = did not */

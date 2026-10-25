@@ -84,26 +84,21 @@ document.addEventListener('click',e=>{const t=e.target.closest('.w42R11 button')
 
 /* тест в стиле Kahoot / Wordwall: все предложения сразу, нажать вариант — сразу видно верно или нет */
 const QZ={};
+/* 25.10.2026: упражнения из предложений — по одному, как Kahoot; 19–24 и 25–29 — сплошным текстом как на ФИПИ (today/kq.js) */
 function qzOpts(h){const m=h.match(/<span class="w42Opt">([\s\S]*?)<\/span>/);return m?m[1].split(' · '):[]}
-function qzHTML(id){const it=QZ[id];let ok=0,bad=0;it.st.forEach(x=>{if(x===1)ok++;else if(x===2)bad++});
- return '<div class="w42QTop"><span class="sc">Верно: <span class="ok">'+ok+'</span> · Ошибок: <span class="bad">'+bad+'</span> · из '+it.d.length+'</span><button type="button" data-qzr>Заново</button></div><div class="w42QGrid">'+
- it.d.map((x,i)=>{const st=it.st[i],opts=qzOpts(x[0]),body=x[0].replace(/<span class="w42Opt">[\s\S]*?<\/span>/,'').replace('___','<span class="gap">'+(st?x[1]:'&nbsp;')+'</span>');
-  return '<div class="w42QItem'+(st===1?' ok':st===2?' bad':'')+'"><div class="w42QS"><b class="n">'+(i+1+(it.off||0))+'.</b>'+body+'</div><div class="w42QOpts">'+opts.map((o,j)=>'<button type="button" data-qzi="'+i+'" data-qzo="'+j+'"'+(st?' disabled':'')+' class="'+(st&&o===x[1]?'right':(st===2&&it.ch[i]===j?'wrong':''))+'">'+o+'</button>').join('')+'</div>'+(st===2&&x[2]?'<div class="w42QWhy">'+x[2]+'</div>':'')+'</div>'}).join('')+'</div>'}
-function qzMake(id,d){QZ[id]={d:d,st:d.map(()=>0),ch:{}};return '<div class="w42Q" data-qz="'+id+'"></div>'}
-function qzInit(){document.querySelectorAll('#l3Panel .w42Q').forEach(el=>{const it=QZ[el.dataset.qz];it.st=it.d.map(()=>0);it.ch={};el.innerHTML=qzHTML(el.dataset.qz)})}
-if(typeof window.showL3Panel==='function'){const base2=window.showL3Panel;window.showL3Panel=function(i){base2(i);qzInit()}}
-document.addEventListener('click',e=>{const t=e.target.closest('.w42Q button');if(!t)return;const el=t.closest('.w42Q'),id=el.dataset.qz,it=QZ[id];
- if(t.dataset.qzr!==undefined){it.st=it.d.map(()=>0);it.ch={};el.innerHTML=qzHTML(id);return}
- const i=+t.dataset.qzi,o=qzOpts(it.d[i][0])[+t.dataset.qzo];it.ch[i]=+t.dataset.qzo;it.st[i]=o===it.d[i][1]?1:2;
- const top=el.closest('#l3Panel')||el.parentElement,y=top.scrollTop;el.innerHTML=qzHTML(id);top.scrollTop=y});
+function qzHint(h){const m=h.match(/<span class="khHint">([\s\S]*?)<\/span>/);return m?m[1].replace(/<[^>]+>/g,'').trim():''}
+function qzBody(h){return h.replace(/<span class="w42Opt">[\s\S]*?<\/span>/,'').replace(/<span class="khHint">[\s\S]*?<\/span>/,'').trim()}
+function qzMake(id,d,o){o=o||{};return (o.head||'')+KQ.kahoot(d.map(x=>({q:qzBody(x[0]),hint:qzHint(x[0]),opts:qzOpts(x[0]),a:x[1],why:x[2]||''})),{start:o.start||(o.off?o.off+1:1)})}
+function qzFipi(d,o){return KQ.fipi(d.map(x=>({q:qzBody(x[0]),b:qzHint(x[0]),a:x[1],why:x[2]||''})),o||{})}
+function qzInit(){const p=document.getElementById('l3Panel');if(!p)return;p.querySelectorAll('.kq').forEach(el=>{el._kq=null});KQ.mountAll(p)}
 window.w4l2Steps=function(){const F=d=>qzMake('q'+Object.keys(QZ).length,d);return [
  ['Warm-up · Grammar mix · часть 1','0–4',F(D.warm.slice(0,14))],
- ['Warm-up · Grammar mix · часть 2','4–7',(()=>{const h=F(D.warm.slice(14));QZ['q'+(Object.keys(QZ).length-1)].off=14;return h})()],
+ ['Warm-up · Grammar mix · часть 2','4–7',qzMake('',D.warm.slice(14),{start:15})],
  ['Warm-up · Interview · Weekends · ФИПИ','7–11',ivMake('ivFut')],
  ['Grammar &amp; Word Formation · review','11–18',F(D.mist)],
  ['Active или Passive? · ФИПИ · 18','18–28',F(D.voice)],
  ['Future · ФИПИ · 16','28–36',F(D.fut)],
  ['Interview · Schools of the future','36–43',ivMake('ivSch')],
- ['Словообразование 25–29 · 10','43–48',F(D.wf)],
+ ['Словообразование 25–29 · 10','43–48',qzFipi(D.wf.slice(0,5),{start:25,kind:'wf',title:'Fyodor Konyukhov'})+qzFipi(D.wf.slice(5),{start:25,kind:'wf',title:'The Hermitage'})],
  ['Чтение · задание 11','48–60','<div class="w42R11">'+r11HTML(0)+'</div>']]};
 })();
