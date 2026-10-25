@@ -3723,6 +3723,7 @@ const ARINA_FAMILY_TASKS=[["fam-g3","Family · Grammar · Family pastime"],["fam
 ARINA_FAMILY_TASKS.forEach(t=>{if(!ARINA_ALL_TASKS.some(x=>x[0]===t[0]))ARINA_ALL_TASKS.push(t)});
 /* 25.10: Неделя 4 · урок 1 — не успели на уроке (№5, 7, 8, 9, 10), задано Арине домой */
 const ARINA_HW_20261025=[["w4l1-hw-fix","Week 4 · Lesson 1 · Найди ошибку · Passive · 12"],["w4l1-hw-form","Week 4 · Lesson 1 · Passive: is / are / was / were + V3 · 10"],["w4l1-tea","Week 4 · Lesson 1 · ЕГЭ 19–24 · China tea ceremony"],["w4l1-hw-smolensk","Week 4 · Lesson 1 · ЕГЭ 19–24 · Smolensk / Norway"],["w4l1-hw-iv-inventions","Week 4 · Lesson 1 · Interview · Modern inventions"]];
+ARINA_HW_20261025.push(["w4l2-warmup","Week 4 · Lesson 2 · Warm-up · Present, Stative, Past · 28"],["w4l2-wf","Week 4 · Lesson 2 · ЕГЭ 25–29 · словообразование · 10"],["w4l2-r11","Week 4 · Lesson 2 · Чтение · задание 11 · 2 текста"]);
 ARINA_HW_20261025.forEach(t=>{if(!ARINA_ALL_TASKS.some(x=>x[0]===t[0]))ARINA_ALL_TASKS.push(t)});
 /* сдача пустой работы (ни одного ответа) не считается сданной */
 function arinaEmptySubmit(r){const d=Array.isArray(r.details)?r.details:[];return d.length>0&&d.every(x=>!String(x.chosen==null?'':x.chosen).trim()||String(x.chosen).trim()==='—')}
@@ -3761,6 +3762,7 @@ function arinaReportData(rows){
  assigned=assigned.concat(ARINA_HW_20261025.map(t=>t[0]));
  /* 25.10: сделаны на уроке (Неделя 4 · урок 1) */
  ['w4l1-voice','w4l1-wf','w4l1-r10','w4l1-iv-family','w4l1-iv-transport'].forEach(id=>done.add(id));
+ ['w4l2-warmup-iv','w4l2-mistakes','w4l2-voice','w4l2-future','w4l2-iv-schools'].forEach(id=>done.add(id));
  /* 24.10: разобраны на уроке (warm-up Week 4 · Lesson 2) — считаются сделанными */
  ['w0l0','w0l1','w2l3-ege','w2l3-repair','w3l1-interview'].forEach(id=>done.add(id));
  const missAssigned=ARINA_ALL_TASKS.filter(t=>assigned.includes(t[0])&&!done.has(t[0])),missOther=ARINA_ALL_TASKS.filter(t=>!assigned.includes(t[0])&&!done.has(t[0]));
