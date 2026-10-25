@@ -3721,6 +3721,9 @@ const ARINA_ALL_TASKS=[["w0l0","Week 1 · Lesson 1 · Grammar test · Present Te
 /* 24.10: домашка по теме Family (сайт Арины, заданы 17.10) — всегда считается заданной */
 const ARINA_FAMILY_TASKS=[["fam-g3","Family · Grammar · Family pastime"],["fam-g4","Family · Grammar · Surprise for mum"],["fam-g5","Family · Grammar · Paddington Bear"],["fam-g6","Family · Grammar · Fear of darkness"],["fam-w3","Family · Word formation · Children and talent"],["fam-w4","Family · Word formation · My friend Mark"],["fam-w5","Family · Word formation · Friend"],["fam-w7","Family · Word formation · Phobias"],["fam-r1","Family · Reading · The will"],["fam-r2","Family · Reading · A trip of her life"],["fam-r3","Family · Reading · Honesty lesson"],["fam-speak-t1-1","Family · Speaking · Task 1 · reading aloud · text 1"],["fam-speak-t1-2","Family · Speaking · Task 1 · reading aloud · text 2"],["fam-speak-t2-1","Family · Speaking · Task 2 · questions · advert 1"],["fam-speak-t2-2","Family · Speaking · Task 2 · questions · advert 2"],["fam-speak-iv1","Family · Speaking · Task 3 · interview 1"],["fam-speak-iv2","Family · Speaking · Task 3 · interview 2"]];
 ARINA_FAMILY_TASKS.forEach(t=>{if(!ARINA_ALL_TASKS.some(x=>x[0]===t[0]))ARINA_ALL_TASKS.push(t)});
+/* 25.10: Неделя 4 · урок 1 — не успели на уроке (№5, 7, 8, 9, 10), задано Арине домой */
+const ARINA_HW_20261025=[["w4l1-hw-fix","Week 4 · Lesson 1 · Найди ошибку · Passive · 12"],["w4l1-hw-form","Week 4 · Lesson 1 · Passive: is / are / was / were + V3 · 10"],["w4l1-tea","Week 4 · Lesson 1 · ЕГЭ 19–24 · China tea ceremony"],["w4l1-hw-smolensk","Week 4 · Lesson 1 · ЕГЭ 19–24 · Smolensk / Norway"],["w4l1-hw-iv-inventions","Week 4 · Lesson 1 · Interview · Modern inventions"]];
+ARINA_HW_20261025.forEach(t=>{if(!ARINA_ALL_TASKS.some(x=>x[0]===t[0]))ARINA_ALL_TASKS.push(t)});
 /* сдача пустой работы (ни одного ответа) не считается сданной */
 function arinaEmptySubmit(r){const d=Array.isArray(r.details)?r.details:[];return d.length>0&&d.every(x=>!String(x.chosen==null?'':x.chosen).trim()||String(x.chosen).trim()==='—')}
 const ARINA_ASSIGNED_FALLBACK=['w3l1-future16','w3l1-transform','w3l1-personal','w3l1-reading-fipi'];
@@ -3755,6 +3758,9 @@ function arinaReportData(rows){
  let assigned=ARINA_ASSIGNED_FALLBACK;try{const v=JSON.parse(localStorage.getItem('arinaAssigned')||'null');if(Array.isArray(v))assigned=v}catch(e){}
  const done=new Set(allRows.filter(r=>!arinaEmptySubmit(r)).map(r=>r.test_id||r.test_title));
  assigned=assigned.concat(ARINA_FAMILY_TASKS.map(t=>t[0]));
+ assigned=assigned.concat(ARINA_HW_20261025.map(t=>t[0]));
+ /* 25.10: сделаны на уроке (Неделя 4 · урок 1) */
+ ['w4l1-voice','w4l1-wf','w4l1-r10','w4l1-iv-family','w4l1-iv-transport'].forEach(id=>done.add(id));
  /* 24.10: разобраны на уроке (warm-up Week 4 · Lesson 2) — считаются сделанными */
  ['w0l0','w0l1','w2l3-ege','w2l3-repair','w3l1-interview'].forEach(id=>done.add(id));
  const missAssigned=ARINA_ALL_TASKS.filter(t=>assigned.includes(t[0])&&!done.has(t[0])),missOther=ARINA_ALL_TASKS.filter(t=>!assigned.includes(t[0])&&!done.has(t[0]));
