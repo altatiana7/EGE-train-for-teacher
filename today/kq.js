@@ -20,17 +20,21 @@ const css=`
 .kqQ .gap{display:inline-block;min-width:110px;border-bottom:3px solid #0039A6;margin:0 6px;color:#15803d;font-weight:700}
 .kqQ .hint{display:inline-block;margin-left:12px;font:900 15px/1 "Segoe UI",Arial,sans-serif;letter-spacing:.6px;color:#64748b;vertical-align:middle}
 .kqOpts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.kqOpts button{position:relative;display:flex;align-items:center;justify-content:center;min-height:104px;padding:16px 22px 16px 64px!important;border:0;border-radius:12px;color:#fff;font:700 27px/1.25 "PT Serif",Georgia,serif;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.18);transition:transform .12s,opacity .2s,filter .2s;text-align:center}
-.kqOpts button i{position:absolute;left:20px;top:50%;transform:translateY(-50%);font:900 28px/1 "Segoe UI",Arial,sans-serif;font-style:normal;opacity:.6}
-.kqOpts button:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06)}
-.kqOpts button:nth-child(4n+1){background:#e2324a}.kqOpts button:nth-child(4n+2){background:#1f7fd8}
-.kqOpts button:nth-child(4n+3){background:#e88a00}.kqOpts button:nth-child(4n+4){background:#2e9e3e}
+.kqOpts button{position:relative;display:flex;align-items:center;justify-content:center;min-height:96px;padding:16px 22px 16px 64px!important;border:2px solid;border-radius:12px;color:#142337;font:600 27px/1.25 "PT Serif",Georgia,serif;cursor:pointer;transition:transform .12s,opacity .2s,background .2s;text-align:center}
+.kqOpts button i{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:#fff;font:800 18px/1 "Segoe UI",Arial,sans-serif;font-style:normal}
+.kqOpts button:hover:not(:disabled){transform:translateY(-2px)}
+.kqOpts button:nth-child(6n+1){background:#fbeeee;border-color:#e6b9bd}.kqOpts button:nth-child(6n+1) i{background:#b8636c}
+.kqOpts button:nth-child(6n+2){background:#edf3fb;border-color:#b5cbe8}.kqOpts button:nth-child(6n+2) i{background:#4f79ad}
+.kqOpts button:nth-child(6n+3){background:#fbf4e6;border-color:#e6cf9f}.kqOpts button:nth-child(6n+3) i{background:#b08a3e}
+.kqOpts button:nth-child(6n+4){background:#edf6ef;border-color:#b6d8bd}.kqOpts button:nth-child(6n+4) i{background:#5b8f65}
+.kqOpts button:nth-child(6n+5){background:#f3effa;border-color:#cdc0e6}.kqOpts button:nth-child(6n+5) i{background:#7a68a8}
+.kqOpts button:nth-child(6n+6){background:#eaf5f5;border-color:#acd3d3}.kqOpts button:nth-child(6n+6) i{background:#4e8f8f}
 .kqOpts button:disabled{cursor:default}
-.kqOpts.done button{opacity:.28}
-.kqOpts.done button.kqR{opacity:1;outline:5px solid #15803d;outline-offset:3px}
-.kqOpts.done button.kqW{opacity:.9;filter:grayscale(.35)}
-.kqOpts.done button.kqR:after{content:"✓";position:absolute;right:18px;top:50%;transform:translateY(-50%);font:900 32px/1 Arial}
-.kqOpts.done button.kqW:after{content:"✗";position:absolute;right:18px;top:50%;transform:translateY(-50%);font:900 30px/1 Arial}
+.kqOpts.done button{opacity:.4}
+.kqOpts.done button.kqR{opacity:1;background:#e3f4e7;border-color:#3f9a57;outline:3px solid #3f9a57;outline-offset:2px}
+.kqOpts.done button.kqW{opacity:1;background:#f8e6e6;border-color:#c46a6a}
+.kqOpts.done button.kqR:after{content:"✓";position:absolute;right:18px;top:50%;transform:translateY(-50%);font:900 30px/1 Arial;color:#2f7d45}
+.kqOpts.done button.kqW:after{content:"✗";position:absolute;right:18px;top:50%;transform:translateY(-50%);font:900 28px/1 Arial;color:#b04848}
 .kqWhy{min-height:30px;margin:14px 4px 0;text-align:center;font-size:19px;color:#334155}
 .kqWhy b{color:#15803d}.kqWhy.bad b{color:#D52B1E}
 .kqNav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:10px;font:800 18px/1 "Segoe UI",Arial,sans-serif;color:#0039A6}
@@ -44,7 +48,7 @@ const css=`
 .kqEnd li{padding:7px 12px;border-bottom:1px solid #e5ebf3}.kqEnd li b{color:#15803d}
 .kqEnd .row{display:flex;gap:10px;justify-content:center}
 .kqEnd button.prim{background:#0039A6;color:#fff;border-color:#0039A6}
-.kq.kq .kqOpts button{font-family:"PT Serif",Georgia,serif!important;font-size:27px!important;font-weight:700!important}
+.kq.kq .kqOpts button{font-family:"PT Serif",Georgia,serif!important;font-size:27px!important;font-weight:600!important;color:#142337!important}
 .kq.kq .kqNav button{font-size:20px!important;padding:0!important}.kq.kq .kqTop button,.kq.kq .kqEnd button,.kq.kq .kqF button.kqBtn{font-size:15px!important;padding:7px 16px!important}
 @media(max-width:800px){.kq.kq .kqOpts button{font-size:21px!important}.kqOpts{grid-template-columns:1fr}.kqQ{font-size:23px}.kqOpts button{font-size:21px;min-height:72px}}
 /* ФИПИ: сплошной текст */
