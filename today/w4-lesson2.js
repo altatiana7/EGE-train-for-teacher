@@ -48,6 +48,12 @@ const st=document.createElement('style');st.textContent=`
 #l3Panel .w42QTop,#l3Panel .w42QTop button{font-size:17px!important}
 #l3Panel .w42Tabs button{font-size:18px!important;padding:7px 15px!important}
 @media(max-width:1000px){#l3Panel .w42QGrid{grid-template-columns:1fr!important}}
+#l3Panel .w42R{grid-template-columns:minmax(0,1fr) max-content!important;gap:28px!important}
+#l3Panel .w42Parts{justify-self:end}
+#l3Panel .w42Gaps{grid-template-columns:1fr!important;gap:4px!important;margin-top:8px}
+#l3Panel .w42Gap button{width:40px!important;height:36px!important;font-size:17px!important}#l3Panel .w42Gap b{width:24px!important;font-size:18px!important}#l3Panel .w42Gap{gap:5px!important}
+@media(max-width:1000px){#l3Panel .w42R{grid-template-columns:1fr!important}}
+#l3Panel .w42Text,#l3Panel .w42Text p{font-size:20px!important;line-height:1.55!important}#l3Panel .w42Parts li{font-size:18px!important}
 `;document.head.appendChild(st);
 /* интервью: вопрос звучит (если есть запись) или его задаёт учитель; текст только на обороте */
 let IV=null;

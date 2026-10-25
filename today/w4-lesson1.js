@@ -74,6 +74,9 @@ const st=document.createElement('style');st.textContent=`
 #l3Panel .w41QGrid.g2{grid-template-columns:1fr 1fr!important}#l3Panel .w41QGrid.g2 .w41QOpts{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 @media(max-width:1000px){#l3Panel .w41QGrid.g2{grid-template-columns:1fr!important}}
 #l3Panel .w41QS u.fxF{text-decoration:none;border-bottom:2px solid #0039A6;color:#0039A6;font-weight:800;padding:0 2px}
+#l3Panel .w41R10{grid-template-columns:minmax(0,1fr) max-content!important;gap:28px!important}
+#l3Panel .w41H{justify-self:end}
+@media(max-width:1000px){#l3Panel .w41R10{grid-template-columns:1fr!important}}
 `;document.head.appendChild(st);
 const P=()=>document.getElementById('l3Panel');
 const teach=(t)=>'<div class="w41Teach"><button type="button" data-w41teach>Для учителя</button><div>'+t+'</div></div>';
