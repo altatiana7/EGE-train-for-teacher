@@ -3826,4 +3826,18 @@ function lsFit(){const b=document.querySelector('#l3Panel .lsBody');if(!b)return
 }
 addEventListener('resize',()=>{clearTimeout(window.__lsT);window.__lsT=setTimeout(lsFit,150)});
 document.addEventListener('click',e=>{if(e.target.closest('#l3Panel .lsBody'))setTimeout(lsFit,30)});
-</script></body></html>
+</script><style id="lsGapCss">
+/* урок — окно с просветом: сверху узкая полоска сайта, по краям фон, высота по содержимому (не во весь экран) */
+#lessonPage.lessonPage{inset:38px 0 0 0!important;z-index:200!important;padding:16px 22px 22px!important;background:#e3e9f1!important;overflow:auto!important}
+#lessonPage.lessonPage>.lesson{height:auto!important;max-width:1180px!important;margin:0 auto!important;border:1px solid #cfd9e6!important;border-radius:14px!important;background:#fff!important;box-shadow:0 6px 22px rgba(15,42,92,.10)!important;overflow:hidden!important}
+#lessonPage.lessonPage:has(.lsOne) .lessonbody{height:auto!important;overflow:visible!important}
+#lessonPage .lsOne,#lessonPage .lsOne .lsHubSec{height:auto!important}
+#lessonPage .lsOne .lsHubBody{align-content:start!important;overflow:visible!important}
+#lessonPage .lsOne .lsTile{padding:9px 12px!important;min-height:0!important;row-gap:2px!important}
+#lessonPage .lsOne .lsTiles{gap:8px!important}
+#lessonPage .lsOne .lsHubBody{padding:12px 16px 14px!important;gap:16px!important}
+#lessonPage .lsOne .lsHubMain>.lsHubGroup+.lsTiles+.lsHubGroup{margin-top:10px!important}
+#lessonPage .lsOne .lsPlanBox{padding:9px 12px!important;margin-bottom:8px!important}
+#lessonPage .lsOne .lsPlanBox li,#lessonPage .lsOne .lsPlanBox p{line-height:1.35!important}
+</style>
+</body></html>
