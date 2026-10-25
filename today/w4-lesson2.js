@@ -21,6 +21,33 @@ const st=document.createElement('style');st.textContent=`
 .w42QWhy{margin-top:6px;font-size:14px;color:#475569}
 
 @media(max-width:1000px){.w42QGrid{grid-template-columns:1fr}}
+/* крупнее и на всю ширину панели, небольшой отступ по краям */
+.w42Iv{max-width:none!important;margin:0!important;padding:6px 4px}
+.w42Nums{gap:8px!important;margin-bottom:16px!important}.w42Nums button{width:46px!important;height:46px!important;font-size:19px!important}.w42Nums span{font-size:20px!important;margin-left:12px!important}
+.w42Grid{grid-template-columns:230px minmax(0,1fr)!important;gap:26px!important}
+.w42Ring{width:210px!important;height:210px!important}.w42Ring>div{width:166px!important;height:166px!important}.w42Ring b{font-size:58px!important}.w42Ring small{font-size:15px!important}
+.w42Card{min-height:210px!important;padding:22px 26px!important}.w42Card h4{font-size:15px!important}.w42Card p{font-size:30px!important;line-height:1.35!important;margin:0 0 16px!important}
+.w42Card button,.w42Row button{font-size:19px!important;padding:11px 24px!important;border-radius:11px!important}
+.w42Row{margin-top:20px!important;gap:12px!important}
+.w42QS{font-size:20px!important;line-height:1.45!important}.w42QS .khHint{font-size:13px!important}
+.w42QOpts button{font-size:17px!important;padding:10px 8px 10px 16px!important}
+.w42QWhy{font-size:16px!important}
+.w42QTop{font-size:18px!important}
+.w42Tabs button{font-size:18px!important;padding:8px 16px!important}
+.w42Text{font-size:21px!important;line-height:1.6!important}
+.w42Parts ol{font-size:18px!important;line-height:1.45!important}#l3Panel .w42Gap button{width:32px!important;height:32px!important;font-size:16px!important}#l3Panel .w42Gap b{width:20px!important;font-size:17px}
+#l3Panel .w42Card p{font-size:30px!important;line-height:1.35!important;margin:0 0 16px!important}
+#l3Panel .w42Card button,#l3Panel .w42Row button{font-size:19px!important;padding:11px 24px!important}
+#l3Panel .w42Nums button{font-size:19px!important}
+#l3Panel .w42QGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px 12px!important}
+#l3Panel .w42QItem{padding:10px 12px!important}
+#l3Panel .w42QS{font-size:19px!important;line-height:1.4!important}
+#l3Panel .w42QOpts{grid-template-columns:1fr 1fr!important;gap:6px!important}
+#l3Panel .w42QOpts button{font-size:17px!important;padding:8px 6px 8px 15px!important}
+#l3Panel .w42QWhy{font-size:15px!important}
+#l3Panel .w42QTop,#l3Panel .w42QTop button{font-size:17px!important}
+#l3Panel .w42Tabs button{font-size:18px!important;padding:7px 15px!important}
+@media(max-width:1000px){#l3Panel .w42QGrid{grid-template-columns:1fr!important}}
 `;document.head.appendChild(st);
 /* интервью: вопрос звучит (если есть запись) или его задаёт учитель; текст только на обороте */
 let IV=null;
