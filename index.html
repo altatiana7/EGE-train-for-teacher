@@ -1164,6 +1164,9 @@ function resetL3Ege(btn){const root=btn.closest('.l3EgeSet');root.querySelectorA
 
 function l3Show(sel){const store=document.getElementById('l3Store'),out=document.getElementById('l3Panel');if(!store||!out)return;const current=out.querySelector('[data-l3]');if(current)store.appendChild(current);const s=store.querySelector(sel);if(!s)return;out.replaceChildren(s);out.scrollTop=0;if(typeof initKahoots==='function')initKahoots();setTimeout(lsFit,0);}
 function showL3Panel(i){l3Show('[data-l3="'+i+'"]')}
+const ARINA_TODAY_TILES={'2026-10-28':[[3,'Interview · Modern inventions'],[3,'Чтение · задание 11']]};
+function arinaTodayTile(w,title){const d=new Date(),k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return (ARINA_TODAY_TILES[k]||[]).some(x=>x[0]===w&&String(title).indexOf(x[1])===0)}
+(function(){const st=document.createElement('style');st.textContent='.lsTile.today{background:#fff9c4!important;border-color:#f2d600!important;border-left-color:#f2d600!important}.lsTile.today .lsTileT:after{content:"сегодня";margin-left:8px;font-size:11px;font-weight:800;color:#7a6400;background:#fff176;padding:1px 6px;border-radius:4px;vertical-align:middle}';document.head.appendChild(st)})();
 function showL3Hub(){l3Show('[data-l3="hub"]')}
 /* если у урока хаб не собран вручную — строим его из блоков автоматически */
 function l3AutoHub(){
@@ -1610,7 +1613,7 @@ function lessonFullHTML(x,i,w){
  if(w===0)return html+lessonStarter(w,i)+'</div></div>';
  const T=lessonTabs(x,i,w),all=T.steps.concat(T.after);
  const top=(label,act)=>'<div class="lsTop"><button type="button" class="lsBackW" onclick="'+act+'">← '+label+'</button><span class="lsWho">Неделя '+(w+1)+' · Урок '+(i+1)+'</span><b class="lsTheme">'+x[0]+'</b></div>';
- const tile=(t,n)=>'<button type="button" class="lsTile'+(n>=T.steps.length?' after':'')+'" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'★')+'</span><span class="lsTileT">'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+'</button>';
+ const tile=(t,n)=>'<button type="button" class="lsTile'+(n>=T.steps.length?' after':'')+(arinaTodayTile(w,t[0])?' today':'')+'" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'★')+'</span><span class="lsTileT">'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+'</button>';
  const planList=String(x[1]||'').split('; ').filter(Boolean).map(s=>'<li>'+s+'</li>').join('');
  const W=weeks[w]||{};
  const plan='<aside class="lsPlan"><div class="lsPlanBox"><h3>На уроке</h3><ul>'+planList+'</ul></div>'+(W.g?'<div class="lsPlanBox"><h3>Цель недели</h3><p>'+W.g+'</p></div>':'')+(W.r?'<div class="lsPlanBox"><h3>Критерий готовности</h3><p>'+W.r+'</p></div>':'')+'<div class="lsPlanBox"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></aside>';
