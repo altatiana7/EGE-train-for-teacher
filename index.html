@@ -3789,7 +3789,7 @@ function arinaReportText(rows){
 let arinaLastRows=[];
 function arinaReportHTML(rows){
  arinaLastRows=rows;const R=arinaReportData(rows),e=arinaEsc;
- const miss=R.missAssigned.length?R.missAssigned.map(t=>'<li><b>'+e(t[1])+'</b></li>').join(''):'<li>всё заданное сдано</li>';
+ const miss=R.missAssigned.length?R.missAssigned.map(t=>'<li style="margin:0 0 3px"><b style="background:#fff176;padding:1px 6px;border-radius:4px">'+e(t[1])+'</b></li>').join(''):'<li>всё заданное сдано</li>';
  const topics=R.topics.length?R.topics.map(t=>'<div style="display:grid;grid-template-columns:1fr 70px 150px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #e5ebf3;font-size:14px"><span>'+e(t.topic)+'</span><b style="color:'+(t.pct<60?'#b91c1c':t.pct<80?'#b45309':'#166534')+'">'+t.ok+' / '+t.total+'</b><span style="height:8px;background:#e5ebf3;border-radius:8px;overflow:hidden"><i style="display:block;height:100%;width:'+t.pct+'%;background:'+(t.pct<60?'#ef4444':t.pct<80?'#f59e0b':'#22c55e')+'"></i></span></div>').join(''):'<p style="font-size:14px">Проверяемых ответов пока нет.</p>';
  const weak=R.topics.filter(t=>t.pct<80&&t.total>=3).slice(0,3).map(t=>t.topic);
  const today=new Date(),iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),yest=new Date(today.getTime()-864e5);
