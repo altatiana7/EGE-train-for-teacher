@@ -92,6 +92,7 @@ function qzMake(id,d,o){o=o||{};return (o.head||'')+KQ.kahoot(d.map(x=>({q:qzBod
 function qzFipi(d,o){return KQ.fipi(d.map(x=>({q:qzBody(x[0]),b:qzHint(x[0]),a:x[1],why:x[2]||''})),o||{})}
 function qzInit(){const p=document.getElementById('l3Panel');if(!p)return;p.querySelectorAll('.kq').forEach(el=>{el._kq=null});KQ.mountAll(p)}
 window.w4l2Steps=function(){const F=d=>qzMake('q'+Object.keys(QZ).length,d);return [
+ ['Warm-up · Чтение вслух · Family dinners','0–3',(window.raHTML?window.raHTML():'')],
  ['Warm-up · Grammar mix · часть 1','0–4',F(D.warm.slice(0,14))],
  ['Warm-up · Grammar mix · часть 2','4–7',qzMake('',D.warm.slice(14),{start:15})],
  ['Warm-up · Interview · Weekends · ФИПИ','7–11',ivMake('ivFut')],

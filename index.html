@@ -415,7 +415,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <script defer src="today/lesson.js?v=20261025"></script>
 <script defer src="today/lesson-1011.js?v=20261025"></script>
 <script defer src="today/w3-checkpoint.js?v=20261017b"></script>
-<script src="today/kq.js?v=20261025c"></script><script defer src="today/w4-lesson2.js?v=20261025e"></script>
+<script src="today/kq.js?v=20261025c"></script><script defer src="today/read-aloud.js?v=20261028a"></script><script defer src="today/w4-lesson2.js?v=20261028a"></script>
 <script defer src="today/w4-lesson1.js?v=20261025e"></script>
 <script defer src="tense/tense-logic.js?v=20261010-open"></script>
 <link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005x"></script><style>
@@ -1164,7 +1164,7 @@ function resetL3Ege(btn){const root=btn.closest('.l3EgeSet');root.querySelectorA
 
 function l3Show(sel){const store=document.getElementById('l3Store'),out=document.getElementById('l3Panel');if(!store||!out)return;const current=out.querySelector('[data-l3]');if(current)store.appendChild(current);const s=store.querySelector(sel);if(!s)return;out.replaceChildren(s);out.scrollTop=0;if(typeof initKahoots==='function')initKahoots();setTimeout(lsFit,0);}
 function showL3Panel(i){l3Show('[data-l3="'+i+'"]')}
-const ARINA_TODAY_TILES={'2026-10-28':[[3,'Interview · Modern inventions'],[3,'Чтение · задание 11']]};
+const ARINA_TODAY_TILES={};
 function arinaTodayTile(w,title){const d=new Date(),k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return (ARINA_TODAY_TILES[k]||[]).some(x=>x[0]===w&&String(title).indexOf(x[1])===0)}
 (function(){const st=document.createElement('style');st.textContent='.lsTile.today{background:#fff9c4!important;border-color:#f2d600!important;border-left-color:#f2d600!important}.lsTile.today .lsTileT:after{content:"сегодня";margin-left:8px;font-size:11px;font-weight:800;color:#7a6400;background:#fff176;padding:1px 6px;border-radius:4px;vertical-align:middle}';document.head.appendChild(st)})();
 function showL3Hub(){l3Show('[data-l3="hub"]')}
@@ -3790,7 +3790,7 @@ function arinaReportText(rows){
  return L.join('\n');
 }
 let arinaLastRows=[];
-const ARINA_LESSON_TODAY={'2026-10-28':['fam-speak-t1-1','w4l1-hw-iv-inventions','w4l2-r11']};
+const ARINA_LESSON_TODAY={};
 function arinaReportHTML(rows){
  arinaLastRows=rows;const R=arinaReportData(rows),e=arinaEsc;
  const _td=new Date(),_tk=_td.getFullYear()+'-'+String(_td.getMonth()+1).padStart(2,'0')+'-'+String(_td.getDate()).padStart(2,'0'),_today=(ARINA_LESSON_TODAY[_tk]||[]);const miss=R.missAssigned.length?R.missAssigned.map(t=>_today.includes(t[0])?'<li style="margin:0 0 3px"><b style="background:#fff176;padding:1px 6px;border-radius:4px">'+e(t[1])+'</b></li>':'<li style="margin:0 0 3px"><b>'+e(t[1])+'</b></li>').join('')+(R.missAssigned.some(t=>_today.includes(t[0]))?'<li style="list-style:none;margin:6px 0 0 -18px;font-size:12px;color:#64748b"><span style="background:#fff176;padding:0 6px;border-radius:4px">жёлтым</span> — проходим на сегодняшнем уроке</li>':''):'<li>всё заданное сдано</li>';
