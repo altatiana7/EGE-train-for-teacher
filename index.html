@@ -1703,7 +1703,7 @@ function lessonFullHTML(x,i,w){
  if(w===0)return html+lessonStarter(w,i)+'</div></div>';
  const T=lessonTabs(x,i,w),all=T.steps.concat(T.after);
  const top=(label,act)=>'<div class="lsTop"><button type="button" class="lsBackW" onclick="'+act+'">← '+label+'</button><span class="lsWho">Неделя '+(w+1)+' · Урок '+(i+1)+'</span><b class="lsTheme">'+x[0]+'</b></div>';
- const tile=(t,n)=>'<button type="button" class="lsTile'+(n>=T.steps.length?' after':'')+(arinaTodayTile(w,t[0])?' today':'')+'" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'★')+'</span><span class="lsTileT">'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+arinaDoneBadge(w,t[0])+arinaHwBadge(w,t[0])+'</button>';
+ const tile=(t,n)=>'<button type="button" class="lsTile'+(n>=T.steps.length?' after':'')+(arinaTodayTile(w,t[0])?' today':'')+'" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'★')+'</span><span class="lsTileT">'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+arinaDoneBadge(w,t[0])+arinaHwBadge(w,t[0])+arinaClassBtn(w,i,t[0])+'</button>';
  const planList=String(x[1]||'').split('; ').filter(Boolean).map(s=>'<li>'+s+'</li>').join('');
  const W=weeks[w]||{};
  const plan='<aside class="lsPlan"><div class="lsPlanBox"><h3>На уроке</h3><ul>'+planList+'</ul></div>'+(W.g?'<div class="lsPlanBox"><h3>Цель недели</h3><p>'+W.g+'</p></div>':'')+(W.r?'<div class="lsPlanBox"><h3>Критерий готовности</h3><p>'+W.r+'</p></div>':'')+'<div class="lsPlanBox"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></aside>';
@@ -3945,14 +3945,36 @@ function arinaFull(on){try{const d=document;if(on){if(!d.fullscreenElement&&d.do
 })();
 </script>
 
+<script id="arinaClassDone">
+/* Отметка «сделали на уроке»: кнопка на каждой плитке урока. Хранится на этом компьютере. */
+const ARINA_CLASS_KEY='arinaClassDoneV1';
+function arinaClassGet(){try{return JSON.parse(localStorage.getItem(ARINA_CLASS_KEY)||'{}')||{}}catch(e){return {}}}
+function arinaClassId(w,i,title){return w+'-'+i+'-'+String(title).replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').trim()}
+function arinaClassBtn(w,i,title){const id=arinaClassId(w,i,title),d=arinaClassGet()[id];
+ return '<span class="lsCls'+(d?' on':'')+'" role="button" tabindex="0" data-cls="'+encodeURIComponent(id)+'" title="Отметить: сделали на уроке">'+(d?'✓ НА УРОКЕ · '+d:'на уроке')+'</span>'}
+document.addEventListener('click',e=>{const b=e.target.closest('.lsCls');if(!b)return;e.preventDefault();e.stopPropagation();
+ const id=decodeURIComponent(b.dataset.cls),m=arinaClassGet();
+ if(m[id])delete m[id];else m[id]=new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.','');
+ try{localStorage.setItem(ARINA_CLASS_KEY,JSON.stringify(m))}catch(x){}
+ document.querySelectorAll('.lsCls[data-cls="'+b.dataset.cls+'"]').forEach(x=>{x.classList.toggle('on',!!m[id]);x.textContent=m[id]?'✓ НА УРОКЕ · '+m[id]:'на уроке'});
+},true);
+(function(){const st=document.createElement('style');st.textContent=`
+.lsTile{position:relative}
+#lessonPage #l3Panel .lsOne .lsTile,#lessonPage .lsOne #l3Panel .lsTile{padding-bottom:26px!important}
+.lsCls{position:absolute;right:8px;bottom:5px;font:700 10.5px/1 "Segoe UI",Arial,sans-serif;letter-spacing:.3px;padding:4px 7px;border-radius:999px;border:1px dashed #b7c9e8;color:#7b8ba3;background:#fff;cursor:pointer;white-space:nowrap}
+.lsCls:hover{border-style:solid;color:#0039A6}
+.lsCls.on{border:1px solid #2f7d45;background:#2f7d45;color:#fff}
+.lsTile:has(.lsCls.on){background:#f0faf5!important;border-left-color:#2f7d45!important}`;document.head.appendChild(st)})();
+</script>
 <script>
 /* Шаг урока на весь экран: содержимое аккуратно вписывается в экран без прокрутки */
-function lsFit(){const b=document.querySelector('#l3Panel .lsBody');if(!b)return;
+function lsFit(){const one0=document.querySelector('#lessonPage .lsOne');const b=document.querySelector('#l3Panel .lsBody');if(!b){if(one0)one0.style.removeProperty('height');return}
+ const Z=parseFloat(getComputedStyle(document.documentElement).zoom)||1;
  let inner=b.querySelector(':scope>.lsFitIn');if(!inner){inner=document.createElement('div');inner.className='lsFitIn';while(b.firstChild)inner.appendChild(b.firstChild);b.appendChild(inner)}
  b.classList.remove('lsScroll');inner.style.zoom=1;inner.style.width='';
  inner.querySelectorAll('*').forEach(e=>{const c=getComputedStyle(e);if((c.overflowY==='auto'||c.overflowY==='scroll')&&!e.matches('select,textarea')){e.style.setProperty('overflow','visible','important');e.style.setProperty('max-height','none','important')}});
- const one=b.closest('.lsOne');if(one){const ls=one.closest('.lesson'),bot=Math.min(innerHeight,ls?ls.getBoundingClientRect().bottom:innerHeight);one.style.setProperty('height',Math.max(300,bot-one.getBoundingClientRect().top-4)+'px','important')}
- const H=Math.min(b.clientHeight,innerHeight-b.getBoundingClientRect().top-10)-28;if(H<=0)return;
+ const one=b.closest('.lsOne');if(one){const bot=innerHeight-12;one.style.setProperty('height',Math.max(300,(bot-one.getBoundingClientRect().top-4)/Z)+'px','important')}
+ const H=Math.min(b.clientHeight,(innerHeight-b.getBoundingClientRect().top-10)/Z)-28;if(H<=0)return;
  const fits=z=>{inner.style.zoom=z;return inner.scrollHeight*z<=H+1};
  if(fits(1))return;
  let lo=.55,hi=1;if(!fits(lo)){b.classList.add('lsScroll');return}
