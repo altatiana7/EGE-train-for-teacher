@@ -3969,158 +3969,189 @@ document.addEventListener('click',e=>{if(e.target.closest('#l3Panel .lsBody'))se
 #lessonPage .lsOne .lsPlanBox li,#lessonPage .lsOne .lsPlanBox p{line-height:1.35!important}
 </style>
 
-<style id="eduSkin">
-:root{--ed-indigo:#2f2d8f;--ed-indigo2:#3d3aa8;--ed-bg:#eef0f7;--ed-card:#fff;--ed-line:#e3e6f0;--ed-mut:#6b7280;--ed-text:#1f2340;
- --ed-blue:#3a6fd8;--ed-red:#d9534f;--ed-purple:#7c5cc9;--ed-green:#2f9e6b;--ed-amber:#e7a33e;--ed-shadow:0 1px 2px rgba(31,35,64,.05),0 6px 18px rgba(31,35,64,.06);
- --ink:#2f2d8f;--teal:#2f2d8f;--deep:#2f2d8f;--soft:#eef0fb;--bg:#eef0f7;--line:#e3e6f0;--side:260px}
-body{background:var(--ed-bg)!important;color:var(--ed-text)}
-/* верхняя панель */
-.top{height:52px!important;background:linear-gradient(90deg,var(--ed-indigo),var(--ed-indigo2))!important;border:0!important;padding:0 18px!important;gap:12px;box-shadow:0 2px 10px rgba(47,45,143,.25)}
-.top .brand{display:flex;align-items:center;gap:10px;font-size:17px!important;font-weight:800!important;color:#fff!important;letter-spacing:.2px}
-.top .brand b{color:#fff!important}
-.edLogo{display:grid;grid-template-columns:1fr 1fr;gap:3px;width:24px;height:24px;flex:none}
-.edLogo i{border-radius:4px}.edLogo i:nth-child(1){background:#5b8def}.edLogo i:nth-child(2){background:#e5605b}.edLogo i:nth-child(3){background:#9b7be0}.edLogo i:nth-child(4){background:#f0b44f}
-.top .topTag{background:rgba(255,255,255,.16)!important;color:#fff!important;border:1px solid rgba(255,255,255,.35)!important}
+
+<!-- 07.11.2026: дизайн EduFlow для Arina EGE - Teacher. Меняется только вид: все уроки, недели, отметки и кнопки на месте (в пунктах меню слева) -->
+<style id="eduFlow">
+:root{--ef-indigo:#2c2a86;--ef-indigo2:#34329a;--ef-btn:#4b4aa3;--ef-panel:#d5dae6;--ef-text:#1e2238;--ef-mut:#5d6378;
+ --ef-blue:#3b7dd8;--ef-red:#d9443b;--ef-purple:#8a55c9;--ef-green:#3f9a55;--ef-amber:#e9a83a;--side:270px;
+ --ink:#2c2a86;--teal:#2c2a86;--deep:#2c2a86;--bg:#d5dae6}
+html{background:var(--ef-indigo)}
+body{background:transparent!important;color:var(--ef-text)}
+body::after{content:"";position:fixed;z-index:-1;top:64px;left:14px;right:14px;bottom:0;background:var(--ef-panel);border-radius:22px 22px 0 0}
+/* шапка */
+.top{height:64px!important;background:var(--ef-indigo)!important;border:0!important;box-shadow:none!important;padding:0 30px!important;gap:24px}
+.top .brand{display:flex;align-items:center;gap:11px;font-size:24px!important;font-weight:700!important;color:#fff!important;text-transform:none!important;letter-spacing:0}
+.top .brand b{color:#fff!important;font-weight:700}
+.efLogo{display:grid;grid-template-columns:1fr 1fr;gap:3px;width:30px;height:30px;flex:none}
+.efLogo i{border-radius:7px}.efLogo i:nth-child(1){background:#5a8ff0}.efLogo i:nth-child(2){background:#e5483f}.efLogo i:nth-child(3){background:#4a6fd8}.efLogo i:nth-child(4){background:#e5483f}
 .top .topnote{display:none!important}
-.edTopRight{margin-left:auto;display:flex;align-items:center;gap:10px}
-.edAvatar{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--ed-indigo);display:grid;place-items:center;font-weight:800;font-size:14px}
-.top .mobile{margin-left:0!important;background:rgba(255,255,255,.15)!important;color:#fff!important;border:1px solid rgba(255,255,255,.35)!important}
-/* левая панель */
-.side{top:52px!important;width:var(--side)!important;background:#fff!important;border-right:0!important;box-shadow:2px 0 14px rgba(31,35,64,.05);padding:14px 12px 70px!important}
-.side .sidehead{color:#9097ad!important;font-size:10.5px!important;letter-spacing:1px!important;margin:16px 6px 6px!important}
-.side .navSide.navTopBtn{background:linear-gradient(135deg,var(--ed-indigo),var(--ed-indigo2))!important;border-radius:12px!important;box-shadow:0 6px 14px rgba(47,45,143,.25)!important}
-.side .wbtn,.side .trainerBtn:not(.navTopBtn),.side .arinaTopicBtn,.side .ebtn{position:relative;background:#fff!important;border:0!important;border-radius:10px!important;color:var(--ed-text)!important;box-shadow:none!important;padding:8px 10px 8px 30px!important;text-align:left;margin:1px 0!important;width:100%}
-.side .wbtn::before,.side .trainerBtn:not(.navTopBtn)::before,.side .arinaTopicBtn::before,.side .ebtn::before{content:"";position:absolute;left:10px;top:13px;width:11px;height:11px;border-radius:50%;background:var(--ed-blue)}
-.side .wbtn:hover,.side .trainerBtn:not(.navTopBtn):hover,.side .arinaTopicBtn:hover,.side .ebtn:hover{background:#f3f4fb!important}
-.side .wbtn b,.side .trainerBtn:not(.navTopBtn),.side .arinaTopicBtn,.side .ebtn b{color:var(--ed-text)!important;font-weight:700}
-.side .wbtn small,.side .trainerBtn small,.side .arinaTopicBtn small,.side .ebtn small{color:var(--ed-mut)!important}
-.side .wbtn.active{background:#eef0fb!important}
-.side .wbtn.active::after{content:"";position:absolute;left:-12px;top:6px;bottom:6px;width:4px;border-radius:0 4px 4px 0;background:var(--ed-indigo)}
-.side .wbtn.active b{color:var(--ed-indigo)!important}
-.side .wbtn.locked{opacity:.45}.side .wbtn.locked::before{background:#c3c8d6}
-.side .arinaTopicBtn::before{background:var(--ed-purple)}
-.side .arinaTopicBtn.locked::before{background:#c3c8d6}
-.side .trainerBtn:not(.navTopBtn)::before{background:var(--ed-green)}
-.side .trTabBtn::before{background:var(--ed-amber)!important}
-.side .ebtn::before{background:var(--ed-red)}
-.side .egeCore{background:#fff!important}
-.edUser{position:fixed;left:0;bottom:0;width:var(--side);background:#fff;border-top:1px solid var(--ed-line);display:flex;align-items:center;gap:10px;padding:10px 14px;z-index:21}
-.edUser .edAvatar{background:var(--ed-indigo);color:#fff}
-.edUser b{display:block;font-size:13px;color:var(--ed-text)}.edUser small{display:block;font-size:11px;color:var(--ed-mut)}
-/* основная часть */
-.main{margin-left:var(--side)!important;padding:64px 22px 30px!important}
-.lessonPage,.fullScreenPanel,#arinaRussiaPanel{top:52px!important;background:var(--ed-bg)!important}
-.taskModal{top:52px!important;left:var(--side)!important}
-.tx{top:52px!important}
-.week1Right{top:64px!important}
-/* приветствие и карточки */
-.edHello{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 0 12px}
-.edHello h1{margin:0;font-size:24px;font-weight:800;color:var(--ed-text);letter-spacing:-.2px}
-.edHello p{margin:3px 0 0;font-size:13px;color:var(--ed-mut)}
-.edHello .edWeekBtn{border:0;background:#fff;color:var(--ed-indigo);font-weight:700;font-size:13px;border-radius:20px;padding:7px 14px;box-shadow:var(--ed-shadow)}
-.edStats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 14px}
-.edStat{background:#fff;border-radius:16px;box-shadow:var(--ed-shadow);padding:13px 14px 12px;display:flex;flex-direction:column;gap:4px;min-width:0}
-.edStatHead{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;color:var(--ed-text)}
-.edDot{width:24px;height:24px;border-radius:50%;flex:none;background:var(--c)}
-.edStat .edNum{font-size:22px;font-weight:800;color:var(--ed-text);line-height:1.1;margin-top:2px}
-.edStat .edNum small{font-size:13px;font-weight:600;color:var(--ed-mut)}
-.edStat .edSub{font-size:12px;color:var(--ed-mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.edStat button{align-self:flex-end;margin-top:4px;border:0;border-radius:20px;background:var(--ed-indigo2);color:#fff;font-size:12px;font-weight:700;padding:6px 13px}
-.edStat button:hover{background:var(--ed-indigo)}
-/* прогресс по неделям */
-.edProgress{background:#fff;border-radius:16px;box-shadow:var(--ed-shadow);padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:18px;align-items:center}
-.edProgress h3{margin:0 0 10px;font-size:15px;font-weight:800;color:var(--ed-text);display:flex;justify-content:space-between}
-.edProgress h3 a{font-size:12px;font-weight:700;color:var(--ed-indigo);cursor:pointer}
-.edBarRow{display:grid;grid-template-columns:22px minmax(0,1fr) 44px;gap:10px;align-items:center;margin:7px 0}
-.edBarRow i{width:22px;height:22px;border-radius:6px;background:var(--c)}
-.edBarRow span{display:block;font-size:12.5px;font-weight:600;color:var(--ed-text);margin-bottom:4px}
-.edBar{height:6px;border-radius:6px;background:#e7e9f2;overflow:hidden}.edBar em{display:block;height:100%;border-radius:6px;background:var(--ed-indigo2)}
-.edBarRow b{text-align:right;font-size:13px;color:var(--ed-text)}
-.edDonut{width:140px;height:140px;border-radius:50%;display:grid;place-items:center;margin:auto}
-.edDonut div{width:96px;height:96px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
-.edDonut b{display:block;font-size:24px;font-weight:800;color:var(--ed-text);line-height:1}.edDonut small{font-size:11px;color:var(--ed-mut)}
-/* прежние блоки — в стиле карточек */
-.weekTitle{display:none!important}
-.hwLinks,.duePanel,.debtPanel,.expandedCard{background:#fff!important;border:0!important;border-radius:16px!important;box-shadow:var(--ed-shadow)!important}
-.hwHead,.dueSub{color:var(--ed-text)!important;letter-spacing:.3px!important}
-.hwRow{background:#f7f8fc!important;border:1px solid var(--ed-line)!important;border-left:4px solid var(--ed-blue)!important}
-.hwRow em,.dueRow em{background:var(--ed-indigo2)!important;border-radius:20px!important;color:#fff!important}
-.dueBar i{background:var(--ed-indigo2)!important}
-.dueRow{background:#fffaf0!important;border-color:#f3dfb4!important;border-left-color:var(--ed-amber)!important}
-#weekView .lesson{background:#fff!important;border:0!important;border-radius:16px!important;box-shadow:var(--ed-shadow)!important}
-#weekView .lesson.lessonLocked{background:#f7f8fc!important;box-shadow:none!important}
-.lnum{background:var(--ed-indigo2)!important;border-radius:50%!important}
-.ltitle b{color:var(--ed-text)!important}
-.chev{color:var(--ed-indigo2)!important}
-@media(max-width:1100px){.edStats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.efTag{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:20px;padding:2px 9px;margin-left:4px}
+.efLinks{display:flex;gap:30px;margin-left:70px}
+.efLinks button{border:0;background:none;color:#fff;font-size:17px;font-weight:600;padding:6px 0;opacity:.95}
+.efLinks button:hover,.efLinks button.on{opacity:1;box-shadow:inset 0 -2px 0 #fff}
+.efIcons{margin-left:auto;display:flex;align-items:center;gap:18px}
+.efIcons button{border:0;background:none;padding:0;color:#fff;display:grid;place-items:center;position:relative}
+.efIcons svg{width:26px;height:26px;fill:#fff}
+.efAva{width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.efAva svg{width:30px!important;height:30px!important;fill:#9aa0ae!important}
+.efBell i{position:absolute;top:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#e5483f;display:none}
+.efBell.has i{display:block}
+.top .mobile{margin-left:0!important;background:none!important;border:0!important;color:#fff!important;padding:4px!important}
+.top .mobile span{display:block;width:24px;height:3px;border-radius:2px;background:#fff;margin:4px 0}
+/* левое меню — белая карточка */
+.side{top:64px!important;left:14px!important;bottom:0!important;width:var(--side)!important;background:#fff!important;border:0!important;border-radius:22px 0 0 0!important;box-shadow:none!important;padding:26px 22px 90px!important;overflow:auto}
+.efSideBrand{display:flex;align-items:center;gap:11px;font-size:24px;font-weight:700;color:var(--ef-text);margin:0 4px 22px}
+.efItem{display:flex;align-items:center;gap:14px;width:100%;border:0;background:none;padding:11px 6px;font-size:18px;font-weight:500;color:var(--ef-text);text-align:left;border-radius:10px;position:relative}
+.efItem:hover{background:#f3f4f9}
+.efItem .efDot{width:30px;height:30px;border-radius:50%;flex:none;background:var(--c)}
+.efItem.on::before{content:"";position:absolute;left:-22px;top:4px;bottom:4px;width:5px;border-radius:0 4px 4px 0;background:var(--ef-indigo)}
+.efItem.on::after{content:"";position:absolute;right:-22px;top:4px;bottom:4px;width:5px;border-radius:4px 0 0 4px;background:var(--ef-indigo)}
+.efItem em{margin-left:auto;font-style:normal;font-size:12px;font-weight:700;color:#fff;background:var(--ef-red);border-radius:20px;padding:1px 8px}
+.efGroup{display:none;padding:4px 0 10px 8px}
+.efGroup.open{display:block}
+.efSep{height:1px;background:#d9dce6;margin:16px 4px}
+.efSmall{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;padding:8px 6px;font-size:16px;color:var(--ef-text);text-align:left;border-radius:8px}
+.efSmall:hover{background:#f3f4f9}
+.efSmall svg{width:22px;height:22px;fill:none;stroke:var(--ef-text);stroke-width:1.7}
+.efUser{position:fixed;left:14px;bottom:0;width:var(--side);background:#fff;border-top:1px solid #e3e5ec;display:flex;align-items:center;gap:12px;padding:14px 24px;z-index:21}
+.efUser .efAva{background:#d7dae2}
+.efUser b{display:block;font-size:16px;font-weight:600;color:var(--ef-text)}.efUser small{display:block;font-size:13px;color:var(--ef-mut)}
+/* старые кнопки внутри групп меню — спокойно и компактно */
+.efGroup .sidehead{display:none!important}
+.efGroup .wbtn,.efGroup .trainerBtn,.efGroup .ebtn,.efGroup .teacherNav,.efGroup>button,.efGroup>a{display:block;width:100%;background:#f6f7fb!important;border:0!important;border-left:3px solid var(--c,#c9cde0)!important;border-radius:8px!important;color:var(--ef-text)!important;box-shadow:none!important;padding:7px 10px!important;margin:0 0 5px!important;text-align:left;font-size:13px!important;font-weight:600!important;min-height:0!important;text-transform:none!important}
+.efGroup .wbtn.active{background:#e8e9f7!important;border-left-color:var(--ef-indigo)!important}
+.efGroup .wbtn b,.efGroup .trainerBtn b,.efGroup .ebtn b{color:var(--ef-text)!important;font-size:13px!important}
+.efGroup small{display:block!important;font-size:11px!important;font-weight:400!important;color:var(--ef-mut)!important;margin-top:1px}
+.efGroup .teacherSidePanel{display:block!important;margin:0!important}
+.efGroup .weekBtns{max-height:46vh;overflow:auto;padding-right:2px}
+/* основная панель */
+.main{margin-left:calc(var(--side) + 14px)!important;margin-right:14px;padding:92px 40px 40px!important;max-width:1180px}
+.lessonPage,.fullScreenPanel{inset:64px 0 0 0!important}
+#arinaRussiaPanel,.taskModal,.tx{top:64px!important}
+.taskModal{left:calc(var(--side) + 14px)!important}
+.efHome{display:none}
+body.efHomeOn .main>.content{display:none!important}
+body.efHomeOn .efHome{display:block}
+.efHello h1{margin:0;font-size:38px;font-weight:700;color:var(--ef-text);letter-spacing:-.3px}
+.efHello p{margin:6px 0 26px;font-size:19px;color:#2e3346}
+.efCards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:24px}
+.efCard{background:#fff;border-radius:14px;padding:20px 22px 18px;box-shadow:0 2px 6px rgba(30,34,56,.08);display:flex;flex-direction:column;min-height:170px}
+.efCard h3{display:flex;align-items:center;gap:13px;margin:0 0 10px;font-size:21px;font-weight:600;color:var(--ef-text)}
+.efCard h3 i{width:34px;height:34px;border-radius:50%;background:var(--c);flex:none}
+.efCard p{margin:0;padding-left:47px;font-size:14px;line-height:1.55;color:#3a4054}
+.efCard p b{color:var(--ef-text)}
+.efCard .efGo{margin-top:auto;align-self:flex-end;border:0;border-radius:20px;background:var(--ef-btn);color:#fff;font-size:15px;font-weight:600;padding:7px 16px}
+.efCard .efGo:hover{background:var(--ef-indigo)}
+.efProg{background:#fff;border-radius:14px;padding:22px 26px;box-shadow:0 2px 6px rgba(30,34,56,.08);display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:40px;align-items:center}
+.efProgHead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.efProgHead h3{margin:0;font-size:22px;font-weight:600;color:var(--ef-text)}
+.efProgHead button{border:0;background:none;font-size:16px;font-weight:600;color:var(--ef-text)}
+.efRow{display:grid;grid-template-columns:44px minmax(0,1fr) 50px;gap:16px;align-items:center;margin:12px 0}
+.efRow i{width:44px;height:44px;border-radius:7px;background:linear-gradient(160deg,#5b8be4,#3c58b8)}
+.efRow span{display:block;font-size:16px;color:var(--ef-text);margin-bottom:7px}
+.efBar{height:5px;border-radius:5px;background:#dfe2ea;overflow:hidden}.efBar em{display:block;height:100%;background:var(--ef-indigo2);border-radius:5px}
+.efRow b{text-align:right;font-size:18px;font-weight:600;color:var(--ef-text)}
+.efDonut{width:210px;height:210px;border-radius:50%;display:grid;place-items:center;margin:auto}
+.efDonut div{width:116px;height:116px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.efDonut b{display:block;font-size:42px;font-weight:700;color:var(--ef-text);line-height:1}.efDonut small{font-size:16px;color:var(--ef-text)}
+/* экран недели и прочие блоки — в тон */
+#weekView .lesson,#weekView .card,#weekView .arinaWeekMarks,#weekView .weekTeacherBar>*{background:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 2px 6px rgba(30,34,56,.08)!important}
+#weekView .weekTitle{background:#fff!important;border:0!important;border-radius:12px!important}
+.lnum{background:var(--ef-btn)!important;border-radius:50%!important}
+.chev{color:var(--ef-btn)!important}
+@media(max-width:1100px){.efLinks{display:none}.efProg{grid-template-columns:1fr}}
 @media(max-width:800px){
- .side{top:52px!important}.edUser{display:none}
- .main{margin-left:0!important;padding:64px 12px 24px!important}
- .taskModal{left:0!important}
- .edProgress{grid-template-columns:1fr}.edHello h1{font-size:20px}
- .top{padding:0 10px!important}.top .brand{font-size:14px!important;white-space:nowrap}.top .topTag{font-size:9px!important;padding:2px 6px!important}.top .mobile{padding:5px 9px!important;font-size:12px!important}
+ body::after{left:0;right:0;top:56px;border-radius:18px 18px 0 0}
+ .top{height:56px!important;padding:0 14px!important}.top .brand{font-size:19px!important}.efIcons{gap:10px}.efIcons .efGear,.efIcons .efBell{display:none}
+ .side{top:56px!important;left:0!important;border-radius:0!important;z-index:120}.efUser{display:none}
+ .main{margin:0!important;padding:76px 12px 24px!important}
+ .lessonPage,.fullScreenPanel{inset:56px 0 0 0!important}.taskModal{left:0!important}
+ .efHello h1{font-size:26px}.efHello p{font-size:15px;margin-bottom:16px}.efCards{grid-template-columns:1fr;gap:12px}.efCard{min-height:0}
 }
-@media(max-width:520px){.edStats{grid-template-columns:1fr 1fr;gap:8px}.edStat{padding:10px}.edStat .edSub{display:none}}
-
-.top .brand{text-transform:none}
-.top .topTag{margin-left:10px;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;border-radius:20px;padding:2px 9px}
-.side .teacherSidePanel{gap:6px!important}
-.side .teacherNav{background:#f5f6fb!important;border:0!important;border-radius:10px!important;color:var(--ed-text)!important;font-weight:700!important;padding:9px 10px!important}
-.side .teacherNav:hover,.side .teacherNav.active{background:#e9ebfa!important;color:var(--ed-indigo)!important}
-.side .trainerBtn{border-left:0!important}
-.side .wbtn{min-height:44px!important}
-.side .trainerBtn:not(.navTopBtn) b,.side .trainerBtn:not(.navTopBtn){font-weight:700}
-.lessonPage,.fullScreenPanel{inset:52px 0 0 0!important}
-.side .trainerBtn small{display:block!important;margin-top:2px}
-.side .tenseLogicEntry::before{background:var(--ed-amber)!important}
-#weekView .weekTeacherBar>*,#weekView .arinaWeekMarks,#weekView .card{border:0!important;border-radius:16px!important;box-shadow:var(--ed-shadow)!important}
-.awmRow{border-radius:10px!important}
 </style>
-<script id="eduSkinScript">
-/* 07.11.2026: дизайн «дашборд» как на сайте Arina EGE-Homework — только внешний вид */
+<script id="eduFlowScript">
 (function(){
+ const svg={user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4.2"/><path d="M3.8 21c.6-4.3 4-6.6 8.2-6.6s7.6 2.3 8.2 6.6z"/></svg>',
+  bell:'<svg viewBox="0 0 24 24"><path d="M12 22a2.3 2.3 0 0 0 2.3-2.2H9.7A2.3 2.3 0 0 0 12 22zm7-5.5-1.6-1.8V10a5.4 5.4 0 0 0-4.2-5.3V4a1.2 1.2 0 0 0-2.4 0v.7A5.4 5.4 0 0 0 6.6 10v4.7L5 16.5v1h14z"/></svg>',
+  gear:'<svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.2h-4L10.6 6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.2 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM12 15.3A3.3 3.3 0 1 1 12 8.7a3.3 3.3 0 0 1 0 6.6z"/></svg>',
+  help:'<svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="M9.8 9.8a2.3 2.3 0 1 1 3.3 2.1c-.7.4-1.1.9-1.1 1.7M12 16.2v.1"/></svg>',
+  list:'<svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4.5"/></svg>'};
+ const logo='<span class="efLogo"><i></i><i></i><i></i><i></i></span>';
  document.title='Arina EGE - Teacher';
- const top=document.querySelector('.top'),brand=top&&top.querySelector('.brand');
- if(brand)brand.innerHTML='<span class="edLogo"><i></i><i></i><i></i><i></i></span><span>Arina <b>EGE - Teacher</b></span><span class="topTag">Teacher</span>';
- if(top){const r=document.createElement('div');r.className='edTopRight';const m=document.getElementById('mobileBtn');if(m){m.textContent='Меню';r.appendChild(m)}r.insertAdjacentHTML('beforeend','<span class="edAvatar">T</span>');top.appendChild(r)}
- document.body.insertAdjacentHTML('beforeend','<div class="edUser"><span class="edAvatar">T</span><span><b>Tatyana</b><small>Teacher · Arina EGE 2027</small></span></div>');
+ /* шапка */
+ const top=document.querySelector('.top'),brand=top.querySelector('.brand');
+ brand.innerHTML=logo+'<span>Arina <b>EGE</b></span><span class="efTag">Teacher</span>';
+ const mob=document.getElementById('mobileBtn');if(mob)mob.innerHTML='<span></span><span></span><span></span>';
+ top.insertAdjacentHTML('beforeend','<nav class="efLinks"><button data-l="home" onclick="efHome()">Dashboard</button><button data-l="lessons" onclick="efLessons()">Lessons</button><button data-l="progress" onclick="efRun(\'progress\')">Progress</button><button data-l="materials" onclick="efOpenGroup(\'materials\')">Resources</button><button data-l="errors" onclick="efRun(\'errors\')">Error Log</button></nav><div class="efIcons"><button class="efAva" title="Tatyana" onclick="efHome()">'+svg.user+'</button><button class="efBell" id="efBell" title="Домашка Арины" onclick="openArinaHomeworkResults()">'+svg.bell+'<i></i></button><button class="efGear" title="Диагностика" onclick="efRun(\'diagnostic\')">'+svg.gear+'</button></div>');
+ if(mob)top.appendChild(mob);
+ /* меню: 5 пунктов, старые кнопки — внутри */
+ const side=document.getElementById('side');
+ const G={lessons:[],arina:[],materials:[],trainers:[]};
+ function classify(el){
+  if(el.classList.contains('sidehead'))return 'skip';
+  if(el.classList.contains('teacherSidePanel'))return 'arina';
+  if(el.id==='weekBtns')return 'lessons';
+  const oc=(el.getAttribute('onclick')||'')+' '+el.textContent;
+  if(/openLesson|СЕГОДНЯ|ПРОШЛЫЙ УРОК/.test(oc))return 'lessons';
+  if(/openTenseLogic|renderTrainer|ТРЕНАЖ/.test(oc))return 'trainers';
+  return 'materials';
+ }
+ function sweep(){[...side.children].forEach(el=>{if(el.classList.contains('efKeep'))return;const g=classify(el);if(g==='skip'){el.remove();return}const box=document.getElementById('efG-'+g);if(box)box.appendChild(el)})}
+ const item=(k,c,t)=>'<button type="button" class="efItem efKeep" data-k="'+k+'" onclick="efItemClick(\''+k+'\')"><span class="efDot" style="--c:'+c+'"></span>'+t+(k==='arina'?'<em id="efWait" style="display:none"></em>':'')+'</button>'+(k==='home'?'':'<div class="efGroup efKeep" id="efG-'+k+'" style="--c:'+c+'"></div>');
+ const frag=document.createElement('div');
+ frag.innerHTML='<div class="efSideBrand efKeep">'+logo+'Arina EGE</div>'+item('home','var(--ef-blue)','Overview')+item('lessons','var(--ef-red)','Lessons')+item('arina','var(--ef-purple)','Arina')+item('materials','var(--ef-green)','Resources')+item('trainers','var(--ef-amber)','Trainers')+
+  '<div class="efSep efKeep"></div><button type="button" class="efSmall efKeep" onclick="efRun(\'errors\')">'+svg.list+'Error Log</button><button type="button" class="efSmall efKeep" onclick="openArinaHomeworkResults()">'+svg.help+'Результаты Арины</button>';
+ [...frag.children].forEach(n=>side.insertBefore(n,side.firstChild&&side.firstChild.classList&&side.firstChild.classList.contains('efKeep')?null:side.firstChild));
+ // вставляем в правильном порядке в начало
+ const keep=[...side.querySelectorAll(':scope>.efKeep')];keep.forEach(n=>side.appendChild(n));
+ sweep();
+ [...side.children].filter(n=>!n.classList.contains('efKeep')).forEach(n=>side.appendChild(n));
+ document.body.insertAdjacentHTML('beforeend','<div class="efUser"><span class="efAva">'+svg.user+'</span><span><b>Tatyana</b><small>Teacher · Arina EGE 2027</small></span></div>');
+ window.addEventListener('load',()=>{sweep();efPaint()});setTimeout(()=>{sweep();efPaint()},1500);
 
- function hello(){const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening'}
- function sideBtn(word){return [...document.querySelectorAll('#side .trainerBtn')].find(b=>b.textContent.trim().toUpperCase().startsWith(word))}
+ function setOn(k){document.querySelectorAll('.efItem').forEach(b=>b.classList.toggle('on',b.dataset.k===k));document.querySelectorAll('.efLinks button').forEach(b=>b.classList.toggle('on',b.dataset.l===k))}
+ window.efOpenGroup=function(k){document.querySelectorAll('.efGroup').forEach(g=>g.classList.toggle('open',g.id==='efG-'+k&&!g.classList.contains('open')));setOn(k);if(innerWidth<801)side.classList.add('open')};
+ window.efItemClick=function(k){if(k==='home'){efHome();return}if(k==='lessons'){efLessons();return}efOpenGroup(k)};
+ window.efLessons=function(){efOpenGroup('lessons');document.getElementById('efG-lessons').classList.add('open');renderWeek(typeof currentWeek!=='undefined'?currentWeek:0);setOn('lessons')};
+ window.efRun=function(v){showTeacherDashboard(v);setOn(v==='progress'||v==='errors'?v:'arina')};
+
+ /* главный экран */
+ const home=document.createElement('section');home.className='efHome';home.id='efHome';document.querySelector('.main').prepend(home);
+ function hello(){const h=new Date().getHours();return h<12?'Good Morning':h<18?'Good Afternoon':'Good Evening'}
+ function sideBtn(re){return [...side.querySelectorAll('button')].find(b=>re.test(b.textContent))}
  function cnt(w){try{return arinaWeekCount(w)}catch(e){return{done:0,hw:0}}}
- function dashHTML(i){
-  const w=weeks[i],c=cnt(i),today=sideBtn('СЕГОДНЯ');
-  const todayTitle=today?(today.querySelector('small')||today).textContent:'';
-  const todayDate=today?today.childNodes[0].textContent.replace('СЕГОДНЯ','').replace('·','').trim():'';
-  const card=(col,t,num,sub,btn,fn)=>'<div class="edStat"><div class="edStatHead"><span class="edDot" style="--c:'+col+'"></span>'+t+'</div><div class="edNum">'+num+'</div><div class="edSub">'+sub+'</div><button type="button" onclick="'+fn+'">'+btn+' →</button></div>';
-  return '<div class="edHello"><div><h1>'+hello()+', Tatyana</h1><p>Неделя '+(i+1)+' · '+((typeof weekLabels!=='undefined'&&weekLabels[i])||'EGE Focus')+' · '+w.d+'</p></div></div>'+
-   '<div class="edStats" id="edStats">'+
-   card('var(--ed-blue)','Урок сегодня',todayDate||'Урок',todayTitle,'Открыть',"edToday()")+
-   card('var(--ed-red)','Ждём от Арины',c.hw+' <small>не сдано</small>','задания этой недели в ДЗ','Результаты','openArinaHomeworkResults()')+
-   card('var(--ed-purple)','Сдано',c.done+' <small>на неделе</small>','отметки «сдано» по неделе','Прогресс',"showTeacherDashboard('progress')")+
-   card('var(--ed-green)','Error Log','Ошибки','ошибки из сданных работ','Открыть',"showTeacherDashboard('errors')")+
-   '</div>';
+ function today(){const d=new Date();return d.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'})}
+ function homeHTML(){
+  const i=typeof currentWeek!=='undefined'?currentWeek:0,w=weeks[i],c=cnt(i),lab=(typeof weekLabels!=='undefined'&&weekLabels[i])||'';
+  const t=sideBtn(/^\s*СЕГОДНЯ/i),tTxt=t?(t.querySelector('small')||t).textContent:'Урок недели '+(i+1);
+  const tDate=t?t.childNodes[0].textContent.replace(/СЕГОДНЯ\s*·?/i,'').trim():'';
+  let wait=0;for(let k=0;k<=i;k++)wait+=cnt(k).hw;
+  const card=(col,title,body,btn,fn)=>'<div class="efCard"><h3><i style="--c:'+col+'"></i>'+title+'</h3><p>'+body+'</p><button type="button" class="efGo" onclick="'+fn+'">'+btn+' →</button></div>';
+  return '<div class="efHello"><h1>'+hello()+', Tatyana</h1><p>Here’s what’s happening today · '+today()+'</p></div><div class="efCards">'+
+   card('var(--ef-blue)','Upcoming Lesson',(tDate?'<b>'+tDate+'</b> · ':'')+tTxt+'. План урока, задания и ответы — на странице урока.','View Lesson','efToday()')+
+   card('var(--ef-red)','Homework Due','Неделя '+(i+1)+': <b>сдано '+c.done+'</b>, ждём от Арины <b>'+c.hw+'</b>. Всего не сдано по неделям: '+wait+'. Сданные работы помечены в списке недели.','Check Now','openArinaHomeworkResults()')+
+   card('var(--ef-purple)','Study Progress','Неделя '+(i+1)+' · <b>'+lab+'</b> · '+w.d+'. Цель: '+(w.g||'')+'','See Report',"efRun('progress')")+
+   card('var(--ef-green)','Resources','EXPERT — задания, аудио и ответы по 13 темам; ЕГЭ в формате ФИПИ; грамматика 19–24, словообразование 25–29, лексика 30–36.','Explore',"efOpenGroup('materials')")+
+   '</div>'+progHTML(i);
  }
- window.edToday=function(){const b=sideBtn('СЕГОДНЯ');if(b)b.click()};
- function progressHTML(cur){
-  const cols=['var(--ed-blue)','var(--ed-red)','var(--ed-purple)','var(--ed-green)','var(--ed-amber)'];let rows='',D=0,T=0,seg=[],acc=0,st=[];
-  const last=Math.max(cur,0);
-  for(let w=0;w<=last;w++){const c=cnt(w),t=c.done+c.hw;st.push([c.done,t]);D+=c.done;T+=t}
-  st.forEach((s,w)=>{if(!s[1])return;const p=Math.round(s[0]*100/s[1]);rows+='<div class="edBarRow"><i style="--c:'+cols[w%5]+'"></i><div><span>Неделя '+(w+1)+' · '+((typeof weekLabels!=='undefined'&&weekLabels[w])||'')+'</span><div class="edBar"><em style="width:'+p+'%"></em></div></div><b>'+p+'%</b></div>'});
-  if(!rows)return '';
-  st.forEach((s,w)=>{if(!T)return;const a=acc,b=acc+s[0]/T*360;seg.push(cols[w%5]+' '+a+'deg '+b+'deg');acc=b});if(T)seg.push('#e7e9f2 '+acc+'deg 360deg');
+ function progHTML(cur){
+  const cols=['#2f2d8f','#d9443b','#e9a83a','#3f9a55','#5b5bb8','#8a55c9','#3b7dd8'];let rows='',D=0,T=0,st=[];
+  for(let w=0;w<=cur;w++){const c=cnt(w),t=c.done+c.hw;st.push([w,c.done,t]);D+=c.done;T+=t}
+  const shown=st.filter(s=>s[2]).slice(-4);
+  shown.forEach(s=>{const p=Math.round(s[1]*100/s[2]);rows+='<div class="efRow"><i></i><div><span>Неделя '+(s[0]+1)+' · '+((typeof weekLabels!=='undefined'&&weekLabels[s[0]])||'')+'</span><div class="efBar"><em style="width:'+p+'%"></em></div></div><b>'+p+'%</b></div>'});
+  if(!rows)rows='<div class="efRow"><i></i><div><span>Пока нет сданных заданий</span><div class="efBar"><em style="width:0"></em></div></div><b>0%</b></div>';
+  let acc=0,seg=[];const step=T?360/T:0;
+  for(let k=0;k<D;k++){const b=acc+step;seg.push(cols[k%5]+' '+acc+'deg '+(b-.8)+'deg','#fff '+(b-.8)+'deg '+b+'deg');acc=b}if(T&&D<T)seg.push('#dfe2ea '+acc+'deg 360deg');
   const pct=T?Math.round(D*100/T):0;
-  return '<div class="edProgress" id="edProgress"><div><h3>Арина · сдано по неделям <a onclick="openArinaHomeworkResults()">Все результаты →</a></h3>'+rows+'</div><div class="edDonut" style="background:conic-gradient('+seg.join(',')+')"><div><span><b>'+pct+'%</b><small>сдано '+D+' из '+T+'</small></span></div></div></div>';
+  return '<div class="efProg"><div><div class="efProgHead"><h3>Arina · Homework Progress</h3><button type="button" onclick="openArinaHomeworkResults()">View Full Report →</button></div>'+rows+'</div><div class="efDonut" style="background:conic-gradient('+(seg.join(',')||'#dfe2ea 0deg 360deg')+')"><div><span><b>'+pct+'%</b><small>сдано</small></span></div></div></div>';
  }
- function decorate(){
-  const v=document.getElementById('weekView');if(!v||typeof currentWeek==='undefined')return;
-  v.querySelectorAll('.edHello,#edStats,#edProgress').forEach(x=>x.remove());
-  v.insertAdjacentHTML('afterbegin',dashHTML(currentWeek));
-  v.insertAdjacentHTML('beforeend',progressHTML(currentWeek));
- }
- const _rw=window.renderWeek;window.renderWeek=function(i){_rw(i);try{decorate()}catch(e){}};renderWeek=window.renderWeek;
- if(typeof arinaMarksRefresh==='function'){const _m=window.arinaMarksRefresh;window.arinaMarksRefresh=function(){_m.apply(this,arguments);try{if(document.getElementById('edStats'))decorate()}catch(e){}};arinaMarksRefresh=window.arinaMarksRefresh}
- try{decorate()}catch(e){}
+ window.efToday=function(){const b=sideBtn(/^\s*СЕГОДНЯ/i);if(b)b.click();else efLessons()};
+ function efPaint(){if(document.body.classList.contains('efHomeOn'))home.innerHTML=homeHTML();let w=0;try{const i=currentWeek;for(let k=0;k<=i;k++)w+=cnt(k).hw}catch(e){}const e=document.getElementById('efWait');if(e){e.textContent=w;e.style.display=w?'':'none'}const b=document.getElementById('efBell');if(b)b.classList.toggle('has',w>0)}
+ window.efHome=function(){document.body.classList.add('efHomeOn');home.innerHTML=homeHTML();setOn('home');document.querySelectorAll('.efGroup').forEach(g=>g.classList.remove('open'));if(innerWidth<801)side.classList.remove('open');scrollTo(0,0)};
+ ['renderWeek','renderExam','renderTrainer','showTeacherDashboard'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;const wr=function(){document.body.classList.remove('efHomeOn');if(n==='renderWeek')setOn('lessons');return f.apply(this,arguments)};window[n]=wr;try{eval(n+'=wr')}catch(e){}});
+ if(typeof arinaMarksRefresh==='function'){const m=arinaMarksRefresh;window.arinaMarksRefresh=function(){m.apply(this,arguments);try{efPaint()}catch(e){}};try{arinaMarksRefresh=window.arinaMarksRefresh}catch(e){}}
+ efHome();efPaint();
 })();
 </script>
+
 </body></html>
