@@ -3621,8 +3621,35 @@ function renderArinaErrorsAuto(){
  if(!all.length){box.textContent='В сданных работах ошибок нет или Арина ещё ничего не отправила.';return}
  const groups={};open.forEach(x=>(groups[x.topic]=groups[x.topic]||[]).push(x));
  const names=Object.keys(groups).sort((a,b)=>groups[b].length-groups[a].length);
- box.innerHTML='<p style="margin:0 0 10px"><b>Не отработано: '+open.length+'</b>'+(done?' · отработано: '+done+' <button class="teacherBtn" onclick="arinaErrDone={};localStorage.removeItem(\'arinaErrDoneV1\');renderArinaErrorsAuto()">Показать снова</button>':'')+' <button class="teacherBtn" onclick="loadArinaErrorsAuto()">Обновить</button></p>'+
+ box.innerHTML='<p style="margin:0 0 10px"><b>Не отработано: '+open.length+'</b>'+(done?' · отработано: '+done+' <button class="teacherBtn" onclick="arinaErrDone={};localStorage.removeItem(\'arinaErrDoneV1\');renderArinaErrorsAuto()">Показать снова</button>':'')+' <button class="teacherBtn" onclick="loadArinaErrorsAuto()">Обновить</button>'+(open.length?' <button class="teacherBtn" onclick="downloadErrorDoc()">Скачать документ (Word)</button> <button class="teacherBtn" onclick="printErrorDoc()">Печать / PDF</button>':'')+'</p>'+
   (open.length?names.map(n=>'<details open style="margin:0 0 10px"><summary style="cursor:pointer;font-weight:800;font-size:16px;color:#0039A6">'+e(n)+' · '+groups[n].length+'</summary><table class="errorTable" style="font-size:15px"><thead><tr><th>Дата</th><th>Работа</th><th>Задание</th><th>Ответ Арины</th><th>Верно</th><th></th></tr></thead><tbody>'+groups[n].sort((a,b)=>b.date-a.date).map(x=>'<tr><td>'+e(x.date.toLocaleDateString('ru-RU'))+'</td><td>'+e(x.work)+'</td><td>'+e(x.question)+'</td><td style="color:#b91c1c;font-weight:700">'+e(x.chosen)+'</td><td style="color:#166534;font-weight:700">'+e(x.correct)+'</td><td><button class="errorDone" title="Отработано" data-key="'+e(x.key)+'" onclick="arinaErrDone[this.dataset.key]=1;localStorage.setItem(\'arinaErrDoneV1\',JSON.stringify(arinaErrDone));renderArinaErrorsAuto()">✓</button></td></tr>').join('')+'</tbody></table></details>').join(''):'<p style="margin:0">Все ошибки отмечены как отработанные.</p>');
+}
+/* Документ из Error Log: все неотработанные ошибки Арины по темам + ошибки, добавленные вручную */
+function buildErrorDocHTML(forWord){
+ const e=arinaEsc,open=arinaErrList().filter(x=>!arinaErrDone[x.key]),today=new Date().toLocaleDateString('ru-RU');
+ const groups={};open.forEach(x=>(groups[x.topic]=groups[x.topic]||[]).push(x));
+ const names=Object.keys(groups).sort((a,b)=>groups[b].length-groups[a].length);
+ const th='style="border:1px solid #888;padding:5px 7px;background:#e8eef7;text-align:left;font-size:11pt"',td='style="border:1px solid #888;padding:5px 7px;vertical-align:top;font-size:11pt"';
+ let body='<h1 style="font-size:20pt;margin:0 0 4pt">Error Log · Арина · ЕГЭ</h1><p style="margin:0 0 12pt;font-size:11pt;color:#444">Дата: '+today+' · Не отработано ошибок: '+open.length+'</p>';
+ names.forEach(n=>{
+  body+='<h2 style="font-size:14pt;margin:14pt 0 5pt;color:#0039A6">'+e(n)+' · '+groups[n].length+'</h2><table style="border-collapse:collapse;width:100%"><thead><tr><th '+th+'>№</th><th '+th+'>Дата</th><th '+th+'>Задание</th><th '+th+'>Ответ Арины</th><th '+th+'>Верно</th><th '+th+'>Правило / новый пример</th></tr></thead><tbody>'+
+  groups[n].sort((a,b)=>b.date-a.date).map((x,i)=>'<tr><td '+td+'>'+(i+1)+'</td><td '+td+'>'+e(x.date.toLocaleDateString('ru-RU'))+'<br><span style="font-size:9pt;color:#666">'+e(x.work)+'</span></td><td '+td+'>'+e(x.question)+'</td><td '+td+'><b style="color:#b91c1c">'+e(x.chosen)+'</b></td><td '+td+'><b style="color:#166534">'+e(x.correct)+'</b></td><td '+td+'>&nbsp;</td></tr>').join('')+'</tbody></table>';
+ });
+ if(teacherErrors.length){
+  body+='<h2 style="font-size:14pt;margin:14pt 0 5pt;color:#0039A6">Добавлено вручную · '+teacherErrors.length+'</h2><table style="border-collapse:collapse;width:100%"><thead><tr><th '+th+'>Дата</th><th '+th+'>№</th><th '+th+'>Ошибка</th><th '+th+'>Коррекция</th><th '+th+'>Retest</th></tr></thead><tbody>'+teacherErrors.map(x=>'<tr><td '+td+'>'+e(x.date||'')+'</td><td '+td+'>'+e(x.task)+'</td><td '+td+'>'+e(x.mistake)+'</td><td '+td+'>'+e(x.rule||'')+'</td><td '+td+'>'+e(x.retest||'—')+'</td></tr>').join('')+'</tbody></table>';
+ }
+ const head='<meta charset="utf-8"><title>Error Log · Арина</title><style>body{font-family:Georgia,"Times New Roman",serif;color:#111;margin:18mm 14mm}@page{size:A4;margin:14mm}tr{page-break-inside:avoid}h2{page-break-after:avoid}</style>';
+ return forWord?'<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head>'+head+'</head><body>'+body+'</body></html>':'<!doctype html><html><head>'+head+'</head><body>'+body+'</body></html>';
+}
+function downloadErrorDoc(){
+ const d=new Date(),n='Error-Log_Arina_'+String(d.getDate()).padStart(2,'0')+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+d.getFullYear()+'.doc';
+ const b=new Blob(['﻿'+buildErrorDocHTML(true)],{type:'application/msword'}),a=document.createElement('a');
+ a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+}
+function printErrorDoc(){
+ const f=document.createElement('iframe');f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';document.body.appendChild(f);
+ const w=f.contentWindow;w.document.open();w.document.write(buildErrorDocHTML(false));w.document.close();
+ setTimeout(()=>{w.focus();w.print();setTimeout(()=>f.remove(),2000)},300);
 }
 function teacherWeekCard(i,w){
  const st=teacherWeekState[i]||'planned',note=localStorage.getItem('teacherWeekNote-'+i)||'';
