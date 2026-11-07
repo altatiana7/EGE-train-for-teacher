@@ -631,7 +631,7 @@ async function loadArinaHomeworkResults(){
    if(r.status===400||r.status===401||r.status===403){localStorage.removeItem('arina-teacher-code');status.textContent='Неверный код доступа. Нажмите «Обновить» и введите код ещё раз.';return}
    throw new Error('load_failed');
   }
-  const all=(await r.json()).filter(isArinaRow),seen={},rows=[];
+  const raw=await r.json();arinaStoreDone(raw);const all=raw.filter(isArinaRow),seen={},rows=[];
   /* повторные нажатия кнопки: та же работа, тот же балл и те же ответы в пределах 10 минут — показываем один раз */
   all.forEach(x=>{const sig=(x.test_id||x.test_title)+'|'+x.score+'|'+x.max_score+'|'+JSON.stringify(x.answers||{}),t=new Date(x.created_at).getTime();if((seen[sig]||[]).some(u=>Math.abs(u-t)<600000))return;(seen[sig]=seen[sig]||[]).push(t);rows.push(x)});
   const hidden=all.length-rows.length;
@@ -1181,6 +1181,40 @@ const ARINA_HW_TILES=[
 ];
 function arinaHwTile(w,title){const t=String(title).replace(/&amp;/g,'&');return ARINA_HW_TILES.find(x=>x[0]===w&&t.indexOf(x[1])===0)||null}
 function arinaHwBadge(w,title){const x=arinaHwTile(w,title);return x?'<span class="lsHw" title="Отправлено Арине в домашку'+(x[2]?' ('+x[2]+')':'')+'">✓ В ДЗ'+(x[2]?' · '+x[2]:'')+'</span>':''}
+/* Отметки «СДАНО»: Арина прислала работу — ставятся всегда. [неделя (0 = неделя 1), начало названия блока, дата].
+   База: Error Log от 07.11.2026 + живые данные из базы (подтягиваются сами, если на этом компьютере уже вводили код доступа). */
+const ARINA_DONE_TILES=[
+ [3,'Passive: is / are / was / were + V3','26 окт'],
+ [3,'Найди ошибку · Passive','26 окт'],
+ [3,'ЕГЭ 19–24 · Smolensk / Norway','26 окт'],
+ [3,'ЕГЭ 19–24 · China tea ceremony','26 окт'],
+ [3,'Warm-up · Grammar mix','26 окт'],
+ [3,'Словообразование 25–29 · 10','26 окт'],
+ [3,'Чтение · задание 11','26 окт']
+];
+const ARINA_DONE_ID2TILE={'w4l1-hw-fix':[3,'Найди ошибку · Passive'],'w4l1-hw-form':[3,'Passive: is / are / was / were + V3'],'w4l1-tea':[3,'ЕГЭ 19–24 · China tea ceremony'],'w4l1-hw-smolensk':[3,'ЕГЭ 19–24 · Smolensk / Norway'],'w4l1-hw-iv-inventions':[3,'Interview · Modern inventions'],'w4l2-warmup':[3,'Warm-up · Grammar mix'],'w4l2-wf':[3,'Словообразование 25–29 · 10'],'w4l2-r11':[3,'Чтение · задание 11']};
+const ARINA_SUBMITTED_LOG=[["05.10.2026","Russia Topic · Reading 10 · Text 3"],["05.10.2026","Russia Topic · Reading 10 · Text 2"],["05.10.2026","Week 3 · Lesson 1 · EGE 19–24 · два текста"],["07.10.2026","Week 2 · Lesson 1 · ФИПИ · 4 блока"],["07.10.2026","Week 2 · Lesson 3 · EGE 19–24 · Past · тексты C–D"],["07.10.2026","Week 2 · Lesson 2 · Mixed Past · 15"],["07.10.2026","Week 2 · Lesson 1 · Present + Stative · 30"],["07.10.2026","Week 2 · Lesson 2 · Transformations · 6"],["10.10.2026","Week 3 · Lesson 1 · Transformations · 10"],["10.10.2026","Week 3 · Lesson 1 · Future forms · 16"],["10.10.2026","Week 2 · Lesson 2 · Story order · A missed flight"],["10.10.2026","Week 2 · Lesson 2 · Earlier past · 12"],["13.10.2026","Week 3 · Lesson 1 · Future · ФИПИ · 16"],["14.10.2026","Week 3 · Lesson 1 · All tenses · ФИПИ · 20"],["14.10.2026","Week 3 · Lesson 1 · Repair clinic"],["16.10.2026","Week 3 · Lesson 1 · Mixed test · все мои ошибки"],["16.10.2026","Week 3 · Lesson 1 · Revision · Present + Past"],["16.10.2026","Week 3 · Lesson 1 · Meaning → form"],["17.10.2026","Family · Grammar · Neighbour’s help"],["17.10.2026","Family · Grammar · Jewellery box"],["17.10.2026","Week 3 · Lesson 1 · Reading · ЕГЭ 10–18 · Future"],["19.10.2026","Week 4 · Lesson 1 · ЕГЭ 25–29 · Murmansk"],["19.10.2026","Past Continuous · Впиши"],["19.10.2026","Past Continuous · Выбери"],["19.10.2026","Past Continuous · Найди"],["19.10.2026","Week 3 · Lesson 2 · Future Continuous · ФИПИ · 9"],["19.10.2026","Week 3 · Lesson 3 · Мои ошибки · 16–17 октября"],["24.10.2026","Family · Grammar · Fear of darkness"],["24.10.2026","Family · Grammar · Surprise for mum"],["24.10.2026","Russia Topic · Reading 10 · Text 1"],["25.10.2026","Week 4 · Lesson 1 · ЕГЭ 25–29 · словообразование · 2 текста"],["25.10.2026","Family · Reading · Honesty lesson"],["25.10.2026","Family · Reading · A trip of her life"],["25.10.2026","Family · Reading · The will"],["26.10.2026","Week 4 · Lesson 1 · Passive: is / are / was / were + V3 · ФИПИ · 10"],["26.10.2026","Week 4 · Lesson 1 · ЕГЭ 19–24 · Smolensk / Norway"],["26.10.2026","Week 4 · Lesson 2 · ЕГЭ 25–29 · словообразование · 10"],["26.10.2026","Week 4 · Lesson 1 · Найди ошибку · Passive · 12"],["26.10.2026","Week 4 · Lesson 1 · Чтение · True / False / Not stated · 2 текста"],["26.10.2026","Week 4 · Lesson 2 · Warm-up · Present, Stative, Past"],["26.10.2026","Week 4 · Lesson 1 · ЕГЭ 19–24 · China tea ceremony"],["02.11.2026","Арина · 31.10.2026 · ЕГЭ 37 · Technology · проверка учителем"],["02.11.2026","Арина · 31.10.2026 · ЕГЭ 37 · School life · проверка учителем"],["02.11.2026","Арина · 31.10.2026 · ЕГЭ 37 · Travelling · проверка учителем"]];
+function arinaLiveDone(){try{return JSON.parse(localStorage.getItem('arinaDoneLive')||'{}')||{}}catch(e){return {}}}
+function arinaDoneTile(w,title){
+ const t=String(title).replace(/&amp;/g,'&');
+ const x=ARINA_DONE_TILES.find(a=>a[0]===w&&t.indexOf(a[1])===0);if(x)return x;
+ const live=arinaLiveDone();
+ for(const id in live){const m=ARINA_DONE_ID2TILE[id];if(m&&m[0]===w&&t.indexOf(m[1])===0)return [w,m[1],live[id]]}
+ return null;
+}
+function arinaDoneBadge(w,title){const x=arinaDoneTile(w,title);return x?'<span class="lsDone" title="Арина прислала эту работу'+(x[2]?' ('+x[2]+')':'')+'">✓ СДАНО'+(x[2]?' · '+x[2]:'')+'</span>':''}
+function arinaStoreDone(all){
+ const m={},tm={};
+ (Array.isArray(all)?all:[]).filter(isArinaRow).forEach(x=>{if(arinaEmptySubmit(x)||!x.test_id)return;const t=new Date(x.created_at).getTime();if(tm[x.test_id]>t)return;tm[x.test_id]=t;m[x.test_id]=new Date(t).toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.','')});
+ try{localStorage.setItem('arinaDoneLive',JSON.stringify(m))}catch(e){}
+}
+async function arinaRefreshDone(){
+ let code='';try{code=localStorage.getItem('arina-teacher-code')||''}catch(e){}
+ if(!code)return;
+ try{const r=await fetch(ARINA_DB_URL+'/rest/v1/rpc/get_arina_homework',{method:'POST',headers:{'apikey':ARINA_DB_KEY,'Authorization':'Bearer '+ARINA_DB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_teacher_code:code})});if(r.ok)arinaStoreDone(await r.json())}catch(e){}
+}
+setTimeout(arinaRefreshDone,1200);
+(function(){const st=document.createElement('style');st.textContent='.lsTile .lsDone{position:absolute;top:-8px;left:10px;font:700 10px/1 Inter,system-ui,sans-serif;color:#fff;background:#1e6b4a;border:1px solid #1e6b4a;border-radius:999px;padding:2px 7px;white-space:nowrap;z-index:2;box-shadow:0 1px 3px rgba(30,107,74,.25)}';document.head.appendChild(st)})();
 (function(){const st=document.createElement('style');st.textContent='.lsTile{position:relative}.lsTile .lsHw{position:absolute;top:-8px;right:10px;font:700 10px/1 Inter,system-ui,sans-serif;color:#1e6b4a;background:#e8f5ef;border:1px solid #b9dcc9;border-radius:999px;padding:2px 7px;white-space:nowrap;z-index:2;box-shadow:0 1px 3px rgba(30,107,74,.18)}.lsTile.today{background:#fff9c4!important;border-color:#f2d600!important;border-left-color:#f2d600!important}.lsTile.today .lsTileT:after{content:"сегодня";margin-left:8px;font-size:11px;font-weight:800;color:#7a6400;background:#fff176;padding:1px 6px;border-radius:4px;vertical-align:middle}';document.head.appendChild(st)})();
 function showL3Hub(){l3Show('[data-l3="hub"]')}
 /* если у урока хаб не собран вручную — строим его из блоков автоматически */
@@ -1630,7 +1664,7 @@ function lessonFullHTML(x,i,w){
  if(w===0)return html+lessonStarter(w,i)+'</div></div>';
  const T=lessonTabs(x,i,w),all=T.steps.concat(T.after);
  const top=(label,act)=>'<div class="lsTop"><button type="button" class="lsBackW" onclick="'+act+'">← '+label+'</button><span class="lsWho">Неделя '+(w+1)+' · Урок '+(i+1)+'</span><b class="lsTheme">'+x[0]+'</b></div>';
- const tile=(t,n)=>'<button type="button" class="lsTile'+(n>=T.steps.length?' after':'')+(arinaTodayTile(w,t[0])?' today':'')+'" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'★')+'</span><span class="lsTileT">'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+arinaHwBadge(w,t[0])+'</button>';
+ const tile=(t,n)=>'<button type="button" class="lsTile'+(n>=T.steps.length?' after':'')+(arinaTodayTile(w,t[0])?' today':'')+'" onclick="showL3Panel('+n+')"><span class="lsNum">'+(n<T.steps.length?n+1:'★')+'</span><span class="lsTileT">'+t[0]+'</span>'+(t[1]?'<em>'+t[1]+' мин</em>':'')+arinaDoneBadge(w,t[0])+arinaHwBadge(w,t[0])+'</button>';
  const planList=String(x[1]||'').split('; ').filter(Boolean).map(s=>'<li>'+s+'</li>').join('');
  const W=weeks[w]||{};
  const plan='<aside class="lsPlan"><div class="lsPlanBox"><h3>На уроке</h3><ul>'+planList+'</ul></div>'+(W.g?'<div class="lsPlanBox"><h3>Цель недели</h3><p>'+W.g+'</p></div>':'')+(W.r?'<div class="lsPlanBox"><h3>Критерий готовности</h3><p>'+W.r+'</p></div>':'')+'<div class="lsPlanBox"><h3>Контроль результата</h3><ul><li>полноценная тренировка</li><li>ошибки в personal error log</li><li>retrieval в начале следующего урока</li></ul></div></aside>';
@@ -3833,6 +3867,12 @@ function arinaReportText(rows){
  L.push('','ПИСЬМЕННЫЕ ОТВЕТЫ:');R.latest.forEach(r=>(Array.isArray(r.details)?r.details:[]).forEach(d=>{if(d.correct==='проверяет учитель')L.push('- '+(d.question||'')+' | '+(d.chosen||'—'))}));
  return L.join('\n');
 }
+function arinaDoneSection(rows){
+ const seen=new Set(),out=[],e=arinaEsc;
+ rows.filter(r=>!arinaEmptySubmit(r)).forEach(r=>{const k=String(r.test_title||r.test_id);if(seen.has(k))return;seen.add(k);out.push([new Date(r.created_at).toLocaleDateString('ru-RU'),k,r.score+' / '+r.max_score])});
+ ARINA_SUBMITTED_LOG.forEach(x=>{if(!seen.has(x[1])){seen.add(x[1]);out.push([x[0],x[1],''])}});
+ return '<details open style="margin-top:10px"><summary style="cursor:pointer;font-size:14px;font-weight:700;color:#1e6b4a">✓ Сдано Ариной · '+out.length+'</summary><ul style="margin:6px 0 0;padding-left:0;list-style:none;font-size:14px;line-height:1.6">'+out.map(x=>'<li><span style="color:#1e6b4a;font-weight:800">✓</span> '+e(x[1])+' <span style="color:#5b6b7f">· '+e(x[0])+(x[2]?' · '+e(x[2]):'')+'</span></li>').join('')+'</ul></details>';
+}
 let arinaLastRows=[];
 const ARINA_LESSON_TODAY={};
 function arinaReportHTML(rows){
@@ -3846,7 +3886,7 @@ function arinaReportHTML(rows){
  '<div style="display:grid;grid-template-columns:1fr 1.4fr;gap:18px;margin-top:8px"><div><h3 style="margin:0 0 6px;font-size:15px;color:#D52B1E">Задано, но не сдано · '+R.missAssigned.length+'</h3><ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.5">'+miss+'</ul>'+
  '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:14px;font-weight:700">Остальное несданное · '+R.missOther.length+'</summary><ul style="margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.5">'+R.missOther.map(t=>'<li>'+e(t[1])+'</li>').join('')+'</ul></details></div>'+
  '<div><h3 style="margin:0 0 6px;font-size:15px;color:#0039A6">Темы: верно из всех ответов · слабые сверху</h3>'+topics+(weak.length?'<p style="margin:8px 0 0;font-size:14px"><b>Повторить в первую очередь:</b> '+e(weak.join(' · '))+'</p>':'')+'</div></div>'+
- '<details style="margin-top:10px"><summary style="cursor:pointer;font-size:14px;font-weight:700">Все ошибки списком · '+R.wrong.length+'</summary><div style="overflow:auto;margin-top:6px"><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr><th style="text-align:left">Тема</th><th style="text-align:left">Задание</th><th style="text-align:left">Ответ Арины</th><th style="text-align:left">Верно</th></tr></thead><tbody>'+R.wrong.map(w=>'<tr><td>'+e(w.topic)+'</td><td>'+e(w.question)+'</td><td>'+e(w.chosen)+'</td><td>'+e(w.correct)+'</td></tr>').join('')+'</tbody></table></div></details>'+
+ arinaDoneSection(rows)+'<details style="margin-top:10px"><summary style="cursor:pointer;font-size:14px;font-weight:700">Все ошибки списком · '+R.wrong.length+'</summary><div style="overflow:auto;margin-top:6px"><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr><th style="text-align:left">Тема</th><th style="text-align:left">Задание</th><th style="text-align:left">Ответ Арины</th><th style="text-align:left">Верно</th></tr></thead><tbody>'+R.wrong.map(w=>'<tr><td>'+e(w.topic)+'</td><td>'+e(w.question)+'</td><td>'+e(w.chosen)+'</td><td>'+e(w.correct)+'</td></tr>').join('')+'</tbody></table></div></details>'+
  '<button class="action" style="margin-top:10px" onclick="arinaCopyReport(this)">Скопировать отчёт для разбора</button></div></div>';
 }
 function arinaCopyReport(btn){
