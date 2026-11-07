@@ -378,7 +378,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 
 
 /* ===== SIDEBAR LARGE TYPE + FIPI READING ===== */
-:root{--side:276px!important}
+:root{--side:200px!important}
 .side{width:276px!important}
 .main{margin-left:276px!important}
 .sidehead{font-size:12px!important;line-height:1.25!important;margin-top:7px!important}
@@ -3973,7 +3973,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#l3Panel .lsBody'))se
 <!-- 07.11.2026: дизайн EduFlow для Arina EGE - Teacher. Меняется только вид: все уроки, недели, отметки и кнопки на месте (в пунктах меню слева) -->
 <style id="eduFlow">
 :root{--ef-indigo:#2c2a86;--ef-indigo2:#34329a;--ef-btn:#4b4aa3;--ef-panel:#d5dae6;--ef-text:#1e2238;--ef-mut:#5d6378;
- --ef-blue:#3b7dd8;--ef-red:#d9443b;--ef-purple:#8a55c9;--ef-green:#3f9a55;--ef-amber:#e9a83a;--side:270px;
+ --ef-blue:#3b7dd8;--ef-red:#d9443b;--ef-purple:#8a55c9;--ef-green:#3f9a55;--ef-amber:#e9a83a;--side:200px;
  --ink:#2c2a86;--teal:#2c2a86;--deep:#2c2a86;--bg:#d5dae6}
 html{background:var(--ef-indigo)}
 body{background:transparent!important;color:var(--ef-text)}
@@ -4090,7 +4090,7 @@ body.efHomeOn .efHome{display:block}
  function classify(el){
   if(el.classList.contains('sidehead'))return 'skip';
   if(el.classList.contains('teacherSidePanel'))return 'arina';
-  if(el.id==='weekBtns')return 'lessons';
+  if(el.id==='weekBtns')return 'arina';
   const oc=(el.getAttribute('onclick')||'')+' '+el.textContent;
   if(/openLesson|СЕГОДНЯ|ПРОШЛЫЙ УРОК/.test(oc))return 'lessons';
   if(/openTenseLogic|renderTrainer|ТРЕНАЖ/.test(oc))return 'trainers';
@@ -4143,7 +4143,7 @@ body.efHomeOn .efHome{display:block}
    '<div class="efCard"><h3><i style="--c:var(--ef-purple)"></i>Study Progress</h3><div class="efSP"><div class="efMini" style="--p:'+pct*3.6+'deg"><span><b>'+pct+'%</b><small>ДЗ сдано</small></span></div><div class="efSPb">'+
     '<button type="button" onclick="efRun(\'progress\')">Прогресс</button><button type="button" onclick="efRun(\'errors\')">Error Log</button><button type="button" onclick="openArinaHomeworkResults()">Результаты Арины</button><button type="button" onclick="efRun(\'diagnostic\')">Диагностика</button></div></div><p class="efGoal">Цель недели: '+(w.g||'')+'</p></div>'+
   '</div>'+
-  '<div class="efBlock"><div class="efBH"><h2>32 недели · план</h2><span class="efLeg"><i class="d"></i>пройдена <i class="a"></i>в работе <i class="p"></i>впереди</span></div><div class="efWeeks">'+tiles+'</div></div>'+
+  '<div class="efBlock efPlan'+(window.efPlanOpen?' open':'')+'"><button type="button" class="efPlanBtn" onclick="efPlanOpen=!window.efPlanOpen;this.parentNode.classList.toggle(\'open\',efPlanOpen)"><h2>32 недели · план</h2><span>в работе: неделя '+(i+1)+' · '+lab+'</span><i></i></button><div class="efPlanBody"><div class="efBH"><span></span><span class="efLeg"><i class="d"></i>пройдена <i class="a"></i>в работе <i class="p"></i>впереди</span></div><div class="efWeeks">'+tiles+'</div></div></div>'+
   '<div class="efBlock efRT"><div><div class="efBH"><h2>Resources</h2></div><div class="efResGrid">'+
    res('openExpert()','EXPERT','13 тем · аудио · ответы','#3f9a55')+res('openFipi()','ЕГЭ · формат ФИПИ','13 тем + Россия · Speaking · Writing','#3b7dd8')+res('openFipiReading()','Reading · ФИПИ','Task 1 · тексты · 1:30','#8a55c9')+
    res("renderExam('grammar1924')",'Grammar 19–24','грамматические формы','#d9443b')+res("renderExam('wordformation')",'Word Formation 25–29','словообразование','#e9a83a')+res("renderExam('vocabulary3036')",'Vocabulary 30–36','лексико-грамматический выбор','#5b5bb8')+res("renderExam('overview')",'ЕГЭ 2027 · структура','баллы за задания','#64748b')+
@@ -4202,6 +4202,15 @@ body.efHomeOn .efHome{display:block}
 .efRes b{display:block;font-size:15px;font-weight:700}.efRes small{display:block;font-size:12.5px;color:#6b7086;margin-top:2px}
 .efRes:hover{background:#ecebfa}
 .efGroup .weekBtns{max-height:60vh}
+.efPlanBtn{display:flex;align-items:center;gap:14px;width:100%;border:0;background:none;padding:0;text-align:left;color:var(--ef-text)}
+.efPlanBtn h2{margin:0;font-size:21px;font-weight:700}
+.efPlanBtn span{font-size:15px;color:#5b6075}
+.efPlanBtn i{margin-left:auto;width:34px;height:34px;border-radius:50%;background:var(--ef-btn);position:relative}
+.efPlanBtn i::after{content:'';position:absolute;left:12px;top:10px;width:8px;height:8px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.efPlan.open .efPlanBtn i::after{transform:rotate(-135deg);top:14px}
+.efPlanBody{display:none;margin-top:10px}.efPlan.open .efPlanBody{display:block}
+.efItem{font-size:17px!important;gap:12px!important}
+.side .efGroup .wbtn,.side .efGroup .trainerBtn,.side .efGroup .ebtn,.side .efGroup>button{font-size:13px!important}
 .efRT{display:grid;grid-template-columns:1.8fr 1fr;gap:22px}
 .efResGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}.efResGrid.two{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 .efWk{min-height:58px;padding-top:6px;padding-bottom:6px}
