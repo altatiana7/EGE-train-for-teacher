@@ -4099,8 +4099,7 @@ body.efHomeOn .efHome{display:block}
  function sweep(){[...side.children].forEach(el=>{if(el.classList.contains('efKeep'))return;const g=classify(el);if(g==='skip'){el.remove();return}const box=document.getElementById('efG-'+g);if(box)box.appendChild(el)})}
  const item=(k,c,t)=>'<button type="button" class="efItem efKeep" data-k="'+k+'" onclick="efItemClick(\''+k+'\')"><span class="efDot" style="--c:'+c+'"></span>'+t+(k==='arina'?'<em id="efWait" style="display:none"></em>':'')+'</button>'+(k==='home'?'':'<div class="efGroup efKeep" id="efG-'+k+'" style="--c:'+c+'"></div>');
  const frag=document.createElement('div');
- frag.innerHTML='<div class="efSideBrand efKeep">'+logo+'Arina EGE</div>'+item('home','var(--ef-blue)','Overview')+item('lessons','var(--ef-red)','Lessons')+item('arina','var(--ef-purple)','Arina')+item('materials','var(--ef-green)','Resources')+item('trainers','var(--ef-amber)','Trainers')+
-  '<div class="efSep efKeep"></div><button type="button" class="efSmall efKeep" onclick="efRun(\'errors\')">'+svg.list+'Error Log</button><button type="button" class="efSmall efKeep" onclick="openArinaHomeworkResults()">'+svg.help+'Результаты Арины</button>';
+ frag.innerHTML=item('home','var(--ef-blue)','Overview')+item('lessons','var(--ef-red)','Lessons')+item('materials','var(--ef-green)','Resources')+item('trainers','var(--ef-amber)','Trainers')+'<div class="efGroup efKeep" id="efG-arina" style="display:none!important"></div>';
  [...frag.children].forEach(n=>side.insertBefore(n,side.firstChild&&side.firstChild.classList&&side.firstChild.classList.contains('efKeep')?null:side.firstChild));
  // вставляем в правильном порядке в начало
  const keep=[...side.querySelectorAll(':scope>.efKeep')];keep.forEach(n=>side.appendChild(n));
@@ -4113,7 +4112,7 @@ body.efHomeOn .efHome{display:block}
  window.efOpenGroup=function(k){document.querySelectorAll('.efGroup').forEach(g=>g.classList.toggle('open',g.id==='efG-'+k&&!g.classList.contains('open')));setOn(k);if(innerWidth<801)side.classList.add('open')};
  window.efItemClick=function(k){if(k==='home'){efHome();return}if(k==='lessons'){efLessons();return}efOpenGroup(k)};
  window.efLessons=function(){efOpenGroup('lessons');document.getElementById('efG-lessons').classList.add('open');renderWeek(typeof currentWeek!=='undefined'?currentWeek:0);setOn('lessons')};
- window.efRun=function(v){showTeacherDashboard(v);setOn(v==='progress'||v==='errors'?v:'arina')};
+ window.efRun=function(v){showTeacherDashboard(v);setOn(v==='progress'||v==='errors'?v:'home')};
 
  /* главный экран */
  const home=document.createElement('section');home.className='efHome';home.id='efHome';document.querySelector('.main').prepend(home);
@@ -4121,38 +4120,94 @@ body.efHomeOn .efHome{display:block}
  function sideBtn(re){return [...side.querySelectorAll('button')].find(b=>re.test(b.textContent))}
  function cnt(w){try{return arinaWeekCount(w)}catch(e){return{done:0,hw:0}}}
  function today(){const d=new Date();return d.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'})}
+ function lessonBtns(){return [...side.querySelectorAll('button')].filter(x=>/openLesson\(/.test(x.getAttribute('onclick')||''))}
  function homeHTML(){
   const i=typeof currentWeek!=='undefined'?currentWeek:0,w=weeks[i],c=cnt(i),lab=(typeof weekLabels!=='undefined'&&weekLabels[i])||'';
   const t=sideBtn(/^\s*СЕГОДНЯ/i),tTxt=t?(t.querySelector('small')||t).textContent:'Урок недели '+(i+1);
   const tDate=t?t.childNodes[0].textContent.replace(/СЕГОДНЯ\s*·?/i,'').trim():'';
-  let wait=0;for(let k=0;k<=i;k++)wait+=cnt(k).hw;
-  const card=(col,title,body,btn,fn)=>'<div class="efCard"><h3><i style="--c:'+col+'"></i>'+title+'</h3><p>'+body+'</p><button type="button" class="efGo" onclick="'+fn+'">'+btn+' →</button></div>';
-  return '<div class="efHello"><h1>'+hello()+', Tatyana</h1><p>Here’s what’s happening today · '+today()+'</p></div><div class="efCards">'+
-   card('var(--ef-blue)','Upcoming Lesson',(tDate?'<b>'+tDate+'</b> · ':'')+tTxt+'. План урока, задания и ответы — на странице урока.','View Lesson','efToday()')+
-   card('var(--ef-red)','Homework Due','Неделя '+(i+1)+': <b>сдано '+c.done+'</b>, ждём от Арины <b>'+c.hw+'</b>. Всего не сдано по неделям: '+wait+'. Сданные работы помечены в списке недели.','Check Now','openArinaHomeworkResults()')+
-   card('var(--ef-purple)','Study Progress','Неделя '+(i+1)+' · <b>'+lab+'</b> · '+w.d+'. Цель: '+(w.g||'')+'','See Report',"efRun('progress')")+
-   card('var(--ef-green)','Resources','EXPERT — задания, аудио и ответы по 13 темам; ЕГЭ в формате ФИПИ; грамматика 19–24, словообразование 25–29, лексика 30–36.','Explore',"efOpenGroup('materials')")+
-   '</div>'+progHTML(i);
- }
- function progHTML(cur){
-  const cols=['#2f2d8f','#d9443b','#e9a83a','#3f9a55','#5b5bb8','#8a55c9','#3b7dd8'];let rows='',D=0,T=0,st=[];
-  for(let w=0;w<=cur;w++){const c=cnt(w),t=c.done+c.hw;st.push([w,c.done,t]);D+=c.done;T+=t}
-  const shown=st.filter(s=>s[2]).slice(-4);
-  shown.forEach(s=>{const p=Math.round(s[1]*100/s[2]);rows+='<div class="efRow"><i></i><div><span>Неделя '+(s[0]+1)+' · '+((typeof weekLabels!=='undefined'&&weekLabels[s[0]])||'')+'</span><div class="efBar"><em style="width:'+p+'%"></em></div></div><b>'+p+'%</b></div>'});
-  if(!rows)rows='<div class="efRow"><i></i><div><span>Пока нет сданных заданий</span><div class="efBar"><em style="width:0"></em></div></div><b>0%</b></div>';
-  let acc=0,seg=[];const step=T?360/T:0;
-  for(let k=0;k<D;k++){const b=acc+step;seg.push(cols[k%5]+' '+acc+'deg '+(b-.8)+'deg','#fff '+(b-.8)+'deg '+b+'deg');acc=b}if(T&&D<T)seg.push('#dfe2ea '+acc+'deg 360deg');
+  const lb=lessonBtns().map(x=>{const sm=x.querySelector('small'),txt=(sm?sm.textContent:x.textContent).replace(/^Неделя\s*\d+\s*·\s*/,'');const head=x.childNodes[0].textContent.trim();return '<button type="button" class="efChip'+(/СЕГОДНЯ/i.test(head)?' now':'')+'" onclick="'+x.getAttribute('onclick').replace(/"/g,'&quot;')+'"><b>'+head+'</b>'+txt+'</button>'}).join('');
+  /* домашка недели */
+  let marks=[];try{marks=arinaWeekMarks(i)}catch(e){}
+  const hwRows=marks.length?marks.map(m=>'<li class="'+(m.done?'ok':'wait')+'"><span>'+m.title+'</span><em>'+(m.done?'✓ сдано'+(m.done.length<12?' · '+m.done:''):(m.note||'ждём'))+'</em></li>').join(''):'<li class="none"><span>На этой неделе домашка ещё не задана</span></li>';
+  let wait=0,D=0,T=0;for(let k=0;k<weeks.length;k++){const x=cnt(k);if(k<=i)wait+=x.hw;D+=x.done;T+=x.done+x.hw}
   const pct=T?Math.round(D*100/T):0;
-  return '<div class="efProg"><div><div class="efProgHead"><h3>Arina · Homework Progress</h3><button type="button" onclick="openArinaHomeworkResults()">View Full Report →</button></div>'+rows+'</div><div class="efDonut" style="background:conic-gradient('+(seg.join(',')||'#dfe2ea 0deg 360deg')+')"><div><span><b>'+pct+'%</b><small>сдано</small></span></div></div></div>';
+  /* 32 недели */
+  const tiles=weeks.map((wk,k)=>{const st=(typeof teacherWeekState!=='undefined'&&teacherWeekState[k])||'planned',x=cnt(k);
+   const mark=x.done||x.hw?'<em>'+(x.done?'сдано '+x.done:'')+(x.done&&x.hw?' · ':'')+(x.hw?'ждём '+x.hw:'')+'</em>':'';
+   return '<button type="button" class="efWk '+st+(k===i?' cur':'')+'" onclick="renderWeek('+k+')"><span class="n">'+(k+1)+'</span><b>'+(weekLabels[k]||'EGE')+'</b><small>'+wk.d+'</small>'+mark+'</button>'}).join('');
+  const res=(f,t,s,c)=>'<button type="button" class="efRes" style="--c:'+c+'" onclick="'+f+'"><b>'+t+'</b><small>'+s+'</small></button>';
+  return '<div class="efHello"><h1>'+hello()+', Tatyana</h1><p>'+today()+' · в работе <b>неделя '+(i+1)+' · '+lab+'</b> (по плану '+w.d+')</p></div>'+
+  '<div class="efCards3">'+
+   '<div class="efCard"><h3><i style="--c:var(--ef-blue)"></i>Lesson</h3><p>'+(tDate?'<b>Сегодня '+tDate+'</b> · ':'')+tTxt+'</p><div class="efChips">'+lb+'</div></div>'+
+   '<div class="efCard"><h3><i style="--c:var(--ef-red)"></i>Homework · неделя '+(i+1)+'</h3><p>Сдано <b>'+c.done+'</b> · ждём <b>'+c.hw+'</b>'+(wait>c.hw?' · всего не сдано: <b>'+wait+'</b>':'')+'</p><ul class="efHw">'+hwRows+'</ul><button type="button" class="efGo" onclick="openArinaHomeworkResults()">Результаты Арины →</button></div>'+
+   '<div class="efCard"><h3><i style="--c:var(--ef-purple)"></i>Study Progress</h3><div class="efSP"><div class="efMini" style="--p:'+pct*3.6+'deg"><span><b>'+pct+'%</b><small>ДЗ сдано</small></span></div><div class="efSPb">'+
+    '<button type="button" onclick="efRun(\'progress\')">Прогресс</button><button type="button" onclick="efRun(\'errors\')">Error Log</button><button type="button" onclick="openArinaHomeworkResults()">Результаты Арины</button><button type="button" onclick="efRun(\'diagnostic\')">Диагностика</button></div></div><p class="efGoal">Цель недели: '+(w.g||'')+'</p></div>'+
+  '</div>'+
+  '<div class="efBlock"><div class="efBH"><h2>32 недели · план</h2><span class="efLeg"><i class="d"></i>пройдена <i class="a"></i>в работе <i class="p"></i>впереди</span></div><div class="efWeeks">'+tiles+'</div></div>'+
+  '<div class="efBlock efRT"><div><div class="efBH"><h2>Resources</h2></div><div class="efResGrid">'+
+   res('openExpert()','EXPERT','13 тем · аудио · ответы','#3f9a55')+res('openFipi()','ЕГЭ · формат ФИПИ','13 тем + Россия · Speaking · Writing','#3b7dd8')+res('openFipiReading()','Reading · ФИПИ','Task 1 · тексты · 1:30','#8a55c9')+
+   res("renderExam('grammar1924')",'Grammar 19–24','грамматические формы','#d9443b')+res("renderExam('wordformation')",'Word Formation 25–29','словообразование','#e9a83a')+res("renderExam('vocabulary3036')",'Vocabulary 30–36','лексико-грамматический выбор','#5b5bb8')+res("renderExam('overview')",'ЕГЭ 2027 · структура','баллы за задания','#64748b')+
+  '</div></div><div><div class="efBH"><h2>Trainers</h2></div><div class="efResGrid two">'+
+   res('openTenseLogicTrainer()','Времена · шаг за шагом','Когда? → картинка → форма','#e9a83a')+res("renderTrainer('verbs')",'Неправильные глаголы','60 глаголов','#e9a83a')+res("renderTrainer('markers')",'Present Markers','training','#e9a83a')+res("renderTrainer('difficult')",'Difficult Words','карточки + чтение','#e9a83a')+
+  '</div></div></div>';
  }
  window.efToday=function(){const b=sideBtn(/^\s*СЕГОДНЯ/i);if(b)b.click();else efLessons()};
  function efPaint(){if(document.body.classList.contains('efHomeOn'))home.innerHTML=homeHTML();let w=0;try{const i=currentWeek;for(let k=0;k<=i;k++)w+=cnt(k).hw}catch(e){}const e=document.getElementById('efWait');if(e){e.textContent=w;e.style.display=w?'':'none'}const b=document.getElementById('efBell');if(b)b.classList.toggle('has',w>0)}
  window.efHome=function(){document.body.classList.add('efHomeOn');home.innerHTML=homeHTML();setOn('home');document.querySelectorAll('.efGroup').forEach(g=>g.classList.remove('open'));if(innerWidth<801)side.classList.remove('open');scrollTo(0,0)};
- ['renderWeek','renderExam','renderTrainer','showTeacherDashboard'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;const wr=function(){document.body.classList.remove('efHomeOn');if(n==='renderWeek')setOn('lessons');return f.apply(this,arguments)};window[n]=wr;try{eval(n+'=wr')}catch(e){}});
+ ['renderWeek','renderExam','renderTrainer','showTeacherDashboard','openArinaHomeworkResults'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;const wr=function(){document.body.classList.remove('efHomeOn');if(n==='renderWeek')setOn('lessons');return f.apply(this,arguments)};window[n]=wr;try{eval(n+'=wr')}catch(e){}});
  if(typeof arinaMarksRefresh==='function'){const m=arinaMarksRefresh;window.arinaMarksRefresh=function(){m.apply(this,arguments);try{efPaint()}catch(e){}};try{arinaMarksRefresh=window.arinaMarksRefresh}catch(e){}}
  efHome();efPaint();
 })();
 </script>
 
+<style id="efHome2">
+.efHello h1{font-size:30px}.efHello p{margin:4px 0 16px;font-size:17px}
+.efCards3{display:grid;grid-template-columns:1.05fr 1.1fr 1fr;gap:16px;margin-bottom:18px}
+.efCards3 .efCard{min-height:0;padding:16px 18px;gap:10px}
+.efCards3 .efCard p{padding-left:0;font-size:15px}
+.efChips{display:grid;gap:6px}
+.efChip{border:0;border-left:4px solid #c9cde0;background:#f4f5fa;border-radius:9px;padding:8px 11px;text-align:left;font-size:14px;color:#3a4054}
+.efChip b{display:block;font-size:13px;color:var(--ef-text);letter-spacing:.3px}
+.efChip.now{border-left-color:var(--ef-blue);background:#e9effc}
+.efChip:hover{background:#e8e9f7}
+.efHw{list-style:none;margin:0;padding:0;max-height:178px;overflow:auto;font-size:14px}
+.efHw li{display:flex;justify-content:space-between;gap:10px;padding:6px 2px;border-bottom:1px solid #eceef4}
+.efHw li em{font-style:normal;font-weight:700;white-space:nowrap}
+.efHw li.ok em{color:#2f8a4b}.efHw li.wait em{color:#c4473b}.efHw li.none{color:#8a8fa3}
+.efSP{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center}
+.efMini{width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--ef-indigo2,#4a4aa8) var(--p),#dfe2ea 0);display:grid;place-items:center}
+.efMini span{width:84px;height:84px;border-radius:50%;background:#fff;display:grid;place-content:center;text-align:center}
+.efMini b{font-size:24px;color:var(--ef-text);line-height:1}.efMini small{font-size:11px;color:#5b6075}
+.efSPb{display:grid;gap:6px}
+.efSPb button{border:0;border-radius:18px;background:var(--ef-btn);color:#fff;font-size:14px;font-weight:600;padding:8px 12px;text-align:left}
+.efSPb button:hover{background:var(--ef-indigo)}
+.efGoal{font-size:13px!important;color:#5b6075!important;margin:0!important}
+.efBlock{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 6px rgba(30,34,56,.08);margin-bottom:18px}
+.efBH{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.efBH h2{margin:0;font-size:21px;font-weight:700;color:var(--ef-text)}
+.efLeg{font-size:13px;color:#5b6075;display:flex;gap:6px;align-items:center}
+.efLeg i{width:12px;height:12px;border-radius:3px;display:inline-block;margin-left:8px}
+.efLeg .d{background:#dff0e3}.efLeg .a{background:var(--ef-btn)}.efLeg .p{background:#f1f2f7;border:1px solid #dfe2ea}
+.efWeeks{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
+.efWk{position:relative;border:1px solid #e3e5ee;background:#f7f8fb;border-radius:10px;padding:8px 9px 8px 38px;text-align:left;min-height:66px;color:var(--ef-text)}
+.efWk .n{position:absolute;left:8px;top:9px;width:24px;height:24px;border-radius:50%;background:#dfe2ea;display:grid;place-items:center;font-size:12px;font-weight:700}
+.efWk b{display:block;font-size:14px;line-height:1.2;font-weight:600}
+.efWk small{display:block;font-size:12px;color:#6b7086;margin-top:2px}
+.efWk em{display:block;font-style:normal;font-size:12px;font-weight:700;color:#c4473b;margin-top:3px}
+.efWk.done{background:#eef7f0;border-color:#cfe6d5}.efWk.done .n{background:#3f9a55;color:#fff}
+.efWk.active,.efWk.cur{background:#ecebfa;border:2px solid var(--ef-btn)}.efWk.active .n,.efWk.cur .n{background:var(--ef-btn);color:#fff}
+.efWk:hover{border-color:var(--ef-btn)}
+.efResGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.efRes{border:0;border-left:5px solid var(--c);background:#f6f7fb;border-radius:10px;padding:10px 12px;text-align:left;color:var(--ef-text)}
+.efRes b{display:block;font-size:15px;font-weight:700}.efRes small{display:block;font-size:12.5px;color:#6b7086;margin-top:2px}
+.efRes:hover{background:#ecebfa}
+.efGroup .weekBtns{max-height:60vh}
+.efRT{display:grid;grid-template-columns:1.8fr 1fr;gap:22px}
+.efResGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}.efResGrid.two{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.efWk{min-height:58px;padding-top:6px;padding-bottom:6px}
+@media(max-width:1300px){.efRT{grid-template-columns:1fr}}
+@media(max-width:1300px){.efWeeks{grid-template-columns:repeat(4,minmax(0,1fr))}.efCards3{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.efCards3{grid-template-columns:1fr}.efWeeks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
 <style id="compactScale">/* весь сайт компактнее: всё помещается на экран без прокрутки */:root{--sz:.8}html{zoom:var(--sz)}.main{max-width:1480px!important}#lessonPage.lessonPage>.lesson{max-width:1480px!important}</style>
 </body></html>
