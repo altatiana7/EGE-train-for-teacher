@@ -419,6 +419,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <script defer src="today/w4-lesson1.js?v=20261025e"></script>
 <script defer src="today/w4-lesson3.js?v=20261107a"></script>
 <script defer src="today/w5-email-questions.js?v=20261107a"></script>
+<script defer src="today/w5-l1-pack.js?v=20261108a"></script>
 <script defer src="tense/tense-logic.js?v=20261010-open"></script>
 <link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005x"></script><style>
 /* Единая типографика уроков недель 2–32: 16px текст, 20px заголовок шага, 13px подписи */
@@ -1682,7 +1683,10 @@ function lessonTabs(x,i,w){
   after.push(...F.after);
  }else{
   const g=exam26Own('grammar',w),f=exam26Own('wf',w);
+  const P5=(w===4&&i===0&&typeof window.w5l1Pack==='function')?window.w5l1Pack():null;
+  if(P5)steps.push(P5.read);
   if(w===4&&typeof window.w5EmailStep==='function'){const em=window.w5EmailStep(i);if(em)steps.push(em)}
+  if(P5)steps.push(...P5.rest);
   if(i===0&&g[0])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,0)]);
   if(i===1&&f.length)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?1:0)]);
   if(i===2){if(g[1])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,1)]);if(f.length>1)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?2:1)]);}
