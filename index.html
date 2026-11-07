@@ -1204,12 +1204,21 @@ function arinaDoneTile(w,title){
 }
 function arinaDoneBadge(w,title){const x=arinaDoneTile(w,title);return x?'<span class="lsDone" title="Арина прислала эту работу'+(x[2]?' ('+x[2]+')':'')+'">✓ СДАНО'+(x[2]?' · '+x[2]:'')+'</span>':''}
 /* Отметки по неделе: что отправлено Арине в ДЗ и что она прислала */
+/* Устные задания: запись голоса уходит в базу как rec-<id задания>-q<номер вопроса>-<время>; задание «сделано», когда записаны все 5 вопросов */
+const ARINA_SPEAK=[['w3l1-interview',2,'Interview · Future plans'],['w3l3-interview1',2,'Interview · Travelling · вариант 1'],['w3l3-interview2',2,'Interview · Travelling · вариант 2'],['w4l1-iv-family',3,'Interview · Family'],['w4l1-iv-transport',3,'Interview · Public transport'],['w4l1-iv-friends',3,'Interview · Friends'],['w4l1-hw-iv-inventions',3,'Interview · Modern inventions'],['w4l2-iv-schools',3,'Warm-up · Interview · Schools of the future'],['w4l2-warmup-iv',3,'Warm-up · Interview · Future plans']];
+function arinaRecProgress(){
+ const out={},live=arinaLiveDone();
+ for(const id in live){const m=String(id).match(/^rec-(.+)-q(\d+)-[0-9a-z]+$/);if(!m)continue;const tid=m[1]==='w3-interview'?'w3l1-interview':m[1];const o=out[tid]||(out[tid]={q:{},date:''});o.q[m[2]]=1;o.date=live[id]}
+ return out;
+}
 function arinaWeekMarks(w){
  const rows=[],seen={};
- const put=(title,hwDate,doneDate)=>{const k=title;if(!seen[k]){seen[k]={title,hw:'',done:''};rows.push(seen[k])}if(hwDate)seen[k].hw=hwDate;if(doneDate)seen[k].done=doneDate};
+ const put=(title,hwDate,doneDate,note)=>{const k=title;if(!seen[k]){seen[k]={title,hw:'',done:'',note:''};rows.push(seen[k])}if(hwDate)seen[k].hw=hwDate;if(doneDate)seen[k].done=doneDate;if(note)seen[k].note=note};
  ARINA_HW_TILES.filter(x=>x[0]===w).forEach(x=>put(x[1],x[2],''));
  ARINA_DONE_TILES.filter(x=>x[0]===w).forEach(x=>put(x[1],'',x[2]));
  const live=arinaLiveDone();for(const id in live){const m=ARINA_DONE_ID2TILE[id];if(m&&m[0]===w)put(m[1],'',live[id])}
+ const rec=arinaRecProgress();
+ ARINA_SPEAK.filter(x=>x[1]===w&&rec[x[0]]).forEach(x=>{const n=Object.keys(rec[x[0]].q).length;if(n>=5)put(x[2],'',rec[x[0]].date||'записано');else put(x[2],'','','записано '+n+' из 5')});
  return rows;
 }
 function arinaWeekCount(w){const r=arinaWeekMarks(w);return {done:r.filter(x=>x.done).length,hw:r.filter(x=>!x.done).length}}
@@ -1217,7 +1226,7 @@ function arinaWeekPanelHTML(w){
  const r=arinaWeekMarks(w);if(!r.length)return '';
  const c=arinaWeekCount(w);
  return '<div class="arinaWeekMarks" id="arinaWeekMarks"><div class="awmHead"><b>Арина · Неделя '+(w+1)+'</b><span>сдано '+c.done+' · ждём '+c.hw+'</span></div>'+
-  r.map(x=>'<div class="awmRow '+(x.done?'done':'wait')+'"><span class="awmTitle">'+x.title+'</span>'+(x.done?'<span class="awmTag done">✓ СДАНО'+(x.done?' · '+x.done:'')+'</span>':'<span class="awmTag wait">В ДЗ'+(x.hw?' · '+x.hw:'')+' · не сдано</span>')+'</div>').join('')+'</div>';
+  r.map(x=>'<div class="awmRow '+(x.done?'done':'wait')+'"><span class="awmTitle">'+x.title+'</span>'+(x.done?'<span class="awmTag done">✓ '+(x.rec?'СДЕЛАНО':'СДАНО')+' · '+x.done+'</span>':x.note?'<span class="awmTag wait">'+x.note+'</span>':'<span class="awmTag wait">В ДЗ'+(x.hw?' · '+x.hw:'')+' · не сдано</span>')+'</div>').join('')+'</div>';
 }
 function arinaMarksRefresh(){
  try{if(typeof renderButtons==='function')renderButtons()}catch(e){}
