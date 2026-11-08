@@ -91,6 +91,7 @@ function qzBody(h){return h.replace(/<span class="w42Opt">[\s\S]*?<\/span>/,'').
 function qzMake(id,d,o){o=o||{};return (o.head||'')+KQ.kahoot(d.map(x=>({q:qzBody(x[0]),hint:qzHint(x[0]),opts:qzOpts(x[0]),a:x[1],why:x[2]||''})),{start:o.start||(o.off?o.off+1:1)})}
 function qzFipi(d,o){return KQ.fipi(d.map(x=>({q:qzBody(x[0]),b:qzHint(x[0]),a:x[1],why:x[2]||''})),o||{})}
 function qzInit(){const p=document.getElementById('l3Panel');if(!p)return;p.querySelectorAll('.kq').forEach(el=>{el._kq=null});KQ.mountAll(p)}
+window.w42R11HTML=function(){return '<div class="w42R11">'+r11HTML(0)+'</div>'};
 window.w4l2Steps=function(){const F=d=>qzMake('q'+Object.keys(QZ).length,d);return [
  ['Warm-up · Чтение вслух · Family dinners','0–3',(window.raHTML?window.raHTML():'')],
  ['Warm-up · Grammar mix · часть 1','0–4',F(D.warm.slice(0,14))],
