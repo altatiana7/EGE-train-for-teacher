@@ -1,6 +1,7 @@
 /* Урок 7 ноября · Устная часть Family (задания 1–3) + интервью Modern inventions + чтение · задание 11 + письмо 37 (вопросы другу).
    Тексты, рекламы и вопросы интервью Family — с сайта Арины (family/words.js). Интервью Modern inventions, задание 11 и чтение вслух — готовые блоки этого сайта.
-   Письмо 37: материал из разбора трёх писем. Ничего не сохраняется: каждый блок открывается с начала. */
+   Письмо 37: вкладки Choose/Fix — из разбора трёх писем, вкладка Ask — письма ФИПИ из тренажёра letters37/ (единый источник).
+   Озвучка вопросов Family — card-audio сайта Риты и Кати (британский нейронный голос, workflow «Card audio»). Ничего не сохраняется: каждый блок открывается с начала. */
 (function(){
 'use strict';
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -38,10 +39,7 @@ const FIX=[
  {f:'Sport and art clubs are really popular among Russian teenagers.',b:'Sports clubs and art clubs are really popular among Russian teenagers.'},
  {f:'After classes I usually do my homework and spend my time with friends.',b:'After classes I usually do my homework and spend time with my friends.'},
  {f:'Are you excited about it?\nDo you think you’ll like it?',b:'Один и тот же вопрос дважды.\nСпроси разное: место, занятие, цель.'}];
-const THREE=[
- {f:'Your friend is organising a charity fair.',b:'Where will it take place?\nWhat will you be selling there?\nWhat charity are you raising money for?'},
- {f:'Your friend is taking part in a robotics competition.',b:'How many teams are taking part?\nWhat kind of robots will they present?\nWhen will the winners be announced?'},
- {f:'Your friend has just bought a new camera.',b:'What brand is it?\nWhere did you buy it?\nHave you taken any photos with it yet?'}];
+
 
 /* ---------- стили ---------- */
 const st=document.createElement('style');st.textContent=`
@@ -69,6 +67,7 @@ const st=document.createElement('style');st.textContent=`
 .l7Card>.in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
 .l7Card.flip>.in{transform:rotateY(180deg)}
 .l7Face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid #dbe3ee;border-left:5px solid #0039A6;border-radius:14px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px 22px;text-align:center;font-size:25px;line-height:1.35;font-weight:700}
+.l7Face.sm{font-size:21px;font-weight:600}
 .l7Face.b{transform:rotateY(180deg);background:#f2f7ff;border-left-color:#D52B1E;font-size:23px}
 .l7Face .q{font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:#64748b;font-weight:800}
 .l7Nav{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:12px;font-weight:800;color:#0039A6}
@@ -84,7 +83,11 @@ document.head.appendChild(st);
 
 /* ---------- таймер и кольцо ---------- */
 const ST={};let tm=null;
-const stopT=()=>{if(tm){clearInterval(tm);tm=null}};
+let au=null;
+const stopAu=()=>{if(au){au.onended=null;au.onerror=null;try{au.pause()}catch(e){}au=null}};
+const stopT=()=>{if(tm){clearInterval(tm);tm=null}stopAu()};
+const AUD='https://altatiana7.github.io/Tatyana-English-Hub/card-audio/';
+const IVK=[{intro:'1222qp4cx1w',q:['202b5mffx5y','1876chbsk21','z5nutzfz6d','28t0x5gxw3u','5laj2x1sio']},{intro:'2cfgni1bjyg',q:['22uxokm79gu','1ij9qrcmuco','o069r0arpc','510bahf029','1ylo3rzy054']}];
 const ring=(left,tot,end)=>'<div class="l7Ring'+(end?' end':'')+'" style="--p:'+Math.round(Math.max(0,left)/tot*100)+'"><div><b>'+(end?'0:00':fmt(left))+'</b></div></div>';
 function paint(root,left,tot){const r=root.querySelector('.l7Ring');if(!r)return;r.style.setProperty('--p',Math.round(Math.max(0,left)/tot*100));r.querySelector('b').textContent=fmt(left)}
 
@@ -116,22 +119,36 @@ function ivRender(root){
   '<div class="l7Card'+(s.flip?' flip':'')+'" data-a="flipq"><div class="in">'+
    '<div class="l7Face f"><span class="q">Question '+(s.q+1)+'</span>'+ring(s.left,40,s.left<=0)+'</div>'+
    '<div class="l7Face b"><span class="q">Question '+(s.q+1)+'</span>'+esc(v.q[s.q])+'</div></div></div>'+
-  '<div class="l7Row" style="margin-top:12px"><button type="button" class="prim" data-a="play">Play</button><button type="button" data-a="play">Replay</button><button type="button" data-a="stop">Stop</button></div>'+
+  '<div class="l7Row" style="margin-top:12px"><button type="button" class="prim" data-a="play">Play</button><button type="button" data-a="play">Replay</button><button type="button" data-a="stop">Stop</button><button type="button" data-a="intro">Intro</button></div>'+
   '<div class="l7Nav"><button type="button" data-a="prev"'+(s.q===0?' disabled':'')+'>← Back</button><button type="button" data-a="flip">Flip card</button><button type="button" data-a="next"'+(s.q===v.q.length-1?' disabled':'')+'>Next →</button></div>'}
-function ivPlay(root){stopT();const s=ST.iv;s.left=40;s.flip=false;ivRender(root);
- tm=setInterval(()=>{if(!root.isConnected){stopT();return}s.left--;if(s.left<=0){stopT();s.left=0;ivRender(root)}else paint(root,s.left,40)},1000)}
+function ivPlay(root,intro){stopT();const s=ST.iv;s.left=40;s.flip=false;ivRender(root);
+ let started=false;
+ const go=()=>{if(started||intro)return;started=true;
+  tm=setInterval(()=>{if(!root.isConnected){stopT();return}s.left--;if(s.left<=0){stopT();s.left=0;ivRender(root)}else paint(root,s.left,40)},1000)};
+ const a=new Audio(AUD+(intro?IVK[s.v].intro:IVK[s.v].q[s.q])+'.mp3?v=1');au=a;
+ a.onended=go;a.onerror=go;a.play().catch(go)}
 
 /* ---------- Письмо 37: три вкладки ---------- */
-const TABS=[['Choose',null],['Fix',FIX],['3 questions',THREE]];
+const TABS=[['Choose',null],['Fix',FIX],['Ask',null]];
+let LET=null,LETP=null;
+function loadLetters(){if(!LETP)LETP=fetch('letters37/index.html').then(r=>r.text()).then(t=>{const m=/<script type="application\/json" id="data">([\s\S]*?)<\/script>/.exec(t);LET=JSON.parse(m[1])}).catch(()=>{LET=[]});return LETP}
+const ASK_IDS=[1,2,3,4,6,7,10,12,26,41,53,58];
+function askCards(){return ASK_IDS.map(id=>LET.find(x=>x.id===id)).filter(Boolean).map(x=>{
+ const p=String(x.prompt).replace(/\s+/g,' '),w=p.search(/Write (a letter|an email|a reply)/i),q=w>0?p.lastIndexOf('?',w):-1,
+  ctx=(q>0?p.slice(q+1,w):'').replace(/\u2026/g,'').trim();
+ return {sm:1,f:'Letter from '+x.name+(ctx?'\n\u201c'+ctx+'\u201d':'')+'\nAsk 3 questions about '+x.ask_about+'.',b:x.ask.join('\n')}})}
 function lettInit(root){stopT();ST.lt={tab:0,i:0};lettRender(root)}
 function lettRender(root){
- const s=ST.lt,deck=TABS[s.tab][1];
- let body;
- if(!deck)body=window.KQ?KQ.kahoot(BEST.map(x=>({q:x.q,opts:x.opts,a:x.a,why:x.why})),{}):'';
- else{const c=deck[s.i];body='<div class="l7Card" data-a="flipc"><div class="in"><div class="l7Face f">'+nl(c.f)+'</div><div class="l7Face b">'+nl(c.b)+'</div></div></div>'+
-  '<div class="l7Nav"><button type="button" data-a="prev"'+(s.i===0?' disabled':'')+'>←</button><span>'+(s.i+1)+' / '+deck.length+'</span><button type="button" data-a="next"'+(s.i===deck.length-1?' disabled':'')+'>→</button></div>'}
+ const s=ST.lt;let deck=TABS[s.tab][1],body='';
+ if(s.tab===2){
+  if(!LET){body='<p class="l7Task">\u2026</p>';loadLetters().then(()=>{if(root.isConnected&&ST.lt===s&&s.tab===2)lettRender(root)})}
+  else deck=askCards();
+ }
+ if(s.tab===0)body=window.KQ?KQ.kahoot(BEST.map(x=>({q:x.q,opts:x.opts,a:x.a,why:x.why})),{}):'';
+ else if(deck&&deck.length){const c=deck[s.i];body='<div class="l7Card" data-a="flipc"><div class="in"><div class="l7Face f'+(c.sm?' sm':'')+'">'+nl(c.f)+'</div><div class="l7Face b">'+nl(c.b)+'</div></div></div>'+
+  '<div class="l7Nav"><button type="button" data-a="prev"'+(s.i===0?' disabled':'')+'>\u2190</button><span>'+(s.i+1)+' / '+deck.length+'</span><button type="button" data-a="next"'+(s.i===deck.length-1?' disabled':'')+'>\u2192</button></div>'}
  root.innerHTML='<div class="l7Pills">'+TABS.map((t,k)=>'<button type="button" class="'+(k===s.tab?'on':'')+'" data-a="tab" data-k="'+k+'">'+t[0]+'</button>').join('')+'</div>'+body;
- if(!deck&&window.KQ&&KQ.mountAll)KQ.mountAll(root)}
+ if(s.tab===0&&window.KQ&&KQ.mountAll)KQ.mountAll(root)}
 
 /* ---------- итоги ---------- */
 const DONE=['Interview · Modern inventions','Task 1 · Reading aloud','Task 2 · Advert 1','Task 3 · Interview 1','Reading · Task 11','Letter 37 · Questions'];
@@ -151,6 +168,7 @@ document.addEventListener('click',e=>{
   if(a==='v'){stopT();ST.iv={v:k,q:0,flip:false,left:40};ivRender(root)}
   else if(a==='n'){stopT();s.q=k;s.flip=false;s.left=40;ivRender(root)}
   else if(a==='play')ivPlay(root);
+  else if(a==='intro')ivPlay(root,true);
   else if(a==='stop'){stopT();s.left=40;ivRender(root)}
   else if(a==='prev'||a==='next'){stopT();s.q+=a==='next'?1:-1;s.flip=false;s.left=40;ivRender(root)}
   else if(a==='flip'){s.flip=!s.flip;ivRender(root)}
