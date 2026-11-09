@@ -4265,4 +4265,20 @@ body.efHomeOn .efHome{display:block}
 @media(max-width:800px){.efCards3{grid-template-columns:1fr}.efWeeks{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <style id="compactScale">/* весь сайт компактнее: всё помещается на экран без прокрутки */:root{--sz:.8}html{zoom:var(--sz)}.main{max-width:1480px!important}#lessonPage.lessonPage>.lesson{max-width:1480px!important}</style>
+<style id="hubReadable">/* хаб учителя крупнее: главная, Progress, Error Log, результаты — без общего уменьшения */
+#efHome,#weekView:has(.teacherDash){zoom:1.25}
+.teacherDash .hero h1{color:#fff!important;font-size:22px!important;margin:2px 0 0}
+.teacherDash .hero .eyebrow{font-size:12px!important}
+.teacherPanel h2{font-size:20px!important}.teacherPanel h3{font-size:16px!important}
+.teacherLead,.weekGoalLine{font-size:14px!important}
+.progressRows{gap:10px!important}.progressRow{font-size:14px!important;grid-template-columns:200px 1fr 50px!important}.progressTrack{height:11px!important}
+.priorityRow{font-size:14px!important;padding:8px 0!important}.priorityTag{font-size:12px!important;padding:4px 9px!important}
+.teacherTotal b{font-size:22px!important}.teacherTotal span{font-size:13px!important}
+.teacherBtn{font-size:13px!important}
+.diagItem label{font-size:13px!important}.diagItem small{font-size:11px!important}.diagItem .diagPct{font-size:12px!important}.diagItem input{font-size:14px!important}
+.errorForm label{font-size:11px!important}.errorForm input,.errorForm select{font-size:13px!important}
+.errorTable{font-size:13px!important}.errorTable th{font-size:11px!important}.errorDone{font-size:11px!important}
+.side .wbtn small{font-size:12px!important;line-height:1.3!important}.side .wbtn{font-size:14px!important}
+.teacherEmpty{font-size:13px!important}.teacherTextarea{font-size:14px!important}
+</style>
 </body></html>
