@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teacher · Passive · Сам или его?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0039A6;--red:#D52B1E;--ink:#142337;--muted:#5b6b82;--line:#d9e2ee;--bg:#eef3fa;--ok:#2f7d45;--okbg:#e3f4e7;--bad:#b04848;--badbg:#f8e6e6;--sam:#3f7f9a;--ego:#8a5a9c;--serif:"PT Serif",Georgia,"Times New Roman",serif}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+.top{height:46px;display:flex;align-items:center;gap:12px;padding:0 14px;background:#fff;border-bottom:1px solid var(--line)}
+.top a{text-decoration:none;border:1px solid #b7c9e8;color:var(--blue);border-radius:9px;padding:6px 12px;font-weight:800;font-size:14px}
+.top .tag{background:var(--blue);color:#fff;border-radius:6px;padding:3px 8px;font-size:12px;font-weight:900;letter-spacing:.6px}
+.top b{font-size:17px}
+.wrap{height:calc(100vh - 46px);display:grid;grid-template-columns:minmax(300px,.85fr) minmax(0,1.4fr);gap:12px;padding:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-height:0;overflow:auto}
+/* правило */
+.rule h2{margin:0 0 4px;font:700 22px/1.25 var(--serif);color:var(--blue)}
+.rule .lead{margin:0 0 12px;font:17px/1.5 var(--serif)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
+.pair div{border-radius:10px;padding:10px 12px;font:16px/1.45 var(--serif)}
+.pair .s{background:#e8f2f6;border-left:5px solid var(--sam)}.pair .e{background:#f2ebf5;border-left:5px solid var(--ego)}
+.pair small{display:block;font:800 12px/1.4 Arial,sans-serif;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+.pair .s small{color:var(--sam)}.pair .e small{color:var(--ego)}
+.pair b{font-weight:700}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.steps li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;padding:8px 10px;border:1px solid var(--line);border-radius:10px;font:16px/1.45 var(--serif)}
+.steps li i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font:800 15px Arial}
+.steps li.on{border-color:var(--blue);background:#f2f6fd}
+.steps .f{font:700 15px/1.4 Arial,sans-serif;color:var(--blue)}
+.be{display:grid;grid-template-columns:auto 1fr 1fr;gap:3px 10px;margin-top:4px;font:15px/1.35 Arial,sans-serif}
+.be span{color:var(--muted)}.be b{color:var(--blue)}
+/* игра */
+.game{display:flex;flex-direction:column}
+.gTop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dots button{width:30px;height:30px;border-radius:50%;border:1px solid #b7c9e8;background:#fff;color:var(--blue);font:800 13px Arial;cursor:pointer}
+.dots button.cur{background:var(--blue);color:#fff;border-color:var(--blue)}
+.dots button.done{background:var(--okbg);border-color:#8ccf9f;color:var(--ok)}
+.dots button.cur.done{background:var(--ok);color:#fff}
+.score{margin-left:auto;font:800 15px Arial;color:var(--blue);white-space:nowrap}
+.sent{font:400 30px/1.45 var(--serif);margin:6px 0 4px;padding:16px 18px;border-radius:12px;background:#f7f9fc;border:1px solid var(--line)}
+.sent .subj{background:#fff3c4;border-radius:6px;padding:0 5px;font-weight:700}
+.sent .mk{border-bottom:3px solid var(--red)}
+.sent .gap{display:inline-block;min-width:150px;border-bottom:3px solid var(--blue);text-align:center;color:var(--ok);font-weight:700}
+.sent .key{font:800 15px Arial;letter-spacing:.8px;color:var(--muted);margin-left:10px;vertical-align:middle}
+.tr{min-height:26px;font:italic 18px/1.4 var(--serif);color:var(--muted);margin:2px 4px 10px}
+.q{font:700 22px/1.35 var(--serif);margin:6px 0 10px}
+.q .subjQ{background:#fff3c4;border-radius:6px;padding:0 5px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts button{border:2px solid #cfd9e7;background:#fff;border-radius:12px;padding:14px 16px;text-align:left;font:700 19px/1.3 Arial,sans-serif;color:var(--ink);cursor:pointer;position:relative;padding-left:22px}
+.opts button:before{content:"";position:absolute;left:8px;top:12px;bottom:12px;width:5px;border-radius:3px;background:var(--c,#94a3b8)}
+.opts button small{display:block;font:400 15px/1.35 Arial,sans-serif;color:var(--muted);margin-top:3px}
+.opts button:hover:not(:disabled){background:#f4f7fc}
+.opts button.ok{background:var(--okbg);border-color:#8ccf9f}.opts button.bad{background:var(--badbg);border-color:#e3a3a3}
+.opts button:disabled{cursor:default}
+.fb{min-height:54px;margin-top:10px;padding:10px 14px;border-radius:10px;font:17px/1.45 var(--serif);display:none}
+.fb.show{display:block}.fb.ok{background:var(--okbg);color:#1f5a32}.fb.bad{background:var(--badbg);color:#7d2f2f}
+.nav{margin-top:auto;padding-top:12px;display:flex;gap:8px;justify-content:space-between}
+.nav button{border:1px solid #b7c9e8;background:#fff;color:var(--blue);border-radius:10px;padding:10px 18px;font:800 16px Arial;cursor:pointer}
+.nav button.prim{background:var(--blue);color:#fff;border-color:var(--blue)}
+.nav button:disabled{opacity:.4;cursor:default}
+.end{text-align:center;padding:30px 10px}.end h3{font:700 28px var(--serif);color:var(--blue);margin:0 0 8px}.end p{font:18px/1.5 var(--serif)}
+@media(max-width:900px){body{overflow:auto}.wrap{grid-template-columns:1fr;height:auto}.sent{font-size:24px}.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><a href="../">← Arina EGE</a><span class="tag">TEACHER</span><b>Passive · Сам или его?</b></header>
+<main class="wrap">
+ <section class="card rule">
+  <h2>Сам или его?</h2>
+  <p class="lead">Смотрим на того, кто стоит в начале предложения, и спрашиваем: он делает это <b>сам</b> — или это делают <b>с ним</b>?</p>
+  <div class="pair">
+   <div class="s"><small>Сам</small><b>My mum makes</b> a cake.<br>Мама сама печёт торт.</div>
+   <div class="e"><small>Его</small><b>The cake was made</b> by my mum.<br>Торт сам не печётся — его испекли.</div>
+  </div>
+  <ol class="steps" id="steps">
+   <li data-s="0"><i>1</i><div>Сам или его?<div class="f">Сам → обычная форма. Его → be + V3</div></div></li>
+   <li data-s="1"><i>2</i><div>Когда? Время показывает только be.
+    <div class="be"><span>обычно, факт</span><b>is / are</b><b></b><span>в прошлом</span><b>was / were</b><b></b><span>в будущем</span><b>will be</b><b></b><span>уже</span><b>has / have been</b><b></b></div></div></li>
+   <li data-s="2"><i>3</i><div>Один или много?<div class="f">один → is / was / has · много → are / were / have</div></div></li>
+   <li data-s="3"><i>4</i><div>Третья форма глагола (V3).<div class="f">built · spoken · sent · broken · founded</div></div></li>
+  </ol>
+ </section>
+ <section class="card game" id="game"></section>
+</main>
+<script>
+(function(){
+'use strict';
+/* t: now | past | fut | perf; n: 1 один, 2 много; sam: подлежащее делает само */
+const T={now:'обычно / факт',past:'в прошлом',fut:'в будущем',perf:'уже'};
+const BE={now:['is','are'],past:['was','were'],fut:['will be','will be'],perf:['has been','have been']};
+const Q=[
+ {s:'The room ___ every day.',k:'CLEAN',subj:'The room',ru:'комната',mk:'every day',t:'now',n:1,a:'is cleaned',o:['cleans','is cleaning'],tr:'Комнату убирают каждый день.'},
+ {s:'I ___ you tomorrow.',k:'CALL',subj:'I',ru:'я',sam:1,a:'will call',o:['will be called','am called'],tr:'Я позвоню тебе завтра.'},
+ {s:'English ___ in many countries.',k:'SPEAK',subj:'English',ru:'английский язык',mk:'in many countries',t:'now',n:1,a:'is spoken',o:['is speaking','speaks'],tr:'На английском говорят во многих странах.'},
+ {s:'The letters ___ yesterday.',k:'SEND',subj:'The letters',ru:'письма',mk:'yesterday',t:'past',n:2,a:'were sent',o:['was sent','sent'],tr:'Письма отправили вчера.'},
+ {s:'The tickets ___ online.',k:'BUY',subj:'The tickets',ru:'билеты',mk:'online',t:'now',n:2,a:'are bought',o:['are buying','buy'],tr:'Билеты покупают онлайн.'},
+ {s:'The city ___ by tourists every summer.',k:'VISIT',subj:'The city',ru:'город',mk:'every summer',t:'now',n:1,a:'is visited',o:['visits','is visiting'],tr:'Город посещают туристы каждое лето.',why:'Туристы делают сами, но стоят после глагола, после by. В начале — город, а город сам никого не посещает.'},
+ {s:'The train ___ at 9.',k:'LEAVE',subj:'The train',ru:'поезд',sam:1,a:'leaves',o:['is left','was left'],tr:'Поезд уходит в 9.',why:'Поезд уходит сам — его никто не «уходит». Значит, обычная форма. Расписание → leaves.'},
+ {s:'The books ___ to the library.',k:'RETURN',subj:'The books',ru:'книги',mk:'',t:'past',n:2,a:'were returned',o:['was returned','returned'],tr:'Книги вернули в библиотеку.'},
+ {s:'The window ___ by the wind.',k:'BREAK',subj:'The window',ru:'окно',mk:'',t:'past',n:1,a:'was broken',o:['was broke','broke'],tr:'Окно разбил ветер.',v3:'break — broke — broken. После was нужна третья форма: broken.'},
+ {s:'The problem ___ at the meeting.',k:'DISCUSS',subj:'The problem',ru:'проблема',mk:'at the meeting',t:'past',n:1,a:'was discussed',o:['is discussing','discussed'],tr:'Проблему обсудили на собрании.'},
+ {s:'Don’t worry, I ___ you.',k:'HELP',subj:'I',ru:'я',sam:1,a:'will help',o:['will be helped','am helped'],tr:'Не волнуйся, я тебе помогу.'},
+ {s:'The machine ___ in Germany.',k:'PRODUCE',subj:'The machine',ru:'машина',mk:'',t:'now',n:1,a:'is produced',o:['produces','is producing'],tr:'Эту машину производят в Германии.'},
+ {s:'Now his pictures ___ masterpieces.',k:'CONSIDER',subj:'his pictures',ru:'картины',mk:'Now',t:'now',n:2,a:'are considered',o:['consider','are considering'],tr:'Сейчас его картины считаются шедеврами.',why:'Картины сами ничего не считают — их считают шедеврами люди.'},
+ {s:'It ___ in 1903 by immigrants from Europe.',k:'FOUND',subj:'It',ru:'город',mk:'in 1903',t:'past',n:1,a:'was founded',o:['was found','founded'],tr:'Его основали в 1903 году иммигранты из Европы.',v3:'Два разных глагола: find — found — found (найти) и found — founded — founded (основать). Город основали → was founded.'},
+ {s:'The cake ___ by my mum.',k:'MAKE',subj:'The cake',ru:'торт',mk:'',t:'past',n:1,a:'was made',o:['made','was making'],tr:'Торт испекла мама.'}
+];
+const N=Q.length,res=Q.map(()=>null);let i=0,step=0,miss=false,picked=null;
+const g=document.getElementById('game');
+const shuf=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+const order=Q.map(q=>shuf([q.a].concat(q.o)));
+function sentHTML(q,fill){
+ let s=q.s.replace('___','<span class="gap">'+(fill||'&nbsp;')+'</span>');
+ s=s.replace(q.subj,'<span class="subj">'+q.subj+'</span>');
+ if(q.mk&&step>=1&&!q.sam)s=s.replace(q.mk,'<span class="mk">'+q.mk+'</span>');
+ return '<div class="sent">'+s+'<span class="key">'+q.k+'</span></div>';
+}
+function stepsHL(){document.querySelectorAll('#steps li').forEach(li=>li.classList.toggle('on',+li.dataset.s===step))}
+function opts(list){return '<div class="opts">'+list.map((x,k)=>'<button type="button" data-v="'+k+'" style="--c:'+['#6c8ebf','#b08a3e','#7a9a6c','#a07090'][k%4]+'">'+x[0]+(x[1]?'<small>'+x[1]+'</small>':'')+'</button>').join('')+'</div>'}
+function stepUI(q){
+ if(step===0)return ['<div class="q"><span class="subjQ">'+q.subj+'</span> — '+q.ru+'. Делает это сам или это делают с ним?</div>',[['Сам','делает сам → обычная форма'],['Его','делают с ним → be + V3']],q.sam?0:1];
+ if(q.sam&&step===3)return ['<div class="q">Делает сам — значит, обычная форма. Выбери:</div>',order[i].map(x=>[x,'']),order[i].indexOf(q.a)];
+ if(step===1){const L=['now','past','fut','perf'];return ['<div class="q">Когда? Посмотри на подчёркнутое и на смысл.</div>',L.map(t=>[T[t],BE[t][0]+(BE[t][0]!==BE[t][1]?' / '+BE[t][1]:'')]),L.indexOf(q.t)]}
+ if(step===2){return ['<div class="q"><span class="subjQ">'+q.subj+'</span> — один или много?</div>',[['Один',BE[q.t][0]],['Много',BE[q.t][1]]],q.n-1]}
+ return ['<div class="q">Последний шаг: '+BE[q.t][q.n-1]+' + третья форма. Выбери:</div>',order[i].map(x=>[x,'']),order[i].indexOf(q.a)];
+}
+function why(q,ok){
+ if(step===0){if(q.why&&ok)return q.why;return q.sam?(ok?'Да, '+q.ru+' делает это сам. Обычная форма.':'Нет, '+q.ru+' делает это сам. Значит, обычная форма, без be + V3.')
+   :(ok?'Да! Это делает кто-то другой, не '+q.ru+'. Нужно be + V3.':'Нет: это делает кто-то другой, не '+q.ru+'. Значит, be + V3.')+(q.why&&!ok?' '+q.why:'')}
+ if(step===1)return (ok?'Верно: ':'Смотри: ')+T[q.t]+' → '+BE[q.t][0]+(BE[q.t][0]!==BE[q.t][1]?' / '+BE[q.t][1]:'')+'.'+(q.mk?' Подсказка — «'+q.mk+'».':'');
+ if(step===2)return (ok?'Верно: ':'Смотри: ')+q.subj+' — '+(q.n===1?'один → ':'много → ')+BE[q.t][q.n-1]+'.';
+ return (ok?'Готово: ':'Правильно: ')+q.s.replace('___',q.a)+(q.v3?' '+q.v3:'');
+}
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function draw(){
+ const q=Q[i];stepsHL();
+ if(i>=N){const ok=res.filter(x=>x===true).length;g.innerHTML='<div class="end"><h3>'+ok+' из '+N+' без подсказки</h3><p>Главный вопрос всегда первый: сам или его?<br>Его → be + V3. Время показывает be.</p><div class="nav" style="justify-content:center"><button type="button" class="prim" data-go="restart">Ещё раз</button></div></div>';return}
+ const finished=step>3;
+ const fill=finished?q.a:'';
+ let body=sentHTML(q,fill)+'<div class="tr">'+(finished?q.tr:'')+'</div>';
+ if(!finished){const u=stepUI(q);body+=u[0]+opts(u[1]);}
+ body+='<div class="fb" id="fb"></div>';
+ g.innerHTML='<div class="gTop"><div class="dots">'+Q.map((_,k)=>'<button type="button" data-dot="'+k+'" class="'+(k===i?'cur ':'')+(res[k]!==null?'done':'')+'">'+(k+1)+'</button>').join('')+'</div><span class="score">'+res.filter(x=>x===true).length+' / '+N+'</span></div>'+body+
+  '<div class="nav"><button type="button" data-go="prev" '+(i===0?'disabled':'')+'>← Назад</button><button type="button" class="prim" data-go="next" '+(finished?'':'disabled')+'>'+(i===N-1?'Итог':'Дальше →')+'</button></div>';
+ if(finished){const fb=document.getElementById('fb');fb.className='fb show ok';fb.textContent=q.s.replace('___',q.a)+(q.v3?' — '+q.v3:'')}
+}
+function pick(k){
+ const q=Q[i],u=stepUI(q),ok=k===u[2],fb=document.getElementById('fb'),btns=g.querySelectorAll('.opts button');
+ if(!ok){miss=true;btns[k].classList.add('bad');btns[k].disabled=true;fb.className='fb show bad';fb.textContent=why(q,false);return}
+ btns.forEach(b=>b.disabled=true);btns[k].classList.add('ok');fb.className='fb show ok';fb.textContent=why(q,true);
+ setTimeout(()=>{if(q.sam&&step===0)step=3;else step++;
+  if(step>3){res[i]=!miss}
+  draw()},step===3||(q.sam&&step===0)?900:1100);
+}
+function go(k){i=Math.max(0,Math.min(N,k));step=i<N&&res[i]!==null?4:0;miss=false;draw()}
+g.addEventListener('click',e=>{
+ const o=e.target.closest('.opts button');if(o&&!o.disabled){pick(+o.dataset.v);return}
+ const d=e.target.closest('[data-dot]');if(d){go(+d.dataset.dot);return}
+ const n=e.target.closest('[data-go]');if(!n)return;
+ if(n.dataset.go==='next')go(i+1);else if(n.dataset.go==='prev')go(i-1);else{res.fill(null);go(0)}
+});
+draw();
+})();
+</script>
+</body>
+</html>
