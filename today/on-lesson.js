@@ -62,7 +62,7 @@ window.efHwCardHTML=function(){
  };
  return '<div class="efCard"><h3><i style="--c:var(--ef-red)"></i>Домашка Арины</h3>'+warn+
   (hasCode?'':'<div class="hwNote">Чтобы видеть, что сдано: откройте «Результаты Арины» и введите код доступа один раз.</div>')+
-  '<div class="hwBs">'+B.slice(0,4).map(block).join('')+'</div>'+
+  '<div class="hwBs">'+B.slice(0,6).map(block).join('')+'</div>'+
   '<button type="button" class="efGo" onclick="openArinaHomeworkResults()">Результаты Арины →</button></div>';
 };
 
