@@ -139,7 +139,7 @@ const TEST=[
  {s:'They ___ for three hours before they found the right road.',b:'drive',w:'T',v:'D',f:'had been driving',cw:['before they found'],cv:['for three hours'],wv:'found — прошлое; до этого момента ехали уже три часа.'},
  {s:"Kate ___ her keys, so she can't open the door now.",b:'lose',w:'N',v:'R',f:'has lost',cw:["so she can't open the door now"],cv:[],wv:'Когда потеряла — неважно. Важен итог сейчас: дверь не открыть.'},
  {s:'While I ___ home, it started to rain.',b:'walk',w:'T',v:'P',f:'was walking',cw:['started'],cv:['While'],wv:'started — прошлое; дождь начался посреди действия.'},
- {s:'The teacher was angry because nobody ___ the homework.',b:'do',w:'T',v:'R',f:'had done',cw:['was angry'],cv:[],wv:'was angry — прошлое; домашку не сделали ещё раньше. Итог к тому моменту.'},
+ {s:'The teacher was angry because nobody ___ the homework.',b:'do',w:'T',v:'R',f:'had done',cw:['was angry'],cv:[],wv:'was angry — прошлое; homework не сделали ещё раньше. Итог к тому моменту.'},
  {s:'The museum ___ at ten every day.',b:'open',w:'N',v:'F',f:'opens',cw:[],cv:['every day'],wv:'every day — расписание, так бывает всегда.'},
  {s:"My sister ___ coffee every morning.",b:"drink",w:"N",v:"F",f:"drinks",cw:[],cv:["every morning"],wv:"every morning — привычка, так бывает всегда."},
  {s:"We usually ___ to school by bus.",b:"go",w:"N",v:"F",f:"go",cw:[],cv:["usually"],wv:"usually — обычно, так заведено."},

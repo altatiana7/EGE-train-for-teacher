@@ -52,7 +52,7 @@ window.efHwCardHTML=function(){
  var B=batches(),L=live(),R=recs(),now=new Date(),today=iso(now),hasCode=false;try{hasCode=!!localStorage.getItem('arina-teacher-code')}catch(e){}
  /* выдана ли домашка после последнего прошедшего урока */
  var last=onOrBefore(now),lk=iso(last),given=B.some(function(b){return b.lesson===lk});
- var warn=given?'':'<div class="hwWarn'+(lk===today&&now.getHours()<21?' soft':'')+'">После урока '+ruShort(last)+' домашка Арине '+(lk===today&&now.getHours()<21?'ещё не выдана':'НЕ ВЫДАНА')+'</div>';
+ var warn=given?'':'<div class="hwWarn'+(lk===today&&now.getHours()<21?' soft':'')+'">После урока '+ruShort(last)+' Homework Арине '+(lk===today&&now.getHours()<21?'ещё не выдан':'НЕ ВЫДАН')+'</div>';
  var block=function(b,k){
   var must=b.tasks.filter(function(t){return t.kind!=='open'}),st=b.tasks.map(function(t){return [t,status(t,L,R)]});
   var dn=must.filter(function(t){return L[t.id]}).length,over=b.due<today&&dn<must.length;
@@ -60,7 +60,7 @@ window.efHwCardHTML=function(){
   var head='К уроку '+ruShort(b.due)+' — сдано '+dn+' из '+must.length+(over?' · срок прошёл':'');
   return '<details class="hwB'+(dn===must.length?' all':over?' over':'')+'"'+(k===0?' open':'')+'><summary>'+head+'<small>задано '+ru(b.lesson)+'</small></summary><ul class="efHw">'+rows+'</ul></details>';
  };
- return '<div class="efCard"><h3><i style="--c:var(--ef-red)"></i>Домашка Арины</h3>'+warn+
+ return '<div class="efCard"><h3><i style="--c:var(--ef-red)"></i>Arina Homework</h3>'+warn+
   (hasCode?'':'<div class="hwNote">Чтобы видеть, что сдано: откройте «Результаты Арины» и введите код доступа один раз.</div>')+
   '<div class="hwBs">'+B.slice(0,6).map(block).join('')+'</div>'+
   '<button type="button" class="efGo" onclick="openArinaHomeworkResults()">Результаты Арины →</button></div>';

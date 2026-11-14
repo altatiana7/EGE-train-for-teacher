@@ -28,7 +28,7 @@ function mark(){
  const data=exam26List(exam26Mode,exam26Week),item=data[exam26Index]||data[0];
  const chips=v.querySelectorAll('button[onclick^="exam26Index="]');
  data.forEach((x,j)=>{if(inHw(x.s)&&chips[j]){chips[j].classList.add('exHwChip');chips[j].title+=' · ✓ в ДЗ Арине · '+DATE}});
- if(item&&inHw(item.s)){const h=v.querySelector('.exam26Set h3');if(h&&!h.querySelector('.exHwMark'))h.insertAdjacentHTML('beforeend','<span class="exHwMark" title="Отправлено Арине в домашку">✓ В ДЗ · '+DATE+'</span>')}
+ if(item&&inHw(item.s)){const h=v.querySelector('.exam26Set h3');if(h&&!h.querySelector('.exHwMark'))h.insertAdjacentHTML('beforeend','<span class="exHwMark" title="Отправлено Арине в Homework">✓ В ДЗ · '+DATE+'</span>')}
 }
 function wrap(){
  if(typeof renderExam26View!=='function'||renderExam26View.__hw0911)return;

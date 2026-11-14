@@ -92,7 +92,7 @@ const STEPS=[
  ['Времена · тренажёр','15 минут'],
  ['Чтение · Maslenitsa','12 минут'],
  ['Та же Масленица — другая картинка','8 минут'],
- ['Итог и домашка','5 минут']
+ ['Итог и Homework','5 минут']
 ];
 /* Текст берётся из блока «Россия» (fipi/data4.js, тема ru-holidays); ниже запасная копия. */
 const READ_COPY="Maslenitsa is one of the oldest and merriest holidays in Russia. It is celebrated at the end of winter and lasts a whole week. In ancient times people believed that the celebration helped to drive away the cold and to welcome the spring sun. The main dish of the week is blini, thin round pancakes which look like the sun. Families bake them every day and serve them with butter, sour cream, honey or jam. Each day of the week has its own name and customs. People visit their relatives, ride on sledges, sing folk songs and take part in outdoor games. In many towns there are fairs where visitors can buy handmade souvenirs and taste hot tea from a samovar. On the last day, which is called Forgiveness Sunday, people ask each other for forgiveness. In the evening a large straw figure of winter is burnt on a bonfire.";
