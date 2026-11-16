@@ -50,6 +50,18 @@ const st=document.createElement('style');st.textContent=`
 .l16SoC b{display:block;font-size:20px;color:#0039A6}.l16SoC small{display:block;font:13px/1.3 "Segoe UI",Arial,sans-serif;color:#64748b;margin-bottom:6px}
 .l16SoC .in span{display:block;margin:4px 0;padding:4px 8px;border-radius:8px;background:#effaf3;border:1px solid #86efac;font-size:18px}
 .l16So .res{text-align:center;font-size:18px;font-weight:700;color:#0039A6;margin-top:10px}
+.l16RdT{display:flex;gap:6px;align-items:center;max-width:1100px;margin:0 auto 10px}
+.l16RdT .b{width:44px;padding:8px 0!important}.l16RdT .b.done{background:#effaf3;border-color:#86efac;color:#15803d}.l16RdT .b.done.on{background:#15803d;color:#fff}
+.l16RdT .sc{margin-left:auto;font:800 16px/1 "Segoe UI",Arial,sans-serif;color:#0039A6}
+.l16RdG{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;max-width:1100px;margin:0 auto}
+.l16RdX{background:#fff;border:1px solid #dbe3ee;border-radius:12px;padding:12px 18px;font-size:19px;line-height:1.5}
+.l16RdX b{color:#0039A6;font-size:22px;margin-right:4px}
+.l16RdH{display:flex;flex-direction:column;gap:6px}
+.l16RdH button{display:flex;gap:10px;align-items:center;text-align:left;border:1px solid #cdd9ea;background:#fff;border-radius:10px;padding:7px 12px;font:18px/1.3 "PT Serif",Georgia,serif!important;color:#142337;cursor:pointer}
+.l16RdH button span{flex:none;width:26px;height:26px;border-radius:50%;background:#e8eef7;color:#0039A6;font:800 14px/26px "Segoe UI",Arial,sans-serif;text-align:center}
+.l16RdH button.used{background:#effaf3;border-color:#86efac;color:#15803d;cursor:default}
+.l16RdH button.bad{border-color:#D52B1E;background:#fef2f2}
+@media(max-width:900px){.l16RdG{grid-template-columns:1fr}}
 .l16Pred{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:900px;margin:0 auto}
 .l16Pred figure{margin:0;background:#fff;border:1px solid #dbe3ee;border-radius:12px;overflow:hidden}
 .l16Pred img,.l16Pred .ph{width:100%;aspect-ratio:16/10;object-fit:cover;display:grid;place-items:center;background:#eef2f8;color:#9fb0c7;font:800 40px/1 "Segoe UI",Arial,sans-serif}
@@ -244,6 +256,19 @@ const MIS=KM([
 ['They ___ in 2014 to allow for more creativity in the QR code look. <b>DEVELOP</b>','were developed',['was developed','had developed','developed'],'QR codes — их разработали, много → were developed.']
 ]);
 
+/* ---------- 7a · Reading · задание 10 (ФИПИ · Great apes): по одному тексту, заголовок — нажатием ---------- */
+const R10={"h": ["Almost extinct", "Figuratively speaking", "Belonging to one group", "Living above", "Highly social", "Similar to people", "No meat, please!", "Glimpses of history"], "t": ["Great apes are members of the family Hominidae, which includes humans, chimps, gorillas, and orangutans. There is one species of humans (Homo sapiens), two species of chimpanzees (common chimpanzee and pygmy chimpanzee, also known as the bonobo), two species of gorillas (western gorilla and eastern gorilla), and three species of orangutans (Bornean orangutan, Sumatran orangutan, and Tapanuli orangutan). However, throughout the last few million years, there have been dozens of other great apes, some of which were arguably as intelligent as modern humans.", "Great apes are large, tailless primates, distinguished from lesser apes (gibbons) by a larger size and generally less monkey-like anatomical features. Still, within this group there is considerable variation. These apes evolved from African lesser apes about 18 million years ago. Orangutans originated from the rest of the apes about 14 million years ago, and gorillas separated from them about 7 million years ago. Until recently, it was thought that chimps and humans separated between 3 and 5 million years ago, but more fossil finds suggest it happened earlier, between 6 and 7 million years ago.", "Great apes are all extremely intelligent. Each one is probably smarter than every other member of the animal kingdom. All the great apes can use tools. Their hands allow them to use rocks or sticks for various purposes, including as weapons. Gorillas have been observed testing water depth with sticks. Chimpanzees are known to drive insects out of their nests using sticks. The orangutan is intelligent enough to build leak-proof roofs over their nightly nests. Isn’t that amazing? They are just like us!", "Great apes play a very important role in their ecosystems. Their presence also supports biodiversity by influencing the distribution and behaviour of other species within their habitat. Unfortunately, most great ape species are considered endangered or even critically endangered due to habitat loss, poaching, and disease. According to the World Wildlife Fund, gorillas and orangutans are particularly at risk, with habitat destruction from logging, mining, and agriculture being the primary threats to their survival.", "The orangutan, the largest creature in the world living in the trees, has probably never lived anywhere else but in the trees. Wildly mobile shoulder, knee and hip joints create a climbing machine that spends approximately 90% of its life high above ground. They eat, sleep, breed and give birth sometimes hundreds of feet above the ground. The thick forests of Borneo and Sumatra provide the perfect environment for this ape. Orangutans look graceless on the ground, but even the largest male orangutans move elegantly in the trees.", "Gorillas eat different food, but their diet is mainly vegetarian. In the jungle, more than 85% of a gorilla’s diet is made up of leaves, shoots, stems and vines – and the rest is made up of roots, flowers and fruits. Insects, ants and termites make up less than 1% of a gorilla’s diet in the wild. The specific food of gorillas varies, depending on the presence (or absence) of certain plants in their immediate surrounding. Thus, gorillas are also almost exclusively vegetarian and devote their days to gathering fruit, leaves, roots and flowers.", "Great apes are no exception when it comes to social interaction. They have complex social relationships that include communication through vocalizations, and body language such as grooming and hugging. Their societies are hierarchical, meaning there are dominant members who have priority access to food and other resources, while subordinate members must work harder to attain them. A new study has revealed that great apes tease one another, including hair pulling, poking, staring in faces, and other playful behaviours."], "a": [3, 8, 6, 1, 4, 7, 5]};
+const RD={i:0,got:{},miss:0};
+function rdHTML(){const L='ABCDEFG',t=R10.t[RD.i],ok=RD.got[RD.i];
+ return '<div class="l16 l16Rd"><div class="l16RdT">'+L.split('').map((c,k)=>'<button type="button" class="b'+(k===RD.i?' on':'')+(RD.got[k]!=null?' done':'')+'" data-l16r="tab" data-v="'+k+'">'+c+'</button>').join('')+'<span class="sc">'+Object.keys(RD.got).length+' / 7 · mistakes: '+RD.miss+'</span></div>'+
+ '<div class="l16RdG"><div class="l16RdX"><b>'+L[RD.i]+'</b> '+esc(t)+'</div><div class="l16RdH">'+R10.h.map((h,k)=>{const used=Object.values(RD.got).indexOf(k+1)>-1;return '<button type="button" data-l16r="h" data-v="'+(k+1)+'"'+(used?' class="used"':'')+'><span>'+(k+1)+'</span>'+esc(h)+(used?' · '+L[+Object.keys(RD.got).find(x=>RD.got[x]===k+1)]:'')+'</button>'}).join('')+'</div></div></div>'}
+function rdInit(){const b=document.querySelector('#l3Panel .l16RdHost');if(!b)return;RD.i=0;RD.got={};RD.miss=0;b.innerHTML=rdHTML()}
+function rdAct(t){const a=t.dataset.l16r,v=+t.dataset.v,box=t.closest('.l16RdHost');
+ if(a==='tab'){RD.i=v;box.innerHTML=rdHTML();return}
+ if(RD.got[RD.i]!=null||t.classList.contains('used'))return;
+ if(R10.a[RD.i]===v){RD.got[RD.i]=v;const nx=[0,1,2,3,4,5,6].find(k=>RD.got[k]==null);if(nx!=null)RD.i=nx;box.innerHTML=rdHTML()}
+ else{RD.miss++;t.classList.add('bad');setTimeout(()=>t.classList.remove('bad'),450);const sc=box.querySelector('.sc');if(sc)sc.textContent=Object.keys(RD.got).length+' / 7 · mistakes: '+RD.miss}}
+
 /* ---------- 7 · карточки: её слова 25–29, где ошибалась в написании ---------- */
 const CARDS=[
 ['achievement','достижение · ACHIEVE','This was quite an achievement for a boy of this age.'],
@@ -265,7 +290,7 @@ function cdHTML(){const c=CARDS[CD.i],n=CARDS.length;
 function cdInit(){const b=document.querySelector('#l3Panel .l16Cards');if(!b)return;CD={i:0,f:false};b.innerHTML=cdHTML()}
 
 /* ---------- 8 · итоги ---------- */
-const DONE=['Speaking · Task 2 · Save the planet','Speaking · Task 3 · Environment','Essay 38 · review','EGE 19–24 · 2 texts','Passive · was / were · 12','EGE 25–29 · 2 texts','Spelling cards · 25–29'];
+const DONE=['Speaking · Task 2 · Save the planet','Speaking · Task 3 · Environment','Essay 38 · review','EGE 19–24 · 2 texts','Passive · was / were · 12','EGE 25–29 · 2 texts','Spelling cards · 25–29','Reading · Task 10'];
 const HW=['EGE 19–24 · new FIPI text','EGE 25–29 · new FIPI text','Task 1 · Reading aloud · 1 text','Essay 38 · correct after review'];
 const WRAP='<div class="l16 l16Wrap"><div class="col"><h3>Done today</h3>'+DONE.map(t=>'<div class="it" data-l16="tick" style="display:flex;gap:10px;align-items:center;cursor:pointer"><span class="bx"></span><span>'+t+'</span></div>').join('')+'</div><div class="col"><h3>Homework</h3>'+HW.map(t=>'<div class="hw">• '+t+'</div>').join('')+'</div></div>';
 
@@ -273,6 +298,7 @@ const WRAP='<div class="l16 l16Wrap"><div class="col"><h3>Done today</h3>'+DONE.
 document.addEventListener('click',e=>{
  const s=e.target.closest('.l16sp [data-l16s]');if(s){spAct(s);return}
  const o=e.target.closest('.l16Ord [data-l16o]');if(o){orAct(o);return}
+ const r=e.target.closest('.l16Rd [data-l16r]');if(r){rdAct(r);return}
  const w=e.target.closest('.l16So [data-l16w],.l16So [data-l16k]');if(w){soAct(e.target.closest('[data-l16w]')||w);return}
  const c=e.target.closest('.l16Cards [data-l16c]');
  if(c){const v=c.dataset.l16c;if(v==='f')CD.f=!CD.f;else{const n=CD.i+(+v);CD.i=n>=CARDS.length?0:Math.max(0,n);CD.f=false}
@@ -281,7 +307,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.l16==='tick'){t.classList.toggle('on');t.querySelector('.bx').textContent=t.classList.contains('on')?'✓':''}
 });
 function orInit(){const b=document.querySelector('#l3Panel .l16OrdHost');if(!b)return;clearInterval(OR.t);OR.t=null;OR.over=false;OR.left=15;b.innerHTML=orHTML();orPaint()}
-if(typeof window.showL3Panel==='function'){const b=window.showL3Panel;window.showL3Panel=function(i){spAll();clearInterval(OR.t);OR.t=null;b(i);cdInit();spInit();orInit();soInit()}}
+if(typeof window.showL3Panel==='function'){const b=window.showL3Panel;window.showL3Panel=function(i){spAll();clearInterval(OR.t);OR.t=null;b(i);cdInit();spInit();orInit();soInit();rdInit()}}
 
 /* ---------- шаги урока ---------- */
 window.l1611Steps=function(){
@@ -297,6 +323,7 @@ window.l1611Steps=function(){
   ['Passive · was / were · 12','32–40',KH(MIS)],
   ['EGE 25–29 · текст 1 · Galapagos','40–46',FP(W25.slice(0,5),{start:25,kind:'wf',title:'Word formation · EGE 25–29'})],
   ['EGE 25–29 · текст 2 · Arenal','46–52',FP(W25.slice(5),{start:25,kind:'wf',title:'Word formation · EGE 25–29'})],
+  ['Reading · задание 10 · Great apes','','<div class="l16RdHost"></div>'],
   ['Spelling cards · 25–29','52–56','<div class="l16Cards"></div>'],
   ['Done today · Homework','56–60',WRAP]];
 };
