@@ -41,6 +41,15 @@ const st=document.createElement('style');st.textContent=`
 .l16Rule table{border-collapse:collapse;width:100%;font-size:17px}.l16Rule td{border-bottom:1px solid #e5ebf3;padding:5px 6px;vertical-align:top}
 .l16Rule td:first-child{font-weight:700;color:#0039A6;white-space:nowrap}
 .l16Rule i{color:#334155}.l16Rule .bad{color:#D52B1E;text-decoration:line-through}.l16Rule .ok{color:#15803d;font-weight:700}
+.l16SoW{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:980px;margin:0 auto 12px}
+.l16SoW button{border:1px solid #b7c9e8;background:#fff;color:#142337;border-radius:10px;padding:8px 14px;font:700 19px/1.2 "PT Serif",Georgia,serif;cursor:pointer}
+.l16SoW button.on{background:#0039A6;color:#fff;border-color:#0039A6}
+.l16SoC{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:980px;margin:0 auto}
+.l16SoC>div{background:#f7f9fc;border:2px dashed #b7c9e8;border-radius:12px;padding:8px 10px;min-height:150px;cursor:pointer;text-align:center}
+.l16SoC>div.bad{border-color:#D52B1E;background:#fef2f2}
+.l16SoC b{display:block;font-size:20px;color:#0039A6}.l16SoC small{display:block;font:13px/1.3 "Segoe UI",Arial,sans-serif;color:#64748b;margin-bottom:6px}
+.l16SoC .in span{display:block;margin:4px 0;padding:4px 8px;border-radius:8px;background:#effaf3;border:1px solid #86efac;font-size:18px}
+.l16So .res{text-align:center;font-size:18px;font-weight:700;color:#0039A6;margin-top:10px}
 .l16Pred{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:900px;margin:0 auto}
 .l16Pred figure{margin:0;background:#fff;border:1px solid #dbe3ee;border-radius:12px;overflow:hidden}
 .l16Pred img,.l16Pred .ph{width:100%;aspect-ratio:16/10;object-fit:cover;display:grid;place-items:center;background:#eef2f8;color:#9fb0c7;font:800 40px/1 "Segoe UI",Arial,sans-serif}
@@ -175,11 +184,20 @@ const RULE='<div class="l16 l16Rule">'+
 '<li>В ответе ЕГЭ пиши обе части: <span class="ok">was demonstrated</span>, не <span class="bad">demonstrated</span>.</li>'+
 '<li>found – founded – founded = основать · find – found – found = найти.</li></ul></section></div>';
 
-/* ---------- 4 · Prediction: 6 фото к текстам ФИПИ (фото — today/img/l1611-*.jpg; нет файла — остаётся номер) ---------- */
-const PRED=[['yakutia','Yakutia'],['print-brush','The print brush'],['gzhel','Gzhel artists'],['weinsberg','A clever solution'],['galapagos','The Galapagos Islands'],['arenal','Arenal Volcano']];
-const PRED_HTML='<div class="l16"><p class="l16Q">Look at the photos. What are the six texts about?</p><div class="l16Pred">'+
- PRED.map((p,k)=>'<figure><img src="'+url('today/img/l1611-'+p[0]+'.jpg')+'" alt="" onerror="this.outerHTML=\'<div class=ph>'+(k+1)+'</div>\'"><figcaption><span>'+p[1]+'</span></figcaption></figure>').join('')+
- '</div><div class="l16Row"><button type="button" class="b prim" data-l16="pred">Titles</button></div></div>';
+/* ---------- 4 · Word families: кто? что? какой? как? (слова из пройденных текстов ФИПИ 25–29) ---------- */
+const SORT_COLS=[['p','Кто?','-er · -or · -ist'],['n','Что?','-tion · -ment · -ence'],['a','Какой?','-al · -ive · -less · -able'],['d','Как?','-ly']];
+const SORT_W=[['traveller','p'],['achievement','n'],['traditional','a'],['extremely','d'],['visitors','p'],['collection','n'],['effective','a'],['certainly','d'],['scientists','p'],['residence','n'],['priceless','a'],['recently','d'],['population','n'],['memorable','a'],['alternatively','d'],['inventor','p']];
+const SO={sel:null,done:0,miss:0};
+function soHTML(){return '<div class="l16 l16So"><p class="l16Q">Who? What? What kind? How? Sort the words.</p><div class="l16SoW">'+
+ SORT_W.map((w,k)=>'<button type="button" data-l16w="'+k+'">'+w[0]+'</button>').join('')+'</div><div class="l16SoC">'+
+ SORT_COLS.map(c=>'<div data-l16k="'+c[0]+'"><b>'+c[1]+'</b><small>'+c[2]+'</small><div class="in"></div></div>').join('')+'</div><div class="res"></div></div>'}
+function soInit(){const b=document.querySelector('#l3Panel .l16SoHost');if(!b)return;Object.assign(SO,{sel:null,done:0,miss:0});b.innerHTML=soHTML()}
+function soAct(t){const box=t.closest('.l16So');
+ if(t.dataset.l16w!=null){box.querySelectorAll('.l16SoW button').forEach(x=>x.classList.remove('on'));SO.sel=+t.dataset.l16w;t.classList.add('on');return}
+ const col=t.closest('[data-l16k]');if(!col||SO.sel==null)return;const w=SORT_W[SO.sel],btn=box.querySelector('[data-l16w="'+SO.sel+'"]');
+ if(w[1]===col.dataset.l16k){const s=document.createElement('span');s.textContent=w[0];col.querySelector('.in').appendChild(s);btn.remove();SO.sel=null;SO.done++;
+  if(SO.done===SORT_W.length)box.querySelector('.res').textContent='16 / 16 · mistakes: '+SO.miss}
+ else{SO.miss++;col.classList.add('bad');setTimeout(()=>col.classList.remove('bad'),450)}}
 
 /* ---------- 5 · ФИПИ 19–24 и 25–29 (сплошным текстом, ответ — нажатием на пропуск) ---------- */
 const G19=[
@@ -255,15 +273,15 @@ const WRAP='<div class="l16 l16Wrap"><div class="col"><h3>Done today</h3>'+DONE.
 document.addEventListener('click',e=>{
  const s=e.target.closest('.l16sp [data-l16s]');if(s){spAct(s);return}
  const o=e.target.closest('.l16Ord [data-l16o]');if(o){orAct(o);return}
+ const w=e.target.closest('.l16So [data-l16w],.l16So [data-l16k]');if(w){soAct(e.target.closest('[data-l16w]')||w);return}
  const c=e.target.closest('.l16Cards [data-l16c]');
  if(c){const v=c.dataset.l16c;if(v==='f')CD.f=!CD.f;else{const n=CD.i+(+v);CD.i=n>=CARDS.length?0:Math.max(0,n);CD.f=false}
   const b=c.closest('.l16Cards');if(b)b.innerHTML=cdHTML();return}
  const t=e.target.closest('.l16 [data-l16]');if(!t)return;
- if(t.dataset.l16==='pred'){const g=t.closest('.l16').querySelector('.l16Pred');g.classList.toggle('show');t.textContent=g.classList.contains('show')?'Hide titles':'Titles'}
- else if(t.dataset.l16==='tick'){t.classList.toggle('on');t.querySelector('.bx').textContent=t.classList.contains('on')?'✓':''}
+ if(t.dataset.l16==='tick'){t.classList.toggle('on');t.querySelector('.bx').textContent=t.classList.contains('on')?'✓':''}
 });
 function orInit(){const b=document.querySelector('#l3Panel .l16OrdHost');if(!b)return;clearInterval(OR.t);OR.t=null;OR.over=false;OR.left=15;b.innerHTML=orHTML();orPaint()}
-if(typeof window.showL3Panel==='function'){const b=window.showL3Panel;window.showL3Panel=function(i){spAll();clearInterval(OR.t);OR.t=null;b(i);cdInit();spInit();orInit()}}
+if(typeof window.showL3Panel==='function'){const b=window.showL3Panel;window.showL3Panel=function(i){spAll();clearInterval(OR.t);OR.t=null;b(i);cdInit();spInit();orInit();soInit()}}
 
 /* ---------- шаги урока ---------- */
 window.l1611Steps=function(){
@@ -273,7 +291,7 @@ window.l1611Steps=function(){
   ['Warm-up · Speaking · Task 2 и 3','0–10','<div class="l16 l16sp"></div>'],
   ['Homework · Essay 38 · review','10–15','<div class="l16OrdHost"></div>'],
   ['Passive · was / were · правило','15–18',RULE],
-  ['Prediction · 6 texts','18–20',PRED_HTML],
+  ['Word families · кто? что? какой? как?','18–20','<div class="l16SoHost"></div>'],
   ['EGE 19–24 · текст 1 · Yakutia','20–26',FP(G19.slice(0,6),{start:19,kind:'gr',title:'Grammar · EGE 19–24'})],
   ['EGE 19–24 · текст 2 · Gzhel','26–32',FP(G19.slice(6),{start:19,kind:'gr',title:'Grammar · EGE 19–24'})],
   ['Passive · was / were · 12','32–40',KH(MIS)],
