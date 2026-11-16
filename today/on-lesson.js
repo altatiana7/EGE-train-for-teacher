@@ -22,7 +22,7 @@ function sub(b){var s=b.querySelector('small');return (s?s.textContent:b.textCon
 window.efOnLessonHTML=function(){
  var now=new Date(),today=iso(now),target=isLesson(now)?d0(now):nextAfter(now),tk=iso(target),isToday=tk===today;
  var btns=lessonButtons(),cur=btns.filter(function(b){return b.dataset.lessondate===tk});
- var past=btns.filter(function(b){return b.dataset.lessondate!==tk});
+ var past=btns.filter(function(b){var d=b.dataset.lessondate;return d!==tk&&!(d&&d>tk)});
  var chip=function(b){var d=b.dataset.lessondate,head=d?ruShort(d):b.childNodes[0].textContent.trim();
   return '<button type="button" class="efChip" onclick="'+esc(b.getAttribute('onclick'))+'"><b>'+esc(head)+'</b>'+esc(sub(b))+'</button>'};
  var body;

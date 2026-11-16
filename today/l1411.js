@@ -272,4 +272,15 @@ window.l1411Steps=function(){
   ['Done today · Homework','57–60',WRAP],
   ['Cards · Future & Passive','','<div class="l14Cards"></div>']];
 };
+
+/* 18.11.2026 (среда, неделя 4 · урок 8): то, что не успели 14.11 и не выдано в Homework, — на урок.
+   19–24: Iceland / Louvre, Altai / Mayflower · 25–29: Tasmania, Boston Public Library · письмо 37 James. */
+window.l1811Steps=function(){
+ const FP=(d,o)=>window.KQ?KQ.fipi(d,o):'';
+ return [
+  ['Prediction · 4 texts','0–3',PRED_HTML],
+  ['EGE 19–24 · Iceland / Louvre · Altai / Mayflower','3–15',FP(G19,{start:19,kind:'gr',title:'Grammar · EGE 19–24'})],
+  ['EGE 25–29 · Tasmania · Boston Public Library','15–25',FP(W25,{start:25,kind:'wf',title:'Word formation · EGE 25–29'})],
+  ['Letter 37 · James','25–35',LET_HTML]];
+};
 })();

@@ -291,7 +291,7 @@ function cdInit(){const b=document.querySelector('#l3Panel .l16Cards');if(!b)ret
 
 /* ---------- 8 · итоги ---------- */
 const DONE=['Speaking · Task 2 · Save the planet','Speaking · Task 3 · Environment','Essay 38 · review','EGE 19–24 · 2 texts','Passive · was / were · 12','EGE 25–29 · 2 texts','Spelling cards · 25–29','Reading · Task 10'];
-const HW=['EGE 19–24 · new FIPI text','EGE 25–29 · new FIPI text','Task 1 · Reading aloud · 1 text','Essay 38 · correct after review'];
+const HW=['Word families · 16','Reading · Task 10 · Great apes','Spelling cards · 25–29','Mistakes · Future · 14','Cards · Future & Passive'];
 const WRAP='<div class="l16 l16Wrap"><div class="col"><h3>Done today</h3>'+DONE.map(t=>'<div class="it" data-l16="tick" style="display:flex;gap:10px;align-items:center;cursor:pointer"><span class="bx"></span><span>'+t+'</span></div>').join('')+'</div><div class="col"><h3>Homework</h3>'+HW.map(t=>'<div class="hw">• '+t+'</div>').join('')+'</div></div>';
 
 /* ---------- события ---------- */
