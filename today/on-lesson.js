@@ -60,16 +60,17 @@ window.efHwCardHTML=function(){
   var head='К уроку '+ruShort(b.due)+' — сдано '+dn+' из '+must.length+(over?' · срок прошёл':'');
   return '<details class="hwB'+(dn===must.length?' all':over?' over':'')+'"'+(k===0?' open':'')+'><summary>'+head+'<small>задано '+ru(b.lesson)+'</small></summary><ul class="efHw">'+rows+'</ul></details>';
  };
- return '<div class="efCard"><h3><i style="--c:var(--ef-red)"></i>Arina Homework</h3>'+warn+
+ return '<div class="efCard efHwCard"><h3><i style="--c:var(--ef-red)"></i>Arina Homework</h3>'+warn+
   (hasCode?'':'<div class="hwNote">Чтобы видеть, что сдано: откройте «Результаты Арины» и введите код доступа один раз.</div>')+
-  '<div class="hwBs">'+B.slice(0,6).map(block).join('')+'</div>'+
+  '<div class="hwBs">'+B.slice(0,3).map(block).join('')+
+  (B.length>3?'<details class="olMore hwMore"><summary>Ещё Homework · '+(B.length-3)+'</summary><div class="hwBs">'+B.slice(3,10).map(function(b,k){return block(b,k+3)}).join('')+'</div></details>':'')+'</div>'+
   '<button type="button" class="efGo" onclick="openArinaHomeworkResults()">Результаты Арины →</button></div>';
 };
 
 var st=document.createElement('style');
 st.textContent='.olNone{border-left:4px solid #d9443b;background:#fdeceb;border-radius:9px;padding:9px 11px;font-size:14px;font-weight:600;color:#8c2019}.efChip.olGo{font-size:15px;padding:11px 12px;cursor:pointer}.efChip.olGo b{font-size:14px;color:#1d4fb8}.olPast{font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#7a8098;margin-top:4px}.olMore summary{cursor:pointer;font-size:13px;font-weight:600;color:#4a5170;padding:4px 2px}.olMore .efChips{margin-top:6px}'+
  '.hwWarn{border-left:4px solid #d9443b;background:#fdeceb;border-radius:9px;padding:8px 11px;font-size:14px;font-weight:700;color:#8c2019}.hwWarn.soft{border-left-color:#e9a83a;background:#fdf3dc;color:#7a4d06}.hwNote{font-size:13px;color:#7a4d06;background:#fdf3dc;border-radius:9px;padding:7px 10px}'+
- '.hwBs{display:grid;gap:6px;max-height:330px;overflow:auto}.hwB{border:1px solid #e3e6f0;border-left:4px solid #e9a83a;border-radius:9px;padding:0 10px;background:#fff}.hwB.all{border-left-color:#2e9e5b}.hwB.over{border-left-color:#d9443b}.hwB summary{cursor:pointer;padding:8px 0;font-size:14px;font-weight:700;color:#1e2238}.hwB summary small{display:block;font-size:12px;font-weight:500;color:#7a8098}.hwB .efHw{max-height:none;padding-bottom:6px}.hwB .efHw li.ok em{color:#1e6b4a}.hwB .efHw li.wait em{color:#b45309}';
+ '.hwBs{display:grid;gap:6px}body .efCards3{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);grid-auto-flow:row dense;align-items:start}body .efCards3 .efHwCard{grid-column:2;grid-row:1 / span 2;align-self:stretch}@media(max-width:800px){body .efCards3{grid-template-columns:1fr}body .efCards3 .efHwCard{grid-column:auto;grid-row:auto}}.efHwCard .efGo{margin-top:auto}.hwMore{margin-top:2px}.hwMore>.hwBs{margin-top:6px}.hwB{border:1px solid #e3e6f0;border-left:4px solid #e9a83a;border-radius:9px;padding:0 10px;background:#fff}.hwB.all{border-left-color:#2e9e5b}.hwB.over{border-left-color:#d9443b}.hwB summary{cursor:pointer;padding:8px 0;font-size:14px;font-weight:700;color:#1e2238}.hwB summary small{display:block;font-size:12px;font-weight:500;color:#7a8098}.hwB .efHw{max-height:none;overflow:visible;padding-bottom:6px}.hwB .efHw li{padding:5px 0;font-size:14px;line-height:1.3;gap:10px}.hwB .efHw li em{flex:none;align-self:center;font-size:12.5px;font-style:normal;font-weight:700;padding:2px 8px;border-radius:999px;background:#fdf3dc;white-space:nowrap}.hwB .efHw li.ok em{background:#e3f4ea}.hwB:not([open]) summary{padding:7px 0}.hwB .efHw li.ok em{color:#1e6b4a}.hwB .efHw li.wait em{color:#b45309}';
 document.head.appendChild(st);
 
 try{if(document.body.classList.contains('efHomeOn')&&typeof efHome==='function')efHome()}catch(e){}
