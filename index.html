@@ -422,7 +422,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <script defer src="today/w5-email-questions.js?v=20261107a"></script>
 <script defer src="today/w5-l1-pack.js?v=20261108a"></script>
 <script defer src="today/l0911.js?v=20261109a"></script><script defer src="today/on-lesson.js?v=20261116a"></script><script defer src="today/l1411.js?v=20261116a"></script><script defer src="today/l1611.js?v=20261116d"></script>
-<script defer src="today/exam-hw-0911.js?v=20261114"></script>
+<script defer src="today/exam-hw-0911.js?v=20261114"></script> <script defer src="today/exam-voc-w4.js?v=20261116a"></script>
 <script defer src="tense/tense-logic.js?v=20261114"></script>
 <link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005x"></script><style>
 /* Единая типографика уроков недель 2–32: 16px текст, 20px заголовок шага, 13px подписи */
@@ -1720,8 +1720,8 @@ function lessonTabs(x,i,w){
   if(i===2){if(g[1])steps.push(['Грамматика 19–24','',exam26InlineHTML('grammar',w,1)]);if(f.length>1)steps.push(['Словообразование 25–29','',exam26InlineHTML('wf',w,w===1?2:1)]);}
  }
  if(0)after.push(['Домашняя работа','','<div class="task">'+x[2].split('; ').map((s,n)=>'<b>'+(n+1)+'.</b> '+s).join('<br>')+'</div>'+materialBox(key+'-hw')+'<label class="check"><input type="checkbox" data-save="'+key+'"> Домашняя работа выполнена</label>']);
- /* 16.11.2026: в уроках недели 4 начиная с 16.11 кнопки «EXAM · неделя 4» нет — она открывала старый урок 14.11 */
- if(!(w===3&&i>=6))after.push(['EXAM · неделя '+(w+1),'',exam26Card(w,i)]);
+ /* 16.11.2026: в неделе 4 кнопка EXAM открывает лексику 30–36 (today/exam-voc-w4.js) во всех уроках */
+ after.push([w===3?'EXAM · Лексика 30–36':'EXAM · неделя '+(w+1),'',exam26Card(w,i)]);
  return {steps:steps,after:after};
 }
 function lessonFullHTML(x,i,w){
@@ -4216,7 +4216,7 @@ body.efHomeOn .efHome{display:block}
  window.efToday=function(){const b=sideBtn(/^\s*(СЕГОДНЯ|ПОСЛЕДНИЙ УРОК)/i);if(b)b.click();else efLessons()};
  function efPaint(){if(document.body.classList.contains('efHomeOn'))home.innerHTML=homeHTML();let w=0;try{const i=currentWeek;for(let k=0;k<=i;k++)w+=cnt(k).hw}catch(e){}const e=document.getElementById('efWait');if(e){e.textContent=w;e.style.display=w?'':'none'}const b=document.getElementById('efBell');if(b)b.classList.toggle('has',w>0)}
  window.efHome=function(){document.body.classList.add('efHomeOn');home.innerHTML=homeHTML();setOn('home');document.querySelectorAll('.efGroup').forEach(g=>g.classList.remove('open'));if(innerWidth<801)side.classList.remove('open');scrollTo(0,0)};
- ['renderWeek','renderExam','renderTrainer','showTeacherDashboard','openArinaHomeworkResults'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;const wr=function(){document.body.classList.remove('efHomeOn');if(n==='renderWeek')setOn('lessons');return f.apply(this,arguments)};window[n]=wr;try{eval(n+'=wr')}catch(e){}});
+ ['renderWeek','renderExam','renderTrainer','showTeacherDashboard','openArinaHomeworkResults','renderExam26View'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;const wr=function(){document.body.classList.remove('efHomeOn');if(n==='renderWeek')setOn('lessons');return f.apply(this,arguments)};window[n]=wr;try{eval(n+'=wr')}catch(e){}});
  if(typeof arinaMarksRefresh==='function'){const m=arinaMarksRefresh;window.arinaMarksRefresh=function(){m.apply(this,arguments);try{efPaint()}catch(e){}};try{arinaMarksRefresh=window.arinaMarksRefresh}catch(e){}}
  efHome();efPaint();
 })();
