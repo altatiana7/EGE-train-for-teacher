@@ -60,10 +60,10 @@ window.efHwCardHTML=function(){
   var head='К уроку '+ruShort(b.due)+' — сдано '+dn+' из '+must.length+(over?' · срок прошёл':'');
   return '<details class="hwB'+(dn===must.length?' all':over?' over':'')+'"'+(k===0?' open':'')+'><summary>'+head+'<small>задано '+ru(b.lesson)+'</small></summary><ul class="efHw">'+rows+'</ul></details>';
  };
- return '<div class="efCard efHwCard"><h3><i style="--c:var(--ef-red)"></i>Arina Homework</h3>'+warn+
+ return '<div class="efCard efHwCard"><h3><i style="--c:var(--ef-red)"></i>Arina Homework<button type="button" class="efGoTop" onclick="openArinaHomeworkResults()">Результаты →</button></h3>'+warn+
   (hasCode?'':'<div class="hwNote">Чтобы видеть, что сдано: откройте «Результаты Арины» и введите код доступа один раз.</div>')+
-  '<div class="hwBs">'+B.slice(0,3).map(block).join('')+
-  (B.length>3?'<details class="olMore hwMore"><summary>Ещё Homework · '+(B.length-3)+'</summary><div class="hwBs">'+B.slice(3,10).map(function(b,k){return block(b,k+3)}).join('')+'</div></details>':'')+'</div>'+
+  '<div class="hwBs">'+B.slice(0,1).map(block).join('')+
+  (B.length>1?'<details class="olMore hwMore"><summary>Прошлые Homework · '+Math.min(B.length-1,9)+'</summary><div class="hwBs">'+B.slice(1,10).map(function(b,k){return block(b,k+1)}).join('')+'</div></details>':'')+'</div>'+
   '<button type="button" class="efGo" onclick="openArinaHomeworkResults()">Результаты Арины →</button></div>';
 };
 
