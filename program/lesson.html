@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson · Arina EGE - Teacher</title>
+<link rel="stylesheet" href="engine.css?v=20261118a">
+</head>
+<body>
+<script src="engine.js?v=20261118a"></script>
+<script src="data/program.js?v=20261118a"></script>
+<script>
+(function(){
+ var id=new URLSearchParams(location.search).get('id')||'';
+ var block=(window.PROGRAM.blocks.find(function(b){return b.lessons&&b.lessons.some(function(l){return l.id===id})})||{});
+ var s=document.createElement('script');
+ s.src='lessons/'+(block.file||'edu')+'.js?v=20261118a';
+ s.onload=function(){var L=window.LESSONS[id];if(!L){document.body.innerHTML='<p style="padding:30px">Урок не найден.</p>';return}L.backHref='index.html#'+(block.id||'');renderLesson(L)};
+ document.body.appendChild(s);
+})();
+</script>
+</body>
+</html>

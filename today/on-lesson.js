@@ -26,8 +26,12 @@ window.efOnLessonHTML=function(){
  var chip=function(b){var d=b.dataset.lessondate,head=d?ruShort(d):b.childNodes[0].textContent.trim();
   return '<button type="button" class="efChip" onclick="'+esc(b.getAttribute('onclick'))+'"><b>'+esc(head)+'</b>'+esc(sub(b))+'</button>'};
  var body;
+ var prog=[];try{(window.PROGRAM&&PROGRAM.blocks||[]).forEach(function(bl){bl.lessons.forEach(function(l){if(l.date===tk)prog.push({b:bl,l:l})})})}catch(e){}
+ var progHTML=prog.map(function(o){var href=o.l.id?'program/lesson.html?id='+o.l.id+'&v=20261118a':'program/index.html?v=20261118a#'+o.b.id;
+  return '<button type="button" class="efChip now olGo" onclick="location.href=\''+href+'\'"><b>Программа · '+esc(o.b.title)+' · '+esc(o.l.label)+(o.l.id?' · открыть':' · план')+'</b>'+esc(o.l.plan)+'</button>'}).join('');
  if(cur.length)body=cur.map(function(b){return '<button type="button" class="efChip now olGo" onclick="'+esc(b.getAttribute('onclick'))+'"><b>Материал готов · открыть</b>'+esc(sub(b))+'</button>'}).join('');
- else body='<div class="olNone">Материал к этому уроку ещё не подготовлен.</div>';
+ else body=progHTML?'':'<div class="olNone">Материал к этому уроку ещё не подготовлен.</div>';
+ body=progHTML+body;
  var first=past.slice(0,2),rest=past.slice(2);
  return '<div class="efCard"><h3><i style="--c:var(--ef-blue)"></i>На уроке · '+ru(target)+'</h3>'+
   '<p><b>'+(isToday?'Сегодня, ':'Следующий урок — ')+ruDay(target)+'</b></p><div class="efChips">'+body+'</div>'+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Program · Arina EGE - Teacher</title>
+<link rel="stylesheet" href="engine.css?v=20261118a">
+<style>
+ body{font-size:17px}
+ .wrap{display:grid;grid-template-columns:300px 1fr;gap:14px;padding:12px 16px 16px;max-width:1380px;margin:0 auto}
+ .tl{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:4px;max-height:calc(100vh - 76px);overflow:auto}
+ .tl button{display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:center;text-align:left;border:0;background:transparent;border-radius:9px;padding:6px 8px}
+ .tl button:hover{background:#f2f5fa}
+ .tl button.on{background:#e7eefb}
+ .tl .no{font:700 13px/1 "Segoe UI",Arial,sans-serif;width:28px;height:28px;border-radius:7px;display:grid;place-items:center;background:#e8edf5;color:var(--blue)}
+ .tl button.check .no{background:#fbe6e3;color:var(--red)}
+ .tl button.now .no{background:var(--blue);color:#fff}
+ .tl button.past{opacity:.6}
+ .tl b{display:block;font-size:15.5px;line-height:1.2}
+ .tl small{color:var(--muted);font-size:13px}
+ .rt{display:flex;flex-direction:column;gap:12px;min-width:0}
+ .next{display:flex;align-items:center;gap:14px;background:var(--blue);color:#fff;border-radius:12px;padding:12px 16px}
+ .next small{display:block;opacity:.8;font:600 12px/1.2 "Segoe UI",Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+ .next b{font-size:20px}
+ .next .sp{flex:1}
+ .next a,.next button{background:#fff;color:var(--blue);border:0;border-radius:9px;padding:9px 14px;font:700 15px/1 "Segoe UI",Arial,sans-serif;text-decoration:none}
+ .bk{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+ .bkH{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+ .bkH h1{font-size:24px}
+ .bkH span{color:var(--muted)}
+ .bkH .sp{flex:1}
+ .info{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 12px}
+ .info div{background:#f5f7fb;border-radius:9px;padding:7px 10px;font-size:14.5px}
+ .info i{display:block;font:700 11px/1.2 "Segoe UI",Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-style:normal;margin-bottom:2px}
+ .ls{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+ .lc{position:relative;border:1px solid var(--line);border-left:6px solid #c9d3e3;border-radius:11px;padding:9px 12px;background:#fff;text-align:left;display:flex;flex-direction:column;gap:3px;min-height:112px}
+ .lc .d{font:700 13px/1.2 "Segoe UI",Arial,sans-serif;color:var(--blue);letter-spacing:.03em}
+ .lc b{font-size:18px}
+ .lc p{font-size:14.5px;color:var(--muted);line-height:1.35}
+ .lc.ready{border-left-color:var(--blue);cursor:pointer}
+ .lc.ready:hover{box-shadow:0 6px 16px rgba(20,35,55,.08)}
+ .lc .st{position:absolute;right:10px;top:9px;font:700 11px/1 "Segoe UI",Arial,sans-serif;border-radius:5px;padding:4px 7px;background:#eef1f6;color:var(--muted)}
+ .lc.ready .st{background:#e2ecfb;color:var(--blue)}
+ .lc.today{outline:3px solid var(--red);outline-offset:-1px}
+ .lc.today .st{background:var(--red);color:#fff}
+ .lc.past{opacity:.6}
+ .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+ .ruleBox{display:none;margin-top:12px;background:#f5f7fb;border-radius:10px;padding:10px 14px;font-size:15px}
+ .ruleBox.on{display:block}
+ .ruleBox ul{margin:4px 0 8px 18px}
+ .ruleBox table{border-collapse:collapse;font-size:14.5px}
+ .ruleBox td{padding:3px 10px 3px 0;border-bottom:1px solid #e3e8f0}
+ @media (max-height:640px){.tl{max-height:calc(100vh - 70px)}.info{margin:8px 0}.lc{min-height:96px}}
+</style>
+</head>
+<body>
+<header class="pTop"><span class="pTag">Teacher</span><div class="pTitle">Arina EGE · Program <span>· подготовка к ЕГЭ 2027 · цель 78</span></div><span class="sp"></span>
+ <button class="pBtn" id="rules">Правила и баллы</button>
+ <a class="pBtn" href="https://claude.ai/artifact/BKWYtAxXpkVcRpMeB6EdDa" target="_blank" rel="noopener">Печатная версия</a>
+ <a class="pBtn" href="../index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 7.5 8 2l6 5.5M3.5 6.5V14h9V6.5"/></svg> Dashboard</a></header>
+<div class="wrap"><nav class="tl" id="tl"></nav><section class="rt"><div class="next" id="next"></div><div class="bk" id="bk"></div></section></div>
+<script src="data/program.js?v=20261118a"></script>
+<script>
+(function(){
+'use strict';
+const P=window.PROGRAM,$=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const d0=s=>{const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])};
+const now=new Date();now.setHours(0,0,0,0);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today=iso(now);
+const ru=s=>d0(s).toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'long'});
+const all=[];P.blocks.forEach(b=>b.lessons.forEach(l=>all.push(Object.assign({block:b},l))));
+const nextL=all.find(l=>l.date>=today)||all[all.length-1];
+const curBlock=P.blocks.find(b=>today>=b.start&&today<=b.end)||nextL.block;
+let sel=(location.hash.slice(1)&&P.blocks.find(b=>b.id===location.hash.slice(1)))||curBlock;
+
+function tl(){
+ $('#tl').innerHTML=P.blocks.map(b=>{const st=b.end<today?'past':(b===curBlock?'now':'');
+  return `<button class="${b.kind==='check'?'check ':''}${st}${b===sel?' on':''}" data-id="${b.id}"><span class="no">${b.n||'—'}</span><span><b>${esc(b.title)}</b><small>${esc(b.dates)}${b.letters?' · '+esc(b.letters):''}</small></span></button>`}).join('');
+ document.querySelectorAll('#tl button').forEach(x=>x.onclick=()=>{sel=P.blocks.find(b=>b.id===x.dataset.id);history.replaceState(null,'','#'+sel.id);tl();block()});
+}
+function next(){
+ const l=nextL,isT=l.date===today;
+ $('#next').innerHTML=`<div><small>${isT?'Сегодня':'Ближайший урок'} · ${esc(ru(l.date))}</small><b>${esc(l.block.title)} · ${esc(l.label)}</b></div><span class="sp"></span>${l.id?`<a href="lesson.html?id=${l.id}&v=20261118a">Открыть урок</a>`:`<button id="nb">План</button>`}`;
+ const nb=document.getElementById('nb');if(nb)nb.onclick=()=>{sel=l.block;tl();block()};
+}
+function block(){
+ const b=sel;
+ const info=b.kind==='check'?[['Материал',b.src]]:[['Папка Крыловой',b.folder],['Грамматика · суббота',b.grammar],['Навык блока',b.skill],['EXPERT · тема',b.expert],['Громова 2026',b.gromova],['ЕГЭ PPT',b.ppt]];
+ $('#bk').innerHTML=`<div class="bkH"><h1>${b.n?b.n+'. ':''}${esc(b.full||b.title)}</h1><span>${esc(b.dates)}${b.letters?' · темы ФИПИ '+esc(b.letters):''}${b.write?' · письмо '+esc(b.write):''}</span><span class="sp"></span></div>
+ <div class="info">${info.map(x=>`<div><i>${esc(x[0])}</i>${esc(x[1])}</div>`).join('')}</div>
+ <div class="ls">${b.lessons.map(l=>{const st=l.date===today?' today':(l.date<today?' past':'');return `<div class="lc${l.id?' ready':''}${st}" ${l.id?`data-id="${l.id}"`:''}><span class="st">${l.date===today?'сегодня':(l.id?'урок готов':'план')}</span><span class="d">${esc(ru(l.date))}</span><b>${esc(l.label)}</b><p>${esc(l.plan)}</p></div>`}).join('')}</div>
+ <div class="tools">${b.cheatsheet?`<a class="pBtn" href="${esc(b.cheatsheet)}">Cheatsheet блока</a>`:''}</div>
+ <div class="ruleBox" id="rb"><b>Правила программы</b><ul>${P.rules.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><b>Где баллы</b><table>${P.points.map(r=>`<tr><td>${esc(r[0])}</td><td><b>${esc(r[1])}</b></td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>`;
+ document.querySelectorAll('.lc.ready').forEach(c=>c.onclick=()=>{location.href='lesson.html?id='+c.dataset.id+'&v=20261118a'});
+}
+$('#rules').onclick=()=>{const r=document.getElementById('rb');if(r)r.classList.toggle('on')};
+tl();next();block();scrollTo(0,0);
+})();
+</script>
+</body>
+</html>

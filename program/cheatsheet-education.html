@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Education · Cheatsheet · Arina EGE - Teacher</title>
+<style>
+  :root{
+    --ink:#22303f; --muted:#6b7686; --bg:#f3efe6; --card:#fffdf8; --line:#e2e0da;
+    --c1:#2f7fb5; --c1s:#e2eff8;   /* collocations */
+    --c2:#8a4fb0; --c2s:#f0e6f6;   /* word families */
+    --c3:#d0763a; --c3s:#fbeadf;   /* grammar */
+    --c4:#3b9a62; --c4s:#e2f3e8;   /* essay */
+    --c5:#c9455f; --c5s:#f9e3e8;   /* speaking */
+    --noun:#2f7fb5; --adj:#3b9a62; --adv:#d0763a; --verb:#6b7686; --neg:#c9455f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;font-size:17px;line-height:1.35;overflow:hidden}
+  button{font:inherit;color:inherit;cursor:pointer}
+  .top{height:52px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--card)}
+  .tag{font:600 12px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:#fff;padding:5px 9px;border-radius:4px}
+  .top h1{font-size:21px;font-weight:600}
+  .top h1 span{color:var(--muted);font-weight:400;font-size:16px}
+  .home{margin-left:auto;display:none;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 12px;font-size:15px}
+  body.inview .home{display:flex}
+  .mini{display:none;gap:6px}
+  body.inview .mini{display:flex}
+  .mini button{width:34px;height:34px;border-radius:7px;border:2px solid transparent;background:var(--s);display:grid;place-items:center}
+  .mini button svg{width:22px;height:22px}
+  .mini button.on{border-color:var(--k)}
+  main{height:calc(100vh - 52px);padding:14px 18px;overflow:auto}
+  .view{display:none;height:100%}
+  .view.on{display:flex;flex-direction:column}
+  .k1{--k:var(--c1);--s:var(--c1s)} .k2{--k:var(--c2);--s:var(--c2s)} .k3{--k:var(--c3);--s:var(--c3s)} .k4{--k:var(--c4);--s:var(--c4s)} .k5{--k:var(--c5);--s:var(--c5s)}
+
+  /* HOME */
+  #home{align-items:center;justify-content:center}
+  .tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;width:100%;max-width:1180px}
+  .tile{background:var(--card);border:1px solid var(--line);border-top:6px solid var(--k);border-radius:12px;padding:16px 12px 14px;text-align:center;transition:transform .15s,box-shadow .15s}
+  .tile:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.08)}
+  .tile .pic{height:118px;border-radius:10px;background:var(--s);display:grid;place-items:center;margin-bottom:12px}
+  .tile .pic svg{width:92px;height:92px}
+  .tile b{display:block;font-size:19px}
+  .tile small{display:block;color:var(--muted);font-size:14px;margin-top:3px}
+
+  .vh{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+  .vh h2{font-size:22px;color:var(--k)}
+  .vh span{color:var(--muted);font-size:15px}
+  .panel{flex:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+
+  /* COLLOCATIONS mind map */
+  .maps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;height:min(500px,calc(100vh - 170px))}
+  .map{position:relative;background:var(--s);border-radius:12px;min-height:300px}
+  .map svg.lines{position:absolute;inset:0;width:100%;height:100%}
+  .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:104px;height:104px;border-radius:50%;background:var(--k);color:#fff;display:grid;place-items:center;font-size:20px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.12);z-index:2}
+  .pill{position:absolute;transform:translate(-50%,-50%);background:#fff;border:2px solid var(--k);border-radius:18px;padding:4px 11px;font-size:15.5px;white-space:nowrap;z-index:2;max-width:200px;text-align:center}
+  .pill .ru{display:none;font-size:13.5px;color:var(--muted);white-space:normal}
+  .pill.flip{background:var(--k);color:#fff}
+  .pill.flip .ru{display:block;color:#fff}
+  .pill.flip .en{display:none}
+  .hint{position:absolute;right:14px;bottom:8px;font-size:13px;color:var(--muted)}
+
+  /* WORD FAMILIES */
+  .wf{display:grid;grid-template-columns:330px 1fr;gap:16px;height:330px}
+  .roots{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-content:start}
+  .roots button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;text-align:left;font-size:17px}
+  .roots button.on{background:var(--k);color:#fff;border-color:var(--k)}
+  .tree{background:var(--s);border-radius:12px;display:flex;flex-direction:column;justify-content:center;padding:20px 26px;gap:16px}
+  .branch{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+  .wnode{background:#fff;border-radius:10px;padding:10px 16px;border-left:6px solid var(--pc);font-size:22px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .wnode small{display:block;font:600 11.5px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pc);margin-bottom:2px}
+  .wnode .px{color:var(--neg);font-weight:700}
+  .arr{color:var(--muted);font-size:22px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .tip{font-size:15px;color:var(--ink);background:#fff;border-radius:8px;padding:8px 12px}
+
+  /* GRAMMAR */
+  .gram{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .sign{border-radius:14px;padding:18px 22px;background:var(--s);display:flex;flex-direction:column;gap:12px}
+  .sign .head{display:flex;align-items:center;gap:14px}
+  .sign .badge{font:700 26px/1 Georgia,serif;background:var(--k);color:#fff;border-radius:10px;padding:12px 16px}
+  .sign .head span{font-size:17px;color:var(--muted)}
+  .ex{background:#fff;border-radius:10px;padding:10px 14px;font-size:18px}
+  .ex small{display:block;font:600 11.5px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--k);margin-bottom:3px}
+  .ex em{font-style:normal;background:var(--s);border-radius:4px;padding:0 4px;color:var(--k);font-weight:700}
+
+  /* ESSAY */
+  .essay{display:grid;grid-template-columns:330px 1fr;gap:18px;height:440px}
+  .chart{background:var(--s);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .chart h3{font-size:15px;font-weight:600;text-align:center}
+  .chart svg{width:210px;height:210px}
+  .keys{width:100%;font-size:14.5px}
+  .keys div{display:flex;align-items:center;gap:7px;padding:1px 0}
+  .keys i{width:12px;height:12px;border-radius:3px;flex:none}
+  .keys b{margin-left:auto;font-weight:600}
+  .steps{display:flex;flex-direction:column;gap:8px;min-height:0}
+  .stepbar{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+  .stepbar button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 4px;font-size:15px;line-height:1.15}
+  .stepbar button b{display:block;font:700 18px/1 Georgia,serif;color:var(--k);margin-bottom:3px}
+  .stepbar button.on{background:var(--k);color:#fff;border-color:var(--k)}
+  .stepbar button.on b{color:#fff}
+  .phrase{flex:1;background:var(--s);border-radius:12px;display:flex;flex-direction:column;justify-content:center;padding:18px 26px;gap:10px}
+  .phrase .what{font:600 13px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--k)}
+  .phrase .big{font-size:25px;line-height:1.35}
+  .phrase .big u{text-decoration:none;border-bottom:3px solid var(--k)}
+  .links{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .links span{background:#fff;border:1px solid var(--line);border-radius:14px;padding:2px 11px;font-size:15px}
+  .links label{font-size:14px;color:var(--muted);margin-right:4px}
+
+  /* SPEAKING */
+  .speak{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:16px;height:360px;align-items:stretch}
+  .photo{border-radius:12px;overflow:hidden;background:var(--s);display:flex;flex-direction:column}
+  .photo svg{width:100%;flex:1;min-height:0}
+  .photo p{padding:8px 12px;font-size:15px;background:#fff;border-top:1px solid var(--line)}
+  .chain{display:flex;flex-direction:column;justify-content:center;gap:10px}
+  .say{background:#fff;border:2px solid var(--k);border-radius:12px;padding:10px 14px;font-size:18px;position:relative}
+  .say small{display:block;font:600 11.5px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--k);margin-bottom:2px}
+
+  .mode{margin-left:auto;display:flex;background:#fff;border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px}
+  .mode button{border:0;background:transparent;border-radius:7px;padding:6px 16px;font-size:15.5px;color:var(--muted)}
+  .mode button.on{background:var(--k);color:#fff}
+  .view .learn{display:block}.view .play{display:none}
+  .view.practice .learn{display:none}.view.practice .play{display:block}
+  .play{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;height:440px;position:relative}
+  .qhead{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:15px;color:var(--muted)}
+  .qhead .mech{font:600 12px/1 system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--k);background:var(--s);padding:6px 10px;border-radius:5px}
+  .qhead .cnt{margin-left:auto}
+  .qhead .sc{font-weight:700;color:var(--k)}
+  .restart{border:1px solid var(--line);background:#fff;border-radius:7px;width:32px;height:32px;display:grid;place-items:center;color:var(--muted)}
+  .qbox{background:var(--s);border-radius:12px;padding:22px 26px;min-height:120px;display:flex;align-items:center;gap:18px}
+  .qtext{font-size:25px;line-height:1.4;flex:1}
+  .gap{display:inline-block;min-width:120px;border-bottom:3px solid var(--k);text-align:center;color:var(--k);font-weight:700}
+  .root{font:700 17px/1 system-ui,sans-serif;letter-spacing:.05em;color:var(--k);background:#fff;border-radius:7px;padding:10px 12px}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .opt{border:2px solid var(--line);background:#fff;border-radius:12px;padding:15px 16px;font-size:21px;text-align:left;display:flex;gap:12px;align-items:center}
+  .opt:hover:not(:disabled){border-color:var(--k)}
+  .opt .l{font:700 14px/1 system-ui,sans-serif;width:28px;height:28px;border-radius:50%;background:var(--s);color:var(--k);display:grid;place-items:center;flex:none}
+  .opt.ok{border-color:#3b9a62;background:#e5f3ea}.opt.ok .l{background:#3b9a62;color:#fff}
+  .opt.no{border-color:#d9a3ad;background:#f8e9ec;color:#8a5560}
+  .opt:disabled{cursor:default}
+  .nav{position:absolute;right:20px;bottom:16px;display:flex;gap:8px}
+  .nav button{border:1px solid var(--line);background:#fff;border-radius:9px;width:46px;height:40px;font-size:20px;color:var(--k)}
+  .nav button:disabled{opacity:.35;cursor:default}
+  .timer{height:8px;background:#fff;border-radius:4px;overflow:hidden;margin-top:12px}
+  .timer i{display:block;height:100%;background:var(--k);width:100%}
+  .done{position:absolute;inset:60px 20px 20px;background:var(--s);border-radius:12px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:22px}
+  .done b{font-size:46px;color:var(--k)}
+  .done.on{display:flex}
+  /* order */
+  .ord{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:360px}
+  .slots,.pool{display:flex;flex-direction:column;gap:7px}
+  .slot{flex:1;border:2px dashed var(--line);border-radius:10px;padding:6px 12px;display:flex;align-items:center;gap:10px;font-size:16px;background:#fff}
+  .slot .num{font:700 13px/1 system-ui,sans-serif;color:var(--k);background:var(--s);border-radius:5px;padding:5px 7px;flex:none;min-width:84px;text-align:center}
+  .slot.fill{border-style:solid;border-color:var(--k);background:var(--s)}
+  .chip{flex:1;border:2px solid var(--line);border-radius:10px;background:#fff;padding:6px 12px;font-size:16px;text-align:left}
+  .chip:hover{border-color:var(--k)}
+  .chip.used{visibility:hidden}
+  .shake{animation:sh .35s}
+  @keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  /* match */
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px;height:360px}
+  .match .colm{display:flex;flex-direction:column;gap:7px}
+  .mi{flex:1;border:2px solid var(--line);border-radius:10px;background:#fff;padding:5px 12px;font-size:16.5px;text-align:left}
+  .mi:hover{border-color:var(--k)}
+  .mi.sel{border-color:var(--k);background:var(--s)}
+  .mi.pair{border-color:#3b9a62;background:#e5f3ea;cursor:default}
+  .mi.pair .tagn{display:inline-block}
+  .tagn{display:none;font:700 12px/1 system-ui,sans-serif;background:#3b9a62;color:#fff;border-radius:4px;padding:3px 6px;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="top">
+  <span class="tag">Teacher</span>
+  <h1>Education &amp; Learning <span>· cheatsheet</span></h1>
+  <div class="mini" id="mini"></div>
+  <a class="home" style="display:flex;text-decoration:none" href="index.html#edu">Программа</a><button class="home" onclick="go('home')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 7.5 8 2l6 5.5M3.5 6.5V14h9V6.5"/></svg>Home</button>
+</div>
+
+<main>
+  <!-- HOME -->
+  <section class="view on" id="home">
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <!-- 1 COLLOCATIONS -->
+  <section class="view k1" id="v1">
+    <div class="vh"><h2>Collocations</h2><span>устное 3 · письмо 37 · эссе 38</span><div class="mode"><button class="on" onclick="mode(1,0)">Cheatsheet</button><button onclick="mode(1,1)">Practice</button></div></div>
+    <div class="panel learn"><div class="maps" id="maps"></div><div class="hint">нажмите на фразу — перевод</div></div>
+  <div class="play" id="p1"></div>
+  </section>
+
+  <!-- 2 WORD FAMILIES -->
+  <section class="view k2" id="v2">
+    <div class="vh"><h2>Word families</h2><span>задания 25–29</span><div class="mode"><button class="on" onclick="mode(2,0)">Cheatsheet</button><button onclick="mode(2,1)">Practice</button></div></div>
+    <div class="panel learn"><div class="wf">
+      <div class="roots" id="roots"></div>
+      <div class="tree">
+        <div class="branch" id="branch"></div>
+        <div class="legend"><span><i style="background:var(--verb)"></i>verb</span><span><i style="background:var(--noun)"></i>noun</span><span><i style="background:var(--adj)"></i>adjective</span><span><i style="background:var(--adv)"></i>adverb</span><span><i style="background:var(--neg)"></i>отрицание</span></div>
+        <div class="tip">Сначала — какая часть речи нужна по месту в предложении. Потом — нужно ли отрицание: <b style="color:var(--neg)">un- · in- · il- · mis- · -less</b></div>
+      </div>
+    </div></div>
+  <div class="play" id="p2"></div>
+  </section>
+
+  <!-- 3 GRAMMAR -->
+  <section class="view k3" id="v3">
+    <div class="vh"><h2>Gerund or infinitive</h2><span>Lesson 1 · Preparing for life at university</span><div class="mode"><button class="on" onclick="mode(3,0)">Cheatsheet</button><button onclick="mode(3,1)">Practice</button></div></div>
+    <div class="panel learn"><div class="gram">
+      <div class="sign">
+        <div class="head"><div class="badge">-ing</div><span>действие как «вещь»</span></div>
+        <div class="ex"><small>в начале предложения</small><em>Sorting out</em> your finances is vital.</div>
+        <div class="ex"><small>в начале предложения</small><em>Checking</em> your accommodation is essential.</div>
+        <div class="ex"><small>после avoid · involve</small>… to avoid <em>forgetting</em> anything.<br>… involves <em>sharing</em> costs.</div>
+      </div>
+      <div class="sign">
+        <div class="head"><div class="badge">to + V</div><span>цель, желание, необходимость</span></div>
+        <div class="ex"><small>It is important …</small>It is important <em>to set up</em> a bank account.</div>
+        <div class="ex"><small>want · need · learn</small>Learn <em>to cook</em> simple meals.<br>Check what you need <em>to do</em>.</div>
+        <div class="ex"><small>«чтобы»</small>Set up an email account <em>to keep</em> in contact.</div>
+      </div>
+    </div></div>
+  <div class="play" id="p3"></div>
+  </section>
+
+  <!-- 4 ESSAY -->
+  <section class="view k4" id="v4">
+    <div class="vh"><h2>Essay 38</h2><span>Lesson 3 · What skills do teenagers want to learn?</span><div class="mode"><button class="on" onclick="mode(4,0)">Cheatsheet</button><button onclick="mode(4,1)">Practice</button></div></div>
+    <div class="panel learn"><div class="essay">
+      <div class="chart">
+        <h3>What skills do you want to learn?</h3>
+        <svg viewBox="-110 -110 220 220" id="pie"></svg>
+        <div class="keys" id="keys"></div>
+      </div>
+      <div class="steps">
+        <div class="stepbar" id="stepbar"></div>
+        <div class="phrase"><div class="what" id="pwhat"></div><div class="big" id="pbig"></div></div>
+        <div class="links"><label>Связки:</label><span>furthermore</span><span>besides</span><span>therefore</span><span>nevertheless</span><span>although</span><span>whereas</span><span>otherwise</span></div>
+      </div>
+    </div></div>
+  <div class="play" id="p4"></div>
+  </section>
+
+  <!-- 5 SPEAKING -->
+  <section class="view k5" id="v5">
+    <div class="vh"><h2>Speaking 4 · compare the photos</h2><span>Lesson 3 · chess and windsurfing</span><div class="mode"><button class="on" onclick="mode(5,0)">Cheatsheet</button><button onclick="mode(5,1)">Practice</button></div></div>
+    <div class="panel learn"><div class="speak">
+      <div class="photo">
+        <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice">
+          <rect width="200" height="150" fill="#efe5d6"/>
+          <g transform="translate(52 34)">
+            <rect width="96" height="96" fill="#6b4a2f" rx="3"/>
+            <g id="board"></g>
+          </g>
+          <g fill="#22303f"><circle cx="78" cy="58" r="6"/><rect x="74" y="62" width="8" height="12" rx="2"/><circle cx="120" cy="94" r="6"/><rect x="116" y="98" width="8" height="12" rx="2"/></g>
+          <g fill="#fffdf8" stroke="#22303f" stroke-width="1"><circle cx="102" cy="70" r="6"/><rect x="98" y="74" width="8" height="12" rx="2"/></g>
+        </svg>
+        <p><b>Photo 1</b> · playing chess — passive, quiet</p>
+      </div>
+      <div class="chain">
+        <div class="say"><small>difference</small>There's an obvious difference between the pictures.</div>
+        <div class="say"><small>compare</small>The first one depicts …, while the second one …</div>
+        <div class="say"><small>what you need</small>If a person wants to master …, they need to develop …</div>
+        <div class="say"><small>as for</small>As for …, … is a must.</div>
+      </div>
+      <div class="photo">
+        <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice">
+          <rect width="200" height="150" fill="#cfe6f2"/>
+          <path d="M0 108 Q25 92 50 106 T100 104 T150 102 T200 104 V150 H0Z" fill="#2f7fb5"/>
+          <path d="M0 122 Q30 110 60 122 T120 120 T200 118 V150 H0Z" fill="#245f88"/>
+          <path d="M70 104 L140 104 L134 110 L76 110Z" fill="#fffdf8"/>
+          <path d="M104 102 L104 30 L146 98Z" fill="#c9455f"/>
+          <path d="M104 102 L104 44 L80 96Z" fill="#f0b23c"/>
+          <circle cx="160" cy="28" r="12" fill="#fff6d8"/>
+        </svg>
+        <p><b>Photo 2</b> · windsurfing — active, stormy</p>
+      </div>
+    </div></div>
+  <div class="play" id="p5"></div>
+  </section>
+</main>
+
+<script>
+const ICONS={
+  1:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--c1)"><circle cx="32" cy="32" r="9" fill="var(--c1)" stroke="none"/><circle cx="10" cy="14" r="6"/><circle cx="54" cy="14" r="6"/><circle cx="10" cy="50" r="6"/><circle cx="54" cy="50" r="6"/><path d="M15 18l10 8M49 18l-10 8M15 46l10-8M49 46l-10-8"/></svg>',
+  2:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--c2)"><rect x="22" y="4" width="20" height="12" rx="3" fill="var(--c2)" stroke="none"/><path d="M32 16v10M12 26h40M12 26v8M32 26v8M52 26v8"/><rect x="3" y="34" width="18" height="11" rx="3"/><rect x="23" y="34" width="18" height="11" rx="3"/><rect x="43" y="34" width="18" height="11" rx="3"/><path d="M32 45v8"/><rect x="23" y="53" width="18" height="9" rx="3"/></svg>',
+  3:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--c3)"><path d="M32 6v54"/><path d="M32 12H54l6 7-6 7H32z" fill="var(--c3)" stroke="none"/><path d="M32 32H10l-6 7 6 7h22z"/></svg>',
+  4:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--c4)"><rect x="8" y="4" width="40" height="54" rx="4"/><path d="M15 15h22M15 23h26M15 31h18"/><path d="M40 46a10 10 0 1 0 10-10v10z" fill="var(--c4)" stroke="none"/></svg>',
+  5:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--c5)"><rect x="3" y="14" width="24" height="20" rx="3"/><rect x="37" y="14" width="24" height="20" rx="3" fill="var(--c5)" stroke="none"/><path d="M8 30l6-7 5 5 4-4 4 6M27 24h10"/><path d="M14 44h36a6 6 0 0 1 6 6v0a6 6 0 0 1-6 6H24l-8 6v-6h-2a6 6 0 0 1-6-6v0a6 6 0 0 1 6-6z"/></svg>'
+};
+const TILES=[[1,'Collocations','3 темы · 20 фраз'],[2,'Word families','12 гнёзд · 25–29'],[3,'Grammar','-ing или to'],[4,'Essay 38','6 шагов плана'],[5,'Speaking 4','сравнение фото']];
+document.getElementById('tiles').innerHTML=TILES.map(([n,t,s])=>`<button class="tile k${n}" onclick="go('v${n}')"><div class="pic">${ICONS[n]}</div><b>${t}</b><small>${s}</small></button>`).join('');
+document.getElementById('mini').innerHTML=TILES.map(([n,t])=>`<button class="k${n}" title="${t}" data-v="v${n}" onclick="go('v${n}')">${ICONS[n]}</button>`).join('');
+
+function go(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id===id));
+  document.body.classList.toggle('inview',id!=='home');
+  document.querySelectorAll('#mini button').forEach(b=>b.classList.toggle('on',b.dataset.v===id));
+  if(id==='v1') drawMaps();
+}
+
+/* 1 mind maps */
+const MAPS=[
+  ['EXAM',[['take / sit an exam','сдавать экзамен'],['pass an exam','сдать экзамен'],['fail an exam','провалить экзамен'],['sail through','с лёгкостью пройти'],['get good grades','получать хорошие оценки'],['do homework','делать домашнее задание']]],
+  ['STUDY',[['pay attention to','обращать внимание на'],['keep up with','не отставать от'],['deal with','разобраться с'],['drop out','бросить учёбу'],['learn a lesson','вынести урок'],['have a discussion about','обсудить'],['make a suggestion','внести предложение']]],
+  ['OPINION',[['in my opinion','на мой взгляд'],['to my mind','по-моему'],['change your mind','передумать'],['make up your mind','принять решение'],['bear in mind','иметь в виду'],['it makes sense to','имеет смысл'],['there is no point in','нет смысла']]]
+];
+const mapsEl=document.getElementById('maps');
+mapsEl.innerHTML=MAPS.map(([h,ps],i)=>`<div class="map" data-i="${i}"><svg class="lines"></svg><div class="hub">${h}</div>${ps.map(([en,ru])=>`<button class="pill"><span class="en">${en}</span><span class="ru">${ru}</span></button>`).join('')}</div>`).join('');
+mapsEl.addEventListener('click',e=>{const p=e.target.closest('.pill');if(p)p.classList.toggle('flip')});
+function drawMaps(){
+  document.querySelectorAll('.map').forEach(m=>{
+    const W=m.clientWidth,H=m.clientHeight,pills=[...m.querySelectorAll('.pill')],n=pills.length;
+    const top=Math.ceil(n/2),bot=n-top,ry=H/2-26;let lines='';
+    const ang=(k,c,a0,a1)=>c===1?(a0+a1)/2:a0+k*(a1-a0)/(c-1);
+    pills.forEach((p,k)=>{
+      const a=(k<top?ang(k,top,-155,-25):ang(k-top,bot,25,155))*Math.PI/180;
+      const hw=p.offsetWidth/2+8;
+      let x=W/2+(W/2)*Math.cos(a);x=Math.max(hw,Math.min(W-hw,x));
+      const y=H/2+ry*Math.sin(a);
+      p.style.left=x+'px';p.style.top=y+'px';lines+=`<line x1="${W/2}" y1="${H/2}" x2="${x}" y2="${y}" stroke="var(--k)" stroke-width="2" opacity=".45"/>`});
+    m.querySelector('svg').innerHTML=lines;
+  });
+}
+window.addEventListener('resize',()=>{if(document.getElementById('v1').classList.contains('on'))drawMaps()});
+
+/* 2 word families: [word,pos,prefixOrSuffixToHighlight] */
+const FAM=[
+  ['educate',[['educate','verb'],['education','noun'],['educator','noun']]],
+  ['attend',[['attend','verb'],['attendance','noun'],['attention','noun'],['inattentively','adv','in']]],
+  ['fail',[['fail','verb'],['failure','noun'],['failing','noun']]],
+  ['improve',[['improve','verb'],['improvement','noun'],['improved','adj']]],
+  ['study',[['study','verb'],['student','noun'],['studies','noun'],['studious','adj']]],
+  ['solve',[['solve','verb'],['solution','noun']]],
+  ['reason',[['reason','noun'],['reasoning','noun'],['reasonable','adj'],['unreasonably','adv','un']]],
+  ['literate',[['literate','adj'],['illiterate','adj','il'],['illiteracy','noun','il']]],
+  ['understand',[['understand','verb'],['understandable','adj'],['understandably','adv'],['misunderstanding','noun','mis']]],
+  ['think',[['think','verb'],['thought','noun'],['thoughtful','adj'],['thoughtless','adj','less'],['unthinkable','adj','un']]],
+  ['scholar',[['scholar','noun'],['scholarship','noun'],['scholarly','adj']]],
+  ['behave',[['behave','verb'],['behaviour','noun']]]
+];
+const POS={verb:'var(--verb)',noun:'var(--noun)',adj:'var(--adj)',adv:'var(--adv)'};
+const POSN={verb:'verb',noun:'noun',adj:'adjective',adv:'adverb'};
+function mark(w,a){if(!a)return w;if(a==='less')return w.replace('less','<span class="px">less</span>');return '<span class="px">'+a+'</span>'+w.slice(a.length)}
+document.getElementById('roots').innerHTML=FAM.map(([r],i)=>`<button data-i="${i}">${r}</button>`).join('');
+function showFam(i){
+  document.querySelectorAll('#roots button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+  document.getElementById('branch').innerHTML=FAM[i][1].map(([w,p,a],k)=>(k?'<span class="arr">→</span>':'')+`<div class="wnode" style="--pc:${a?'var(--neg)':POS[p]}"><small>${POSN[p]}${a?' · отрицание':''}</small>${mark(w,a)}</div>`).join('');
+}
+document.getElementById('roots').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showFam(+b.dataset.i)});
+showFam(0);
+
+/* 4 essay */
+const DATA=[['Driving a car',38,'#3b9a62'],['Snowboarding',24,'#2f7fb5'],['Speaking a foreign language',16,'#8a4fb0'],['Dancing',12,'#d0763a'],['Cooking',10,'#c9455f']];
+(function(){let a=-Math.PI/2,s='';DATA.forEach(([t,v,c])=>{const b=a+v/100*2*Math.PI,l=v>50?1:0;
+  s+=`<path d="M0 0 L${100*Math.cos(a)} ${100*Math.sin(a)} A100 100 0 ${l} 1 ${100*Math.cos(b)} ${100*Math.sin(b)}Z" fill="${c}" stroke="#fff" stroke-width="2"/>`;
+  const m=(a+b)/2;s+=`<text x="${64*Math.cos(m)}" y="${64*Math.sin(m)+5}" text-anchor="middle" font-size="15" font-weight="700" fill="#fff" font-family="Georgia">${v}%</text>`;a=b});
+  document.getElementById('pie').innerHTML=s;
+  document.getElementById('keys').innerHTML=DATA.map(([t,v,c])=>`<div><i style="background:${c}"></i>${t}<b>${v}%</b></div>`).join('');})();
+const STEPS=[
+  ['Opening','Opening statement','<u>I am currently doing a project on</u> what skills teenagers want to learn.'],
+  ['Facts','2–3 facts','<u>According to the statistics,</u> the most popular skill to learn is driving a car (38%). <u>Almost one-fifth of the respondents</u> want to learn how to speak a foreign language.'],
+  ['Compare','1–2 comparisons','<u>Interestingly, twice as many</u> teenagers are eager to learn how to snowboard (24%) <u>as those who</u> want to learn to dance (12%).'],
+  ['Problem','Problem','<u>When people develop new skills, they can face certain problems.</u> One of them is giving up what they learn once they experience difficulties.'],
+  ['Solution','Solution','<u>To tackle the problem,</u> such people should find teachers that motivate and encourage their students.'],
+  ['Opinion','Conclusion + opinion','<u>In conclusion, I believe</u> the most important skill to learn for me is …']
+];
+document.getElementById('stepbar').innerHTML=STEPS.map(([t],i)=>`<button data-i="${i}"><b>${i+1}</b>${t}</button>`).join('');
+function step(i){document.querySelectorAll('#stepbar button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+  document.getElementById('pwhat').textContent=STEPS[i][1];document.getElementById('pbig').innerHTML=STEPS[i][2];}
+document.getElementById('stepbar').addEventListener('click',e=>{const b=e.target.closest('button');if(b)step(+b.dataset.i)});
+step(0);
+
+/* chess board */
+(function(){let s='';for(let r=0;r<8;r++)for(let c=0;c<8;c++)if((r+c)%2===0)s+=`<rect x="${c*12}" y="${r*12}" width="12" height="12" fill="#e9d6b4"/>`;document.getElementById('board').innerHTML=s})();
+
+/* ===== PRACTICE ===== */
+function mode(n,m){
+  const v=document.getElementById('v'+n);
+  v.classList.toggle('practice',!!m);
+  v.querySelectorAll('.mode button').forEach((b,i)=>b.classList.toggle('on',i===m));
+  if(m) PLAY[n]();
+}
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const RESTART='<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4M2.5 2.5v3h3"/></svg>';
+
+/* generic one-question-at-a-time quiz (Kahoot style) */
+function quiz(el,mech,items,opts){
+  let i=0,score=0,answered=[],timerId=null;
+  const N=items.length;
+  el.innerHTML=`<div class="qhead"><span class="mech">${mech}</span><span class="sc"></span><span class="cnt"></span><button class="restart" title="Сначала">${RESTART}</button></div>
+  <div class="qbox"><div class="qtext"></div>${opts.root?'<div class="root"></div>':''}</div>
+  ${opts.timer?'<div class="timer"><i></i></div>':''}
+  <div class="opts"></div>
+  <div class="nav"><button class="prev">←</button><button class="next">→</button></div>
+  <div class="done"><span>Result</span><b></b><span class="dn"></span></div>`;
+  const $=q=>el.querySelector(q);
+  $('.restart').onclick=()=>quiz(el,mech,shuf(items),opts);
+  $('.prev').onclick=()=>{if(i>0){i--;show()}};
+  $('.next').onclick=()=>{if(i<N-1){i++;show()}else finish()};
+  function finish(){clearInterval(timerId);$('.done').classList.add('on');$('.done b').textContent=score+' / '+N;$('.done .dn').textContent=score>=N*0.8?'Excellent':score>=N*0.6?'Good':'Let\'s revise'}
+  function fill(it,word,ok){
+    $('.qtext').innerHTML=it.q.replace('___',`<span class="gap" style="${ok===false?'color:#8a5560;border-color:#d9a3ad':''}">${word||'&nbsp;'}</span>`);
+  }
+  function show(){
+    clearInterval(timerId);
+    const it=items[i],st=answered[i];
+    $('.cnt').textContent=(i+1)+' / '+N;$('.sc').textContent='★ '+score;
+    if(opts.root)$('.root').textContent=it.root;
+    fill(it,st?it.a:'',st?true:undefined);
+    if(!it._o)it._o=shuf([it.a,...it.d]);
+    $('.opts').innerHTML=it._o.map((o,k)=>`<button class="opt" data-o="${o}"><span class="l">${'ABCD'[k]}</span>${o}</button>`).join('');
+    $('.prev').disabled=i===0;
+    $('.opts').querySelectorAll('.opt').forEach(b=>{
+      if(st){b.disabled=true;if(b.dataset.o===it.a)b.classList.add('ok');if(b.dataset.o===st&&st!==it.a)b.classList.add('no');return}
+      b.onclick=()=>answer(b.dataset.o);
+    });
+    if(opts.timer&&!st){
+      const bar=$('.timer i'),T=opts.timer*1000,t0=Date.now();bar.style.width='100%';
+      timerId=setInterval(()=>{const left=1-(Date.now()-t0)/T;bar.style.width=Math.max(0,left*100)+'%';if(left<=0){clearInterval(timerId);answer('—')}},50);
+    } else if(opts.timer){$('.timer i').style.width='0%'}
+  }
+  function answer(o){
+    clearInterval(timerId);
+    const it=items[i];answered[i]=o;if(o===it.a)score++;
+    show();
+  }
+  show();
+}
+
+const COLL=[
+  {q:"He wasn't ___ the safety instructions.",a:'paying attention to',d:['keeping up with','dealing with','drawing attention']},
+  {q:'Do you usually ___ in the afternoon?',a:'take a break',d:['take an exam','have an idea','make a point']},
+  {q:'Could I ___ about the way your essay is structured?',a:'make a suggestion',d:['have a discussion','express an opinion','learn a lesson']},
+  {q:'___, the law should be changed.',a:'In my opinion',d:['No point','Bear in mind','Make up your mind']},
+  {q:'The students were not given the chance to ___.',a:'express an opinion',d:['make up their mind','teach a lesson','pass an exam']},
+  {q:'Jane ___ her Maths exam, but she passed Chemistry.',a:'failed',d:['dropped','missed','lost']},
+  {q:"I haven't ___ whether to go yet.",a:'made up my mind',d:['changed my mind','borne in mind','crossed my mind']},
+  {q:"Having my car stolen really ___ — I'll never leave it unlocked again.",a:'taught me a lesson',d:['learnt me a lesson','gave me a break','made me a point']},
+  {q:"You can't expect to just ___ without doing any work.",a:'sail through',d:['drop out','give in','catch on']},
+  {q:'Adam ___ of school when he was 16.',a:'dropped out',d:['gave in','crossed out','set out']},
+  {q:'He had to hurry to ___ her.',a:'keep up with',d:['get on with','deal with','get at']},
+  {q:"She's used to ___ difficult customers.",a:'dealing with',d:['keeping up with','getting at','coming round']},
+  {q:"I'll ___ and give you an answer next week.",a:'think it over',d:['cross it out','give it in','get it on']}
+];
+const WF=[
+  {q:'Unfortunately, he is musically ___.',root:'LITERATE',a:'illiterate',d:['literate','literacy','illiteracy']},
+  {q:'___ at these lectures is not compulsory.',root:'ATTEND',a:'Attendance',d:['Attention','Attendant','Attending']},
+  {q:'There is still room for ___.',root:'IMPROVE',a:'improvement',d:['improved','improving','improves']},
+  {q:'There is no ___ to this problem.',root:'SOLVE',a:'solution',d:['solving','solvable','solved']},
+  {q:'She was ___ surprised to see us there.',root:'UNDERSTAND',a:'understandably',d:['understandable','understanding','misunderstood']},
+  {q:'He was a ___ at the University of Chicago.',root:'STUDY',a:'student',d:['studies','studious','studying']},
+  {q:'We are ___ sure this is the best solution.',root:'REASON',a:'reasonably',d:['reasonable','unreasonably','reasoning']},
+  {q:'Injury to the brain often produces changes in ___.',root:'BEHAVE',a:'behaviour',d:['behaving','behaved','behaves']},
+  {q:'He has a ___ approach to his work.',root:'THINK',a:'thoughtful',d:['thoughtless','thinking','unthinkable']},
+  {q:'Small children have a very short ___ span.',root:'ATTEND',a:'attention',d:['attendance','attendant','attending']},
+  {q:'She was a ___ child, happiest when reading.',root:'STUDY',a:'studious',d:['student','studies','studied']},
+  {q:'There must be some ___. I never asked for these chairs to be delivered.',root:'UNDERSTAND',a:'misunderstanding',d:['understanding','understandable','misunderstood']},
+  {q:"Aren't you making ___ demands on her time?",root:'REASON',a:'unreasonable',d:['reasonable','reasonably','reasoning']},
+  {q:'Something that would have been ___ a generation ago.',root:'THINK',a:'unthinkable',d:['thoughtless','thinking','thoughtful']},
+  {q:'The man who can make hard things easy is the ___.',root:'EDUCATE',a:'educator',d:['education','educated','educating']}
+];
+const GR=[
+  {q:"We've arranged ___ today.",a:'to meet',d:['meeting']},
+  {q:"I'd like ___ a master's after I finish my degree.",a:'to do',d:['doing']},
+  {q:"Kim doesn't mind ___ for her flatmates.",a:'cooking',d:['to cook']},
+  {q:'Did you manage ___ in your assignment on time?',a:'to hand',d:['handing']},
+  {q:'I usually go ___ at the weekends.',a:'walking',d:['to walk']},
+  {q:"I'm too busy ___ out tonight. I have to work.",a:'to go',d:['going']},
+  {q:"Don't forget ___ off your mobile before the exam.",a:'to turn',d:['turning']},
+  {q:'Max admitted ___ my pen without asking.',a:'borrowing',d:['to borrow']},
+  {q:"It's amazing ___ how much revision we do at school.",a:'to think',d:['thinking']},
+  {q:'The problem is that ___ can quickly become boring.',a:'revising',d:['to revise']},
+  {q:"It's important ___ a variety of revision techniques.",a:'to use',d:['using']},
+  {q:'Instead of ___ the same old things, try something new.',a:'doing',d:['to do']},
+  {q:'Most people enjoy ___, even if they don\'t sing well.',a:'singing',d:['to sing']},
+  {q:'Music appears ___ us to remember more.',a:'to help',d:['helping']},
+  {q:"Check that people in your family don't mind ___ to you.",a:'listening',d:['to listen']}
+];
+const ESSAY=[
+  ['Opening','I am currently doing a project on what skills teenagers want to learn.'],
+  ['Facts','According to the statistics, the most popular skill to learn is driving a car (38%).'],
+  ['Compare','Interestingly, twice as many teenagers are eager to learn how to snowboard (24%) as those who want to learn to dance (12%).'],
+  ['Problem','When people develop new skills, they can face certain problems.'],
+  ['Solution','To tackle the problem, such people should find teachers that motivate and encourage their students.'],
+  ['Opinion','In conclusion, I believe the most important skill to learn for me is …']
+];
+const PAIRS=[
+  ['There are people doing hobbies','in both of the pictures.'],
+  ['In the first one I can see','two people playing chess.'],
+  ['The second picture illustrates','someone windsurfing.'],
+  ["There's an obvious difference",'between the pictures.'],
+  ['The first one depicts a passive activity,','while the second one is very active.'],
+  ["I believe it's quite difficult",'to excel at both of the activities.'],
+  ['If a person wants to master chess,','they need to develop their logical skills and memory.'],
+  ['As for windsurfing,','good hand-eye coordination is a must.']
+];
+
+function orderGame(el){
+  let next=0;const pool=shuf(ESSAY.map((x,i)=>i));
+  el.innerHTML=`<div class="qhead"><span class="mech">Sequencing · essay plan</span><span class="cnt"></span><button class="restart" title="Сначала">${RESTART}</button></div>
+  <div class="ord"><div class="slots">${ESSAY.map((x,i)=>`<div class="slot" data-i="${i}"><span class="num">${i+1} · ${x[0]}</span><span class="t"></span></div>`).join('')}</div>
+  <div class="pool">${pool.map(i=>`<button class="chip" data-i="${i}">${ESSAY[i][1]}</button>`).join('')}</div></div>`;
+  const cnt=()=>el.querySelector('.cnt').textContent=next+' / '+ESSAY.length;cnt();
+  el.querySelector('.restart').onclick=()=>orderGame(el);
+  el.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+    if(+c.dataset.i===next){const sl=el.querySelector(`.slot[data-i="${next}"]`);sl.classList.add('fill');sl.querySelector('.t').textContent=c.textContent;c.classList.add('used');next++;cnt();}
+    else{c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake')}
+  });
+}
+function matchGame(el){
+  let sel=null,done=0;const L=PAIRS.map((p,i)=>i),R=shuf(L);
+  el.innerHTML=`<div class="qhead"><span class="mech">Matching · halves</span><span class="cnt"></span><button class="restart" title="Сначала">${RESTART}</button></div>
+  <div class="match"><div class="colm">${L.map(i=>`<button class="mi l" data-i="${i}"><span class="tagn">${i+1}</span>${PAIRS[i][0]}</button>`).join('')}</div>
+  <div class="colm">${R.map(i=>`<button class="mi r" data-i="${i}"><span class="tagn">${i+1}</span>${PAIRS[i][1]}</button>`).join('')}</div></div>`;
+  const cnt=()=>el.querySelector('.cnt').textContent=done+' / '+PAIRS.length;cnt();
+  el.querySelector('.restart').onclick=()=>matchGame(el);
+  el.querySelectorAll('.mi.l').forEach(b=>b.onclick=()=>{if(b.classList.contains('pair'))return;el.querySelectorAll('.mi.l').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b});
+  el.querySelectorAll('.mi.r').forEach(b=>b.onclick=()=>{
+    if(!sel||b.classList.contains('pair'))return;
+    if(b.dataset.i===sel.dataset.i){b.classList.add('pair');sel.classList.remove('sel');sel.classList.add('pair');sel=null;done++;cnt()}
+    else{b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake')}
+  });
+}
+const PLAY={
+  1:()=>quiz(document.getElementById('p1'),'Kahoot · collocations',shuf(COLL),{}),
+  2:()=>quiz(document.getElementById('p2'),'Kahoot · word formation',shuf(WF),{root:true}),
+  3:()=>quiz(document.getElementById('p3'),'Speed Game · 10 sec',shuf(GR),{timer:10}),
+  4:()=>orderGame(document.getElementById('p4')),
+  5:()=>matchGame(document.getElementById('p5'))
+};
+
+window.scrollTo(0,0);
+</script>
+</body>
+</html>
