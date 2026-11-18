@@ -4,6 +4,9 @@
 (function(){
 'use strict';
 const W=3,GIVEN=['Sunday','A new house'];
+/* 18.11.2026: тексты 1–2 (Henry, Jack) сделаны на уроке 18.11; 3–4 (Penny, Thanksgiving) выданы Арине в Homework (сайт Арины: hw-20261118b.js) */
+const SENT={'Penny':'18 ноя','Thanksgiving':'18 ноя'},DONE=['Henry','Jack'];
+function seedDone(){try{if(typeof exam26Done!=='object')return;let ch=0;vocList().forEach(x=>{if(DONE.includes(x.s.t)){const k=exam26Key('voc',x.s);if(!exam26Done[k]){exam26Done[k]={d:'18.11.2026',s:''};ch=1}}});if(ch)exam26SaveDone()}catch(e){}}
 function vocList(){
  const out=[],seen={};
  Object.keys(exam26Voc).map(Number).sort((a,b)=>a-b).forEach(k=>(exam26Voc[k]||[]).forEach(s=>{
@@ -45,6 +48,11 @@ function patch(){
    /* длинный текст: чуть уменьшаем шрифт, чтобы всё влезло без прокрутки */
    const tx=v.querySelector('.exam26Text');let fs=15.5;
    while(tx&&fs>14&&document.documentElement.scrollHeight>innerHeight+2){fs-=.5;tx.style.setProperty('font-size',fs+'px','important')}
+   /* 18.11.2026: что ушло Арине в Homework — отметка «✓ В ДЗ · 18 ноя» на номере и на тексте */
+   const list=vocList(),chips=v.querySelectorAll('button[onclick^="exam26Index="]');
+   list.forEach((x,j)=>{const d=SENT[x.s.t];if(d&&chips[j]&&!chips[j].classList.contains('exHwChip')){chips[j].classList.add('exHwChip');chips[j].title+=' · ✓ в ДЗ Арине · '+d}});
+   const cur=list[exam26Index]||list[0],cd=cur&&SENT[cur.s.t];
+   if(cd){const h3=v.querySelector('.exam26Set h3');if(h3&&!h3.querySelector('.exHwMark'))h3.insertAdjacentHTML('beforeend','<span class="exHwMark" title="Отправлено Арине в Homework">✓ В ДЗ · '+cd+'</span>')}
   }else{const v=document.getElementById('examView');if(v)v.classList.remove('vocW4')}
   return r;
  };
@@ -63,5 +71,5 @@ const st=document.createElement('style');st.textContent=`
 #examView.vocW4 .exam26Text select{font-size:15px!important;max-width:200px!important;padding:0 3px!important}
 #examView.vocW4 .exam26Nav{margin-top:4px}`;
 document.head.appendChild(st);
-patch();window.addEventListener('load',patch);
+patch();window.addEventListener('load',()=>{patch();seedDone()});
 })();
