@@ -421,7 +421,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <script defer src="today/lesson-0711.js?v=20261107"></script>
 <script defer src="today/w5-email-questions.js?v=20261107a"></script>
 <script defer src="today/w5-l1-pack.js?v=20261108a"></script>
-<script defer src="today/l0911.js?v=20261109a"></script><script defer src="program/data/program.js?v=20261118a"></script><script defer src="today/on-lesson.js?v=20261118a"></script><script defer src="today/l1411.js?v=20261116a"></script><script defer src="today/l1611.js?v=20261116d"></script>
+<script defer src="today/l0911.js?v=20261109a"></script><script defer src="program/data/program.js?v=20261118b"></script><script defer src="today/on-lesson.js?v=20261118b"></script><script defer src="today/l1411.js?v=20261116a"></script><script defer src="today/l1611.js?v=20261116d"></script>
 <script defer src="today/exam-hw-0911.js?v=20261114"></script> <script defer src="today/exam-voc-w4.js?v=20261116a"></script>
 <script defer src="tense/tense-logic.js?v=20261114"></script>
 <link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005x"></script><style>
@@ -4198,13 +4198,13 @@ body.efHomeOn .efHome{display:block}
    const mark=x.done||x.hw?'<em>'+(x.done?'сдано '+x.done:'')+(x.done&&x.hw?' · ':'')+(x.hw?'ждём '+x.hw:'')+'</em>':'';
    return '<button type="button" class="efWk '+st+(k===i?' cur':'')+'" onclick="renderWeek('+k+')"><span class="n">'+(k+1)+'</span><b>'+(weekLabels[k]||'EGE')+'</b><small>'+wk.d+'</small>'+mark+'</button>'}).join('');
   const res=(f,t,s,c)=>'<button type="button" class="efRes" style="--c:'+c+'" onclick="'+f+'"><b>'+t+'</b><small>'+s+'</small></button>';
-  return '<div class="efHello"><div><h1>'+hello()+', Tatyana</h1><p>'+today()+' · в работе <b>неделя '+(i+1)+' · '+lab+'</b> <span>(по плану '+w.d+')</span></p>'+(w.g?'<p class="efGoalTop">Цель недели: '+w.g+'</p>':'')+'</div>'+
+  return '<div class="efHello"><div><h1>'+hello()+', Tatyana</h1><p>'+today()+' · неделя '+(i+1)+' · '+lab+(window.efProgLine&&efProgLine()?' · '+efProgLine():'')+'</p>'+(w.g?'<p class="efGoalTop">Цель недели: '+w.g+'</p>':'')+'</div>'+
    '<button type="button" class="efPlanTop'+(window.efPlanOpen?' open':'')+'" onclick="efPlanOpen=!window.efPlanOpen;document.getElementById(\'efPlanPop\').classList.toggle(\'open\',efPlanOpen);this.classList.toggle(\'open\',efPlanOpen)">План · 32 недели<i></i></button></div>'+
   '<div class="efPlanPop'+(window.efPlanOpen?' open':'')+'" id="efPlanPop"><div class="efBH"><span class="efLeg"><i class="d"></i>пройдена <i class="a"></i>в работе <i class="p"></i>впереди</span></div><div class="efWeeks">'+tiles+'</div></div>'+
   '<div class="efCards3">'+
    (window.efOnLessonHTML?efOnLessonHTML():'<div class="efCard"><h3><i style="--c:var(--ef-blue)"></i>Lesson</h3><p>'+(tDate?'<b>Сегодня '+tDate+'</b> · ':'')+tTxt+'</p><div class="efChips">'+lb+'</div></div>')+
-   ((window.efHwCardHTML&&efHwCardHTML())||'<div class="efCard efHwCard"><h3><i style="--c:var(--ef-red)"></i>Homework · неделя '+(i+1)+'<button type="button" class="efGoTop" onclick="openArinaHomeworkResults()">Результаты →</button></h3><p>Сдано <b>'+c.done+'</b> · ждём <b>'+c.hw+'</b>'+(wait>c.hw?' · всего не сдано: <b>'+wait+'</b>':'')+'</p><ul class="efHw">'+hwRows+'</ul></div>')+
-   '<div class="efCol3"><div class="efCard efSPCard" onclick="efRun(\'progress\')" title="Открыть Progress"><h3><i style="--c:var(--ef-purple)"></i>Study Progress</h3><div class="efSP"><div class="efMini" style="--p:'+pct*3.6+'deg"><span><b>'+pct+'%</b><small>сдано</small></span></div><div class="efSPn"><div><b>'+D+'</b> сдано</div><div><b>'+(T-D)+'</b> не сдано</div><div><b>'+c.hw+'</b> ждём на неделе '+(i+1)+'</div></div></div></div></div>'+
+   '<div class="efCol3">'+((window.efHwCardHTML&&efHwCardHTML())||'<div class="efCard efHwCard"><h3><i style="--c:var(--ef-red)"></i>Homework · неделя '+(i+1)+'<button type="button" class="efGoTop" onclick="openArinaHomeworkResults()">Результаты →</button></h3><p>Сдано <b>'+c.done+'</b> · ждём <b>'+c.hw+'</b>'+(wait>c.hw?' · всего не сдано: <b>'+wait+'</b>':'')+'</p><ul class="efHw">'+hwRows+'</ul></div>')+
+   '<div class="efCard efSPCard" onclick="efRun(\'progress\')" title="Открыть Progress"><h3><i style="--c:var(--ef-purple)"></i>Study Progress</h3><div class="efSP"><div class="efMini" style="--p:'+pct*3.6+'deg"><span><b>'+pct+'%</b><small>сдано</small></span></div><div class="efSPn"><div><b>'+D+'</b> сдано</div><div><b>'+(T-D)+'</b> не сдано</div><div><b>'+c.hw+'</b> ждём на неделе '+(i+1)+'</div></div></div></div></div>'+
   '</div>';
  }
  window.efToday=function(){const b=sideBtn(/^\s*(СЕГОДНЯ|ПОСЛЕДНИЙ УРОК)/i);if(b)b.click();else efLessons()};
@@ -4307,7 +4307,7 @@ body.efHomeOn .main{padding-bottom:6px!important;min-height:0!important}
 .efPlanTop.open i{transform:rotate(-135deg);margin-top:3px}
 .efPlanPop{display:none;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 2px 6px rgba(30,34,56,.08);margin:0 0 12px}
 .efPlanPop.open{display:block}
-#efHome .efCards3{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr)!important;gap:14px!important;align-items:start!important;margin:0}
+#efHome .efCards3{display:grid!important;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1.1fr)!important;gap:14px!important;align-items:start!important;margin:0}
 #efHome .efCards3>.efCard,#efHome .efCards3 .efHwCard{grid-column:auto!important;grid-row:auto!important;align-self:start!important}
 #efHome .efCard{padding:13px 15px;gap:8px;border-radius:14px;min-height:0}
 #efHome .efCard h3{font-size:18px;margin:0 0 2px;gap:10px}
