@@ -82,7 +82,10 @@ function tl(){
 }
 function next(){
  const l=nextL,isT=l.date===today;
- $('#next').innerHTML=`<div><small>${isT?'Сегодня':'Ближайший урок'} · ${esc(ru(l.date))}</small><b>${esc(l.block.title)} · ${esc(l.label)}</b></div><span class="sp"></span>${l.id?`<a href="${l.id==='diag-1'?'diagnostic-2026-11-23.html':'lesson.html?id='+l.id+'&v=20261118a'}">Открыть урок</a>`:`<button id="nb">План</button>`}`;
+ const dd=new Date(now); dd.setDate(dd.getDate()+1);
+ const tomorrow=iso(dd);
+ const isTomorrow=l.date===tomorrow;
+ $('#next').innerHTML=`<div><small>${isT?'Сегодня':(isTomorrow?'Завтра':'Ближайший урок')} · ${esc(ru(l.date))}</small><b>${esc(l.block.title)} · ${esc(l.label)}</b></div><span class="sp"></span>${l.id?`<a href="${l.id==='diag-1'?'diagnostic-2026-11-23.html?v=20261122a':'lesson.html?id='+l.id+'&v=20261122a'}">Открыть урок</a>`:`<button id="nb">План</button>`}`;
  const nb=document.getElementById('nb');if(nb)nb.onclick=()=>{sel=l.block;tl();block()};
 }
 function block(){
