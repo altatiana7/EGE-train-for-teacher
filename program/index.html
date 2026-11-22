@@ -82,7 +82,7 @@ function tl(){
 }
 function next(){
  const l=nextL,isT=l.date===today;
- $('#next').innerHTML=`<div><small>${isT?'Сегодня':'Ближайший урок'} · ${esc(ru(l.date))}</small><b>${esc(l.block.title)} · ${esc(l.label)}</b></div><span class="sp"></span>${l.id?`<a href="lesson.html?id=${l.id}&v=20261118a">Открыть урок</a>`:`<button id="nb">План</button>`}`;
+ $('#next').innerHTML=`<div><small>${isT?'Сегодня':'Ближайший урок'} · ${esc(ru(l.date))}</small><b>${esc(l.block.title)} · ${esc(l.label)}</b></div><span class="sp"></span>${l.id?`<a href="${l.id==='diag-1'?'diagnostic-2026-11-23.html':'lesson.html?id='+l.id+'&v=20261118a'}">Открыть урок</a>`:`<button id="nb">План</button>`}`;
  const nb=document.getElementById('nb');if(nb)nb.onclick=()=>{sel=l.block;tl();block()};
 }
 function block(){
@@ -93,7 +93,7 @@ function block(){
  <div class="ls">${b.lessons.map(l=>{const st=l.date===today?' today':(l.date<today?' past':'');return `<div class="lc${l.id?' ready':''}${st}" ${l.id?`data-id="${l.id}"`:''}><span class="st">${l.date===today?'сегодня':(l.id?'урок готов':'план')}</span><span class="d">${esc(ru(l.date))}</span><b>${esc(l.label)}</b><p>${esc(l.plan)}</p></div>`}).join('')}</div>
  <div class="tools">${b.cheatsheet?`<a class="pBtn" href="${esc(b.cheatsheet)}">Cheatsheet блока</a>`:''}</div>
  <div class="ruleBox" id="rb"><b>Правила программы</b><ul>${P.rules.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><b>Где баллы</b><table>${P.points.map(r=>`<tr><td>${esc(r[0])}</td><td><b>${esc(r[1])}</b></td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>`;
- document.querySelectorAll('.lc.ready').forEach(c=>c.onclick=()=>{location.href='lesson.html?id='+c.dataset.id+'&v=20261118a'});
+ document.querySelectorAll('.lc.ready').forEach(c=>c.onclick=()=>{location.href=c.dataset.id==='diag-1'?'diagnostic-2026-11-23.html':'lesson.html?id='+c.dataset.id+'&v=20261118a'});
 }
 $('#rules').onclick=()=>{const r=document.getElementById('rb');if(r)r.classList.toggle('on')};
 tl();next();block();scrollTo(0,0);
