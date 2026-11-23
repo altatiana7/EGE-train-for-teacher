@@ -46,6 +46,38 @@ body.listening-screen .listen-timer.expired strong{color:#c22b27}
 body.listening-screen .listen-timer.expired{background:#fff2f0;border-radius:6px}
 @media(max-width:1130px){body.listening-screen .listen-audio .mini{display:none}}
 @media(max-width:850px){body.listening-screen .listen-audio{flex-wrap:wrap}body.listening-screen .listen-audio audio{max-width:none}}
+
+/* Reading diagnosis: independent passage and answer panes, never lose the text */
+body.reading-screen{height:100dvh;overflow:hidden}
+body.reading-screen .top{height:45px;padding:5px 12px}
+body.reading-screen>details.panel{display:none}
+body.reading-screen .layout{height:calc(100dvh - 45px);min-height:0;grid-template-columns:155px minmax(0,1fr)}
+body.reading-screen nav{padding:7px 5px;gap:4px;overflow-y:auto;min-height:0}
+body.reading-screen nav button{padding:8px 7px;font-size:12px;flex:none}
+body.reading-screen main{height:100%;min-height:0;padding:8px 12px;display:flex;flex-direction:column}
+body.reading-screen .head{min-height:30px;flex:none}
+body.reading-screen .head h1{font-size:19px}
+body.reading-screen #screen{min-height:0;flex:1;display:flex;flex-direction:column}
+body.reading-screen #screen>.panel{margin-top:5px;padding:10px 13px;min-height:0;flex:1;display:flex;flex-direction:column;overflow:hidden}
+body.reading-screen #screen>.panel>h2{font-size:18px;margin:0 0 4px}
+body.reading-screen #screen>.panel>.intro{display:none}
+body.reading-screen .reading-instruction{font-size:13px;line-height:1.3;margin:3px 0 7px;flex:none;color:#59677d}
+body.reading-screen .reading-grid{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(315px,.82fr);gap:12px;flex:1;min-height:0}
+body.reading-screen .reading-pane{min-width:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:10px 12px;background:#f8faff;border:1px solid #dce3f1;border-radius:10px}
+body.reading-screen .reading-pane--questions{background:#fff}
+body.reading-screen .reading-pane .passage{margin:5px 0 9px;padding:7px 10px;font-size:clamp(16px,1.22vw,19px);line-height:1.5}
+body.reading-screen .reading-pane .passage p{line-height:1.4;margin:5px 0}
+body.reading-screen .reading-pane .text{font-size:clamp(17px,1.3vw,20px);line-height:1.57}
+body.reading-screen .reading-pane .q{grid-template-columns:minmax(0,1fr);gap:5px;padding:9px 0;align-items:start}
+body.reading-screen .reading-pane .q b{font-size:clamp(15px,1.13vw,17px);line-height:1.4}
+body.reading-screen .reading-pane .q select{max-width:100%;font-size:15px;padding:7px}
+body.reading-screen .reading-pane .reading-labels{background:#eef3ff;padding:8px 10px}
+body.reading-screen .reading-pane .reading-labels p{font-size:15px}
+body.reading-screen .reading-pane h3{position:sticky;top:-10px;background:inherit;margin:0 0 8px;padding:4px 0;font-size:16px;color:#293b82;z-index:1}
+body.reading-screen .actions{flex:none;margin-top:5px;padding:2px 0}
+body.reading-screen .actions .btn{padding:7px 14px}
+@media(max-width:950px){body.reading-screen .reading-grid{grid-template-columns:minmax(0,1fr) minmax(280px,.9fr)}body.reading-screen .layout{grid-template-columns:120px minmax(0,1fr)}body.reading-screen nav button{font-size:11px}}
+@media(max-width:700px){body.reading-screen{height:auto;overflow:auto}body.reading-screen .layout{display:block;height:auto}body.reading-screen nav{flex-direction:row;overflow-x:auto;position:sticky;top:0;z-index:3}body.reading-screen main{height:auto}body.reading-screen #screen>.panel{overflow:visible}body.reading-screen .reading-grid{display:block}body.reading-screen .reading-pane{overflow:visible;margin-bottom:10px}body.reading-screen .reading-pane--passage{max-height:55dvh;overflow:auto;position:sticky;top:50px;z-index:2}body.reading-screen .reading-pane--questions{position:relative;z-index:1}}
 </style></head><body>
 <header class="top"><a href="index.html#diag">← Программа</a><b>ARINA · EGE 2027</b><span class="chip">23.11.2026 · Диагностика 1/3</span><small>Teacher version · аудирование и чтение · 60 минут</small></header><details class="panel"><summary>Источники заданий и записей</summary><ul><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/teacher-tasks-2026/">Diving · ФИПИ F0D977; чтение 10 (Study skills), 11 (Climate change)</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/katerina-ege-2027/">Listening Lab · вариант 4, задания 2 и 3–9</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/ege-trainers/reading-12-18.html">Чтение 12–18 · вариант 1: Save a gap year until you graduate?</a></li></ul><p class="mini">Формулировки и ключи перенесены из источников. Для подтверждения ФИПИ у заданий без ID требуется сверка с исходным КИМ.</p></details>
 <div class="layout"><nav id="nav"></nav><main><div class="head"><h1 id="title">Входная диагностика</h1><span class="chip" id="counter">Аудирование + чтение</span><span id="clock" class="clock">60:00</span></div><div id="screen"></div></main></div>
@@ -110,9 +142,27 @@ out+='<p class="listen-instruction">Listen to the interview about learning langu
 aud3.forEach((x,i)=>out+=item('a3-'+i,(i+3)+'. '+esc(x[0]),x[1]));
 out+='</div>';
 }
-if(s.kind==='read10'){out+='<p>Match texts A–G with headings 1–8. One heading is extra.</p><div class="passage">'+r10labels.map((x,i)=>'<p><b>'+(i+1)+'.</b> '+esc(x)+'</p>').join('')+'</div>'+read10.map(x=>'<div class="passage"><strong>Text '+x[0]+'</strong> '+esc(x[1])+'</div>').join('');read10.forEach((x,i)=>out+=item('r10-'+i,'Text '+x[0],r10labels.map((_,i)=>String(i+1))))}
-if(s.kind==='read11'){out+='<p>Choose fragments 1–7 for gaps A–F. One fragment is extra.</p><div class="passage text">'+esc(read11text)+'</div><div class="passage">'+r11opts.map((x,i)=>'<p><b>'+(i+1)+'.</b> '+esc(x)+'</p>').join('')+'</div>';for(let i=0;i<6;i++)out+=item('r11-'+i,'Gap '+String.fromCharCode(65+i),r11opts.map((_,i)=>String(i+1)))}
-if(s.kind==='read12'){out+='<p>Read the text and answer questions 12–18.</p><div class="passage text">'+esc(read12)+'</div>';r12.forEach((x,i)=>out+=item('r12-'+i,(i+12)+'. '+esc(x[0]),x[1]))}
+if(s.kind==='read10'){
+out+='<p class="reading-instruction">Match texts A–G with headings 1–8. One heading is extra. The texts stay visible while you answer.</p>';
+out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Тексты для чтения"><h3>Texts A–G</h3>'+read10.map(x=>'<div class="passage"><strong>Text '+x[0]+'</strong> '+esc(x[1])+'</div>').join('')+'</section>';
+out+='<section class="reading-pane reading-pane--questions" aria-label="Заголовки и ответы"><h3>Headings 1–8</h3><div class="passage reading-labels">'+r10labels.map((x,i)=>'<p><b>'+(i+1)+'.</b> '+esc(x)+'</p>').join('')+'</div><h3>Your answers</h3>';
+read10.forEach((x,i)=>out+=item('r10-'+i,'Text '+x[0],r10labels.map((_,j)=>String(j+1))));
+out+='</section></div>';
+}
+if(s.kind==='read11'){
+out+='<p class="reading-instruction">Choose fragments 1–7 for gaps A–F. One fragment is extra. Scroll the text and choices independently.</p>';
+out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Текст с пропусками"><h3>Text with gaps A–F</h3><div class="passage text">'+esc(read11text)+'</div></section>';
+out+='<section class="reading-pane reading-pane--questions" aria-label="Фрагменты и ответы"><h3>Fragments 1–7</h3><div class="passage reading-labels">'+r11opts.map((x,i)=>'<p><b>'+(i+1)+'.</b> '+esc(x)+'</p>').join('')+'</div><h3>Your answers</h3>';
+for(let i=0;i<6;i++)out+=item('r11-'+i,'Gap '+String.fromCharCode(65+i),r11opts.map((_,j)=>String(j+1)));
+out+='</section></div>';
+}
+if(s.kind==='read12'){
+out+='<p class="reading-instruction">Read the text and answer questions 12–18. The article remains on the left throughout.</p>';
+out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Статья для чтения"><h3>Reading passage</h3><div class="passage text">'+esc(read12)+'</div></section>';
+out+='<section class="reading-pane reading-pane--questions" aria-label="Вопросы 12–18"><h3>Questions 12–18</h3>';
+r12.forEach((x,i)=>out+=item('r12-'+i,(i+12)+'. '+esc(x[0]),x[1]));
+out+='</section></div>';
+}
 if(s.kind==='end'){out+='<p>Завершите диагностику, чтобы увидеть баллы и разбор всех заданий. Пропущенные ответы считаются ошибками.</p><button class="btn red" onclick="finish()">Завершить и показать результаты</button>';if(finished)out+=resultHTML()}
 out+='</div><div class="actions"><button class="btn secondary" '+(!current?'disabled':'')+' onclick="go('+(current-1)+')">← Back</button><span class="mini">Раздел '+(current+1)+' из '+sections.length+'</span><button class="btn" '+(current===sections.length-1?'disabled':'')+' onclick="go('+(current+1)+')">Next →</button></div>';
 return out}
@@ -120,7 +170,7 @@ function getKey(){const key={};a1key.forEach((v,i)=>key['a1-'+i]=v);interview.fo
 function resultHTML(){const keys=getKey(),parts=[['Listening 1','a1-'],['Listening 2','a2-'],['Listening 3–9','a3-'],['Reading 10','r10-'],['Reading 11','r11-'],['Reading 12–18','r12-']];let html='<h2>Итоги диагностики</h2><div class="results">';parts.forEach(([name,prefix])=>{const ids=Object.keys(keys).filter(k=>k.startsWith(prefix));const n=ids.filter(id=>String(answers[id])===String(keys[id])).length;html+='<div class="metric">'+name+'<b>'+n+' / '+ids.length+'</b></div>'});html+='</div><p><b>Всего: '+Object.keys(keys).filter(id=>String(answers[id])===String(keys[id])).length+' / '+Object.keys(keys).length+'</b></p><h3>Ошибки и пропуски</h3>';let bad=0;for(const [id,key] of Object.entries(keys))if(String(answers[id])!==String(key)){bad++;html+='<div class="wrong"><b>'+id+'</b> · ответ: '+(answers[id]===undefined?'—':Number(answers[id])+1)+' · правильный вариант: '+(Number(key)+1)+'</div>'}if(!bad)html+='<div class="wrong success">Все ответы верны.</div>';html+='<button class="btn secondary" onclick="window.print()">Распечатать результаты</button><p class="mini">Авторская диагностика: баллы являются внутренними показателями, не переводятся автоматически во вторичные баллы ЕГЭ. Использованы записи из исходных тренажёров, без синтеза речи.</p>';return html}
 function finish(){finished=true;render()}
 function go(i){pauseListeningTimer(sections[current].id);document.querySelectorAll('audio').forEach(a=>a.pause());current=Math.max(0,Math.min(i,sections.length-1));showTeacher=false;render()}
-function render(){document.body.classList.toggle('listening-screen',sections[current].kind.startsWith('listen'));document.getElementById('nav').innerHTML=sections.map((s,i)=>'<button class="'+(i===current?'on':'')+'" onclick="go('+i+')">'+s.title+'</button>').join('');document.getElementById('title').textContent=sections[current].title;document.getElementById('counter').textContent=sections[current].time?sections[current].time+' минут · рекомендуемое время':'Сводная ведомость';document.getElementById('screen').innerHTML=html();document.querySelectorAll('select[data-id]').forEach(el=>el.onchange=()=>{if(el.value==='')delete answers[el.dataset.id];else answers[el.dataset.id]=el.value});scrollTo(0,0);syncListeningTimer(sections[current].id)}
+function render(){document.body.classList.toggle('listening-screen',sections[current].kind.startsWith('listen'));document.body.classList.toggle('reading-screen',sections[current].kind.startsWith('read'));document.getElementById('nav').innerHTML=sections.map((s,i)=>'<button class="'+(i===current?'on':'')+'" onclick="go('+i+')">'+s.title+'</button>').join('');document.getElementById('title').textContent=sections[current].title;document.getElementById('counter').textContent=sections[current].time?sections[current].time+' минут · рекомендуемое время':'Сводная ведомость';document.getElementById('screen').innerHTML=html();document.querySelectorAll('select[data-id]').forEach(el=>el.onchange=()=>{if(el.value==='')delete answers[el.dataset.id];else answers[el.dataset.id]=el.value});scrollTo(0,0);syncListeningTimer(sections[current].id)}
 setInterval(()=>{Object.keys(listeningTimers).forEach(syncListeningTimer);const sec=Math.max(0,3600-Math.floor((Date.now()-started)/1000));document.getElementById('clock').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');if(!sec)document.getElementById('clock').style.color='#aa2222'},1000);
 render();
 </script></body></html>
