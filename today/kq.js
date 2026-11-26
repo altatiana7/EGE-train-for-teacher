@@ -97,16 +97,26 @@ function kNext(el,S){if(S.pos<S.items.length-1){S.pos++;kRender(el,S)}else{S.end
 
 /* ---------- ФИПИ-текст ---------- */
 function fipiState(items,o){return {type:'fipi',items:items,o:o||{},open:items.map(()=>false)}}
-function fRender(el,S){
+function fRender(host,S){
  const start=S.o.start||19,n=S.items.length,cnt=S.open.filter(Boolean).length;
- let rows='',h='';
- S.items.forEach((it,i)=>{
-  if(it.h&&it.h!==h){h=it.h;rows+='<tr><td colspan="3"><h4>'+esc(it.h)+'</h4></td></tr>'}
-  const g='<span class="g'+(S.open[i]?' open':'')+'" data-kq-gap="'+i+'" title="Нажмите, чтобы открыть ответ">'+(S.open[i]?esc(it.a):'&nbsp;'+(start+i)+'&nbsp;')+'</span>';
-  rows+='<tr class="'+(S.open[i]?'open':'')+'"><td class="n">'+(start+i)+'</td><td>'+String(it.q).replace('___',g)+(it.why?'<div class="why">'+it.why+'</div>':'')+'</td><td class="w">'+esc(it.b)+'</td></tr>'});
- el.innerHTML='<div class="kqF">'+(S.o.title?'<h4>'+esc(S.o.title)+'</h4>':'')+
-  '<p class="kqFTask">'+(S.o.task||((S.o.kind?S.o.kind==='wf':start>=25)?'Образуйте от слов, напечатанных заглавными буквами в конце строк, однокоренные слова так, чтобы они грамматически и лексически соответствовали содержанию текста.':'Преобразуйте, если необходимо, слова, напечатанные заглавными буквами в конце строк, так, чтобы они грамматически соответствовали содержанию текста.'))+' <span style="font-style:normal;color:#0039A6">Нажмите на пропуск — откроется ответ.</span></p>'+
-  '<table>'+rows+'</table><div class="ctl"><span>Открыто: '+cnt+' из '+n+'</span><button type="button" class="kqBtn" data-kq-act="all">'+(cnt===n?'Скрыть все':'Открыть все')+'</button></div></div>';
+ const wordForm=S.o.kind?S.o.kind==='wf':start>=25;
+ const instruction=(S.o.task||(wordForm?'Образуйте от слов, напечатанных заглавными буквами в конце строк, однокоренные слова так, чтобы они грамматически и лексически соответствовали содержанию текста.':'Преобразуйте, если необходимо, слова, напечатанные заглавными буквами в конце строк, так, чтобы они грамматически соответствовали содержанию текста.'))+' Нажмите на пропуск, чтобы открыть ответ.';
+ let title='';
+ const rows=S.items.map((item,i)=>{
+  const [before,...rest]=String(item.q).split('___');
+  const control=EgeWritten.el('button','fnum'+(S.open[i]?' ok':''),S.open[i]?item.a:String(start+i));
+  control.type='button';control.dataset.kqGap=i;control.setAttribute('aria-expanded',String(S.open[i]));
+  const after=EgeWritten.htmlNode(rest.join('___'));
+  if(S.open[i]&&item.why)after.append(EgeWritten.htmlNode('<div class="note">'+item.why+'</div>'));
+  const heading=item.h&&item.h!==title?(title=item.h):'';
+  return {number:start+i,before:EgeWritten.htmlNode(before),after,base:item.b,heading,control};
+ });
+ const component=EgeWritten.render(wordForm?'25–29':'19–24',{instruction,title:S.o.title,rows});
+ const footer=EgeWritten.el('div','navrow');
+ const all=EgeWritten.el('button','btn',cnt===n?'Скрыть все':'Открыть все');
+ all.type='button';all.dataset.kqAct='all';
+ footer.append(EgeWritten.el('span','note','Открыто: '+cnt+' из '+n),all);
+ component.querySelector('.exam-main').append(footer);host.replaceChildren(component);
 }
 
 /* ---------- общее ---------- */

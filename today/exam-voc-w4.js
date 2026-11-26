@@ -45,9 +45,6 @@ function patch(){
    const tabs=v.querySelector('.exam26Tabs');if(tabs)tabs.remove();
    const hero=v.querySelector('.hero');if(hero)hero.remove();
    const h=v.querySelector('.exam26Set h3');if(h)h.insertAdjacentHTML('afterbegin','<span style="color:#D52B1E;font-size:13px;font-weight:900;letter-spacing:.04em;margin-right:10px">ЛЕКСИКА 30–36 · ФИПИ · '+(exam26Index+1)+'/'+vocList().length+'</span>');
-   /* длинный текст: чуть уменьшаем шрифт, чтобы всё влезло без прокрутки */
-   const tx=v.querySelector('.exam26Text');let fs=15.5;
-   while(tx&&fs>14&&document.documentElement.scrollHeight>innerHeight+2){fs-=.5;tx.style.setProperty('font-size',fs+'px','important')}
    /* 18.11.2026: что ушло Арине в Homework — отметка «✓ В ДЗ · 18 ноя» на номере и на тексте */
    const list=vocList(),chips=v.querySelectorAll('button[onclick^="exam26Index="]');
    list.forEach((x,j)=>{const d=SENT[x.s.t];if(d&&chips[j]&&!chips[j].classList.contains('exHwChip')){chips[j].classList.add('exHwChip');chips[j].title+=' · ✓ в ДЗ Арине · '+d}});
@@ -66,9 +63,6 @@ const st=document.createElement('style');st.textContent=`
 #examView.vocW4 .exam26Set{padding:8px 14px}
 #examView.vocW4 .exam26Set>.tiny{display:none}
 #examView.vocW4 .exam26Set h3{font-size:19px;margin:0 0 4px}
-#examView.vocW4 .exam26Text{font-size:15.5px;line-height:1.5}
-#examView.vocW4 .exam26Text p{line-height:1.62!important;margin:0 0 5px!important}
-#examView.vocW4 .exam26Text select{font-size:15px!important;max-width:200px!important;padding:0 3px!important}
 #examView.vocW4 .exam26Nav{margin-top:4px}`;
 document.head.appendChild(st);
 patch();window.addEventListener('load',()=>{patch();seedDone()});

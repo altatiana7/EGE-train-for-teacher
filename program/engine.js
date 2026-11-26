@@ -134,11 +134,16 @@ TYPES.fipi=function(a,el){
  $$('#ft button').forEach(b=>b.onclick=()=>{t=+b.dataset.k;show()});
  function show(){
   $$('#ft button').forEach(b=>b.classList.toggle('on',+b.dataset.k===t));const x=T[t];let n=x.first||a.first||19;
-  $('#fb').innerHTML=`<div class="fp">${x.items.map(r=>{const s=esc(r[0]).replace('___',`<button class="fgap" title="Показать ответ">${esc(r[2])}</button>`);return `<div class="t">${r[1]?`<span class="num">${n++}</span>`:''}${s}</div><div class="m">${esc(r[1]||'')}</div>`}).join('')}</div>`;
-  $$('#fb .fgap').forEach(g=>g.onclick=()=>g.classList.toggle('on'));
+  const rows=x.items.map(r=>{
+   const [before,...rest]=r[0].split('___'),control=EgeWritten.el('button','fnum',r[2]);
+   control.type='button';control.classList.add('program-gap');control.setAttribute('aria-expanded','false');
+   control.onclick=()=>{const on=control.classList.toggle('on');control.setAttribute('aria-expanded',String(on));};
+   return {number:r[1]?n++:'',before,after:rest.join('___'),base:r[1],control:rest.length?control:null};
+  });
+  $('#fb').replaceChildren(EgeWritten.render((x.first||a.first||19)>=25?'25–29':'19–24',{title:x.title,rows}));
   setCnt(T.length>1?(t+1)+' / '+T.length:'');
  }
- $('#fall').onclick=()=>$$('#fb .fgap').forEach(g=>g.classList.add('on'));
+ $('#fall').onclick=()=>$('#fb .program-gap').forEach(g=>{g.classList.add('on');g.setAttribute('aria-expanded','true')});
  show();
 };
 function fromBank(sec,title,first){
@@ -151,22 +156,61 @@ function fixCase(s){return String(s).replace(/^(arespoken|isspoken|wasbuilt|were
 /* Gap match: text with [A]..; parts []; key {A:n} */
 TYPES.gapmatch=function(a,el){
  let sel=null,done=0;const N=Object.keys(a.key).length;
- const html=a.text.map(p=>'<p>'+esc(p).replace(/\[([A-G1-9])\]/g,(m,g)=>`<span class="slot" data-g="${g}">${g}</span>`)+'</p>').join('');
- el.innerHTML=`<div class="gm"><div class="gmText" id="gt">${a.textTitle?`<p><b>${esc(a.textTitle)}</b></p>`:''}${html}</div><div class="gmParts" id="gp">${a.parts.map((p,k)=>`<button class="part" data-n="${k+1}"><span class="pn">${a.partLabels?a.partLabels[k]:k+1}</span>${esc(p)}</button>`).join('')}</div></div>`;
+ const paragraphs=a.text.map(p=>{
+  const paragraph=EgeWritten.el('p','');
+  paragraph.append(EgeWritten.htmlNode(esc(p).replace(/\[([A-G1-9])\]/g,(m,g)=>'<button type="button" class="gbtn slot" data-g="'+g+'">'+g+'</button>')));
+  return paragraph;
+ });
+ const parts=a.parts.map((part,k)=>{
+  const b=EgeWritten.el('button','part');b.type='button';b.dataset.n=k+1;
+  b.append(EgeWritten.el('b','pn',a.partLabels?a.partLabels[k]:k+1),part);
+  return b;
+ });
+ const root=EgeWritten.render('11',{title:a.textTitle,paragraphs,partControls:parts});el.replaceChildren(root);
+ const passage=root.querySelector('.read'),choiceList=root.querySelector('.parts');
+ passage.id='gt';choiceList.id='gp';
  const cnt=()=>setCnt(done+' / '+N);cnt();
- $$('#gt .slot').forEach(s=>s.onclick=()=>{if(s.classList.contains('fill'))return;$$('#gt .slot').forEach(x=>x.classList.remove('sel'));s.classList.add('sel');sel=s});
+ $$('#gt .slot').forEach(s=>s.onclick=()=>{if(s.classList.contains('fill'))return;$$('#gt .slot').forEach(x=>x.classList.remove('sel','on'));s.classList.add('sel','on');sel=s});
  $$('#gp .part').forEach(b=>b.onclick=()=>{
-  if(!sel){const first=$$('#gt .slot').find(s=>!s.classList.contains('fill'));if(first){first.classList.add('sel');sel=first}else return}
+  if(!sel){const first=$$('#gt .slot').find(s=>!s.classList.contains('fill'));if(first){first.classList.add('sel','on');sel=first}else return}
   const g=sel.dataset.g,n=+b.dataset.n;
-  if(a.key[g]===n){sel.classList.remove('sel');sel.classList.add('fill');sel.textContent=a.parts[n-1];b.classList.add('used');sel=null;done++;cnt()}
+  if(a.key[g]===n){sel.classList.remove('sel','on');sel.classList.add('fill','ok');sel.textContent=a.parts[n-1];b.classList.add('used');sel=null;done++;cnt()}
   else{b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake')}
  });
 };
 
 /* Listening: audio + kahoot questions with explanation */
-TYPES.listen=function(a,el){
- el.innerHTML=`<div class="player"><span>${esc(a.audioLabel||'Audio')}</span><audio controls preload="metadata" src="${esc(a.audio)}"></audio></div><div id="lq"></div>`;
- TYPES.kahoot({items:a.items,shuffle:false},$('#lq'));
+TYPES.listen=function(a,host){
+ const questions=a.items, answers=questions.map(()=>null), feedback=[], controls=[];
+ const audio=EgeWritten.el('audio','');
+ audio.controls=true;audio.preload='metadata';audio.src=a.audio;
+ audio.setAttribute('aria-label',a.audioLabel||'Audio');
+ const rows=questions.map((q,i)=>{
+  const options=shuf([q.a,...q.d]),values=options.map((_,j)=>String(j+1));
+  const control=EgeWritten.el('select','fp-answer-state'),line=EgeWritten.el('div','note');
+  control.append(new Option('…',''),...options.map((text,j)=>new Option(text,values[j])));
+  feedback.push(line);controls.push(control);
+  control.onchange=()=>{
+   if(control.disabled||!control.value)return;
+   const choice=options[Number(control.value)-1],ok=choice===q.a;answers[i]=choice;
+   line.textContent=(ok?'Верно. ':'Неверно. '+q.a+'. ')+(q.x||'');
+   control.classList.add(ok?'fp-right':'fp-wrong');control.disabled=true;
+   setCnt(answers.filter(x=>x!==null).length+' / '+questions.length);
+  };
+  return {label:q.q,options,values,control,feedback:line};
+ });
+ const root=EgeWritten.render('3–9',{audio,answers:rows});
+ const summary=EgeWritten.el('div','navrow'),result=EgeWritten.el('span','note');
+ const finish=EgeWritten.el('button','btn main','See result');
+ finish.type='button';finish.onclick=()=>{
+  const score=questions.filter((q,i)=>q.a===answers[i]).length;
+  result.textContent=score+' / '+questions.length;
+  feedback.forEach((note,i)=>{if(answers[i]===null)note.textContent=questions[i].a;});
+  controls.forEach(control=>{control.disabled=true;control.classList.add('fp-locked');});
+  finish.disabled=true;
+ };
+ summary.append(finish,result);root.querySelector('.exam-main').append(summary);
+ host.replaceChildren(root);setCnt('0 / '+questions.length);
 };
 
 /* Error hunter: text with {wrong|right} tokens */

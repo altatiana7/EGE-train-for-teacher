@@ -146,7 +146,6 @@ const EXINST={
  v30:'Прочитайте текст с пропусками 30–36 и выберите для каждого пропуска один из четырёх вариантов.'};
 const exNorm=x=>String(x).toLowerCase().replace(/[’‘`]/g,"'").replace(/won't/g,'will not').replace(/can't/g,'cannot').replace(/n't/g,' not').replace(/[^a-z]/g,'');
 function exSel(opts,label){const s=el('select','fx-sel');s.setAttribute('aria-label',label);s.append(new Option('…',''));opts.forEach(o=>s.append(new Option(o[1],o[0])));return s;}
-function exMcq(host,list,first,picked){list.forEach((q,k)=>{const box=el('div','fx-q');box.append(el('div','fx-qt','<b>'+(first+k)+'</b> '+esc(q.q)));q.o.forEach((o,j)=>{const lab=el('label','fx-opt');const r=el('input');r.type='radio';r.name='fxq'+k;r.value=j+1;r.onchange=()=>{picked[k]=j+1;};lab.append(r,el('span','',(j+1)+') '+esc(o)));box.append(lab);});host.append(box);});}
 function exPlayer(item,host){
   const bar=el('div','fx-player'),st=el('span','fx-state','Запись не звучала'),scr=el('div','fp-key');scr.hidden=true;
   scr.innerHTML='<h4>Текст записи · для учителя</h4>'+item.s.map(x=>'<p><b>'+esc(x[0])+':</b> '+esc(x[1])+'</p>').join('');
@@ -170,39 +169,72 @@ function openExam(ti,kind,k){
   if(list.length>1){nav.insertBefore(btn('← Previous',()=>openExam(ti,kind,k-1)),nav.lastChild);nav.insertBefore(el('span','fx-count',(k+1)+' / '+list.length),nav.lastChild);nav.insertBefore(btn('Next →',()=>openExam(ti,kind,k+1),'fp-main'),nav.lastChild);}
   const wrap=el('div','fx-wrap');body.append(wrap);
   const title=it.title||(kind==='l1'?'Высказывания':kind==='l2'?'Диалог':kind==='l3'?'Интервью':'');
-  wrap.append(el('div','fx-head','<b>'+EXNAME[kind]+(title?' · '+esc(title):'')+'</b><span>'+(it.own?'Задание сайта':'Открытый банк ФИПИ')+(list.length>1?' · '+(k+1)+' из '+list.length:'')+'</span>'),el('p','fx-inst',EXINST[kind]));
-  const res=el('span','fx-res'),key=el('div','fp-key');key.hidden=true;let check=()=>{},keyHtml='';
-  const mark=(node,ok)=>{node.classList.remove('fp-right','fp-wrong');node.classList.add(ok?'fp-right':'fp-wrong');};
-  const two=()=>{const g=el('div','fx-two'),a=el('div','fx-col'),b=el('div','fx-col');g.append(a,b);wrap.append(g);return [a,b];};
-  if(kind==='l1'||kind==='l2'){
-    exPlayer(it,wrap);const sels=[];
-    if(kind==='l1'){wrap.append(el('ol','fx-list',it.st.map(x=>'<li>'+esc(x)+'</li>').join('')));const row=el('div','fx-row');'ABCDEF'.split('').forEach(c=>{const s=exSel([1,2,3,4,5,6,7].map(n=>[n,String(n)]),'Говорящий '+c),cell=el('label','fx-cell','<b>'+c+'</b>');cell.append(s);sels.push(s);row.append(cell);});wrap.append(el('div','fx-sub','Говорящий → утверждение'),row);}
-    else it.st.forEach((x,j)=>{const s=exSel([[1,'1 – True'],[2,'2 – False'],[3,'3 – Not stated']],'Утверждение '+'ABCDEFG'[j]),line=el('div','fx-line','<b>'+'ABCDEFG'[j]+'</b><span>'+esc(x)+'</span>');line.append(s);sels.push(s);wrap.append(line);});
-    check=()=>{let n=0;sels.forEach((s,j)=>{const ok=+s.value===it.a[j];mark(s,ok);if(ok)n++;});return [n,sels.length];};keyHtml=it.a.map((a,j)=>'ABCDEFG'[j]+' – '+a).join(' · ');
-  }else if(kind==='l3'||kind==='r12'){
-    const picked=[],first=kind==='l3'?3:12;let host=wrap;
-    if(kind==='l3')exPlayer(it,wrap);else{const c=two();c[0].append(el('h3','fx-title',esc(it.title)),...it.p.map(p=>el('p','fx-par',esc(p))));host=c[1];}
-    exMcq(host,it.q,first,picked);
-    check=()=>{let n=0;host.querySelectorAll('.fx-q').forEach((b,j)=>{const ok=picked[j]===it.a[j];mark(b,ok);if(ok)n++;});return [n,it.a.length];};keyHtml=it.a.map((a,j)=>(first+j)+' – '+a).join(' · ');
-  }else if(kind==='r10'){
-    const c=two(),sels=[];c[1].append(el('div','fx-sub','Заголовки'),el('ol','fx-list',it.h.map(x=>'<li>'+esc(x)+'</li>').join('')));
-    it.t.forEach((x,j)=>{const s=exSel([1,2,3,4,5,6,7,8].map(n=>[n,n+'. '+it.h[n-1]]),'Текст '+'ABCDEFG'[j]),p=el('div','fx-text','<b>'+'ABCDEFG'[j]+'.</b> '+esc(x));const line=el('div','fx-pick');line.append(el('span','','Заголовок к тексту '+'ABCDEFG'[j]+':'),s);p.append(line);sels.push(s);c[0].append(p);});
-    check=()=>{let n=0;sels.forEach((s,j)=>{const ok=+s.value===it.a[j];mark(s,ok);if(ok)n++;});return [n,sels.length];};keyHtml=it.a.map((a,j)=>'ABCDEFG'[j]+' – '+a).join(' · ');
-  }else if(kind==='r11'){
-    const c=two(),sels={};c[0].append(el('h3','fx-title',esc(it.title)));
-    it.p.forEach(p=>{const par=el('p','fx-par');p.split(/(\{\{[A-F]\}\})/).forEach(part=>{const m=/^\{\{([A-F])\}\}$/.exec(part);if(m){const s=exSel([1,2,3,4,5,6,7].map(n=>[n,String(n)]),'Пропуск '+m[1]),g=el('span','fx-gap','<b>'+m[1]+'</b>');g.append(s);sels[m[1]]=s;par.append(g);}else par.append(document.createTextNode(part));});c[0].append(par);});
-    c[1].append(el('div','fx-sub','Части предложений'),el('ol','fx-list',it.parts.map(x=>'<li>'+esc(x)+'</li>').join('')));
-    check=()=>{let n=0;'ABCDEF'.split('').forEach((ch,j)=>{const ok=+sels[ch].value===it.a[j];mark(sels[ch],ok);if(ok)n++;});return [n,6];};keyHtml=it.a.map((a,j)=>'ABCDEF'[j]+' – '+a).join(' · ');
-  }else if(kind==='v30'){
-    const sels=[];wrap.append(el('h3','fx-title',esc(it.title)));
-    it.p.forEach(p=>{const par=el('p','fx-par fx-loose');p.split(/(\{\{\d\d\}\})/).forEach(part=>{const m=/^\{\{(\d\d)\}\}$/.exec(part);if(m){const n=+m[1]-30,s=exSel(it.o[n].map((o,j)=>[j+1,(j+1)+') '+o]),'Пропуск '+m[1]),g=el('span','fx-gap','<b>'+m[1]+'</b>');g.append(s);sels[n]=s;par.append(g);}else par.append(document.createTextNode(part));});wrap.append(par);});
-    check=()=>{let n=0;sels.forEach((s,j)=>{const ok=+s.value===it.a[j];mark(s,ok);if(ok)n++;});return [n,sels.length];};keyHtml=it.a.map((a,j)=>(30+j)+' – '+a+') '+esc(it.o[j][a-1])).join(' · ');
-  }else{
-    const first=kind==='g19'?19:(it.q.length===5?25:1),inputs=[];wrap.append(el('h3','fx-title',esc(it.title)));
-    it.q.forEach((q,j)=>{if(q[3])wrap.append(el('h3','fx-title fx-second',esc(q[3])));const par=el('p','fx-par fx-loose'),parts=q[0].split('___'),inp=el('input','fx-in');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');inp.setAttribute('aria-label','Ответ '+(first+j));inputs.push(inp);
-      par.append(el('b','fx-n',String(first+j)),document.createTextNode(' '+parts[0]),inp,el('small','fx-base',esc(q[1])),document.createTextNode(parts[1]||''));wrap.append(par);});
-    check=()=>{let n=0;inputs.forEach((inp,j)=>{const ok=[].concat(it.q[j][2]).some(a=>exNorm(a)===exNorm(inp.value));mark(inp,ok);if(ok)n++;});return [n,inputs.length];};keyHtml=it.q.map((q,j)=>(first+j)+' – '+esc([].concat(q[2]).join(' / ').toUpperCase())).join(' · ');
+  const types={l1:'1',l2:'2',l3:'3–9',r10:'10',r11:'11',r12:'12–18',g19:'19–24',w25:'25–29',v30:'30–36'};
+  const model={instruction:EXINST[kind],title,answers:[]};
+  const controls=[];
+  const answer=(label,options)=>{
+    const values=options.map((_,j)=>j+1),control=exSel(options.map((o,j)=>[values[j],o]),label);
+    control.classList.add('fp-answer-state');
+    controls.push(control);return {label,control,options,values};
+  };
+  const match=(labels,max)=>labels.map(label=>answer(label,Array.from({length:max},(_,i)=>String(i+1))));
+  const res=el('span','fx-res'),key=el('div','fp-key');key.hidden=true;
+  let keys=it.a,keyHtml='';
+  if(kind.startsWith('l')){
+    model.audio=el('div','');
+    exPlayer(it,model.audio);
   }
+  if(kind==='l1'){
+    model.statements=it.st;
+    model.answers=match([... 'ABCDEF'].map(letter=>'Говорящий '+letter),7);
+  }else if(kind==='l2'){
+    model.answers=it.st.map(text=>answer(text,['True','False','Not stated']));
+  }else if(kind==='l3'||kind==='r12'){
+    model.paragraphs=it.p;
+    model.answers=it.q.map(q=>answer(q.q,q.o));
+  }else if(kind==='r10'){
+    model.paragraphs=it.t.map((text,j)=>el('p','','<b>'+'ABCDEFG'[j]+'.</b> '+esc(text)));
+    model.headings=it.h;model.answers=match([...'ABCDEFG'],8);
+  }else if(kind==='r11'){
+    model.fragments=it.parts;
+    model.paragraphs=it.p.map(part=>el('p','',esc(part).replace(/\{\{([A-F])\}\}/g,'<b class="gapL">$1. ________</b>')));
+    model.answers=match([...'ABCDEF'],7);
+  }else if(kind==='v30'){
+    model.paragraphs=it.p.map(p=>p.split(/(\{\{\d\d\}\})/).map(part=>{
+      const m=/^\{\{(\d\d)\}\}$/.exec(part);
+      if(!m)return part;
+      const n=+m[1]-30,options=it.o[n];
+      const row=answer('Пропуск '+m[1],options.map((word,j)=>m[1]+' · '+(j+1)+') '+word));
+      row.control.options[0].textContent=m[1]+' …';return row.control;
+    }));
+  }else{
+    const first=kind==='g19'?19:(it.q.length===5?25:1);
+    keys=it.q.map(q=>[].concat(q[2]));
+    model.rows=it.q.map((q,j)=>{
+      const control=el('input');control.type='text';control.autocomplete='off';control.spellcheck=false;
+      control.setAttribute('autocapitalize','off');control.setAttribute('aria-label','Ответ '+(first+j));controls.push(control);
+      const [before,...rest]=q[0].split('___');
+      return {number:first+j,before,after:rest.join('___'),base:q[1],heading:q[3],control};
+    });
+  }
+  const first={l1:1,l2:1,l3:3,r10:1,r11:1,r12:12,v30:30,g19:19,w25:it.q?.length===5?25:1}[kind];
+  keyHtml=keys.map((value,j)=>{
+    const n=['l1','l2','r10','r11'].includes(kind)?'ABCDEFG'[j]:first+j;
+    const answerText=Array.isArray(value)?value.join(' / ').toUpperCase():kind==='v30'?value+') '+it.o[j][value-1]:value;
+    return n+' – '+esc(answerText);
+  }).join(' · ');
+  const task=EgeWritten.render(types[kind],model);
+  wrap.append(task);
+  const check=()=>{
+    let count=0;
+    controls.forEach((control,j)=>{
+      const answer=keys[j];
+      const ok=Array.isArray(answer)?answer.some(form=>exNorm(form)===exNorm(control.value)):+control.value===answer;
+      control.classList.toggle('fp-right',ok);control.classList.toggle('fp-wrong',!ok);
+      if(ok)count++;
+    });
+    return [count,controls.length];
+  };
   key.innerHTML='<h4>Ответы</h4><p>'+keyHtml+'</p>';
   const ctrl=el('div','fp-ctrl fx-ctrl');ctrl.append(btn('Проверить',()=>{const r=check();res.textContent='Верно: '+r[0]+' из '+r[1];},'fp-main'),res);
   if(list.length>1)ctrl.append(btn('Next →',()=>openExam(ti,kind,k+1)));
@@ -338,18 +370,18 @@ function openBankIv(k,backTi){
 }
 
 /* ---------- письменная часть ---------- */
-const FILL=['#0039a6','#d52b1e','#f2b705','#2e9d5b','#b9c2d0'];
+const FILL=['#227066','#b5762a','#00a4b8','#f2b705','#879a94'];
 function pie(rows){
-  let a=-Math.PI/2,s='';const R=110,C=125;
+  let a=-Math.PI/2,s='';const R=100,C=110;
   rows.forEach((r,k)=>{const b=a+r[1]/100*2*Math.PI,x1=C+R*Math.cos(a),y1=C+R*Math.sin(a),x2=C+R*Math.cos(b),y2=C+R*Math.sin(b),m=(a+b)/2;
     s+='<path d="M'+C+' '+C+'L'+x1.toFixed(1)+' '+y1.toFixed(1)+'A'+R+' '+R+' 0 '+(b-a>Math.PI?1:0)+' 1 '+x2.toFixed(1)+' '+y2.toFixed(1)+'Z" fill="'+FILL[k]+'" stroke="#fff" stroke-width="2"/>';
-    s+='<text x="'+(C+R*.66*Math.cos(m)).toFixed(1)+'" y="'+(C+R*.66*Math.sin(m)+5).toFixed(1)+'" text-anchor="middle" font-size="14" font-weight="700" fill="'+(k===2||k===4?'#111':'#fff')+'">'+r[1]+'%</text>';a=b;});
-  return '<div class="fp-chart"><svg viewBox="0 0 250 250" role="img" aria-label="Pie chart">'+s+'</svg><div class="fp-legend">'+rows.map((r,k)=>'<div><i style="background:'+FILL[k]+'"></i>'+esc(r[0])+' – '+r[1]+'%</div>').join('')+'</div></div>';
+    s+='<text x="'+(C+R*.66*Math.cos(m)).toFixed(1)+'" y="'+(C+R*.66*Math.sin(m)+5).toFixed(1)+'" text-anchor="middle" font-size="14" font-weight="700" fill="'+(k===3?'#1d3a34':'#fff')+'">'+r[1]+'%</text>';a=b;});
+  return '<div class="fp-chart"><svg viewBox="0 0 220 220" role="img" aria-label="Pie chart">'+s+'</svg><div class="fp-legend">'+rows.map((r,k)=>'<div><i style="background:'+FILL[k]+'"></i>'+esc(r[0])+' – '+r[1]+'%</div>').join('')+'</div></div>';
 }
 function openWrite(ti,task,v){
   const t=T()[ti],is37=task===37,title=is37?'Задание 37':'Задание 38.'+(v+1),{body}=shell(t.name+' · '+title,()=>openTopic(ti),'К теме');
   const lim=is37?{min:100,max:140,lo:90,hi:154,time:20}:{min:200,max:250,lo:180,hi:275,time:40};
-  const grid=el('div','fp-write'),kim=el('div','fp-kim'),kb=el('div','fp-kimbody');kim.append(el('div','fp-kimhead','<b>'+title+'</b>'),kb);
+  const kb=el('div','fp-kimbody');
   let keyHtml='';
   if(is37){
     const m=t.mail;
@@ -366,7 +398,7 @@ function openWrite(ti,task,v){
     const L=top.length-1;
     keyHtml='<h4>Опорные данные</h4><ul><li>Самый высокий показатель: '+esc(top[0][0])+' – '+top[0][1]+'%.</li><li>Второе место: '+esc(top[1][0])+' – '+top[1][1]+'%.</li><li>Самый низкий показатель: '+esc(top[L][0])+' – '+top[L][1]+'%.</li><li>Сравнения: '+esc(top[0][0])+' выше, чем '+esc(top[1][0])+', на '+(top[0][1]-top[1][1])+' п. п.; '+esc(top[0][0])+' примерно в '+(top[0][1]/top[L][1]).toFixed(0)+' раз(а) выше, чем '+esc(top[L][0])+'.</li></ul><h4>Проблема и решение</h4><p>'+esc(p.hint)+'</p><h4>Каркас ответа</h4><pre>Nowadays … . That is why I am doing a project on '+esc(p.subject)+'. As part of my project, I have found some data and I would like to comment on it.\n\nAccording to the '+word+', … is the most popular option ('+top[0][1]+'%). … comes second with '+top[1][1]+'%. The least popular option is … (only '+top[L][1]+'%).\n\nIt is clear that … is more popular than … – the difference is … %. I think this is because … .\n\nHowever, a problem can arise with '+esc(p.problem)+'. … . To solve it, … .\n\nIn conclusion, I believe that … because … .</pre><h4>Оценивание · 14 баллов</h4><ul><li>Решение коммуникативной задачи – 3 (все пять пунктов плана, нейтральный стиль).</li><li>Организация текста – 3 (5 абзацев, средства связи).</li><li>Лексика – 3 · Грамматика – 3 · Орфография и пунктуация – 2.</li></ul><p>Объём: меньше 180 слов – 0 баллов за задание; больше 275 – проверяются первые 250 слов.</p>'+bookRef(ti,[['project','Проект 38'],['writingKeys','Ключи и образцы']]);
   }
-  const paper=el('div','fp-paper'),ta=el('textarea'),cnt=el('div','fp-count'),store='fipi:'+t.id+':'+task+':'+v;
+  const ta=el('textarea'),cnt=el('div','fp-count'),store='fipi:'+t.id+':'+task+':'+v;
   ta.placeholder='Пишите ответ здесь…';ta.spellcheck=false;try{ta.value=localStorage.getItem(store)||'';}catch(e){}
   const num=el('b'),msg=el('span'),clock=el('span','fp-clock',lim.time+':00');
   const upd=()=>{const n=countWords(ta.value);num.textContent=n;const ok=n>=lim.min&&n<=lim.max,soft=n>=lim.lo&&n<=lim.hi;num.className=ok?'fp-ok':(soft?'':'fp-bad');msg.textContent='слов · нужно '+lim.min+'–'+lim.max+(n&&!ok&&soft?' · в допустимых пределах':n>lim.hi?' · лишнее не проверяется':n&&n<lim.lo?' · слишком мало':'');try{localStorage.setItem(store,ta.value);}catch(e){}};
@@ -374,7 +406,24 @@ function openWrite(ti,task,v){
   const tools=el('div','fp-count');let end=0;
   tools.append(clock,btn('Таймер '+lim.time+' мин',()=>{clearInterval(writeTimer);end=Date.now()+lim.time*60000;writeTimer=setInterval(()=>{const s=(end-Date.now())/1000;clock.textContent=mmss(s);clock.className='fp-clock'+(s<120?' fp-answer':'');if(s<=0){clearInterval(writeTimer);beep(520,500);}},500);}),
     btn('Копировать ответ',()=>{navigator.clipboard&&navigator.clipboard.writeText(ta.value);}),btn('Очистить',()=>{if(confirm('Удалить текст ответа?')){ta.value='';upd();}}));
-  paper.append(ta,cnt,tools);upd();grid.append(kim,paper);body.append(grid);
+  upd();
+  const intro=kb.firstElementChild;intro.remove();
+  const prompt=[...kb.children];
+  if(is37){
+    const mail=kb.querySelector('.fp-mail');mail.className='kimmail';
+    for(const node of mail.children)node.className=node.tagName==='P'?'mb':'mr';
+  }else{
+    const table=kb.querySelector('table');if(table)table.className='kimtab';
+    const graphic=kb.querySelector('.fp-chart');if(graphic){graphic.className='pie';for(const item of graphic.querySelectorAll('.fp-legend>div'))item.className='lg';}
+    const display=prompt[1],plan=prompt[2],lines=plan.innerHTML.split('<br>'),list=el('ul','kimplan');
+    plan.innerHTML=lines.slice(0,2).join('<br>');
+    for(const line of lines.slice(2))list.append(el('li','',line));
+    if(v===1){intro.className='task';prompt[0].className='task';prompt.push(list);}
+    else{const row=el('div','kimrow'),guidance=el('div');guidance.append(plan,list);row.append(display.firstElementChild,guidance);prompt.splice(1,2,row);}
+  }
+  cnt.classList.add('wc');tools.classList.add('navrow');
+  ta.setAttribute('aria-label',title);
+  body.append(EgeWritten.render(is37?'37':'38.'+(v+1),{intro,prompt,editor:ta,footer:[cnt,tools]}));
   const key=el('div','fp-key',keyHtml);key.hidden=true;const ctrl=el('div','fp-ctrl');ctrl.style.maxWidth='1400px';key.style.maxWidth='1400px';
   ctrl.append(btn('Ключ · для учителя',()=>{key.hidden=!key.hidden;},'fp-red fp-sp'));body.append(ctrl,key);
 }
@@ -385,16 +434,16 @@ const GAPINST={
 const norm=x=>String(x).toLowerCase().replace(/[^a-z']/g,'');
 function openGap(ti,kind){
   const t=T()[ti],d=t[kind],first=kind==='gr'?19:25,title='Задания '+first+'–'+(first+d.items.length-1),{body}=shell(t.name+' · '+title,()=>openTopic(ti),'К теме');
-  const kim=el('div','fp-kim'),kb=el('div','fp-kimbody');kim.append(el('div','fp-kimhead','<b>'+title+'</b><span class="fp-phase">'+(kind==='gr'?'Грамматика':'Словообразование')+'</span>'),kb);
-  kb.append(el('p','fp-inst',GAPINST[kind]),el('div','fp-adtitle',esc(d.title)));
-  const tab=el('table','fp-gap'),inputs=[];
-  d.items.forEach((it,k)=>{const tr=el('tr'),td=el('td');const inp=el('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('aria-label','Ответ '+(first+k));inputs.push(inp);
-    td.append(document.createTextNode(it[0]+(it[0]?' ':'')),inp,document.createTextNode(it[1]));tr.append(el('td','fp-gapn',String(first+k)),td,el('td','fp-gapw',esc(it[2])));tab.append(tr);});
-  kb.append(tab);body.append(kim);
+  const inputs=[],rows=d.items.map((it,k)=>{
+    const control=el('input');control.type='text';control.autocomplete='off';control.spellcheck=false;
+    control.setAttribute('aria-label','Ответ '+(first+k));inputs.push(control);
+    return {number:first+k,before:it[0]?(it[0]+' '):'',after:it[1],base:it[2],control};
+  });
+  body.append(EgeWritten.render(kind==='gr'?'19–24':'25–29',{instruction:GAPINST[kind],title:d.title,rows}));
   const res=el('span','fp-phase'),key=el('div','fp-key','<h4>Ответы</h4><ol start="'+first+'"><li>'+d.items.map(it=>esc(it[3].join(' / '))).join('</li><li>')+'</li></ol><p>В бланк ответов ЕГЭ ответ из нескольких слов записывается без пробелов. По 1 баллу за каждый верный ответ; орфографическая ошибка – 0.</p>');key.hidden=true;
   const ctrl=el('div','fp-ctrl');
-  ctrl.append(btn('Проверить',()=>{let n=0;inputs.forEach((inp,k)=>{const ok=d.items[k][3].some(a=>norm(a)===norm(inp.value));inp.className=inp.value.trim()?(ok?'fp-right':'fp-wrong'):'';if(ok)n++;});res.textContent='Верно: '+n+' из '+inputs.length;},'fp-main'),
-    btn('Очистить',()=>{inputs.forEach(i=>{i.value='';i.className='';});res.textContent='';}),res,btn('Ключ · для учителя',()=>{key.hidden=!key.hidden;},'fp-red fp-sp'));
+  ctrl.append(btn('Проверить',()=>{let n=0;inputs.forEach((inp,k)=>{const ok=d.items[k][3].some(a=>norm(a)===norm(inp.value));inp.classList.toggle('fp-right',!!inp.value.trim()&&ok);inp.classList.toggle('fp-wrong',!!inp.value.trim()&&!ok);if(ok)n++;});res.textContent='Верно: '+n+' из '+inputs.length;},'fp-main'),
+    btn('Очистить',()=>{inputs.forEach(i=>{i.value='';i.classList.remove('fp-right','fp-wrong');});res.textContent='';}),res,btn('Ключ · для учителя',()=>{key.hidden=!key.hidden;},'fp-red fp-sp'));
   body.append(ctrl,key);
 }
 /* подсчёт слов по правилам ЕГЭ: считаются все слова, включая артикли и предлоги; сокращения (I'm) и числа – одно слово */

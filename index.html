@@ -424,7 +424,7 @@ body{background:#f4f6f8!important;color:#1f2937!important}
 <script defer src="today/l0911.js?v=20261109a"></script><script defer src="program/data/program.js?v=20261118b"></script><script defer src="today/on-lesson.js?v=20261118b"></script><script defer src="today/l1411.js?v=20261116a"></script><script defer src="today/l1611.js?v=20261116d"></script>
 <script defer src="today/exam-hw-0911.js?v=20261114"></script> <script defer src="today/exam-voc-w4.js?v=20261118a"></script>
 <script defer src="tense/tense-logic.js?v=20261114"></script>
-<link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261005x"></script><style>
+<link rel="stylesheet" href="fipi/fipi.css?v=20261005x"><link rel="stylesheet" href="ege-written-exam-ui/exam.css"><script src="ege-written-exam-ui/exam.js"></script><script defer src="fipi/data1.js?v=20261005"></script><script defer src="fipi/data2.js?v=20261005"></script><script defer src="fipi/data3.js?v=20261005"></script><script defer src="fipi/data4.js?v=20261005b"></script><script defer src="fipi/data5.js?v=20261005c"></script><script defer src="fipi/data6.js?v=20261005d"></script><script defer src="fipi/fipi.js?v=20261126written"></script><style>
 /* Единая типографика уроков недель 2–32: 16px текст, 20px заголовок шага, 13px подписи */
 .lsOne{grid-template-columns:250px minmax(0,1fr)!important;gap:14px!important;font-family:Arial,Helvetica,sans-serif}
 .lsOne .lesson3Menu{gap:4px!important;width:250px!important;min-width:250px!important}
@@ -3589,7 +3589,15 @@ const exam26Voc={
    a:[4, 4, 2, 3, 1, 2, 4]}],
 };
 function exam26VocHTML(set){
- return '<div class="exam26Text">'+set.p.map(par=>'<p style="margin:0 0 10px;line-height:2.1">'+par.replace(/\{\{(\d\d)\}\}/g,(m,n)=>{const k=n-30;return '<span class="exam26Gap"><b style="color:#D52B1E;font-size:11px">'+n+'</b><select data-k="'+k+'" style="font:inherit;font-weight:900;color:#0039A6;border:0;border-bottom:2px solid #0039A6;background:#f7f9fc;padding:2px 4px;max-width:190px"><option value="">…</option>'+set.o[k].map((o,j)=>'<option value="'+(j+1)+'">'+(j+1)+') '+o+'</option>').join('')+'</select></span>'})+'</p>').join('')+'</div>';
+ const paragraphs=set.p.map(par=>par.split(/(\{\{\d\d\}\})/).map(part=>{
+  const number=/^\{\{(\d\d)\}\}$/.exec(part);if(!number)return EgeWritten.htmlNode(part);
+  const n=+number[1],k=n-30,select=EgeWritten.el('select','vsel');
+  select.dataset.k=k;select.setAttribute('aria-label','Пропуск '+n);select.append(new Option(n+' …',''));
+  set.o[k].forEach((word,j)=>select.append(new Option(n+' · '+(j+1)+') '+word,j+1)));
+  return select;
+ }));
+ const template=EgeWritten.render('30–36',{paragraphs});
+ template.classList.add('exam26Text');return template.outerHTML;
 }
 function exam26Own(mode,w){
  if(mode==='voc')return exam26Voc[w]||[];
