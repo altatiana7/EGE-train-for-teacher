@@ -11,12 +11,42 @@
 <script src="data/program.js?v=20261118a"></script>
 <script>
 (function(){
- var id=new URLSearchParams(location.search).get('id')||'';
- var block=(window.PROGRAM.blocks.find(function(b){return b.lessons&&b.lessons.some(function(l){return l.id===id})})||{});
- var s=document.createElement('script');
- s.src='lessons/'+(block.file||'edu')+'.js?v=20261118a';
- s.onload=function(){var L=window.LESSONS[id];if(!L){document.body.innerHTML='<p style="padding:30px">Урок не найден.</p>';return}L.backHref='index.html#'+(block.id||'');renderLesson(L)};
- document.body.appendChild(s);
+ const id=new URLSearchParams(location.search).get('id')||'';
+ const diagnostics={'diag-1':'diagnostic-2026-11-23.html','diag-2':'diagnostic-2026-11-25.html'};
+ if(Object.hasOwn(diagnostics,id)){
+  location.replace(diagnostics[id]);
+  return;
+ }
+ const block=window.PROGRAM?.blocks.find(b=>b.lessons?.some(lesson=>lesson.id===id));
+ const backHref='index.html'+(block?'#'+block.id:'');
+ function showError(message){
+  const panel=document.createElement('main');
+  panel.style.padding='30px';
+  const text=document.createElement('p');
+  text.textContent=message;
+  const back=document.createElement('a');
+  back.href=backHref;
+  back.textContent='Вернуться к программе';
+  panel.append(text,back);
+  document.body.replaceChildren(panel);
+ }
+ if(!block?.file){
+  showError('Этот урок пока недоступен.');
+  return;
+ }
+ const script=document.createElement('script');
+ script.src='lessons/'+block.file+'.js?v=20261118a';
+ script.onload=function(){
+  const lesson=Object.hasOwn(window.LESSONS||{},id)?window.LESSONS[id]:null;
+  if(!lesson||typeof renderLesson!=='function'){
+   showError('Не удалось открыть урок.');
+   return;
+  }
+  lesson.backHref=backHref;
+  renderLesson(lesson);
+ };
+ script.onerror=()=>showError('Не удалось загрузить материалы урока.');
+ document.body.appendChild(script);
 })();
 </script>
 </body>
