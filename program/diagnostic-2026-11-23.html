@@ -142,6 +142,28 @@ body #screen>.panel,body:is(.reading-screen,.listening-screen) #screen>.panel{ma
 body .actions,body:is(.reading-screen,.listening-screen) .actions{margin-top:2px;padding:1px 0}
 .actions .btn,body:is(.reading-screen,.listening-screen) .actions .btn{padding:3px 8px}
 
+
+/* Keep each question and its available answers together. */
+.choice-question{min-width:0;margin:0;padding:6px 0 8px;border:0;border-bottom:1px solid #dde5f0}
+.choice-question legend{padding:0;color:#172b4c;font-size:17px;font-weight:650;line-height:1.35}
+.choice-options{display:flex;flex-wrap:wrap;gap:4px 7px;margin-top:4px;min-width:0}
+.choice-option{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:3px 8px;margin:0;border:1px solid #bbcae0;border-radius:7px;background:#fff;color:#172b4c;font-size:16px;line-height:1.3;cursor:pointer;overflow-wrap:anywhere}
+.choice-option input{width:1em;min-height:0;padding:0;margin:0;flex:none;accent-color:#293b82}
+.choice-option:has(input:checked){border-color:#294b91;background:#e8f0ff;color:#183677}
+.choice-option:has(input:focus-visible){outline:2px solid #294b91;outline-offset:2px}
+.choice-option:has(input:disabled){cursor:default}
+
+body:is(.listening-screen,.reading-screen){height:auto;min-height:100dvh;overflow:visible}
+body:is(.listening-screen,.reading-screen) .layout{height:auto}
+body:is(.listening-screen,.reading-screen) main{height:auto;min-width:0}
+body:is(.listening-screen,.reading-screen) #screen>.panel{overflow:visible;padding:6px 10px}
+body.reading-screen .reading-grid{grid-template-columns:minmax(0,1.48fr) minmax(0,1fr)}
+body.reading-screen .reading-pane{max-height:none;overflow:visible;position:static}
+body.reading-screen .reading-pane :is(.text,.passage){font-size:20px;line-height:1.55}
+body.reading-screen .reading-pane h3{position:static}
+body.listening-screen .listen-content{gap:0}
+body.listening-screen .listen-instruction,body.reading-screen .reading-instruction{font-size:16px;line-height:1.4}
+@media(max-width:850px){body.reading-screen .reading-grid,body.listening-screen .listen1-grid{grid-template-columns:minmax(0,1fr)}}
 </style><meta name="worksheet-layout" content="compact">
 </head><body>
 <header class="top"><a href="index.html#diag">← Программа</a><b>ARINA · EGE 2027</b><span class="chip">23.11.2026 · Диагностика 1/3</span><small>Teacher version · аудирование и чтение · 60 минут</small><small id="save-status" style="margin-left:0">Автосохранение</small><button type="button" onclick="exportProgress()" style="font-size:12px;border:1px solid #b8c7df;background:#eaf0ff;border-radius:6px;padding:5px 8px;color:#293b82">Экспорт ответов</button><details id="section-picker"><summary>Разделы</summary><nav id="nav"></nav></details></header><details class="panel"><summary>Источники заданий и записей</summary><ul><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/teacher-tasks-2026/">Diving · ФИПИ F0D977; чтение 10 (Study skills), 11 (Climate change)</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/katerina-ege-2027/">Listening Lab · вариант 4, задания 2 и 3–9</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/ege-trainers/reading-12-18.html">Чтение 12–18 · вариант 1: Save a gap year until you graduate?</a></li></ul><p class="mini">Формулировки и ключи перенесены из источников. Для подтверждения ФИПИ у заданий без ID требуется сверка с исходным КИМ.</p></details>
@@ -189,8 +211,10 @@ function resetListeningTimer(id){const t=listeningTimers[id];if(!t)return;t.runn
 function pauseListeningTimer(id){const t=listeningTimers[id];if(t&&t.running){t.remaining=timerSeconds(id);t.running=false}}
 
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function opts(id,labels){return '<select id="answer-'+esc(id)+'" data-id="'+esc(id)+'"><option value="">— Выбери ответ —</option>'+labels.map((t,i)=>'<option value="'+i+'" '+(String(answers[id])===String(i)?'selected':'')+'>'+esc(t)+'</option>').join('')+'</select>'}
-function item(id,title,labels){return '<div class="q"><label for="answer-'+esc(id)+'"><b>'+title+'</b></label>'+opts(id,labels)+'</div>'}
+function item(id,title,labels){
+ const options=labels.map((text,i)=>'<label class="choice-option"><input type="radio" name="'+esc(id)+'" data-id="'+esc(id)+'" value="'+i+'" '+(String(answers[id])===String(i)?'checked':'')+'><span>'+esc(text)+'</span></label>').join('');
+ return '<fieldset class="choice-question"><legend>'+title+'</legend><div class="choice-options">'+options+'</div></fieldset>';
+}
 const audioPositions=Object.assign({a1:0,a2:0,a3:0},savedProgress.audioPositions||{});
 function playAudio(src,note){const id=sections[current].id;return '<audio id="diagnostic-audio" controls preload="metadata" playsinline aria-label="Аудирование '+esc(id)+'" style="width:100%" src="'+esc(src)+'"></audio><p class="mini">'+esc(note)+'</p>'}
 function rememberAudioPosition(){const a=document.getElementById('diagnostic-audio');if(!a)return;const id=sections[current].id;if(Object.prototype.hasOwnProperty.call(audioPositions,id)&&Number.isFinite(a.currentTime))audioPositions[id]=a.currentTime}
@@ -233,7 +257,7 @@ read10.forEach((x,i)=>out+=item('r10-'+i,'Text '+x[0],r10labels.map((_,j)=>Strin
 out+='</section></div>';
 }
 if(s.kind==='read11'){
-out+='<p class="reading-instruction">Choose fragments 1–7 for gaps A–F. One fragment is extra. Scroll the text and choices independently.</p>';
+out+='<p class="reading-instruction">Choose fragments 1–7 for gaps A–F. One fragment is extra. Read the full text and choose an answer for each gap.</p>';
 out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Текст с пропусками"><h3>Text with gaps A–F</h3><div class="passage text">'+read11text.split(/\n\s*\n/).map(p=>'<p>'+esc(p)+'</p>').join('')+'</div></section>';
 out+='<section class="reading-pane reading-pane--questions" aria-label="Фрагменты и ответы"><h3>Fragments 1–7</h3><div class="passage reading-labels">'+r11opts.map((x,i)=>'<p><b>'+(i+1)+'.</b> '+esc(x)+'</p>').join('')+'</div><h3>Your answers</h3>';
 for(let i=0;i<6;i++)out+=item('r11-'+i,'Gap '+String.fromCharCode(65+i),r11opts.map((_,j)=>String(j+1)));
@@ -253,7 +277,7 @@ function getKey(){const key={};a1key.forEach((v,i)=>key['a1-'+i]=v);interview.fo
 function resultHTML(){const keys=getKey(),parts=[['Listening 1','a1-'],['Listening 2','a2-'],['Listening 3–9','a3-'],['Reading 10','r10-'],['Reading 11','r11-'],['Reading 12–18','r12-']];let html='<h2>Итоги диагностики</h2><div class="results">';parts.forEach(([name,prefix])=>{const ids=Object.keys(keys).filter(k=>k.startsWith(prefix));const n=ids.filter(id=>String(answers[id])===String(keys[id])).length;html+='<div class="metric">'+name+'<b>'+n+' / '+ids.length+'</b></div>'});html+='</div><p><b>Всего: '+Object.keys(keys).filter(id=>String(answers[id])===String(keys[id])).length+' / '+Object.keys(keys).length+'</b></p><h3>Ошибки и пропуски</h3>';let bad=0;for(const [id,key] of Object.entries(keys))if(String(answers[id])!==String(key)){bad++;html+='<div class="wrong"><b>'+id+'</b> · ответ: '+(answers[id]===undefined?'—':Number(answers[id])+1)+' · правильный вариант: '+(Number(key)+1)+'</div>'}if(!bad)html+='<div class="wrong success">Все ответы верны.</div>';html+='<button class="btn secondary" onclick="window.print()">Распечатать результаты</button><p class="mini">Авторская диагностика: баллы являются внутренними показателями, не переводятся автоматически во вторичные баллы ЕГЭ. Использованы записи из исходных тренажёров, без синтеза речи.</p>';return html}
 function finish(){finished=true;saveProgress();render()}
 function go(i){rememberAudioPosition();pauseListeningTimer(sections[current].id);document.querySelectorAll('audio').forEach(a=>a.pause());current=Math.max(0,Math.min(i,sections.length-1));showTeacher=false;saveProgress();render()}
-function render(){document.body.classList.toggle('listening-screen',sections[current].kind.startsWith('listen'));document.body.classList.toggle('reading-screen',sections[current].kind.startsWith('read'));document.getElementById('nav').innerHTML=sections.map((s,i)=>'<button aria-current="'+(i===current?'step':'false')+'" class="'+(i===current?'on':'')+'" onclick="go('+i+')">'+s.title+'</button>').join('');document.getElementById('title').textContent=sections[current].title;document.getElementById('counter').textContent=sections[current].time?sections[current].time+' минут · рекомендуемое время':'Сводная ведомость';document.getElementById('screen').innerHTML=html();document.querySelectorAll('select[data-id]').forEach(el=>el.onchange=()=>{if(el.value==='')delete answers[el.dataset.id];else answers[el.dataset.id]=el.value;saveProgress()});scrollTo(0,0);syncListeningTimer(sections[current].id);restoreAudioPosition();saveProgress()}
+function render(){document.body.classList.toggle('listening-screen',sections[current].kind.startsWith('listen'));document.body.classList.toggle('reading-screen',sections[current].kind.startsWith('read'));document.getElementById('nav').innerHTML=sections.map((s,i)=>'<button aria-current="'+(i===current?'step':'false')+'" class="'+(i===current?'on':'')+'" onclick="go('+i+')">'+s.title+'</button>').join('');document.getElementById('title').textContent=sections[current].title;document.getElementById('counter').textContent=sections[current].time?sections[current].time+' минут · рекомендуемое время':'Сводная ведомость';document.getElementById('screen').innerHTML=html();document.querySelectorAll('input[type="radio"][data-id]').forEach(el=>el.onchange=()=>{if(el.checked){answers[el.dataset.id]=el.value;saveProgress()}});scrollTo(0,0);syncListeningTimer(sections[current].id);restoreAudioPosition();saveProgress()}
 setInterval(()=>{Object.keys(listeningTimers).forEach(syncListeningTimer);const sec=Math.max(0,3600-Math.floor((Date.now()-started)/1000));document.getElementById('clock').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');if(!sec)document.getElementById('clock').style.color='#aa2222'},1000);
 render();setInterval(saveProgress,15000);window.addEventListener('pagehide',saveProgress);
 </script><script>
