@@ -923,9 +923,12 @@ body.ege-written.listening-screen .ege-written .listen-timer{grid-area:1/2}
 .ege-written .exam-main>.stage:has(.kimw){min-height:max(420px,calc(100dvh - 120px))}
 .ege-written .exam-main .p38 .task{border:0;padding:0;background:none;box-shadow:none}
 .ege-written .exam-main>.stage:has(.p38){max-width:1240px;width:100%;margin-inline:auto}
-@media(min-width:760px){.ege-written .exam-main>.stage>.p38{flex:0 0 330px!important;width:330px!important}}
+@media(min-width:1000px){.ege-written .exam-main>.stage>.p38{flex:0 0 330px!important;min-width:330px!important;width:330px!important;max-width:330px!important}}
 .fp-overlay:has(.ege-written) .fp-body{background:linear-gradient(135deg,#fafdfc,#eaf3ee 58%,#fbf4e6) fixed}
 
 .fp-body:has(>[data-ege-written="38.2"]){padding:6px max(8px,calc((100% - 1240px) / 2)) 14px;scrollbar-gutter:auto}
+@media(min-width:1000px){.fp-body:has(>[data-ege-written="38.2"]){width:100%;max-width:none;padding:6px 0 14px!important}}
 .fp-body>[data-ege-written="38.2"]{padding:0!important;margin:0 auto;width:min(100%,1240px)}
 .ege-written .exam-main .gwcol>.inst{min-height:32px}
+
+html:has(.fp-overlay:not([hidden]) .ege-written){zoom:1!important}
