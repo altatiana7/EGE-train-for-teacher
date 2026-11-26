@@ -126,10 +126,26 @@ body:is(.reading-screen,.listening-screen) .layout{height:auto;min-height:0;flex
 body.reading-screen .reading-pane--passage{position:static;max-height:46dvh}
 body.reading-screen .reading-pane{margin-bottom:5px}
 }
+
+/* Full-width tasks, with the section list on demand. */
+#section-picker{position:relative;z-index:10;flex:none;margin-left:auto}
+#section-picker summary{cursor:pointer;padding:2px 7px;border:1px solid #b8c7df;border-radius:5px;background:#fff;color:#293b82;font-size:13px;font-weight:600}
+#section-picker nav{position:absolute;top:100%;right:0;display:grid;gap:2px;min-width:175px;max-width:calc(100vw - 20px);max-height:65dvh;overflow:auto;padding:4px;background:#fff;border:1px solid #dce3f1;border-radius:6px;box-shadow:0 4px 12px #23304c26}
+#section-picker nav button{white-space:normal;text-align:left;padding:3px 6px}
+
+body .layout,body:is(.reading-screen,.listening-screen) .layout{grid-template-columns:minmax(0,1fr)}
+.top,body:is(.reading-screen,.listening-screen) .top{height:auto;min-height:30px;padding:2px 6px;gap:5px}
+main,body:is(.reading-screen,.listening-screen) main{padding:2px 5px}
+body .head,body:is(.reading-screen,.listening-screen) .head{min-height:21px}
+.head h1{line-height:1.18}
+body #screen>.panel,body:is(.reading-screen,.listening-screen) #screen>.panel{margin-top:2px;padding:4px 6px}
+body .actions,body:is(.reading-screen,.listening-screen) .actions{margin-top:2px;padding:1px 0}
+.actions .btn,body:is(.reading-screen,.listening-screen) .actions .btn{padding:3px 8px}
+
 </style><meta name="worksheet-layout" content="compact">
 </head><body>
-<header class="top"><a href="index.html#diag">← Программа</a><b>ARINA · EGE 2027</b><span class="chip">23.11.2026 · Диагностика 1/3</span><small>Teacher version · аудирование и чтение · 60 минут</small><small id="save-status" style="margin-left:0">Автосохранение</small><button type="button" onclick="exportProgress()" style="font-size:12px;border:1px solid #b8c7df;background:#eaf0ff;border-radius:6px;padding:5px 8px;color:#293b82">Экспорт ответов</button></header><details class="panel"><summary>Источники заданий и записей</summary><ul><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/teacher-tasks-2026/">Diving · ФИПИ F0D977; чтение 10 (Study skills), 11 (Climate change)</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/katerina-ege-2027/">Listening Lab · вариант 4, задания 2 и 3–9</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/ege-trainers/reading-12-18.html">Чтение 12–18 · вариант 1: Save a gap year until you graduate?</a></li></ul><p class="mini">Формулировки и ключи перенесены из источников. Для подтверждения ФИПИ у заданий без ID требуется сверка с исходным КИМ.</p></details>
-<div class="layout"><nav id="nav"></nav><main><div class="head"><h1 id="title">Входная диагностика</h1><span class="chip" id="counter">Аудирование + чтение</span><span id="clock" class="clock">60:00</span></div><div id="screen"></div></main></div>
+<header class="top"><a href="index.html#diag">← Программа</a><b>ARINA · EGE 2027</b><span class="chip">23.11.2026 · Диагностика 1/3</span><small>Teacher version · аудирование и чтение · 60 минут</small><small id="save-status" style="margin-left:0">Автосохранение</small><button type="button" onclick="exportProgress()" style="font-size:12px;border:1px solid #b8c7df;background:#eaf0ff;border-radius:6px;padding:5px 8px;color:#293b82">Экспорт ответов</button><details id="section-picker"><summary>Разделы</summary><nav id="nav"></nav></details></header><details class="panel"><summary>Источники заданий и записей</summary><ul><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/teacher-tasks-2026/">Diving · ФИПИ F0D977; чтение 10 (Study skills), 11 (Climate change)</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/katerina-ege-2027/">Listening Lab · вариант 4, задания 2 и 3–9</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/ege-trainers/reading-12-18.html">Чтение 12–18 · вариант 1: Save a gap year until you graduate?</a></li></ul><p class="mini">Формулировки и ключи перенесены из источников. Для подтверждения ФИПИ у заданий без ID требуется сверка с исходным КИМ.</p></details>
+<div class="layout"><main><div class="head"><h1 id="title">Входная диагностика</h1><span class="chip" id="counter">Аудирование + чтение</span><span id="clock" class="clock">60:00</span></div><div id="screen"></div></main></div>
 <script>
 'use strict';
 const a1labels=["Diving can be a dangerous experience.","Diving is suitable for all kinds of people.","Diving can be an educational experience.","Diving is a great way to become healthy.","Diving can be ruined by bad weather.","Diving is quite an expensive sport.","Diving can improve your mental health."];
@@ -240,4 +256,21 @@ function go(i){rememberAudioPosition();pauseListeningTimer(sections[current].id)
 function render(){document.body.classList.toggle('listening-screen',sections[current].kind.startsWith('listen'));document.body.classList.toggle('reading-screen',sections[current].kind.startsWith('read'));document.getElementById('nav').innerHTML=sections.map((s,i)=>'<button aria-current="'+(i===current?'step':'false')+'" class="'+(i===current?'on':'')+'" onclick="go('+i+')">'+s.title+'</button>').join('');document.getElementById('title').textContent=sections[current].title;document.getElementById('counter').textContent=sections[current].time?sections[current].time+' минут · рекомендуемое время':'Сводная ведомость';document.getElementById('screen').innerHTML=html();document.querySelectorAll('select[data-id]').forEach(el=>el.onchange=()=>{if(el.value==='')delete answers[el.dataset.id];else answers[el.dataset.id]=el.value;saveProgress()});scrollTo(0,0);syncListeningTimer(sections[current].id);restoreAudioPosition();saveProgress()}
 setInterval(()=>{Object.keys(listeningTimers).forEach(syncListeningTimer);const sec=Math.max(0,3600-Math.floor((Date.now()-started)/1000));document.getElementById('clock').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');if(!sec)document.getElementById('clock').style.color='#aa2222'},1000);
 render();setInterval(saveProgress,15000);window.addEventListener('pagehide',saveProgress);
+</script><script>
+{
+ const picker=document.getElementById('section-picker');
+ const summary=picker.querySelector('summary');
+ picker.addEventListener('click',event=>{
+  if(event.composedPath().includes(picker.querySelector('nav'))){
+   picker.open=false;
+   if(picker.contains(document.activeElement)||document.activeElement===document.body)summary.focus();
+  }
+ });
+ picker.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&picker.open){picker.open=false;summary.focus()}
+ });
+ document.addEventListener('click',event=>{
+  if(picker.open&&!picker.contains(event.target))picker.open=false;
+ });
+}
 </script></body></html>
