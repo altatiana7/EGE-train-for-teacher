@@ -25,7 +25,7 @@ function sub(b){var s=b.querySelector('small');return (s?s.textContent:b.textCon
 function strip(h){return String(h||'').replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').trim()}
 function wi(b){var m=/openLesson\((\d+)\s*,\s*(\d+)\)/.exec(b.getAttribute('onclick')||'');return m?[+m[1],+m[2]]:null}
 function progLessons(){var r=[];try{(window.PROGRAM&&PROGRAM.blocks||[]).forEach(function(bl){(bl.lessons||[]).forEach(function(l){if(l.date)r.push({b:bl,l:l})})})}catch(e){}return r.sort(function(a,b){return a.l.date<b.l.date?-1:1})}
-function progBtn(o,cls,full){var href=o.l.id?'program/lesson.html?id='+o.l.id+'&v=20261118b':'program/index.html?v=20261118b#'+o.b.id;
+function progBtn(o,cls,full){var href=o.l.id==='diag-1'?'program/diagnostic-2026-11-23.html':o.l.id==='diag-2'?'program/diagnostic-2026-11-25.html':o.l.id?'program/lesson.html?id='+encodeURIComponent(o.l.id)+'&v=20261118b':'program/index.html?v=20261118b#'+o.b.id;
  return '<button type="button" class="efChip '+(cls||'')+'" onclick="location.href=\''+href+'\'"><b>'+(full?'Program · '+esc(o.b.title)+' · открыть':esc(ruShort(o.l.date))+' · '+esc(o.b.title))+'</b>'+esc(o.l.label)+(full&&o.l.plan?' — '+esc(o.l.plan):'')+'</button>'}
 /* шаги урока и отметки «сделали на уроке» */
 function lessonSteps(b){var p=wi(b);if(!p)return [];
