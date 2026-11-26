@@ -87,7 +87,47 @@ nav button[aria-current="step"]{outline-offset:-2px}
 @media(max-width:700px){body.reading-screen .reading-pane--passage{max-height:46dvh}}
 @media(max-width:500px){body.listening-screen .listen1-grid{grid-template-columns:1fr}
 body.listening-screen .listen-content .q{grid-template-columns:1fr}}
-</style></head><body>
+
+/* Compact worksheet layout */
+:root{font-size:15px}
+body{font-size:15px}
+.top{height:auto;min-height:38px;padding:3px 9px;gap:7px;flex-wrap:wrap}
+main{padding:4px 8px}
+.head{gap:7px}
+.head h1{margin:0;font-size:17px}
+.panel{margin-top:4px;padding:7px 9px}
+.actions{margin-top:4px}
+body:is(.reading-screen,.listening-screen) main{padding:4px 8px}
+body:is(.reading-screen,.listening-screen) .head{min-height:24px}
+body:is(.reading-screen,.listening-screen) .head h1{font-size:17px}
+body:is(.reading-screen,.listening-screen) #screen>.panel{margin-top:3px;padding:5px 7px}
+body:is(.reading-screen,.listening-screen) .panel>h2{display:none}
+body:is(.reading-screen,.listening-screen) nav button{padding:5px 6px}
+body:is(.reading-screen,.listening-screen) .actions .btn{padding:4px 9px}
+body.reading-screen .reading-instruction{margin:0 0 4px;line-height:1.2}
+body.reading-screen .reading-grid{gap:6px}
+body.reading-screen .reading-pane{padding:4px 7px;border-radius:5px}
+body.reading-screen .reading-pane h3{top:-4px;margin:0 0 3px;padding:2px 0;font-size:13px}
+body.reading-screen .reading-pane .passage,
+body.reading-screen .reading-pane .text{font-size:15px;line-height:1.34;margin:0;padding:0;border:0;background:transparent;white-space:normal}
+body.reading-screen .reading-pane .passage p{font-size:inherit;line-height:inherit;margin:0 0 5px}
+body.reading-screen .reading-pane .q{padding:4px 0;gap:2px}
+body.reading-screen .reading-pane .q b{font-size:14px;line-height:1.25;display:block}
+body.reading-screen .reading-pane .q select{padding:3px 5px;font-size:14px;min-height:28px}
+body.listening-screen .listen-content,body.listening-screen .listen1-answers{justify-content:flex-start}
+body.listening-screen .listen-content .q{padding:3px 0}
+body.listening-screen .listen-audio audio{height:32px}
+@media(min-width:851px){
+body:is(.reading-screen,.listening-screen){display:flex;flex-direction:column}
+body:is(.reading-screen,.listening-screen) .top{height:auto;min-height:36px;flex:none}
+body:is(.reading-screen,.listening-screen) .layout{height:auto;min-height:0;flex:1}
+}
+@media(max-width:700px){
+body.reading-screen .reading-pane--passage{position:static;max-height:46dvh}
+body.reading-screen .reading-pane{margin-bottom:5px}
+}
+</style><meta name="worksheet-layout" content="compact">
+</head><body>
 <header class="top"><a href="index.html#diag">← Программа</a><b>ARINA · EGE 2027</b><span class="chip">23.11.2026 · Диагностика 1/3</span><small>Teacher version · аудирование и чтение · 60 минут</small><small id="save-status" style="margin-left:0">Автосохранение</small><button type="button" onclick="exportProgress()" style="font-size:12px;border:1px solid #b8c7df;background:#eaf0ff;border-radius:6px;padding:5px 8px;color:#293b82">Экспорт ответов</button></header><details class="panel"><summary>Источники заданий и записей</summary><ul><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/teacher-tasks-2026/">Diving · ФИПИ F0D977; чтение 10 (Study skills), 11 (Climate change)</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/katerina-ege-2027/">Listening Lab · вариант 4, задания 2 и 3–9</a></li><li><a href="https://altatiana7.github.io/Tatyana-English-Hub/ege-trainers/reading-12-18.html">Чтение 12–18 · вариант 1: Save a gap year until you graduate?</a></li></ul><p class="mini">Формулировки и ключи перенесены из источников. Для подтверждения ФИПИ у заданий без ID требуется сверка с исходным КИМ.</p></details>
 <div class="layout"><nav id="nav"></nav><main><div class="head"><h1 id="title">Входная диагностика</h1><span class="chip" id="counter">Аудирование + чтение</span><span id="clock" class="clock">60:00</span></div><div id="screen"></div></main></div>
 <script>
@@ -178,14 +218,14 @@ out+='</section></div>';
 }
 if(s.kind==='read11'){
 out+='<p class="reading-instruction">Choose fragments 1–7 for gaps A–F. One fragment is extra. Scroll the text and choices independently.</p>';
-out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Текст с пропусками"><h3>Text with gaps A–F</h3><div class="passage text">'+esc(read11text)+'</div></section>';
+out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Текст с пропусками"><h3>Text with gaps A–F</h3><div class="passage text">'+read11text.split(/\n\s*\n/).map(p=>'<p>'+esc(p)+'</p>').join('')+'</div></section>';
 out+='<section class="reading-pane reading-pane--questions" aria-label="Фрагменты и ответы"><h3>Fragments 1–7</h3><div class="passage reading-labels">'+r11opts.map((x,i)=>'<p><b>'+(i+1)+'.</b> '+esc(x)+'</p>').join('')+'</div><h3>Your answers</h3>';
 for(let i=0;i<6;i++)out+=item('r11-'+i,'Gap '+String.fromCharCode(65+i),r11opts.map((_,j)=>String(j+1)));
 out+='</section></div>';
 }
 if(s.kind==='read12'){
 out+='<p class="reading-instruction">Read the text and answer questions 12–18. The article remains on the left throughout.</p>';
-out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Статья для чтения"><h3>Reading passage</h3><div class="passage text">'+esc(read12)+'</div></section>';
+out+='<div class="reading-grid"><section class="reading-pane reading-pane--passage" aria-label="Статья для чтения"><h3>Reading passage</h3><div class="passage text">'+read12.split(/\n\s*\n/).map(p=>'<p>'+esc(p)+'</p>').join('')+'</div></section>';
 out+='<section class="reading-pane reading-pane--questions" aria-label="Вопросы 12–18"><h3>Questions 12–18</h3>';
 r12.forEach((x,i)=>out+=item('r12-'+i,(i+12)+'. '+esc(x[0]),x[1]));
 out+='</section></div>';
