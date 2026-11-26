@@ -90,7 +90,29 @@ main{padding:5px 8px}nav{padding:5px;gap:4px}nav button{padding:5px 7px}
 .gap input,input,textarea,select{font-size:15px;padding:4px 6px}
 textarea{min-height:150px}.actions{margin-top:4px}
 
-</style><body><header class="top"><a href="index.html#diag">← Program</a><b>Arina · Diagnostic 2 · Teacher</b><small>19–37 · 60 min</small><span class="clock" id="clock">60:00</span></header><div class="layout"><nav id="nav"></nav><main><div class="head"><h1 id="title"></h1></div><div id="screen"></div><div class="actions"><button class="btn secondary" id="back">← Back</button><span id="step"></span><button class="btn" id="next">Next →</button></div></main></div><script>
+
+/* Full-width tasks, with the section list on demand. */
+#section-picker{position:relative;z-index:10;flex:none;margin-left:auto}
+#section-picker summary{cursor:pointer;padding:2px 7px;border:1px solid #b8c7df;border-radius:5px;background:#fff;color:#293b82;font-size:13px;font-weight:600}
+#section-picker nav{position:absolute;top:100%;right:0;display:grid;gap:2px;min-width:175px;max-width:calc(100vw - 20px);max-height:65dvh;overflow:auto;padding:4px;background:#fff;border:1px solid #dce3f1;border-radius:6px;box-shadow:0 4px 12px #23304c26}
+#section-picker nav button{white-space:normal;text-align:left;padding:3px 6px}
+
+body .layout,body:is(.reading-screen,.listening-screen) .layout{grid-template-columns:minmax(0,1fr)}
+.top,body:is(.reading-screen,.listening-screen) .top{height:auto;min-height:30px;padding:2px 6px;gap:5px}
+main,body:is(.reading-screen,.listening-screen) main{padding:2px 5px}
+body .head,body:is(.reading-screen,.listening-screen) .head{min-height:21px}
+.head h1{line-height:1.18}
+body #screen>.panel,body:is(.reading-screen,.listening-screen) #screen>.panel{margin-top:2px;padding:4px 6px}
+body .actions,body:is(.reading-screen,.listening-screen) .actions{margin-top:2px;padding:1px 0}
+.actions .btn,body:is(.reading-screen,.listening-screen) .actions .btn{padding:3px 8px}
+
+body{min-height:100dvh;display:flex;flex-direction:column}
+body .layout{min-height:0;flex:1}
+body #screen>.panel{max-height:none}
+.panel table :is(td,th){padding:2px 5px}
+.panel textarea{display:block;min-height:135px}
+
+</style><body><header class="top"><a href="index.html#diag">← Program</a><b>Arina · Diagnostic 2 · Teacher</b><small>19–37 · 60 min</small><span class="clock" id="clock">60:00</span><details id="section-picker"><summary>Sections</summary><nav id="nav"></nav></details></header><div class="layout"><main><div class="head"><h1 id="title"></h1></div><div id="screen"></div><div class="actions"><button class="btn secondary" id="back">← Back</button><span id="step"></span><button class="btn" id="next">Next →</button></div></main></div><script>
 const sections=['Grammar 19–24','Word Formation 25–29','Vocabulary 30–36','Email 37','Homework 38','Results'];const key={19:'most important',20:'first',21:'is celebrated',22:'symbolises',23:'banned',24:'later',25:'enjoyable',26:'activity',27:'winner',28:'impossible',29:'colourful',30:'2',31:'3',32:'1',33:'4',34:'2',35:'1',36:'3'};const store='arina-diag-20261125-v1';let s={i:0,a:{},start:0,done:false,marks:[]};try{Object.assign(s,JSON.parse(localStorage.getItem(store)||'{}'))}catch(e){}const save=()=>{try{localStorage.setItem(store,JSON.stringify(s))}catch(e){}};const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const gap=(n,w)=>'<span class="gap"><b>'+n+' · '+w+'</b><input data-n="'+n+'" value="'+esc(s.a[n])+'" autocomplete="off" spellcheck="false"></span>';const grammar=()=>'<h2>Chinese New Year</h2><p class="intro">Transform the words in capitals to fit the text.</p><div class="passage">Chinese New Year is one of the '+gap(19,'IMPORTANT')+' festivals in China. It begins on the '+gap(20,'ONE')+' day of the first lunar month. The festival '+gap(21,'CELEBRATE')+' by families across the world. The colour red '+gap(22,'SYMBOLISE')+' good fortune. In the past, some cities '+gap(23,'BAN')+' fireworks because of safety concerns. Years '+gap(24,'LATE')+', some communities introduced alternative celebrations.</div>';
 const formation=()=>'<h2>How to Make Chores Fun</h2><p class="intro">Form a new word from the word in capitals.</p><div class="passage">Housework can become an '+gap(25,'ENJOY')+' experience if you turn it into a game. Choose an '+gap(26,'ACTIVE')+' that everyone can do together. Give points for completed tasks and choose a '+gap(27,'WIN')+' at the end. It may seem '+gap(28,'POSSIBLE')+' to make cleaning exciting, but music can help. Create a '+gap(29,'COLOUR')+' chart to track your progress.</div>';
 const opts=[['take','make','do','have'],['look','watch','pay','give'],['Although','Despite','However','Because'],['say','speak','tell','talk'],['raise','rise','grow','lift'],['deal','manage','solve','handle'],['experience','knowledge','skills','habits']];const vocab=()=>'<h2>A school volunteering project</h2><p class="intro">Choose the correct option for each gap.</p><div class="reading-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="passage">Last year, our class decided to (30) ___ a difference in our community. We wanted to (31) ___ attention to the amount of waste produced at school. (32) ___ we had little experience, we organised a meeting. We invited a local expert to (33) ___ about recycling. Our project helped the amount of material collected to (34) ___ steadily. We learned to (35) ___ with unexpected problems and developed useful communication (36) ___.</div><div>'+opts.map((o,i)=>'<div class="q"><b>'+(30+i)+'. '+o.map((v,j)=>(j+1)+') '+v).join(' · ')+'</b><select data-n="'+(30+i)+'"><option value="">—</option>'+o.map((v,j)=>'<option value="'+(j+1)+'" '+(s.a[30+i]==j+1?'selected':'')+'>'+ (j+1)+'. '+v+'</option>').join('')+'</select></div>').join('')+'</div></div>';
@@ -99,4 +121,21 @@ const essay=()=>'<h2>Essay 38 · Homework</h2><p>Imagine that you are doing a pr
 const norm=x=>String(x||'').toLowerCase().replace(/\s+/g,'').trim();function results(){if(!s.done)return '<p>Завершите диагностику для просмотра ключей и ошибок. Ответы сохраняются в этом браузере.</p><button class="btn red" id="finish">Завершить диагностику</button>';const score=(a,b)=>Object.keys(key).filter(n=>+n>=a&&+n<=b&&norm(s.a[n])===norm(key[n])).length;return '<div class="results">'+[[19,24,'Grammar'],[25,29,'Word Formation'],[30,36,'Vocabulary']].map(([a,b,t])=>'<div class="metric">'+t+'<b>'+score(a,b)+' / '+(b-a+1)+'</b></div>').join('')+'</div><h2>Итого 19–36: '+score(19,36)+' / 18</h2>'+Object.keys(key).filter(n=>norm(s.a[n])!==norm(key[n])).map(n=>'<div class="wrong">'+n+' · '+esc(s.a[n]||'—')+' → '+esc(key[n])+'</div>').join('')+'<h2>Email 37 · ручная проверка</h2><div class="passage" style="white-space:pre-wrap">'+esc(s.a[37]||'Нет ответа')+'</div>'+['Решение коммуникативной задачи (0–2)','Организация (0–2)','Языковое оформление (0–2)'].map((x,i)=>'<div class="q">'+x+'<select data-mark="'+i+'">'+[0,1,2].map(v=>'<option '+((s.marks[i]||0)==v?'selected':'')+'>'+v+'</option>').join('')+'</select></div>').join('')+'<p id="total"></p><button class="btn secondary" onclick="print()">Печать</button><p class="mini">Авторский тренировочный вариант. 19–29 реконструированы по известным ключам; 30–38 — новые задания, не оригинал пособия.</p>'}
 function render(){document.getElementById('title').textContent=sections[s.i];document.getElementById('nav').innerHTML=sections.map((x,i)=>'<button data-i="'+i+'" class="'+(i===s.i?'on':'')+'">'+x+'</button>').join('');document.getElementById('screen').innerHTML='<div class="panel">'+[grammar,formation,vocab,email,essay,results][s.i]()+'</div>';document.getElementById('step').textContent=(s.i+1)+' / 6';document.getElementById('back').disabled=s.i===0;document.getElementById('next').disabled=s.i===5;document.querySelectorAll('[data-i]').forEach(e=>e.onclick=()=>go(+e.dataset.i));document.querySelectorAll('[data-n]').forEach(e=>e.oninput=()=>{s.a[e.dataset.n]=e.value;save();words()});document.querySelectorAll('[data-mark]').forEach(e=>e.onchange=()=>{s.marks[+e.dataset.mark]=+e.value;save();total()});const f=document.getElementById('finish');if(f)f.onclick=()=>{s.done=true;save();render()};words();total()}
 function words(){const e=document.getElementById('wc');if(e)e.textContent='Words: '+(String(s.a[37]||'').trim().match(/\S+/g)||[]).length}function total(){const e=document.getElementById('total');if(e)e.textContent='Email: '+s.marks.reduce((a,b)=>a+(b||0),0)+' / 6'}function go(i){s.i=Math.min(5,Math.max(0,i));save();render()}document.getElementById('back').onclick=()=>go(s.i-1);document.getElementById('next').onclick=()=>go(s.i+1);if(!s.start)s.start=Date.now();save();function tick(){const t=Math.max(0,3600-Math.floor((Date.now()-s.start)/1000));document.getElementById('clock').textContent=String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')}render();tick();setInterval(tick,1000);
+</script><script>
+{
+ const picker=document.getElementById('section-picker');
+ const summary=picker.querySelector('summary');
+ picker.addEventListener('click',event=>{
+  if(event.composedPath().includes(picker.querySelector('nav'))){
+   picker.open=false;
+   if(picker.contains(document.activeElement)||document.activeElement===document.body)summary.focus();
+  }
+ });
+ picker.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&picker.open){picker.open=false;summary.focus()}
+ });
+ document.addEventListener('click',event=>{
+  if(picker.open&&!picker.contains(event.target))picker.open=false;
+ });
+}
 </script></body></html>
