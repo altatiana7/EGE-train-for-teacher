@@ -20,7 +20,7 @@ window.PROGRAM={
   lessons:[
    {id:'diag-1',date:'2026-11-23',label:'Аудирование и чтение',plan:'Входная диагностика: аудирование 1–9, чтение 10–18 в экзаменационном времени.'},
    {id:'diag-2',date:'2026-11-25',label:'19–36 и письмо 37',plan:'Грамматика и лексика 19–36, письмо 37; эссе 38 — дома.'},
-   {date:'2026-11-28',label:'Устная часть и разбор',plan:'Устная часть 1–4 с таймерами, разбор. Баллы по заданиям — в «Диагностику» на сайте.'}]},
+   {id:'diag-3',page:'diagnostic-2026-11-28.html',date:'2026-11-28',label:'Устная часть и разбор',plan:'Устная часть 1–4 с таймерами, разбор. Баллы по заданиям — в «Диагностику» на сайте.'}]},
  {id:'edu',n:1,file:'edu',kind:'block',title:'Education',full:'Education and learning',letters:'Г, Е',dates:'30.11 – 12.12',start:'2026-11-30',end:'2026-12-12',
   folder:'07 Education and learning',grammar:'степени сравнения, числительные, местоимения + gerund / infinitive (Lesson 1)',write:'37',
   skill:'Чтение 11 — структурно-смысловые связи («Отличный результат», стр. 55–64)',expert:'Education and learning',gromova:'Unit 5',ppt:'9 Education and learning · Gromova Unit 5 · School treasure chest',
